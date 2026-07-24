@@ -1,0 +1,241 @@
+<div class="scan-container">
+  <!-- Background Glows -->
+  <div class="bg-glow-gold" style="top: -10%; left: -10%;"></div>
+  <div class="bg-glow-gold" style="bottom: -10%; right: -10%;"></div>
+
+  <header class="scan-header">
+    <div class="logo" [routerLink]="['/']">
+      <span class="logo-icon"><i class="fa-solid fa-taxi"></i></span>
+      <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
+    </div>
+    <a [routerLink]="['/']" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+  </header>
+
+  <main class="scan-card-wrapper">
+    <div class="glass-card scan-card">
+      @if (isSuccess()) {
+        <!-- Success State -->
+        <div class="success-state">
+          <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <h2>Alert Sent Successfully!</h2>
+          <p class="success-message">
+            Thank you for being an amazing citizen! We have forwarded your alert anonymously to the vehicle owner.
+          </p>
+          <div class="success-details">
+            <span class="detail-label">Vehicle Tag:</span>
+            <span class="detail-value">{{ tagId() || manualTagInput() }}</span>
+          </div>
+          <div class="success-actions">
+            <button class="btn btn-primary" (click)="resetForm()">Send Another Alert</button>
+            <a [routerLink]="['/']" class="btn btn-secondary">Go to Homepage</a>
+          </div>
+        </div>
+      } @else {
+        <!-- Form State -->
+        <div class="form-header animate-fade-in-up delay-100">
+          <div class="shield-badge"><i class="fa-solid fa-shield-halved"></i> SECURE PRIVACY SHIELD</div>
+          <h2>Report Vehicle Issue</h2>
+          <p class="form-description">
+            Your contact details and identity remain completely hidden. The owner receives your alert instantly.
+          </p>
+        </div>
+
+        <form (ngSubmit)="submitNotification()" #notifyForm="ngForm" class="scan-form">
+          
+          <!-- Tag Identifier Entry -->
+          <div class="form-group animate-fade-in-up delay-150">
+            <label class="form-label">Vehicle QR Tag Serial</label>
+            @if (tagId()) {
+              <div class="tag-display">
+                <span class="tag-status-indicator"><i class="fa-solid fa-circle-dot"></i></span>
+                <span class="tag-val">{{ tagId() }}</span>
+                <span class="tag-lock"><i class="fa-solid fa-lock"></i> Verified Secure</span>
+              </div>
+            } @else {
+              <input 
+                type="text" 
+                name="manualTagInput" 
+                [ngModel]="manualTagInput()"
+                (ngModelChange)="manualTagInput.set($event)" 
+                class="form-input" 
+                placeholder="Enter Tag Serial (e.g., TT-00000022)" 
+                required
+              />
+            }
+          </div>
+
+          <!-- Pre-filled Owner Username & Vehicle Details (SRS Requirement) -->
+          <div class="owner-vehicle-card animate-fade-in-up delay-150">
+            <div class="meta-row">
+              <span class="meta-label"><i class="fa-solid fa-user-shield text-indigo"></i> Owner Username:</span>
+              <span class="meta-val owner-username-badge">{{ ownerUsername() }}</span>
+            </div>
+            @if (vehicleInfo()) {
+              <div class="meta-row">
+                <span class="meta-label"><i class="fa-solid fa-car text-amber"></i> Vehicle:</span>
+                <span class="meta-val">{{ vehicleInfo() }}</span>
+              </div>
+            }
+          </div>
+
+          <!-- Alert Categories (Grid of Cards) -->
+          <div class="form-group animate-fade-in-up delay-100">
+            <label class="form-label">What is the issue? <span class="required">*</span></label>
+            <div class="category-grid">
+              @for (cat of categories(); track cat.value; let idx = $index) {
+                <label class="category-option animate-fade-in-up" [class.selected]="selectedCategory() === cat.value">
+                  <input 
+                    type="radio" 
+                    name="category" 
+                    [value]="cat.value" 
+                    [ngModel]="selectedCategory()"
+                    (ngModelChange)="selectedCategory.set($event)"
+                    class="hidden-radio"
+                  />
+                  <span class="category-icon-wrapper" [class]="cat.colorClass"><i [class]="cat.icon"></i></span>
+                  <span class="category-label-text">{{ cat.label }}</span>
+                  @if (selectedCategory() === cat.value) {
+                    <span class="selection-check"><i class="fa-solid fa-circle-check"></i></span>
+                  }
+                </label>
+              }
+            </div>
+          </div>
+
+          <!-- Compulsory Location Section -->
+          <div class="form-group animate-fade-in-up delay-150">
+            <label class="form-label">
+              <i class="fa-solid fa-location-dot location-icon"></i> Incident Location <span class="required">*</span>
+            </label>
+            <div class="location-box" [class.location-verified]="locationSuccess()">
+              <div class="location-btn-row">
+                <button 
+                  type="button" 
+                  class="btn-detect-location" 
+                  (click)="detectLocation()" 
+                  [disabled]="isDetectingLocation()"
+                >
+                  @if (isDetectingLocation()) {
+                    <span class="spinner"></span> Detecting GPS...
+                  } @else {
+                    <i class="fa-solid fa-location-crosshairs"></i> Detect GPS Location
+                  }
+                </button>
+                @if (locationSuccess()) {
+                  <span class="gps-status-badge"><i class="fa-solid fa-circle-check"></i> GPS Verified</span>
+                }
+              </div>
+
+              @if (locationStatusMessage()) {
+                <p class="location-msg" [class.msg-success]="locationSuccess()" [class.msg-warn]="!locationSuccess() && !isDetectingLocation()">
+                  {{ locationStatusMessage() }}
+                </p>
+              }
+
+              <div class="coords-grid">
+                <div class="coord-item">
+                  <span class="coord-label">Latitude <span class="required">*</span></span>
+                  <input 
+                    type="text" 
+                    name="latitude" 
+                    [ngModel]="latitude()"
+                    (ngModelChange)="latitude.set($event)" 
+                    class="form-input coord-input" 
+                    placeholder="e.g. 12.971598" 
+                    required 
+                  />
+                </div>
+                <div class="coord-item">
+                  <span class="coord-label">Longitude <span class="required">*</span></span>
+                  <input 
+                    type="text" 
+                    name="longitude" 
+                    [ngModel]="longitude()"
+                    (ngModelChange)="longitude.set($event)" 
+                    class="form-input coord-input" 
+                    placeholder="e.g. 77.594566" 
+                    required 
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Custom Message -->
+          <div class="form-group animate-fade-in-up delay-200">
+            <label class="form-label">Additional details <span class="lbl-opt">(Optional)</span></label>
+            <textarea 
+              name="customMessage" 
+              [ngModel]="customMessage()"
+              (ngModelChange)="customMessage.set($event)" 
+              class="form-textarea" 
+              placeholder="e.g. Left window is open about 2 inches, or your dog is inside with air conditioning."
+              rows="2"
+            ></textarea>
+          </div>
+
+          <!-- Contact Number (Optional) -->
+          <div class="form-group animate-fade-in-up delay-250">
+            <label class="form-label">Your Phone Number <span class="lbl-opt">(Optional)</span></label>
+            <input 
+              type="tel" 
+              name="contactNumber" 
+              [ngModel]="contactNumber()"
+              (ngModelChange)="contactNumber.set($event)" 
+              class="form-input" 
+              placeholder="e.g. +1 (555) 019-2834 (for direct callback)"
+            />
+          </div>
+
+          <!-- CAPTCHA Verification -->
+          <div class="form-group captcha-group animate-fade-in-up delay-300">
+            <label class="form-label">Human Verification <span class="required">*</span></label>
+            <div class="captcha-box">
+              <div class="captcha-math">
+                <span>{{ num1() }} + {{ num2() }} =</span>
+                <button type="button" class="captcha-refresh-btn" (click)="generateCaptcha()" title="Refresh Math Verification">
+                  <i class="fa-solid fa-rotate-right"></i>
+                </button>
+              </div>
+              <input 
+                type="number" 
+                name="userCaptcha" 
+                [ngModel]="userCaptcha()"
+                (ngModelChange)="userCaptcha.set($event)" 
+                class="form-input captcha-input" 
+                placeholder="Result ?" 
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Error Alert -->
+          @if (errorMessage()) {
+            <div class="error-alert animate-fade-in">
+              <span class="error-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              <p>{{ errorMessage() }}</p>
+            </div>
+          }
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="btn btn-indigo btn-submit animate-fade-in-up delay-350" 
+            [disabled]="isSubmitting() || (!tagId() && !manualTagInput())"
+          >
+            @if (isSubmitting()) {
+              <span class="spinner"></span> Sending Anonymized Alert...
+            } @else {
+              <i class="fa-solid fa-paper-plane"></i> Send Anonymous Alert
+            }
+          </button>
+
+        </form>
+      }
+    </div>
+  </main>
+
+  <footer class="scan-footer-note">
+    <p>Powered by TRAFFTAG Safety Infrastructure. All alerts are encrypted in transit.</p>
+  </footer>
+</div>

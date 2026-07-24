@@ -1,0 +1,638 @@
+<div class="portal-container">
+  <!-- Mobile Header Bar -->
+  <header class="mobile-header">
+    <button class="mobile-menu-toggle" (click)="toggleMobileSidebar()" aria-label="Toggle Navigation Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <div class="logo" [routerLink]="['/']">
+      <span class="logo-icon"><i class="fa-solid fa-taxi"></i></span>
+      <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
+    </div>
+    <div class="user-avatar-small">{{ userInitials() }}</div>
+  </header>
+
+  <!-- Mobile Sidebar Overlay Backdrop -->
+  @if (isMobileSidebarOpen()) {
+    <div class="mobile-sidebar-overlay" (click)="toggleMobileSidebar()"></div>
+  }
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.mobile-open]="isMobileSidebarOpen()">
+    <!-- Mobile Close Button -->
+    <button class="mobile-sidebar-close" (click)="toggleMobileSidebar()" aria-label="Close Navigation Menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="sidebar-brand" [routerLink]="['/']">
+      <div class="brand-logo-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div class="brand-text-wrapper">
+        <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
+        <span class="nav-label-group"><i class="fa-solid fa-house nav-icon"></i> Dashboard</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'notifications'" (click)="selectTab('notifications')">
+        <span class="nav-label-group"><i class="fa-solid fa-triangle-exclamation nav-icon"></i> Violations</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
+        <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> My Vehicles</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'pay-fine'" (click)="selectTab('pay-fine')">
+        <span class="nav-label-group"><i class="fa-solid fa-credit-card nav-icon"></i> Pay Fine</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
+        <span class="nav-label-group"><i class="fa-solid fa-file-invoice nav-icon"></i> E-Challan</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'reports'" (click)="selectTab('reports')">
+        <span class="nav-label-group"><i class="fa-solid fa-chart-line nav-icon"></i> Reports</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'rules'" (click)="selectTab('rules')">
+        <span class="nav-label-group"><i class="fa-solid fa-square-plus nav-icon"></i> Traffic Rules</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'support'" (click)="selectTab('support')">
+        <span class="nav-label-group"><i class="fa-solid fa-headset nav-icon"></i> Support</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'profile'" (click)="selectTab('profile')">
+        <span class="nav-label-group"><i class="fa-solid fa-gear nav-icon"></i> Settings</span>
+      </button>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Dashboard Content -->
+  <main class="main-content">
+    
+    <!-- Top Header -->
+    <header class="content-header">
+      <div class="header-welcome">
+        @if (activeTab() === 'dashboard') {
+          <h1>Dashboard Overview</h1>
+        } @else if (activeTab() === 'vehicles') {
+          <h1>My Registered Vehicles</h1>
+        } @else if (activeTab() === 'tags') {
+          <h1>My Active QR Tags</h1>
+        } @else if (activeTab() === 'notifications') {
+          <h1>Notification Alerts Center</h1>
+        } @else if (activeTab() === 'support') {
+          <h1>Customer Support Tickets</h1>
+        } @else if (activeTab() === 'profile') {
+          <h1>My Profile Settings</h1>
+        }
+        <p>Manage your account, check alerts, and monitor your vehicles.</p>
+      </div>
+      <div class="header-actions">
+        @if (membershipType() === 'Free Plan') {
+          <button class="btn btn-primary upgrade-cta" (click)="openUpgrade()"><i class="fa-solid fa-star"></i> Upgrade to Premium</button>
+        } @else {
+          <span class="premium-active-badge"><i class="fa-solid fa-star"></i> Premium Active</span>
+        }
+      </div>
+    </header>
+
+    <!-- Tab 1: Overview (Matching Mockup & Filling Desktop Viewport) -->
+    @if (activeTab() === 'dashboard') {
+      <div class="tab-panel dashboard-mockup-panel">
+        
+        <div class="dashboard-grid-layout">
+          <!-- Left Column: Main Dark Navy Action Card -->
+          <div class="mockup-navy-card">
+            
+            <!-- Top Welcome Header Row with QR Code -->
+            <div class="mockup-user-header-row">
+              <div class="user-info-side">
+                <span class="welcome-label">Welcome back,</span>
+                <h2 class="user-full-name">{{ userName() }}</h2>
+                <span class="vehicle-tag-plate">{{ vehicles()[0]?.plate || 'XYZ-3434' }}</span>
+              </div>
+              <div class="user-qr-card">
+                <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRAFFTAG-' + (vehicles()[0]?.plate || 'XYZ-3434')" alt="Vehicle QR Code" class="qr-img" />
+              </div>
+            </div>
+
+            <!-- 3x4 Grid of White Pill Action Cards -->
+            <div class="mockup-action-cards-grid">
+              <!-- Row 1 -->
+              <button class="mockup-pill-card" (click)="selectTab('pay-fine')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-calculator"></i></div>
+                <span>Pay Fine</span>
+              </button>
+              <button class="mockup-pill-card" (click)="selectTab('notifications')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-file-circle-check"></i></div>
+                <span>Check Status</span>
+              </button>
+              <button class="mockup-pill-card" (click)="selectTab('notifications')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <span>My Violations</span>
+              </button>
+              <button class="mockup-pill-card" (click)="selectTab('tags')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-receipt"></i></div>
+                <span>E-Challan</span>
+              </button>
+
+              <!-- Row 2 -->
+              <button class="mockup-pill-card" (click)="openAddVehicle()">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-car"></i></div>
+                <span>Add Vehicle</span>
+              </button>
+              <button class="mockup-pill-card" (click)="selectTab('rules')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-book-bookmark"></i></div>
+                <span>Traffic Pulse</span>
+              </button>
+              <button class="mockup-pill-card" (click)="selectTab('reports')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-chart-line"></i></div>
+                <span>Reports</span>
+              </button>
+              <button class="mockup-pill-card" (click)="selectTab('support')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-headset"></i></div>
+                <span>Support</span>
+              </button>
+
+              <!-- Row 3 -->
+              <button class="mockup-pill-card" (click)="openUpgrade()">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-credit-card"></i></div>
+                <span>Payment</span>
+              </button>
+              <button class="mockup-pill-card" (click)="selectTab('profile')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-user"></i></div>
+                <span>Profile</span>
+              </button>
+              <button class="mockup-pill-card" (click)="selectTab('profile')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-gear"></i></div>
+                <span>Settings</span>
+              </button>
+            </div>
+
+            <!-- Bottom Main CTA Buttons -->
+            <div class="mockup-bottom-buttons">
+              <button class="btn-yellow-cta" (click)="openAddVehicle()">
+                Add New Vehicle
+              </button>
+              <button class="btn-navy-cta" (click)="selectTab('profile')">
+                Refer & Earn Rewards 🎁
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    }
+
+    <!-- Tab 2: My Vehicles -->
+    @if (activeTab() === 'vehicles') {
+      <app-vehicles-tab
+        [vehicles]="vehicles()"
+        [downloadingVehicleId]="downloadingVehicleId()"
+        [membershipType]="membershipType()"
+        (addVehicleClick)="openAddVehicle()"
+        (downloadQr)="downloadQrCode($event)"
+        (generateQr)="generateNewQrTag($event)"
+        (deleteVehicle)="deleteVehicle($event)"
+        (toggleActive)="toggleVehicleActive($event)">
+      </app-vehicles-tab>
+    }
+
+    <!-- Tab 3: Active QR Tags -->
+    @if (activeTab() === 'tags') {
+      <app-qr-fleet-tab
+        [vehicles]="vehicles()"
+        [downloadingVehicleId]="downloadingVehicleId()"
+        [membershipType]="membershipType()"
+        [scanUrlFn]="getScanUrl.bind(this)"
+        (generateNewQr)="generateNewQrTag()"
+        (openLinkTag)="openLinkTag($event)"
+        (downloadQr)="downloadQrCode($event)">
+      </app-qr-fleet-tab>
+    }
+
+    <!-- Tab 4: Notifications & Scan History -->
+    @if (activeTab() === 'notifications') {
+      <app-alerts-tab
+        [notifications]="notifications()"
+        [filteredNotifications]="filteredNotifications()"
+        [vehicles]="vehicles()"
+        [searchQuery]="searchQuery()"
+        (searchQueryChange)="searchQuery.set($event)"
+        [filterVehicle]="filterVehicle()"
+        (filterVehicleChange)="filterVehicle.set($event)"
+        [filterCategory]="filterCategory()"
+        (filterCategoryChange)="filterCategory.set($event)"
+        [filterStatus]="filterStatus()"
+        (filterStatusChange)="filterStatus.set($event)"
+        (markAsRead)="markAsRead($event)"
+        (markAllAsRead)="markAllAsRead()"
+        (toggleResolve)="toggleResolve($event)"
+        (clearFilters)="clearNotificationFilters()"
+        (simulateTestNotification)="simulateTestNotification()">
+      </app-alerts-tab>
+    }
+
+    <!-- Tab 5: Support Tickets -->
+    @if (activeTab() === 'support') {
+      <app-support-tab
+        [supportTickets]="supportTickets()"
+        (openSubmitTicket)="openSubmitTicket()"
+        (rateTicket)="rateTicket($event.ticketId, $event.stars)">
+      </app-support-tab>
+    }
+
+    <!-- Tab 6: Profile / Account -->
+    @if (activeTab() === 'profile') {
+      <app-profile-tab
+        [userName]="userName()"
+        [userEmail]="userEmail()"
+        [membershipType]="membershipType()"
+        [activeTagsCount]="activeTagsCount()"
+        (openUpgrade)="openUpgrade()"
+        [firstName]="firstName()"
+        [lastName]="lastName()"
+        [phoneNumber]="phoneNumber()"
+        [userRole]="userRole()"
+        [isEditingProfile]="isEditingProfile()"
+        [editFirstName]="editFirstName()"
+        [editLastName]="editLastName()"
+        [editPhoneNumber]="editPhoneNumber()"
+        [editCountryCode]="editCountryCode()"
+        [otpResendLoading]="otpResendLoading()"
+        [otpResendSuccess]="otpResendSuccess()"
+        [currentPassword]="currentPassword()"
+        [newPassword]="newPassword()"
+        [isUpdatingPassword]="isUpdatingPassword()"
+        [passwordUpdateMessage]="passwordUpdateMessage()"
+        [passwordUpdateError]="passwordUpdateError()"
+        (editFirstNameChange)="editFirstName.set($event)"
+        (editLastNameChange)="editLastName.set($event)"
+        (editPhoneNumberChange)="editPhoneNumber.set($event)"
+        (editCountryCodeChange)="editCountryCode.set($event)"
+        (currentPasswordChange)="currentPassword.set($event)"
+        (newPasswordChange)="newPassword.set($event)"
+        (startEditingProfile)="startEditingProfile()"
+        (cancelEditingProfile)="cancelEditingProfile()"
+        (saveProfile)="saveProfile()"
+        (resendOtp)="resendOtp()"
+        (updatePassword)="updatePassword()"
+        (redirectToBillingPortal)="redirectToBillingPortal()">
+      </app-profile-tab>
+    }
+
+    <!-- Tab 7: Pay Fine / E-Challan Gateway -->
+    @if (activeTab() === 'pay-fine') {
+      <div class="tab-panel pay-fine-panel">
+        <div class="enterprise-white-card">
+          <div class="panel-header-row">
+            <div>
+              <h2>E-Challan & Penalty Payment Gateway</h2>
+              <p class="panel-subtext">Search and clear traffic fines, parking penalties, or towing charges associated with your vehicles.</p>
+            </div>
+            <span class="badge"><i class="fa-solid fa-shield-check"></i> Instant Clearance</span>
+          </div>
+
+          <div class="fine-search-box">
+            <div class="search-input-wrapper">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input type="text" placeholder="Enter Vehicle Number (e.g. XYZ-3434) or Challan Serial #" class="form-input search-input">
+            </div>
+            <button class="btn btn-primary"><i class="fa-solid fa-search"></i> Search Penalties</button>
+          </div>
+
+          <div class="fines-table-wrapper">
+            <table class="enterprise-table">
+              <thead>
+                <tr>
+                  <th>Challan ID</th>
+                  <th>Vehicle</th>
+                  <th>Violation Type</th>
+                  <th>Date & Time</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="font-mono">#CH-2026-8842</td>
+                  <td><strong>Toyota Camry (XYZ-3434)</strong></td>
+                  <td>Unauthorized Parking Area</td>
+                  <td>Jul 20, 2026 14:15</td>
+                  <td class="price-text">$45.00</td>
+                  <td><span class="status-badge status-unpaid"><i class="fa-solid fa-clock"></i> Unpaid</span></td>
+                  <td><button class="btn btn-primary btn-sm"><i class="fa-solid fa-credit-card"></i> Pay Now</button></td>
+                </tr>
+                <tr>
+                  <td class="font-mono">#CH-2026-6190</td>
+                  <td><strong>Honda Civic (ABC-1234)</strong></td>
+                  <td>Blocked Fire Hydrant Zone</td>
+                  <td>Jun 11, 2026 09:30</td>
+                  <td class="price-text">$75.00</td>
+                  <td><span class="status-badge status-paid"><i class="fa-solid fa-circle-check"></i> Paid</span></td>
+                  <td><button class="btn btn-secondary btn-sm"><i class="fa-solid fa-download"></i> Receipt</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 8: Analytics & Scan Reports -->
+    @if (activeTab() === 'reports') {
+      <div class="tab-panel reports-panel">
+        <div class="reports-summary-grid">
+          <div class="stat-widget-card">
+            <div class="widget-icon"><i class="fa-solid fa-qrcode"></i></div>
+            <div class="widget-info">
+              <h3>248</h3>
+              <p>Total Decal Scans</p>
+            </div>
+          </div>
+          <div class="stat-widget-card">
+            <div class="widget-icon"><i class="fa-solid fa-shield-check"></i></div>
+            <div class="widget-info">
+              <h3>98.4%</h3>
+              <p>Resolution Rate</p>
+            </div>
+          </div>
+          <div class="stat-widget-card">
+            <div class="widget-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div class="widget-info">
+              <h3>&lt; 2 mins</h3>
+              <p>Avg. Response Time</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="enterprise-white-card margin-top-20">
+          <div class="panel-header-row">
+            <div>
+              <h2>Vehicle Decal Scan & Activity Log</h2>
+              <p class="panel-subtext">Historical analytics of anonymous QR scans, alert triggers, and emergency notifications.</p>
+            </div>
+            <button class="btn btn-secondary"><i class="fa-solid fa-file-pdf"></i> Export PDF Report</button>
+          </div>
+
+          <div class="activity-log-list">
+            <div class="log-item">
+              <div class="log-icon bg-yellow"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div class="log-details">
+                <h4>Blocked Driveway Notification Triggered</h4>
+                <p>Scanned on Vehicle: Toyota Camry (XYZ-3434) • Location: Sector 14 Parking</p>
+                <span class="log-time">Jul 24, 2026 at 11:20 AM</span>
+              </div>
+              <span class="status-badge status-resolved">Resolved</span>
+            </div>
+            <div class="log-item">
+              <div class="log-icon bg-blue"><i class="fa-solid fa-bell"></i></div>
+              <div class="log-details">
+                <h4>Headlights Left On Alert</h4>
+                <p>Scanned on Vehicle: Honda Civic (ABC-1234) • Location: North Garage Level 2</p>
+                <span class="log-time">Jul 22, 2026 at 08:45 PM</span>
+              </div>
+              <span class="status-badge status-resolved">Resolved</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 9: Traffic Rules & Regulations Index -->
+    @if (activeTab() === 'rules') {
+      <div class="tab-panel rules-panel">
+        <div class="enterprise-white-card">
+          <div class="panel-header-row">
+            <div>
+              <h2>Traffic Regulations & Vehicle Safety Handbook</h2>
+              <p class="panel-subtext">Official guidelines, parking etiquette, emergency rules, and fine structure.</p>
+            </div>
+            <span class="badge"><i class="fa-solid fa-book-bookmark"></i> Updated 2026</span>
+          </div>
+
+          <div class="rules-grid">
+            <div class="rule-card">
+              <div class="rule-header">
+                <i class="fa-solid fa-ban-smoking rule-icon"></i>
+                <h3>No Parking Zones & Towing Policies</h3>
+              </div>
+              <p>Vehicles parked within 15ft of fire hydrants, hospital gates, or designated emergency lanes are subject to immediate towing and a minimum penalty fine of $75.00.</p>
+            </div>
+
+            <div class="rule-card">
+              <div class="rule-header">
+                <i class="fa-solid fa-qrcode rule-icon"></i>
+                <h3>Decal Placement Guidelines</h3>
+              </div>
+              <p>Affix your TRAFFTAG decal on the bottom-left or top-center of the front/rear windshield for maximum optical visibility by smartphone cameras.</p>
+            </div>
+
+            <div class="rule-card">
+              <div class="rule-header">
+                <i class="fa-solid fa-user-shield rule-icon"></i>
+                <h3>Anonymous Contact Etiquette</h3>
+              </div>
+              <p>Keep communication professional when responding to notifications. Misuse of the anonymous gateway for commercial solicitation is strictly prohibited.</p>
+            </div>
+
+            <div class="rule-card">
+              <div class="rule-header">
+                <i class="fa-solid fa-phone-volume rule-icon"></i>
+                <h3>24/7 Emergency Dispatch Helpline</h3>
+              </div>
+              <p>In case of vehicle accidents, dangerous obstruction, or immediate security threats, contact emergency dispatch at <strong>+1 (800) 555-TAGS</strong>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+
+  <!-- Add Vehicle Modal -->
+  <app-add-vehicle-modal
+    [show]="showAddVehicleModal()"
+    [makes]="makes"
+    [models]="getModelsForSelectedMake()"
+    [selectedMakeId]="selectedMakeId()"
+    (selectedMakeIdChange)="onMakeChange($event)"
+    [selectedModelId]="selectedModelId()"
+    (selectedModelIdChange)="selectedModelId.set($event)"
+    [newYear]="newYear()"
+    (newYearChange)="newYear.set($event)"
+    [newPlate]="newPlate()"
+    (newPlateChange)="newPlate.set($event)"
+    [newColor]="newColor()"
+    (newColorChange)="newColor.set($event)"
+    [newStateProvince]="newStateProvince()"
+    (newStateProvinceChange)="newStateProvince.set($event)"
+    [newVin]="newVin()"
+    (newVinChange)="newVin.set($event)"
+    [newDriverName]="newDriverName()"
+    (newDriverNameChange)="newDriverName.set($event)"
+    [colorPresets]="colorPresets"
+    (close)="closeAddVehicle()"
+    (submit)="addVehicle()">
+  </app-add-vehicle-modal>
+
+  <!-- Link/Assign Sticker Tag Modal -->
+  <app-link-tag-modal
+    [show]="showLinkTagModal()"
+    [linkSerial]="linkSerial()"
+    (linkSerialChange)="linkSerial.set($event)"
+    [linkVehicleId]="linkVehicleId()"
+    (linkVehicleIdChange)="linkVehicleId.set($event)"
+    [vehicles]="vehicles()"
+    [qrImageBase64]="qrImageBase64()"
+    (close)="closeLinkTag()"
+    (submit)="linkTag()">
+  </app-link-tag-modal>
+
+  <!-- Upgrade Modal -->
+  @if (showUpgradeModal()) {
+    <div class="modal-overlay">
+      <div class="modal-content modal-large upgrade-modal-compact">
+        <div class="modal-header">
+          <div>
+            <h2>Upgrade Subscription Plan</h2>
+            <p class="modal-subtitle">Select a vehicle protection tier tailored to your fleet needs</p>
+          </div>
+          <button class="modal-close" (click)="closeUpgrade()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body compact-body">
+          @if (membershipPlans().length === 0) {
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 40px 20px;">
+              <div class="spinner" style="width: 36px; height: 36px; border-width: 3px; margin-bottom: 12px;"></div>
+              <p style="font-size: 0.9rem; color: #64748B;">Loading available subscription plans...</p>
+            </div>
+          } @else {
+            <div class="upgrade-plans-row">
+              @for (plan of membershipPlans(); track plan.planId) {
+                <div class="upgrade-plan-box" 
+                     [class.recommended]="plan.planId === 2 || plan.planId === 3" 
+                     [class.current]="membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()">
+                  
+                  @if (plan.planId === 2) {
+                    <span class="rec-badge badge-popular">Best Seller</span>
+                  } @else if (plan.planId === 3) {
+                    <span class="rec-badge badge-value">Best Value</span>
+                  } @else if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
+                    <span class="rec-badge badge-active">Active</span>
+                  }
+
+                  <div class="plan-card-header">
+                    <h3 class="plan-card-title">{{ plan.name }}</h3>
+                    <div class="up-price">
+                      <span class="currency">$</span>{{ plan.price.toFixed(2) }}
+                      <span class="period">/ {{ plan.name.toLowerCase().includes('lifetime') ? 'one-time' : 'mo' }}</span>
+                    </div>
+                  </div>
+                  
+                  <ul class="plan-features-list">
+                    @for (feat of getPlanFeatures(plan); track feat) {
+                      <li>
+                        <i class="fa-solid fa-circle-check check-icon"></i>
+                        <span>{{ feat }}</span>
+                      </li>
+                    }
+                  </ul>
+                  
+                  <div class="plan-card-footer">
+                    @if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
+                      <button class="plan-btn btn-current" disabled><i class="fa-solid fa-check"></i> Current Plan</button>
+                    } @else if (plan.planId === 1) {
+                      <button class="plan-btn btn-disabled" disabled>Default Plan</button>
+                    } @else {
+                      <button class="plan-btn btn-upgrade" (click)="upgradePlan(plan.planId)">
+                        Select Plan <i class="fa-solid fa-arrow-right"></i>
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Submit Support Ticket Modal -->
+  @if (showSubmitTicketModal()) {
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Submit Support Ticket</h2>
+          <button class="modal-close" (click)="closeSubmitTicket()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <form (submit)="$event.preventDefault(); submitTicket()">
+            <div class="form-group">
+              <label for="t-subj">Ticket Subject / Title *</label>
+              <input id="t-subj" type="text" placeholder="e.g. Delayed sticker delivery" [(ngModel)]="newTicketSubject" name="subject" required>
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="t-cat">Category *</label>
+                <select id="t-cat" [(ngModel)]="newTicketCategory" name="category">
+                  <option value="Hardware Decals">Hardware Decals</option>
+                  <option value="Billing & Referral">Billing & Referral</option>
+                  <option value="General Support">General Support</option>
+                  <option value="Bug Report">Bug Report</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="t-prio">Priority *</label>
+                <select id="t-prio" [(ngModel)]="newTicketPriority" name="priority">
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="t-msg">Description / Message *</label>
+              <textarea id="t-msg" rows="4" placeholder="Detail your issue here..." [(ngModel)]="newTicketMessage" name="message" required></textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="closeSubmitTicket()">Cancel</button>
+              <button type="submit" class="btn btn-primary">Submit Ticket</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Mobile Bottom Navigation Bar (Matches Mobile UI Standard) -->
+  <nav class="mobile-bottom-nav">
+    <button class="nav-item-mobile" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </button>
+    <button class="nav-item-mobile" [class.active]="activeTab() === 'notifications' || activeTab() === 'rules'" (click)="selectTab('notifications')">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>Violations</span>
+    </button>
+    <button class="nav-item-mobile" [class.active]="activeTab() === 'pay-fine'" (click)="selectTab('pay-fine')">
+      <i class="fa-solid fa-calculator"></i>
+      <span>Pay</span>
+    </button>
+    <button class="nav-item-mobile" [class.active]="activeTab() === 'tags' || activeTab() === 'vehicles'" (click)="selectTab('tags')">
+      <i class="fa-solid fa-bell-concierge"></i>
+      <span>Fleet</span>
+    </button>
+    <button class="nav-item-mobile" [class.active]="activeTab() === 'profile'" (click)="selectTab('profile')">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </button>
+  </nav>
+</div>
+

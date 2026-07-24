@@ -1,0 +1,133 @@
+.features-section, .cta-banner-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 2rem 5%;
+}
+
+.page-hero {
+  text-align: center;
+  padding: 4rem 5% 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-hero h1 {
+  font-size: 2.8rem;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: #CBD5E1 !important;
+  line-height: 1.6;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.feature-card {
+  padding: 2.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: #0E1E36 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 184, 0, 0.4) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 184, 0, 0.08);
+}
+
+.feature-icon {
+  font-size: 1.6rem;
+  color: #FFB800 !important;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(255, 184, 0, 0.1) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 184, 0, 0.25) !important;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  background: #FFB800 !important;
+  color: #08162A !important;
+  transform: scale(1.08);
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  color: #FFFFFF !important;
+  font-weight: 700;
+}
+
+.feature-card p {
+  color: #CBD5E1 !important;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.cta-banner-section {
+  padding: 4rem 5%;
+}
+
+.cta-banner {
+  padding: 3.5rem 2rem;
+  background: linear-gradient(135deg, #0E1E36, #0A1628) !important;
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  border: 1px solid rgba(255, 184, 0, 0.2) !important;
+}
+
+.cta-banner h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #FFFFFF !important;
+}
+
+.cta-banner p {
+  color: #CBD5E1 !important;
+  font-size: 1.05rem;
+  max-width: 600px;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .cta-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-actions .btn-register,
+  .cta-actions .btn-login {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,0 +1,97 @@
+<div class="auth-container">
+  <!-- Background Glows -->
+  <div class="bg-glow-gold" style="top: -10%; left: -10%;"></div>
+  <div class="bg-glow-gold" style="bottom: -10%; right: -10%;"></div>
+
+  <header class="auth-header">
+    <div class="logo" [routerLink]="['/']">
+      <span class="logo-icon"><i class="fa-solid fa-taxi"></i></span>
+      <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
+    </div>
+    <a [routerLink]="['/']" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+  </header>
+
+  <main class="auth-card-wrapper">
+    <div class="glass-card auth-card animate-fade-in-up">
+      <div class="form-header animate-fade-in-up delay-100">
+        <h2>Verify Account</h2>
+        <p class="form-description">We have sent a verification code to your email. Please enter it below to verify your account.</p>
+      </div>
+
+      <form (ngSubmit)="submitVerifyOtp()" #verifyForm="ngForm" class="auth-form">
+        
+        <!-- Email Field -->
+        <div class="form-group animate-fade-in-up delay-150">
+          <label class="form-label">Email Address</label>
+          <div class="input-wrapper-inner">
+            <span class="input-icon-left"><i class="fa-solid fa-envelope"></i></span>
+            <input 
+              type="email" 
+              name="email" 
+              [ngModel]="email()" 
+              (ngModelChange)="email.set($event)"
+              class="form-input form-input-with-icon" 
+              placeholder="e.g. john@example.com" 
+              required
+            />
+          </div>
+        </div>
+
+        <!-- OTP Code Field -->
+        <div class="form-group animate-fade-in-up delay-200">
+          <label class="form-label">OTP Verification Code</label>
+          <div class="input-wrapper-inner">
+            <span class="input-icon-left"><i class="fa-solid fa-key"></i></span>
+            <input 
+              type="text" 
+              name="otp" 
+              [ngModel]="otp()" 
+              (ngModelChange)="otp.set($event)"
+              class="form-input form-input-with-icon otp-input" 
+              placeholder="Enter your OTP code" 
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Success Alert -->
+        @if (successMessage()) {
+          <div class="success-alert animate-fade-in">
+            <span><i class="fa-solid fa-circle-check"></i></span>
+            <p>{{ successMessage() }}</p>
+          </div>
+        }
+
+        <!-- Error Alert -->
+        @if (errorMessage()) {
+          <div class="error-alert animate-fade-in">
+            <span><i class="fa-solid fa-triangle-exclamation"></i></span>
+            <p>{{ errorMessage() }}</p>
+          </div>
+        }
+
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          class="btn btn-primary btn-submit animate-fade-in-up delay-250" 
+          [disabled]="isSubmitting()"
+        >
+          @if (isSubmitting()) {
+            <span class="spinner"></span> Verifying Code...
+          } @else {
+            Verify & Proceed
+          }
+        </button>
+
+      </form>
+
+      <div class="auth-footer animate-fade-in-up delay-300">
+        <p>Didn't receive code? <a [routerLink]="['/login']" class="auth-switch-link">Login again</a> to request new code</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="auth-footer-note">
+    <p>&copy; 2026 TRAFFTAG. Secure Access Console.</p>
+  </footer>
+</div>

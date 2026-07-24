@@ -1,0 +1,128 @@
+/* Support Center styling */
+.tickets-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ticket-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(8, 22, 42, 0.04);
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-title-col {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ticket-id {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #08162A !important;
+  background: rgba(255, 184, 0, 0.15) !important;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #FFB800 !important;
+}
+
+.ticket-title-col h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #08162A !important;
+  margin: 0;
+}
+
+.ticket-status-pill {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.ticket-status-pill.t-open {
+  background: rgba(255, 184, 0, 0.15);
+  color: #B45309;
+  border: 1px solid #FFB800;
+}
+
+.ticket-status-pill.t-progress {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563EB;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.ticket-status-pill.t-resolved {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.ticket-meta-info {
+  display: flex;
+  gap: 20px;
+  font-size: 0.85rem;
+  color: #64748B !important;
+}
+
+.ticket-meta-info strong {
+  color: #08162A !important;
+}
+
+.ticket-meta-info strong.p-high {
+  color: #DC2626 !important;
+}
+
+.ticket-rating-section {
+  border-top: 1px solid #E2E8F0 !important;
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.rated-stars {
+  font-size: 0.88rem;
+  color: #94A3B8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rating-prompt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: #94A3B8;
+}
+
+.stars-picker {
+  display: flex;
+  gap: 4px;
+}
+
+.stars-picker button {
+  background: none;
+  border: none;
+  color: #64748B;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 2px;
+  transition: color 0.15s ease;
+}
+
+.stars-picker button:hover,
+.stars-picker button:hover ~ button {
+  color: #FFB800;
+}

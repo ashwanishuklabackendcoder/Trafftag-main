@@ -1,0 +1,140 @@
+<div class="tab-panel">
+  <div class="panel-header glass-card">
+    <div class="panel-header-info">
+      <div class="panel-header-icon">
+        <i class="fa-solid fa-car-side"></i>
+      </div>
+      <div>
+        <h2>Vehicle Protection Registry</h2>
+        <p>Register all your household or company cars to link them with protective TRAFFTAG QR decals.</p>
+      </div>
+    </div>
+    <button class="btn btn-primary register-btn" (click)="addVehicleClick.emit()">
+      <i class="fa-solid fa-plus"></i> Register Vehicle
+    </button>
+  </div>
+
+  @if (vehicles.length === 0) {
+    <div class="empty-card-container">
+      <div class="empty-card glass-card">
+        <div class="empty-icon-wrapper">
+          <i class="fa-solid fa-car-rear empty-icon"></i>
+        </div>
+        <h3>No Vehicles Registered</h3>
+        <p>Register all your household or company cars to link them with protective QR labels and start receiving anonymous alerts.</p>
+        <button class="btn btn-primary" (click)="addVehicleClick.emit()"><i class="fa-solid fa-plus"></i> Register Your First Vehicle</button>
+      </div>
+    </div>
+  } @else {
+    <div class="vehicles-grid">
+      @for (veh of vehicles; track veh.id) {
+        <div class="vehicle-card glass-card">
+          <!-- Card Header -->
+          <div class="veh-card-header">
+            <div class="veh-title-block">
+              <span class="car-brand-icon"><i class="fa-solid fa-car-side text-primary"></i></span>
+              <div>
+                <h3>{{ veh.make }} {{ veh.model }}</h3>
+                <span class="veh-subtitle">{{ veh.color }} &bull; {{ veh.year }}</span>
+              </div>
+            </div>
+            <div class="status-badge-container">
+              @if (veh.tagId === 'Not Assigned') {
+                <span class="status-pill-badge tag-missing"><i class="fa-solid fa-triangle-exclamation"></i> Unassigned</span>
+              } @else if (veh.active) {
+                <span class="status-pill-badge tag-active"><i class="fa-solid fa-circle-check"></i> Active Decal</span>
+              } @else {
+                <span class="status-pill-badge tag-paused"><i class="fa-solid fa-circle-pause"></i> Tag Paused</span>
+              }
+            </div>
+          </div>
+
+          <!-- Stylized License Plate -->
+          <div class="veh-license-plate-wrapper">
+            <div class="veh-license-plate">
+              <div class="plate-state">{{ veh.stateProvince | uppercase }}</div>
+              <div class="plate-number">{{ veh.plate }}</div>
+              <div class="plate-hologram"></div>
+            </div>
+          </div>
+
+          <!-- Card Body (Grid Details) -->
+          <div class="veh-card-body">
+            <div class="veh-info-section">
+              <h4><i class="fa-solid fa-circle-info text-primary"></i> Specifications & Details</h4>
+              <div class="veh-info-grid">
+                <div class="info-item">
+                  <span class="label">VIN:</span>
+                  <span class="value vin-text">{{ veh.vin || 'N/A' }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Driver Name:</span>
+                  <span class="value">{{ veh.driverName || 'Primary Owner' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="veh-info-section">
+              <h4><i class="fa-solid fa-chart-simple text-indigo"></i> QR Sticker Analytics</h4>
+              <div class="veh-info-grid">
+                <div class="info-item">
+                  <span class="label">Decal Serial:</span>
+                  <span class="value font-mono">{{ veh.tagId }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Total Alerts:</span>
+                  <span class="value">{{ veh.totalScans }} scans <span class="last-alert-time">(Last: {{ veh.lastScan || 'N/A' }})</span></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="veh-info-section">
+              <h4><i class="fa-solid fa-sliders text-warning"></i> Alert Dispatch Preferences</h4>
+              <div class="preferences-pills">
+                <span class="pref-badge" [class.enabled]="veh.prefSMS">
+                  <i class="fa-solid" [class.fa-comment-sms]="veh.prefSMS" [class.fa-circle-xmark]="!veh.prefSMS"></i> SMS Alerts
+                </span>
+                <span class="pref-badge" [class.enabled]="veh.prefEmail">
+                  <i class="fa-solid" [class.fa-envelope]="veh.prefEmail" [class.fa-circle-xmark]="!veh.prefEmail"></i> Email Alerts
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Footer Controls -->
+          <div class="veh-card-footer">
+            <div class="toggle-control-group">
+              <span class="toggle-desc-label">Protect State</span>
+              <label class="switch">
+                <input type="checkbox" [checked]="veh.active" (change)="toggleActive.emit(veh.id)">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            
+            <div class="footer-actions-group">
+              @if (veh.tagId !== 'Not Assigned') {
+                <a [routerLink]="['/scan', veh.tagId]" target="_blank" class="footer-btn btn-action-scan" title="Test QR Scan Page">
+                  <i class="fa-solid fa-qrcode"></i> Test
+                </a>
+                <button class="footer-btn btn-action-pdf" (click)="downloadQr.emit(veh)" [disabled]="downloadingVehicleId === veh.id" title="Download Printable QR Decal">
+                  @if (downloadingVehicleId === veh.id) {
+                    <span class="spinner-sm"></span> Loading...
+                  } @else {
+                    <i class="fa-solid fa-download"></i> Download QR
+                  }
+                </button>
+              } @else {
+                <button class="footer-btn btn-action-pdf" (click)="generateQr.emit(veh.id)" title="Generate QR Code for this Vehicle">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Generate QR
+                </button>
+              }
+              <button class="footer-btn btn-action-delete" (click)="deleteVehicle.emit(veh.id)" title="Remove Vehicle from Registry">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
