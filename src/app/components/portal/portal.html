@@ -303,10 +303,11 @@
               <i class="fa-solid fa-magnifying-glass search-icon"></i>
               <input type="text" placeholder="Enter Vehicle Number (e.g. XYZ-3434) or Challan Serial #" class="form-input search-input">
             </div>
-            <button class="btn btn-primary"><i class="fa-solid fa-search"></i> Search Penalties</button>
+            <button class="btn btn-primary btn-search-fine"><i class="fa-solid fa-search"></i> Search Penalties</button>
           </div>
 
-          <div class="fines-table-wrapper">
+          <!-- Desktop Table View -->
+          <div class="fines-table-wrapper desktop-table-only">
             <table class="enterprise-table">
               <thead>
                 <tr>
@@ -340,6 +341,69 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <!-- Mobile App Grid Layout (Zero Horizontal Scroll) -->
+          <div class="mobile-fines-grid">
+            <div class="mobile-fine-card">
+              <div class="fine-card-header">
+                <div class="fine-id-box">
+                  <i class="fa-solid fa-file-invoice"></i>
+                  <span class="font-mono">#CH-2026-8842</span>
+                </div>
+                <span class="status-badge status-unpaid"><i class="fa-solid fa-clock"></i> Unpaid</span>
+              </div>
+              <div class="fine-card-body">
+                <div class="fine-veh-title">
+                  <i class="fa-solid fa-car"></i> Toyota Camry (XYZ-3434)
+                </div>
+                <div class="fine-info-row">
+                  <span class="fine-label">Violation:</span>
+                  <span class="fine-val">Unauthorized Parking Area</span>
+                </div>
+                <div class="fine-info-row">
+                  <span class="fine-label">Date & Time:</span>
+                  <span class="fine-val">Jul 20, 2026 14:15</span>
+                </div>
+                <div class="fine-info-row price-row">
+                  <span class="fine-label">Amount:</span>
+                  <span class="price-text">$45.00</span>
+                </div>
+              </div>
+              <div class="fine-card-footer">
+                <button class="btn btn-primary w-full"><i class="fa-solid fa-credit-card"></i> Pay Now</button>
+              </div>
+            </div>
+
+            <div class="mobile-fine-card">
+              <div class="fine-card-header">
+                <div class="fine-id-box">
+                  <i class="fa-solid fa-file-invoice"></i>
+                  <span class="font-mono">#CH-2026-6190</span>
+                </div>
+                <span class="status-badge status-paid"><i class="fa-solid fa-circle-check"></i> Paid</span>
+              </div>
+              <div class="fine-card-body">
+                <div class="fine-veh-title">
+                  <i class="fa-solid fa-car"></i> Honda Civic (ABC-1234)
+                </div>
+                <div class="fine-info-row">
+                  <span class="fine-label">Violation:</span>
+                  <span class="fine-val">Blocked Fire Hydrant Zone</span>
+                </div>
+                <div class="fine-info-row">
+                  <span class="fine-label">Date & Time:</span>
+                  <span class="fine-val">Jun 11, 2026 09:30</span>
+                </div>
+                <div class="fine-info-row price-row">
+                  <span class="fine-label">Amount:</span>
+                  <span class="price-text">$75.00</span>
+                </div>
+              </div>
+              <div class="fine-card-footer">
+                <button class="btn btn-secondary w-full"><i class="fa-solid fa-download"></i> Receipt</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
