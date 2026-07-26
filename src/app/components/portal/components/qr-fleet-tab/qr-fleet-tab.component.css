@@ -218,31 +218,31 @@
   }
 
   .decal-sticker-mock {
-    width: 96px !important;
-    height: 96px !important;
-    padding: 6px 4px !important;
+    width: 82px !important;
+    height: 82px !important;
+    padding: 4px !important;
     border-width: 2px !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
   }
 
   .sticker-header {
-    font-size: 0.48rem !important;
-    letter-spacing: 0.5px !important;
+    font-size: 0.42rem !important;
+    letter-spacing: 0.3px !important;
   }
 
   .sticker-qr-container {
-    width: 54px !important;
-    height: 54px !important;
+    width: 46px !important;
+    height: 46px !important;
     padding: 2px !important;
   }
 
   .decal-qr-icon {
-    font-size: 2.2rem !important;
+    font-size: 1.8rem !important;
   }
 
   .sticker-serial-footer {
-    font-size: 0.52rem !important;
-    letter-spacing: 0.5px !important;
+    font-size: 0.46rem !important;
+    letter-spacing: 0.3px !important;
   }
 
   .decal-details-wrapper {
@@ -257,19 +257,22 @@
     align-items: center !important;
     padding-bottom: 6px !important;
     width: 100% !important;
+    gap: 4px !important;
   }
 
   .decal-badge-id {
-    font-size: 0.78rem !important;
+    font-size: 0.72rem !important;
+    white-space: nowrap !important;
   }
 
   .decal-badge-id strong {
-    font-size: 0.85rem !important;
+    font-size: 0.78rem !important;
   }
 
   .status-pill-badge {
     padding: 3px 8px !important;
-    font-size: 0.68rem !important;
+    font-size: 0.65rem !important;
+    white-space: nowrap !important;
   }
 
   .decal-meta-grid {
@@ -285,26 +288,31 @@
   }
 
   .decal-meta-item .lbl {
-    font-size: 0.72rem !important;
+    font-size: 0.7rem !important;
   }
 
   .decal-meta-item .val {
-    font-size: 0.78rem !important;
+    font-size: 0.75rem !important;
   }
 
   .decal-actions-footer {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 6px !important;
-    margin-top: 6px !important;
+    margin-top: 8px !important;
     width: 100% !important;
   }
 
   .decal-actions-footer .footer-btn {
     width: 100% !important;
-    padding: 7px 8px !important;
-    font-size: 0.75rem !important;
+    padding: 7px 4px !important;
+    font-size: 0.72rem !important;
     justify-content: center !important;
     margin: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  .decal-actions-footer .footer-btn:nth-child(3) {
+    grid-column: span 2 !important;
   }
 }
