@@ -10,21 +10,11 @@
           <div class="form-grid-2">
             <div class="form-group">
               <label for="veh-make">Make / Manufacturer *</label>
-              <select id="veh-make" [ngModel]="selectedMakeId" (ngModelChange)="onMakeChange($event)" name="make" required>
-                <option value="">-- Choose Make --</option>
-                @for (m of makes; track m.id) {
-                  <option [value]="m.id">{{ m.name }}</option>
-                }
-              </select>
+              <input id="veh-make" type="text" placeholder="e.g. Toyota, Honda, Ford" [ngModel]="selectedMakeId" (ngModelChange)="selectedMakeIdChange.emit($event)" name="make" required>
             </div>
             <div class="form-group">
               <label for="veh-model">Model *</label>
-              <select id="veh-model" [ngModel]="selectedModelId" (ngModelChange)="selectedModelIdChange.emit($event)" name="model" [disabled]="!selectedMakeId" required>
-                <option value="">-- Choose Model --</option>
-                @for (mod of models; track mod.id) {
-                  <option [value]="mod.id">{{ mod.name }}</option>
-                }
-              </select>
+              <input id="veh-model" type="text" placeholder="e.g. Camry, Civic, Mustang" [ngModel]="selectedModelId" (ngModelChange)="selectedModelIdChange.emit($event)" name="model" required>
             </div>
           </div>
           <div class="form-grid-2">

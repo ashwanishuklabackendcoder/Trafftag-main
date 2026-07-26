@@ -483,17 +483,25 @@ export class Portal implements OnInit {
       return;
     }
 
-    const makeObj = this.makes.find(m => m.id === this.selectedMakeId());
-    const modelObj = this.getModelsForSelectedMake().find(m => m.id === this.selectedModelId());
+    const makeObj = this.makes.find(m => String(m.id) === String(this.selectedMakeId()));
+    const modelObj = this.getModelsForSelectedMake().find(m => String(m.id) === String(this.selectedModelId()));
+
+    const makeStr = makeObj ? makeObj.name : this.selectedMakeId();
+    const modelStr = modelObj ? modelObj.name : this.selectedModelId();
+
+    const makeIdNum = parseInt(this.selectedMakeId(), 10);
+    const modelIdNum = parseInt(this.selectedModelId(), 10);
 
     const body = {
-      makeId: parseInt(this.selectedMakeId(), 10),
-      modelId: parseInt(this.selectedModelId(), 10),
+      makeId: !isNaN(makeIdNum) ? makeIdNum : 1,
+      modelId: !isNaN(modelIdNum) ? modelIdNum : 1,
+      make: makeStr,
+      model: modelStr,
       year: this.newYear(),
       vin: this.newVin() || 'N/A',
       licensePlate: this.newPlate().toUpperCase(),
       color: this.newColor() || 'Unknown',
-      nickName: `${makeObj?.name || ''} ${modelObj?.name || ''}`.trim()
+      nickName: `${makeStr} ${modelStr}`.trim()
     };
 
     this.http.post<any>(`${API_BASE_URL}/api/v1/vehicles`, body, { headers: this.getHeaders() })
