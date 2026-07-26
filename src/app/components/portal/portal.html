@@ -47,7 +47,7 @@
         <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> QR Tags</span>
       </button>
       <button class="nav-item" [class.active]="activeTab() === 'notifications'" (click)="selectTab('notifications')">
-        <span class="nav-label-group"><i class="fa-solid fa-triangle-exclamation nav-icon"></i> Violations</span>
+        <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> Notifications</span>
       </button>
       <button class="nav-item" [class.active]="activeTab() === 'pay-fine'" (click)="selectTab('pay-fine')">
         <span class="nav-label-group"><i class="fa-solid fa-credit-card nav-icon"></i> Pay Fine / E-Challan</span>
@@ -146,8 +146,8 @@
                 <span>Check Status</span>
               </button>
               <button class="mockup-pill-card" (click)="selectTab('notifications')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                <span>My Violations</span>
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-bell"></i></div>
+                <span>Notifications</span>
               </button>
 
               <!-- Row 2 -->
