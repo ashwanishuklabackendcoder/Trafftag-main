@@ -4,9 +4,13 @@
     <button class="mobile-menu-toggle" (click)="toggleMobileSidebar()" aria-label="Toggle Navigation Menu">
       <i class="fa-solid fa-bars"></i>
     </button>
-    <div class="logo" [routerLink]="['/']">
-      <span class="logo-icon"><i class="fa-solid fa-taxi"></i></span>
-      <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
+    <div class="sidebar-brand mobile-brand" [routerLink]="['/']">
+      <div class="brand-logo-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div class="brand-text-wrapper">
+        <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
+      </div>
     </div>
     <div class="user-avatar-small">{{ userInitials() }}</div>
   </header>
