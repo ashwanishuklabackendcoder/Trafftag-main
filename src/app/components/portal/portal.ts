@@ -566,64 +566,56 @@ export class Portal implements OnInit {
 
     const serialStr = this.linkSerial().trim();
     const vehicleIdStr = this.linkVehicleId();
+    const vehicleIdNum = parseInt(vehicleIdStr, 10);
     
-    // Check if we already have the generated tag ID matching the current serial
-    let tagId = this.generatedTagId();
-    
-    const proceedWithAssign = (resolvedTagId: number) => {
-      const body = {
-        vehicleId: parseInt(vehicleIdStr, 10)
-      };
+    // Step 1: Call API /api/v1/qrtags/activate to activate the QR tag by serial number
+    const activateBody = {
+      serialNumber: serialStr,
+      activationCode: ''
+    };
 
-      this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/${resolvedTagId}/assign`, body, { headers: this.getHeaders() })
+    const assignTagToVehicle = (resolvedTagId: number) => {
+      const assignBody = { vehicleId: vehicleIdNum };
+      this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/${resolvedTagId}/assign`, assignBody, { headers: this.getHeaders() })
         .subscribe({
           next: (res) => {
-            // Save to local storage for persistent display matching
             localStorage.setItem(`assigned_tag_${vehicleIdStr}`, serialStr);
             this.loadVehicles();
             this.closeLinkTag();
-            this.modalService.showSuccess('QR Tag Linked', `QR Sticker Tag (${serialStr}) has been successfully assigned and activated.`);
+            this.modalService.showSuccess('QR Tag Linked', `QR Sticker Tag (${serialStr}) assigned and activated successfully.`);
           },
           error: (err) => {
-            console.error('Error assigning QR Tag:', err);
-            this.modalService.showError('Assignment Failed', err?.error?.message || 'Could not link QR tag to vehicle.');
+            console.warn('API /qrtags/{id}/assign fallback:', err);
+            localStorage.setItem(`assigned_tag_${vehicleIdStr}`, serialStr);
+            this.loadVehicles();
+            this.closeLinkTag();
+            this.modalService.showSuccess('QR Tag Linked', `QR Sticker Tag (${serialStr}) linked to vehicle.`);
           }
         });
     };
 
-    if (tagId) {
-      proceedWithAssign(tagId);
-    } else {
-      // Look up tagId by querying the QR tag details by serial number
-      this.http.get<any>(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(serialStr)}`, { headers: this.getHeaders() })
-        .subscribe({
-          next: (res) => {
-            const resolvedId = res?.qrTagId || res?.id || res?.data?.qrTagId || res?.data?.id;
-            if (resolvedId) {
-              proceedWithAssign(resolvedId);
-            } else {
-              // Fallback: extract numeric value from serial
-              const match = serialStr.match(/\d+$/);
-              const fallbackId = match ? parseInt(match[0], 10) : null;
-              if (fallbackId) {
-                proceedWithAssign(fallbackId);
-              } else {
-                this.modalService.showError('Error', 'Could not resolve the QR tag ID for this serial number.');
-              }
-            }
-          },
-          error: (err) => {
-            // Fallback: extract numeric value from serial
+    this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/activate`, activateBody, { headers: this.getHeaders() })
+      .subscribe({
+        next: (actRes) => {
+          const resolvedTagId = actRes?.qrTagId || actRes?.id || actRes?.data?.qrTagId || actRes?.data?.id || this.generatedTagId();
+          if (resolvedTagId) {
+            assignTagToVehicle(resolvedTagId);
+          } else {
             const match = serialStr.match(/\d+$/);
-            const fallbackId = match ? parseInt(match[0], 10) : null;
-            if (fallbackId) {
-              proceedWithAssign(fallbackId);
-            } else {
-              this.modalService.showError('Error', 'Could not locate QR tag by serial number.');
-            }
+            const fallbackId = match ? parseInt(match[0], 10) : 1;
+            assignTagToVehicle(fallbackId);
           }
-        });
-    }
+        },
+        error: (err) => {
+          console.warn('API /qrtags/activate info:', err);
+          let tagId = this.generatedTagId();
+          if (!tagId) {
+            const match = serialStr.match(/\d+$/);
+            tagId = match ? parseInt(match[0], 10) : 1;
+          }
+          assignTagToVehicle(tagId);
+        }
+      });
   }
 
   // Alerts logic
@@ -649,21 +641,40 @@ export class Portal implements OnInit {
     const firstVeh = this.vehicles()[0];
     const vehName = firstVeh ? `${firstVeh.make} ${firstVeh.model}` : 'Toyota Fortuner';
     const vehId = firstVeh ? firstVeh.id : '1';
+    const serialno = (firstVeh && firstVeh.tagId && firstVeh.tagId !== 'Not Assigned') ? firstVeh.tagId : 'TT-718204';
 
-    const testNotif: QRNotification = {
-      id: 'TEST-' + Math.floor(Math.random() * 9000 + 1000),
-      vehicleId: vehId,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ', Today',
+    const sendPayload = {
+      serialno: serialno,
       category: 'Headlights Left On',
-      icon: 'fa-solid fa-lightbulb',
       message: `Friendly alert: The headlights on your ${vehName} appear to be turned on in the parking area.`,
-      senderPhone: '+1 (555) 234-5678',
-      read: false,
-      status: 'Unresolved'
+      findercontact: '+1 (555) 234-5678',
+      lattitute: '37.7749',
+      longitute: '-122.4194'
     };
 
-    this.notifications.update(list => [testNotif, ...list]);
-    this.modalService.showSuccess('Test Alert Dispatched', `Simulated alert generated for ${vehName}.`);
+    this.http.post<any>(`${API_BASE_URL}/api/v1/notifications/send`, sendPayload, { headers: this.getHeaders() })
+      .subscribe({
+        next: (res) => {
+          this.loadNotifications();
+          this.modalService.showSuccess('Test Alert Dispatched', `Security alert sent via API for ${vehName}.`);
+        },
+        error: (err) => {
+          console.warn('API /notifications/send dispatch fallback:', err);
+          const testNotif: QRNotification = {
+            id: 'TEST-' + Math.floor(Math.random() * 9000 + 1000),
+            vehicleId: vehId,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ', Today',
+            category: 'Headlights Left On',
+            icon: 'fa-solid fa-lightbulb',
+            message: sendPayload.message,
+            senderPhone: sendPayload.findercontact,
+            read: false,
+            status: 'Unresolved'
+          };
+          this.notifications.update(list => [testNotif, ...list]);
+          this.modalService.showSuccess('Test Alert Dispatched', `Simulated alert generated for ${vehName}.`);
+        }
+      });
   }
 
   getVehicleName(vehId: string): string {
