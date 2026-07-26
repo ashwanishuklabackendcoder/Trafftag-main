@@ -380,3 +380,55 @@
   border-color: #EF4444;
   color: #ffffff;
 }
+
+@media (max-width: 600px) {
+  .vehicle-card {
+    padding: 16px 14px !important;
+    gap: 12px !important;
+    border-radius: 14px !important;
+  }
+
+  .car-brand-icon {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 1.1rem !important;
+    border-radius: 10px !important;
+  }
+
+  .veh-title-block h3 {
+    font-size: 1.05rem !important;
+  }
+
+  .status-pill-badge {
+    font-size: 0.7rem !important;
+    padding: 3px 8px !important;
+  }
+
+  .veh-license-plate {
+    max-width: 230px !important;
+    height: 52px !important;
+  }
+
+  .veh-license-plate .plate-number {
+    font-size: 1.3rem !important;
+    letter-spacing: 2px !important;
+  }
+
+  .veh-card-footer {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .footer-actions-group {
+    width: 100% !important;
+    justify-content: space-between !important;
+    margin-left: 0 !important;
+  }
+
+  .footer-btn {
+    flex: 1 !important;
+    padding: 0 10px !important;
+    font-size: 0.78rem !important;
+  }
+}

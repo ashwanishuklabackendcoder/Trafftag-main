@@ -1038,6 +1038,229 @@
   justify-content: center;
 }
 
+/* Home Page Pricing Table & Packages */
+.home-pricing-card {
+  background: #06152B;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid #1E293B;
+  margin-bottom: 2.5rem;
+  width: 100%;
+}
+
+.home-pricing-header {
+  background: #FFC107;
+  padding: 1.1rem 1.5rem;
+  text-align: center;
+}
+
+.home-pricing-header h2 {
+  margin: 0;
+  color: #040C1A;
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.home-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.home-plans-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 0.92rem;
+}
+
+.home-plans-table th {
+  background: #08162A;
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 1.1rem 0.9rem;
+  border: 1px solid #1E293B;
+  vertical-align: middle;
+}
+
+.home-plans-table th .sub-head {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94A3B8;
+}
+
+.home-plans-table td {
+  padding: 1.05rem 0.9rem;
+  border: 1px solid #1E293B;
+  color: #FFFFFF;
+  font-weight: 600;
+  background: #08172D;
+}
+
+.home-plans-table tr:nth-child(even) td {
+  background: #0B1E38;
+}
+
+.home-plans-table tr.featured-row td {
+  background: rgba(255, 193, 7, 0.08);
+}
+
+.home-plans-table .plan-name-cell {
+  text-align: left !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  padding-left: 1.25rem !important;
+  white-space: nowrap;
+}
+
+.home-plans-table .price-cell {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.home-plans-table .price-cell.highlight {
+  color: #FFC107;
+  font-size: 1.2rem;
+}
+
+.home-plans-table .included-cell {
+  color: #E2E8F0;
+  font-weight: 700;
+}
+
+.home-plans-table .no-plan-cell {
+  color: #CBD5E1;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+/* Home Packages Card */
+.home-packages-card {
+  background: #06152B;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid #1E293B;
+  margin-bottom: 2.5rem;
+  width: 100%;
+}
+
+.home-packages-header {
+  background: #08162A;
+  border-bottom: 2px solid #FFC107;
+  padding: 1.1rem 1.5rem;
+  text-align: center;
+}
+
+.home-packages-header h2 {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.home-packages-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  padding: 1.75rem;
+}
+
+.home-pkg-card {
+  background: #08172D;
+  border: 1px solid #1E293B;
+  border-radius: 16px;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.home-pkg-card:hover {
+  transform: translateY(-4px);
+  border-color: #FFC107;
+}
+
+.home-pkg-icon {
+  margin-bottom: 1rem;
+}
+
+.icon-bubble {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.icon-bubble.bg-emerald {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+}
+
+.icon-bubble.bg-indigo {
+  background: rgba(99, 102, 241, 0.15);
+  color: #6366F1;
+}
+
+.icon-bubble.bg-whatsapp {
+  background: rgba(37, 211, 102, 0.15);
+  color: #25D366;
+}
+
+.home-pkg-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  margin: 0 0 0.85rem;
+  text-transform: uppercase;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-pkg-price {
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 0.6rem;
+}
+
+.home-pkg-details {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #94A3B8;
+  margin-bottom: 1.35rem;
+  text-transform: uppercase;
+  min-height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-pkg-btn {
+  width: 100%;
+  margin-top: auto;
+  padding: 10px 0;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .home-packages-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    padding: 1.2rem;
+  }
+}
+
 /* Responsive Media Queries for Mockup Cards */
 @media (max-width: 1024px) {
   .mockup-plans-grid {

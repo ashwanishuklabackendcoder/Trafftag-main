@@ -302,45 +302,77 @@
     </div>
   </section>
 
-  <!-- Choose Best Plan Section Container (Matching Mockup 2) -->
+  <!-- Choose Best Plan Section Container -->
   <section class="mockup-section-wrapper" id="pricing">
     <div class="mockup-card-container">
-      <h2 class="mockup-section-title">CHOOSE THE BEST PLAN FOR YOU</h2>
+      
+      <!-- MEMBERSHIP PLANS TABLE CONTAINER -->
+      <div class="home-pricing-card">
+        <div class="home-pricing-header">
+          <h2>4. MEMBERSHIP PLANS</h2>
+        </div>
 
-      <!-- Toggle Switch -->
-      <div class="mockup-toggle-wrapper">
-        <button class="mockup-toggle-btn" [class.active]="billingCycle() === 'monthly'" (click)="setBillingCycle('monthly')">Monthly</button>
-        <button class="mockup-toggle-btn" [class.active]="billingCycle() === 'yearly'" (click)="setBillingCycle('yearly')">Yearly <span class="discount-badge">(Save 20%)</span></button>
+        <div class="home-table-responsive">
+          <table class="home-plans-table">
+            <thead>
+              <tr>
+                <th>PLAN</th>
+                <th>LIFETIME PRICE</th>
+                <th>MONTHLY PRICE<br><span class="sub-head">(MEMBERS ONLY)</span></th>
+                <th>SMS / EMAIL<br><span class="sub-head">INCLUDED</span></th>
+                <th>NO PLAN PRICE<br><span class="sub-head">(WITHOUT MEMBERSHIP)</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (plan of membershipPlans(); track plan.name) {
+                <tr [class.featured-row]="plan.featured">
+                  <td class="plan-name-cell">
+                    <span class="plan-title">{{ plan.name }}</span>
+                    @if (plan.featured) {
+                      <span class="popular-badge">POPULAR</span>
+                    }
+                  </td>
+                  <td class="price-cell">{{ plan.lifetimePrice }}</td>
+                  <td class="price-cell highlight">{{ plan.monthlyPrice }}</td>
+                  <td class="included-cell">{{ plan.included }}</td>
+                  <td class="no-plan-cell">{{ plan.noPlanPrice }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- 4 Pricing Cards -->
-      <div class="mockup-plans-grid">
-        <div class="mockup-plan-card">
-          <h3 class="mockup-plan-title">BASIC</h3>
-          <div class="mockup-plan-price">₹0 <span>/mo</span></div>
-          <p class="mockup-plan-desc">Check status & view violations</p>
-          <a [routerLink]="['/register']" class="btn-register mockup-choose-btn">CHOOSE</a>
+      <!-- NOTIFICATION PACKAGES (ONLY FOR MEMBERS) -->
+      <div class="home-packages-card">
+        <div class="home-packages-header">
+          <h2>NOTIFICATION PACKAGES (ONLY FOR MEMBERS)</h2>
         </div>
 
-        <div class="mockup-plan-card">
-          <h3 class="mockup-plan-title">STANDARD</h3>
-          <div class="mockup-plan-price">₹99 <span>/mo</span></div>
-          <p class="mockup-plan-desc">Pay fines & get notifications</p>
-          <a [routerLink]="['/register']" class="btn-register mockup-choose-btn">CHOOSE</a>
-        </div>
-
-        <div class="mockup-plan-card featured">
-          <h3 class="mockup-plan-title">PREMIUM</h3>
-          <div class="mockup-plan-price">₹199 <span>/mo</span></div>
-          <p class="mockup-plan-desc">All features + priority support</p>
-          <a [routerLink]="['/register']" class="btn-register mockup-choose-btn">CHOOSE</a>
-        </div>
-
-        <div class="mockup-plan-card">
-          <h3 class="mockup-plan-title">ENTERPRISE</h3>
-          <div class="mockup-plan-price">₹499 <span>/mo</span></div>
-          <p class="mockup-plan-desc">Advanced reports for organizations</p>
-          <a [routerLink]="['/register']" class="btn-register mockup-choose-btn">CHOOSE</a>
+        <div class="home-packages-grid">
+          @for (pkg of notificationPackages(); track pkg.title) {
+            <div class="home-pkg-card">
+              <div class="home-pkg-icon">
+                @if (pkg.type === 'sms') {
+                  <div class="icon-bubble bg-emerald">
+                    <i class="fa-solid fa-comment-dots"></i>
+                  </div>
+                } @else if (pkg.type === 'email') {
+                  <div class="icon-bubble bg-indigo">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                  </div>
+                } @else if (pkg.type === 'whatsapp') {
+                  <div class="icon-bubble bg-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </div>
+                }
+              </div>
+              <h3 class="home-pkg-title" [style.color]="pkg.type === 'sms' ? '#10B981' : pkg.type === 'email' ? '#6366F1' : '#25D366'">{{ pkg.title }}</h3>
+              <div class="home-pkg-price" [style.color]="pkg.type === 'sms' ? '#10B981' : pkg.type === 'email' ? '#6366F1' : '#25D366'">{{ pkg.price }}</div>
+              <div class="home-pkg-details">{{ pkg.details }}</div>
+              <a [routerLink]="['/register']" class="btn-register home-pkg-btn">GET STARTED</a>
+            </div>
+          }
         </div>
       </div>
 

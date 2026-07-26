@@ -14,50 +14,75 @@ export class Pricing {
     this.isMenuOpen.update(v => !v);
   }
 
-  plansList = signal([
+  membershipPlans = signal([
     {
-      title: 'Free Shield',
-      price: '$0',
-      period: 'forever',
-      desc: 'Essential privacy shield protection for single vehicle owners.',
-      featured: false,
-      ctaText: 'Get Started Free',
-      features: [
-        '1 Registered Vehicle Limit',
-        'Email Alerts Delivery',
-        'Standard QR Tag Generation',
-        'Basic Online Support'
-      ]
+      name: 'BASIC PLAN',
+      lifetimePrice: '$99.99',
+      monthlyPrice: '$14.99',
+      included: '5 SMS',
+      noPlanPrice: '$49.99 /month',
+      featured: false
     },
     {
-      title: 'Premium Guard',
-      price: '$4.99',
-      period: '/month',
-      desc: 'Enhanced protection and instant notifications for active drivers.',
-      featured: true,
-      ctaText: 'Upgrade to Premium',
-      features: [
-        'Up to 3 Registered Vehicles',
-        'Instant SMS & Email Alerts',
-        'Custom Scanner Pre-sets',
-        'High-Durability Matte Sticker Pack',
-        'Priority Customer Support'
-      ]
+      name: 'STARTER PLAN',
+      lifetimePrice: '$199.99',
+      monthlyPrice: '$19.99',
+      included: '10 SMS',
+      noPlanPrice: '$49.99 /month',
+      featured: false
     },
     {
-      title: 'Fleet Command',
-      price: '$19.99',
-      period: '/month',
-      desc: 'Complete control and analytics for transport teams and fleets.',
-      featured: false,
-      ctaText: 'Get Fleet Access',
-      features: [
-        'Unlimited Registered Vehicles',
-        'Unlimited SMS & Custom Webhooks',
-        'Consolidated Fleet Dashboard',
-        'Bulk QR Sticker Shipping Discount',
-        '24/7 Dedicated Support'
-      ]
+      name: 'POPULAR PLAN',
+      lifetimePrice: '$299.99',
+      monthlyPrice: '$29.99',
+      included: '30 SMS',
+      noPlanPrice: '$49.99 /month',
+      featured: true
+    },
+    {
+      name: 'PREMIUM PLAN',
+      lifetimePrice: '$499.00',
+      monthlyPrice: '$59.99',
+      included: '50 SMS',
+      noPlanPrice: '$49.99 /month',
+      featured: false
+    },
+    {
+      name: 'LUXURY PLAN',
+      lifetimePrice: '$999.99',
+      monthlyPrice: '$99.99',
+      included: '125 SMS',
+      noPlanPrice: '$49.99 /month',
+      featured: false
+    },
+    {
+      name: 'PLATINUM PLAN',
+      lifetimePrice: '$1,999.99',
+      monthlyPrice: '$199.99',
+      included: '250 SMS + 30 Email',
+      noPlanPrice: '$49.99 /month',
+      featured: false
+    }
+  ]);
+
+  notificationPackages = signal([
+    {
+      title: 'SMS NOTIFICATION PACKAGE',
+      price: '$49.99',
+      details: '(5 SMS ONLY)',
+      type: 'sms'
+    },
+    {
+      title: 'EMAIL ALERT NOTIFICATION PACKAGE',
+      price: '$49.99',
+      details: '(5 EMAIL ALERT NOTIFICATION ONLY)',
+      type: 'email'
+    },
+    {
+      title: 'WHATSAPP NOTIFICATIONS',
+      price: '$99.99',
+      details: '(15 NOTIFICATIONS ON GIVEN NUMBER)',
+      type: 'whatsapp'
     }
   ]);
 }

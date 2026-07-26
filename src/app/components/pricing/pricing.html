@@ -59,28 +59,110 @@
       </p>
     </div>
 
-    <!-- Pricing Cards Grid -->
+    <!-- Pricing Main Section -->
     <section class="pricing-section">
-      <div class="pricing-grid">
-        @for (plan of plansList(); track plan.title) {
-          <div class="pricing-card" [class.featured]="plan.featured">
-            @if (plan.featured) {
-              <div class="featured-badge">Most Popular</div>
-            }
-            <h3>{{ plan.title }}</h3>
-            <div class="price-box">
-              <span class="price">{{ plan.price }}</span>
-              <span class="period">{{ plan.period }}</span>
-            </div>
-            <p class="plan-desc">{{ plan.desc }}</p>
-            <ul class="features-list">
-              @for (feat of plan.features; track feat) {
-                <li><i class="fa-solid fa-check"></i> {{ feat }}</li>
+      <!-- 4. MEMBERSHIP PLANS -->
+      <div class="pricing-table-card">
+        <div class="pricing-table-header-banner">
+          <h2>4. MEMBERSHIP PLANS</h2>
+        </div>
+
+        <div class="table-responsive">
+          <table class="plans-table">
+            <thead>
+              <tr>
+                <th>PLAN</th>
+                <th>LIFETIME PRICE</th>
+                <th>MONTHLY PRICE<br><span class="sub-head">(MEMBERS ONLY)</span></th>
+                <th>SMS / EMAIL<br><span class="sub-head">INCLUDED</span></th>
+                <th>NO PLAN PRICE<br><span class="sub-head">(WITHOUT MEMBERSHIP)</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (plan of membershipPlans(); track plan.name) {
+                <tr [class.featured-row]="plan.featured">
+                  <td class="plan-name-cell">
+                    <span class="plan-title">{{ plan.name }}</span>
+                    @if (plan.featured) {
+                      <span class="popular-badge">POPULAR</span>
+                    }
+                  </td>
+                  <td class="price-cell">{{ plan.lifetimePrice }}</td>
+                  <td class="price-cell highlight">{{ plan.monthlyPrice }}</td>
+                  <td class="included-cell">{{ plan.included }}</td>
+                  <td class="no-plan-cell">{{ plan.noPlanPrice }}</td>
+                </tr>
               }
-            </ul>
-            <a [routerLink]="['/register']" class="btn btn-primary w-full">{{ plan.ctaText }}</a>
-          </div>
-        }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Responsive Card Grid for Mobile Viewports -->
+        <div class="plans-mobile-grid">
+          @for (plan of membershipPlans(); track plan.name) {
+            <div class="mobile-plan-card" [class.featured]="plan.featured">
+              @if (plan.featured) {
+                <div class="mobile-popular-badge">POPULAR</div>
+              }
+              <h3 class="m-plan-title">{{ plan.name }}</h3>
+              <div class="m-price-group">
+                <div class="m-price-row">
+                  <span class="m-label">LIFETIME PRICE:</span>
+                  <span class="m-val bold">{{ plan.lifetimePrice }}</span>
+                </div>
+                <div class="m-price-row">
+                  <span class="m-label">MONTHLY PRICE (MEMBERS ONLY):</span>
+                  <span class="m-val highlight">{{ plan.monthlyPrice }}</span>
+                </div>
+              </div>
+              <div class="m-details-group">
+                <div class="m-detail-row">
+                  <span class="m-label">INCLUDED:</span>
+                  <span class="m-val">{{ plan.included }}</span>
+                </div>
+                <div class="m-detail-row">
+                  <span class="m-label">NO PLAN PRICE:</span>
+                  <span class="m-val opacity-80">{{ plan.noPlanPrice }}</span>
+                </div>
+              </div>
+              <a [routerLink]="['/register']" class="btn btn-primary m-plan-btn">Select {{ plan.name }}</a>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- NOTIFICATION PACKAGES (ONLY FOR MEMBERS) -->
+      <div class="notification-packages-section">
+        <div class="packages-header-banner">
+          <h2>NOTIFICATION PACKAGES (ONLY FOR MEMBERS)</h2>
+        </div>
+
+        <div class="packages-grid">
+          @for (pkg of notificationPackages(); track pkg.title) {
+            <div class="package-card" [class]="pkg.type">
+              <div class="package-icon-wrapper">
+                @if (pkg.type === 'sms') {
+                  <div class="icon-bubble bg-emerald">
+                    <i class="fa-solid fa-comment-dots"></i>
+                  </div>
+                } @else if (pkg.type === 'email') {
+                  <div class="icon-bubble bg-indigo">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                  </div>
+                } @else if (pkg.type === 'whatsapp') {
+                  <div class="icon-bubble bg-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </div>
+                }
+              </div>
+
+              <h3 class="package-title">{{ pkg.title }}</h3>
+              <div class="package-price">{{ pkg.price }}</div>
+              <div class="package-details">{{ pkg.details }}</div>
+              <a [routerLink]="['/register']" class="btn btn-outline package-btn">Select Package</a>
+            </div>
+          }
+        </div>
       </div>
     </section>
   </main>

@@ -349,3 +349,115 @@
   color: #64748B !important;
   font-size: 0.85rem;
 }
+
+/* ==========================================================================
+   COMPACT & MOBILE RESPONSIVE STYLES
+   ========================================================================== */
+@media (max-width: 600px) {
+  .auth-container {
+    padding: 0 16px !important;
+    min-height: 100dvh !important;
+  }
+
+  .auth-header {
+    padding: 14px 0 !important;
+  }
+
+  .logo {
+    font-size: 1.25rem !important;
+    gap: 8px !important;
+  }
+
+  .logo-icon {
+    font-size: 1.4rem !important;
+  }
+
+  .back-home-btn {
+    font-size: 0.82rem !important;
+  }
+
+  .auth-card-wrapper {
+    padding: 14px 0 !important;
+  }
+
+  .auth-card {
+    padding: 22px 18px !important;
+    border-radius: 16px !important;
+    max-width: 100% !important;
+    box-shadow: 0 4px 15px rgba(8, 22, 42, 0.04) !important;
+  }
+
+  .form-header {
+    margin-bottom: 16px !important;
+    gap: 6px !important;
+  }
+
+  .form-header h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .form-description {
+    font-size: 0.85rem !important;
+  }
+
+  .auth-form {
+    gap: 13px !important;
+  }
+
+  .form-group {
+    gap: 5px !important;
+  }
+
+  .form-label {
+    font-size: 0.85rem !important;
+  }
+
+  .form-input {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    font-size: 0.9rem !important;
+    border-radius: 8px !important;
+  }
+
+  .form-input.form-input-with-icon,
+  .form-input-with-icon,
+  .input-wrapper-inner input {
+    padding-left: 40px !important;
+  }
+
+  .input-icon-left {
+    left: 14px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .btn-submit {
+    padding: 11px !important;
+    font-size: 0.95rem !important;
+    border-radius: 10px !important;
+  }
+
+  .auth-footer {
+    margin-top: 16px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .auth-footer-note {
+    padding: 14px 0 !important;
+    font-size: 0.78rem !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .auth-container {
+    padding: 0 10px !important;
+  }
+
+  .auth-card {
+    padding: 18px 12px !important;
+  }
+
+  .form-header h2 {
+    font-size: 1.35rem !important;
+  }
+}
+
