@@ -3055,23 +3055,35 @@ input:checked + .slider:before {
    ========================================================================== */
 @media (max-width: 768px) {
   .main-content {
-    padding: 14px 12px 90px 12px !important;
+    padding: 10px 10px 80px 10px !important;
   }
 
   .content-header {
-    margin-bottom: 14px !important;
-    padding-bottom: 12px !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
+    margin-bottom: 10px !important;
+    padding-bottom: 8px !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     gap: 8px !important;
   }
 
   .header-welcome h1 {
-    font-size: 1.35rem !important;
+    font-size: 1.18rem !important;
+    margin: 0 !important;
   }
 
   .header-welcome p {
-    font-size: 0.85rem !important;
+    display: none !important;
+  }
+
+  .header-actions {
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .premium-active-badge {
+    padding: 3px 9px !important;
+    font-size: 0.72rem !important;
   }
 
   .enterprise-white-card,
