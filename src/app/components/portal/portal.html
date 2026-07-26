@@ -36,17 +36,17 @@
       <button class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
         <span class="nav-label-group"><i class="fa-solid fa-house nav-icon"></i> Dashboard</span>
       </button>
-      <button class="nav-item" [class.active]="activeTab() === 'notifications'" (click)="selectTab('notifications')">
-        <span class="nav-label-group"><i class="fa-solid fa-triangle-exclamation nav-icon"></i> Violations</span>
-      </button>
       <button class="nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
         <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> My Vehicles</span>
       </button>
-      <button class="nav-item" [class.active]="activeTab() === 'pay-fine'" (click)="selectTab('pay-fine')">
-        <span class="nav-label-group"><i class="fa-solid fa-credit-card nav-icon"></i> Pay Fine</span>
-      </button>
       <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
-        <span class="nav-label-group"><i class="fa-solid fa-file-invoice nav-icon"></i> E-Challan</span>
+        <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> QR Tags</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'notifications'" (click)="selectTab('notifications')">
+        <span class="nav-label-group"><i class="fa-solid fa-triangle-exclamation nav-icon"></i> Violations</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab() === 'pay-fine'" (click)="selectTab('pay-fine')">
+        <span class="nav-label-group"><i class="fa-solid fa-credit-card nav-icon"></i> Pay Fine / E-Challan</span>
       </button>
       <button class="nav-item" [class.active]="activeTab() === 'reports'" (click)="selectTab('reports')">
         <span class="nav-label-group"><i class="fa-solid fa-chart-line nav-icon"></i> Reports</span>
@@ -115,7 +115,7 @@
                 <h2 class="user-full-name">{{ userName() }}</h2>
                 <span class="vehicle-tag-plate">{{ vehicles()[0]?.plate || 'XYZ-3434' }}</span>
               </div>
-              <div class="user-qr-card">
+              <div class="user-qr-card" (click)="selectTab('tags')" style="cursor: pointer;" title="View QR Decal Fleet">
                 <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRAFFTAG-' + (vehicles()[0]?.plate || 'XYZ-3434')" alt="Vehicle QR Code" class="qr-img" />
               </div>
             </div>
@@ -123,6 +123,10 @@
             <!-- 3x4 Grid of White Pill Action Cards -->
             <div class="mockup-action-cards-grid">
               <!-- Row 1 -->
+              <button class="mockup-pill-card" (click)="selectTab('tags')">
+                <div class="pill-icon-wrapper"><i class="fa-solid fa-qrcode"></i></div>
+                <span>QR Tags</span>
+              </button>
               <button class="mockup-pill-card" (click)="selectTab('pay-fine')">
                 <div class="pill-icon-wrapper"><i class="fa-solid fa-calculator"></i></div>
                 <span>Pay Fine</span>
@@ -134,10 +138,6 @@
               <button class="mockup-pill-card" (click)="selectTab('notifications')">
                 <div class="pill-icon-wrapper"><i class="fa-solid fa-triangle-exclamation"></i></div>
                 <span>My Violations</span>
-              </button>
-              <button class="mockup-pill-card" (click)="selectTab('tags')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-receipt"></i></div>
-                <span>E-Challan</span>
               </button>
 
               <!-- Row 2 -->

@@ -19,14 +19,14 @@
     </div>
   </div>
 
-  @if (vehiclesWithTags.length === 0) {
+  @if (!hasVehicles) {
     <div class="empty-card-container">
       <div class="empty-card glass-card">
         <div class="empty-icon-wrapper">
           <i class="fa-solid fa-qrcode empty-icon"></i>
         </div>
-        <h3>No Active QR Tags</h3>
-        <p>You haven't generated or assigned any protective QR sticker tags to your registered vehicles yet.</p>
+        <h3>No Registered Vehicles</h3>
+        <p>You haven't added any vehicles or generated protective QR sticker tags yet.</p>
         <div style="display: flex; gap: 12px; justify-content: center; margin-top: 8px;">
           <button class="btn btn-secondary" (click)="generateNewQr.emit()">
             <i class="fa-solid fa-wand-magic-sparkles"></i> Generate New QR Tag
@@ -39,7 +39,7 @@
     </div>
   } @else {
     <div class="tags-grid-layout">
-      @for (veh of vehiclesWithTags; track veh.id) {
+      @for (veh of vehicles; track veh.id) {
         <div class="decal-card">
           <!-- Physical Decal Preview Column -->
           <div class="decal-preview-wrapper">
@@ -56,14 +56,14 @@
                   <i class="fa-solid fa-qrcode decal-qr-icon"></i>
                 }
               </div>
-              <div class="sticker-serial-footer">{{ veh.tagId }}</div>
+              <div class="sticker-serial-footer">{{ veh.tagId !== 'Not Assigned' ? veh.tagId : 'UNASSIGNED' }}</div>
             </div>
           </div>
 
           <!-- Metadata & Actions Column -->
           <div class="decal-details-wrapper">
             <div class="decal-header-row">
-              <span class="decal-badge-id">Serial: <strong>{{ veh.tagId }}</strong></span>
+              <span class="decal-badge-id">Serial: <strong>{{ veh.tagId !== 'Not Assigned' ? veh.tagId : 'Not Assigned' }}</strong></span>
               <span class="status-pill-badge" [class.tag-active]="veh.active && veh.tagId !== 'Not Assigned'" [class.tag-paused]="!veh.active && veh.tagId !== 'Not Assigned'" [class.tag-missing]="veh.tagId === 'Not Assigned'">
                 <i class="fa-solid" [class.fa-circle-check]="veh.active && veh.tagId !== 'Not Assigned'" [class.fa-circle-pause]="!veh.active && veh.tagId !== 'Not Assigned'" [class.fa-triangle-exclamation]="veh.tagId === 'Not Assigned'"></i>
                 {{ veh.tagId !== 'Not Assigned' ? (veh.active ? 'Active Decal' : 'Paused') : 'Unassigned Tag' }}
@@ -85,26 +85,33 @@
               </div>
               <div class="decal-meta-item">
                 <span class="lbl"><i class="fa-solid fa-chart-line text-success"></i> Scan Interactions:</span>
-                <span class="val">{{ veh.totalScans }} total alerts logged</span>
+                <span class="val">{{ veh.totalScans || 0 }} total alerts logged</span>
               </div>
             </div>
 
             <div class="decal-actions-footer">
               @if (veh.tagId !== 'Not Assigned') {
                 <a [routerLink]="['/scan', veh.tagId]" target="_blank" class="footer-btn btn-action-scan">
-                  <i class="fa-solid fa-up-right-from-square"></i> Test Scan Portal
+                  <i class="fa-solid fa-up-right-from-square"></i> Test Scan
                 </a>
+                <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit(veh.id)">
+                  <i class="fa-solid fa-arrows-rotate"></i> Reassign Sticker
+                </button>
+                <button class="footer-btn btn-action-pdf" (click)="downloadQr.emit(veh)" [disabled]="downloadingVehicleId === veh.id" title="Download Printable QR Decal">
+                  @if (downloadingVehicleId === veh.id) {
+                    <span class="spinner-sm"></span> Downloading...
+                  } @else {
+                    <i class="fa-solid fa-download"></i> Download QR
+                  }
+                </button>
+              } @else {
+                <button class="footer-btn btn-action-scan" (click)="generateNewQr.emit()">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Generate QR Tag
+                </button>
+                <button class="footer-btn btn-action-pdf" (click)="openLinkTag.emit(veh.id)">
+                  <i class="fa-solid fa-link"></i> Link Physical Sticker
+                </button>
               }
-              <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit(veh.id)">
-                <i class="fa-solid fa-arrows-rotate"></i> Reassign Sticker
-              </button>
-              <button class="footer-btn btn-action-pdf" (click)="downloadQr.emit(veh)" [disabled]="downloadingVehicleId === veh.id" title="Download Printable QR Decal">
-                @if (downloadingVehicleId === veh.id) {
-                  <span class="spinner-sm"></span> Downloading...
-                } @else {
-                  <i class="fa-solid fa-download"></i> Download QR Code
-                }
-              </button>
             </div>
           </div>
         </div>
