@@ -461,3 +461,44 @@ input:focus, select:focus, textarea:focus, .form-input:focus {
   justify-content: space-between !important;
   font-size: 0.85rem !important;
 }
+
+/* Footer Responsive Overrides */
+@media (max-width: 900px) {
+  .footer {
+    padding: 3rem 1.5rem 1.5rem !important;
+  }
+  .footer-container {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+    margin-bottom: 2rem !important;
+  }
+  .footer-brand {
+    grid-column: span 2 !important;
+  }
+  .footer-brand p {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .footer {
+    padding: 2.5rem 1.25rem 1.25rem !important;
+  }
+  .footer-container {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  .footer-brand {
+    grid-column: span 1 !important;
+  }
+  .footer-brand p {
+    max-width: 100% !important;
+  }
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 0.5rem !important;
+  }
+}
