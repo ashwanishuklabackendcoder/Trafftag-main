@@ -309,10 +309,10 @@
       <!-- MEMBERSHIP PLANS TABLE CONTAINER -->
       <div class="home-pricing-card">
         <div class="home-pricing-header">
-          <h2>4. MEMBERSHIP PLANS</h2>
+          <h2><i class="fa-solid fa-crown"></i> 4. MEMBERSHIP PLANS</h2>
         </div>
 
-        <div class="home-table-responsive">
+        <div class="home-table-responsive desktop-only-table">
           <table class="home-plans-table">
             <thead>
               <tr>
@@ -340,6 +340,36 @@
               }
             </tbody>
           </table>
+        </div>
+
+        <!-- Responsive Compact Card Grid for Mobile Viewports -->
+        <div class="home-plans-mobile-grid">
+          @for (plan of membershipPlans(); track plan.name) {
+            <div class="home-mobile-plan-card" [class.featured]="plan.featured">
+              @if (plan.featured) {
+                <div class="mobile-popular-badge"><i class="fa-solid fa-star"></i> MOST POPULAR</div>
+              }
+              <div class="m-card-header">
+                <h3 class="m-plan-title">{{ plan.name }}</h3>
+                <div class="m-price-tag">{{ plan.lifetimePrice }} <span class="m-price-sub">Lifetime</span></div>
+              </div>
+              <div class="m-price-group">
+                <div class="m-price-row">
+                  <span class="m-label">Monthly Member Rate:</span>
+                  <span class="m-val highlight">{{ plan.monthlyPrice }}</span>
+                </div>
+                <div class="m-price-row">
+                  <span class="m-label">Included Credits:</span>
+                  <span class="m-val bold">{{ plan.included }}</span>
+                </div>
+                <div class="m-price-row">
+                  <span class="m-label">Non-Member Price:</span>
+                  <span class="m-val opacity-80">{{ plan.noPlanPrice }}</span>
+                </div>
+              </div>
+              <a [routerLink]="['/register']" class="btn btn-primary m-plan-btn">Select {{ plan.name }}</a>
+            </div>
+          }
         </div>
       </div>
 

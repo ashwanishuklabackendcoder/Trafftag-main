@@ -42,18 +42,23 @@
 }
 
 .pricing-table-header-banner {
-  background: #FFC107;
+  background: linear-gradient(135deg, #08162A 0%, #0F2744 100%);
+  border-bottom: 2px solid #FFB800;
   padding: 1.1rem 1.5rem;
   text-align: center;
 }
 
 .pricing-table-header-banner h2 {
   margin: 0;
-  color: #040C1A;
-  font-size: 1.5rem;
+  color: #FFFFFF;
+  font-size: 1.35rem;
   font-weight: 900;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .table-responsive {

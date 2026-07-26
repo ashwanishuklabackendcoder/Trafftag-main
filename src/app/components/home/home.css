@@ -1050,18 +1050,27 @@
 }
 
 .home-pricing-header {
-  background: #FFC107;
+  background: linear-gradient(135deg, #08162A 0%, #0F2744 100%);
+  border-bottom: 2px solid #FFB800;
   padding: 1.1rem 1.5rem;
   text-align: center;
 }
 
 .home-pricing-header h2 {
   margin: 0;
-  color: #040C1A;
-  font-size: 1.4rem;
+  color: #FFFFFF;
+  font-size: 1.3rem;
   font-weight: 900;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.home-pricing-header h2 i {
+  color: #FFB800;
 }
 
 .home-table-responsive {
@@ -1116,6 +1125,19 @@
   white-space: nowrap;
 }
 
+.popular-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #FFB800 0%, #D97706 100%);
+  color: #08162A;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+  box-shadow: 0 2px 6px rgba(255, 184, 0, 0.3);
+  vertical-align: middle;
+}
+
 .home-plans-table .price-cell {
   font-size: 1.15rem;
   font-weight: 800;
@@ -1135,6 +1157,123 @@
   color: #CBD5E1;
   font-weight: 600;
   font-size: 0.88rem;
+}
+
+/* Home Responsive Compact Cards */
+.home-plans-mobile-grid {
+  display: none;
+  padding: 16px;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (max-width: 768px) {
+  .home-table-responsive.desktop-only-table {
+    display: none !important;
+  }
+
+  .home-plans-mobile-grid {
+    display: flex !important;
+  }
+}
+
+.home-mobile-plan-card {
+  background: #08172D;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 16px 18px;
+  position: relative;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.home-mobile-plan-card.featured {
+  border: 1.5px solid #FFB800;
+  background: linear-gradient(135deg, rgba(255, 184, 0, 0.08) 0%, #08172D 100%);
+  box-shadow: 0 4px 20px rgba(255, 184, 0, 0.15);
+}
+
+.mobile-popular-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #FFB800 0%, #D97706 100%);
+  color: #08162A;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.m-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.m-plan-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.m-price-tag {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #FFB800;
+}
+
+.m-price-sub {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #94A3B8;
+}
+
+.m-price-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.m-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.m-label {
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.m-val {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.m-val.highlight {
+  color: #FFB800;
+}
+
+.m-plan-btn {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 10px;
+  text-align: center;
+  display: inline-block;
+  box-sizing: border-box;
 }
 
 /* Home Packages Card */
