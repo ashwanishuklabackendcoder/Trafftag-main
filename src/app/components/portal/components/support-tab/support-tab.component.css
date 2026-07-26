@@ -126,3 +126,38 @@
 .stars-picker button:hover ~ button {
   color: #FFB800;
 }
+
+/* Compact Mobile App Responsive Layout */
+@media (max-width: 768px) {
+  .ticket-card {
+    padding: 12px 14px !important;
+    gap: 10px !important;
+    border-radius: 14px !important;
+  }
+
+  .ticket-header {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  .ticket-title-col {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
+
+  .ticket-title-col h3 {
+    font-size: 0.92rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .ticket-meta-info {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px 10px !important;
+    font-size: 0.76rem !important;
+    width: 100% !important;
+  }
+}
