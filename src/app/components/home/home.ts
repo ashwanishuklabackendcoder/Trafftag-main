@@ -1,6 +1,23 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
+export interface HeroSlide {
+  id: number;
+  badge: string;
+  title: string;
+  highlightText: string;
+  description: string;
+  tags: string[];
+  ctaText: string;
+  ctaLink: string;
+  secondaryCtaText: string;
+  secondaryCtaLink: string;
+  taxiType: string;
+  statusBadge: string;
+  imageAlt: string;
+  visualType: 'qr-taxi-fleet' | 'echallan-speed' | 'sos-privacy' | 'weatherproof-decal';
+}
 
 @Component({
   selector: 'app-home',
@@ -9,10 +26,126 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
+export class Home implements OnInit, OnDestroy {
   constructor(private router: Router) {}
 
   mobileMenuOpen = signal(false);
+
+  // Hero Carousel State & Auto-play
+  currentSlide = signal(0);
+  isPaused = signal(false);
+  private autoPlayInterval: any = null;
+
+  heroSlides: HeroSlide[] = [
+    {
+      id: 1,
+      badge: 'NEXT-GEN TAXI FLEET MANAGEMENT',
+      title: 'Smart QR Tags for Taxis & Rideshare Cabs',
+      highlightText: 'TRAFFTAG TAXI',
+      description: 'Equip your taxi fleet with tamper-proof QR tags. Passengers can instantly verify driver identity, check fare transparency, and trigger emergency SOS with a single smartphone scan.',
+      tags: ['24/7 Driver Verification', 'Instant Ride Security', 'Commercial Decals'],
+      ctaText: 'REGISTER TAXI FLEET',
+      ctaLink: '/register',
+      secondaryCtaText: 'EXPLORE FEATURES',
+      secondaryCtaLink: '/features',
+      taxiType: 'YELLOW CAB & RIDESHARE',
+      statusBadge: 'LIVE TAXI QR ACTIVE',
+      imageAlt: 'Smart QR Taxi Fleet Management',
+      visualType: 'qr-taxi-fleet'
+    },
+    {
+      id: 2,
+      badge: 'AUTOMATED FLEET COMPLIANCE',
+      title: 'Never Miss a Taxi Traffic Fine or E-Challan',
+      highlightText: 'INSTANT E-CHALLAN',
+      description: 'Automated real-time SMS & WhatsApp alerts for cab owners. Search pending traffic fines instantly by vehicle registration number and clear fines in seconds with bank-grade encryption.',
+      tags: ['Real-Time Fine Alerts', 'Instant Payment Receipt', 'Zero Fleet Downtime'],
+      ctaText: 'CHECK TAXI STATUS',
+      ctaLink: '/scan',
+      secondaryCtaText: 'VIEW PRICING PLANS',
+      secondaryCtaLink: '#pricing',
+      taxiType: 'COMMERCIAL CAB FLEET',
+      statusBadge: 'TRAFFIC PORTAL CONNECTED',
+      imageAlt: 'Taxi E-Challan Compliance',
+      visualType: 'echallan-speed'
+    },
+    {
+      id: 3,
+      badge: '100% PRIVACY & PASSENGER SAFETY',
+      title: 'In-Cab SOS & Masked Emergency Contact',
+      highlightText: 'PASSENGER SOS',
+      description: 'Keep driver and passenger personal numbers completely private. Passengers scan the in-cab QR code to share live trip progress with family or alert emergency dispatch instantly.',
+      tags: ['Masked Phone Call', 'One-Tap SOS Trigger', 'End-to-End Encrypted'],
+      ctaText: 'GET TAXI SAFETY TAG',
+      ctaLink: '/register',
+      secondaryCtaText: 'HOW SOS WORKS',
+      secondaryCtaLink: '#how-it-works',
+      taxiType: 'EXECUTIVE & CITY CABS',
+      statusBadge: '24/7 SOS MONITORING',
+      imageAlt: 'In-Cab Passenger Safety SOS',
+      visualType: 'sos-privacy'
+    },
+    {
+      id: 4,
+      badge: 'COMMERCIAL GRADE DURABILITY',
+      title: 'Tamper-Proof Decals & Tags for Cabs',
+      highlightText: 'COMMERCIAL QR DECALS',
+      description: 'Engineered for intense heat, heavy monsoon rain, and daily wear. High-visibility metallic accent decals designed specifically for cab windshields, rear doors, and passenger headrests.',
+      tags: ['UV & Scratch Resistant', 'Tamper Evident Shield', 'Bulk Fleet Decals'],
+      ctaText: 'ORDER TAXI DECALS',
+      ctaLink: '/register',
+      secondaryCtaText: 'SUPPORT & FAQ',
+      secondaryCtaLink: '#faq',
+      taxiType: 'AUTO-RICKSHAWS & TAXIS',
+      statusBadge: 'PREMIUM REFLECTIVE DECAL',
+      imageAlt: 'Weatherproof Taxi QR Decal',
+      visualType: 'weatherproof-decal'
+    }
+  ];
+
+  ngOnInit() {
+    this.startAutoPlay();
+  }
+
+  ngOnDestroy() {
+    this.stopAutoPlay();
+  }
+
+  startAutoPlay() {
+    this.stopAutoPlay();
+    this.autoPlayInterval = setInterval(() => {
+      if (!this.isPaused()) {
+        this.nextSlide();
+      }
+    }, 5500);
+  }
+
+  stopAutoPlay() {
+    if (this.autoPlayInterval) {
+      clearInterval(this.autoPlayInterval);
+      this.autoPlayInterval = null;
+    }
+  }
+
+  pauseAutoPlay() {
+    this.isPaused.set(true);
+  }
+
+  resumeAutoPlay() {
+    this.isPaused.set(false);
+  }
+
+  nextSlide() {
+    this.currentSlide.update(idx => (idx + 1) % this.heroSlides.length);
+  }
+
+  prevSlide() {
+    this.currentSlide.update(idx => (idx - 1 + this.heroSlides.length) % this.heroSlides.length);
+  }
+
+  goToSlide(index: number) {
+    this.currentSlide.set(index);
+  }
 
   toggleMobileMenu() {
     this.mobileMenuOpen.update(v => !v);
