@@ -1,3 +1,6 @@
+/* ==========================================================================
+   VERIFY OTP PAGE - ENTERPRISE DARK NAVY & GOLD THEME
+   ========================================================================== */
 .auth-container {
   min-height: 100vh;
   display: flex;
@@ -5,6 +8,8 @@
   justify-content: space-between;
   padding: 0 24px;
   position: relative;
+  background: #06152B !important;
+  color: #FFFFFF !important;
 }
 
 @media (min-width: 1200px) {
@@ -19,7 +24,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 0;
-  border-bottom: 1px solid var(--border-card);
+  border-bottom: 1px solid rgba(255, 184, 0, 0.15);
 }
 
 .logo {
@@ -34,20 +39,22 @@
 
 .logo-icon {
   font-size: 1.8rem;
+  color: #FFB800 !important;
 }
 
 .logo-highlight {
-  color: var(--primary);
+  color: #FFB800;
 }
 
 .back-home-btn {
-  color: var(--text-secondary);
+  color: #CBD5E1;
   font-weight: 500;
   font-size: 0.95rem;
+  text-decoration: none;
 }
 
 .back-home-btn:hover {
-  color: var(--text-primary);
+  color: #FFB800;
 }
 
 /* Card Wrapper */
@@ -63,7 +70,11 @@
   width: 100%;
   max-width: 480px;
   padding: 40px;
-  box-shadow: var(--shadow-lg);
+  background: rgba(15, 34, 61, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(20px) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Form Header */
@@ -78,10 +89,11 @@
 
 .form-header h2 {
   font-size: 2rem;
+  color: #FFFFFF !important;
 }
 
 .form-description {
-  color: var(--text-secondary);
+  color: #94A3B8 !important;
   font-size: 0.95rem;
 }
 
@@ -101,7 +113,7 @@
 .form-label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #E2E8F0 !important;
 }
 
 /* Embedded Icon Inputs */
@@ -115,7 +127,7 @@
 .input-icon-left {
   position: absolute;
   left: 14px;
-  color: var(--text-muted);
+  color: #FFB800;
   font-size: 1rem;
   pointer-events: none;
   display: flex;
@@ -129,26 +141,25 @@
 
 .form-input {
   width: 100%;
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.15);
-  border-radius: 8px;
+  background: rgba(6, 21, 43, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 12px !important;
   padding: 12px 16px;
-  color: var(--text-primary);
+  color: #FFFFFF !important;
   font-family: var(--font-primary);
   font-size: 0.95rem;
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.02);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .form-input:hover {
-  border-color: rgba(15, 23, 42, 0.25);
+  border-color: rgba(255, 184, 0, 0.4) !important;
 }
 
 .form-input:focus {
   outline: none !important;
-  background: #ffffff !important;
-  border-color: var(--secondary) !important;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12) !important;
+  background: rgba(6, 21, 43, 0.95) !important;
+  border-color: #FFB800 !important;
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.25) !important;
 }
 
 .otp-input {
@@ -162,6 +173,7 @@
   letter-spacing: normal;
   font-size: 0.95rem;
   font-weight: normal;
+  color: #64748B !important;
 }
 
 /* Success Alert */
@@ -169,17 +181,17 @@
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
-  background: rgba(16, 185, 129, 0.05) !important;
-  border: 1px solid rgba(16, 185, 129, 0.18) !important;
+  background: rgba(16, 185, 129, 0.15) !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
   padding: 12px 16px !important;
   border-radius: 10px !important;
-  color: #065f46 !important;
-  font-weight: 500 !important;
+  color: #34D399 !important;
+  font-weight: 600 !important;
   font-size: 0.9rem !important;
 }
 
 .success-alert i {
-  color: #10b981 !important;
+  color: #10B981 !important;
 }
 
 /* Error Alert */
@@ -187,35 +199,38 @@
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
-  background: rgba(239, 68, 68, 0.05) !important;
-  border: 1px solid rgba(239, 68, 68, 0.18) !important;
+  background: rgba(239, 68, 68, 0.15) !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
   padding: 12px 16px !important;
   border-radius: 10px !important;
-  color: #b91c1c !important; /* Rich contrast red */
-  font-weight: 500 !important;
+  color: #FCA5A5 !important;
+  font-weight: 600 !important;
   font-size: 0.9rem !important;
 }
 
 .error-alert i {
-  color: #ef4444 !important;
+  color: #EF4444 !important;
 }
 
 /* Submit Button */
 .btn-submit {
   width: 100% !important;
   padding: 14px !important;
-  font-size: 1.05rem !important;
-  background: linear-gradient(135deg, var(--primary), var(--primary-hover)) !important;
-  color: #ffffff !important;
-  font-weight: 700 !important;
+  font-size: 1rem !important;
+  background: linear-gradient(135deg, #FFD000 0%, #FFB800 60%, #E5A600 100%) !important;
+  color: #06152B !important;
+  font-weight: 800 !important;
   border-radius: 12px !important;
-  box-shadow: 0 4px 15px rgba(223, 178, 63, 0.2) !important;
+  border: none !important;
+  box-shadow: 0 4px 0 #C49500, 0 6px 20px rgba(255, 184, 0, 0.35) !important;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
 }
 
 .btn-submit:hover:not(:disabled) {
-  transform: translateY(-4px) scale(1.01) !important;
-  box-shadow: 0 12px 25px rgba(223, 178, 63, 0.35) !important;
+  background: linear-gradient(135deg, #FFE033 0%, #FFC700 60%, #F59E0B 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 0 #C49500, 0 10px 25px rgba(255, 184, 0, 0.5) !important;
 }
 
 .btn-submit:disabled {
@@ -227,9 +242,9 @@
 .spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(6, 21, 43, 0.3);
   border-radius: 50%;
-  border-top-color: #ffffff;
+  border-top-color: #06152B;
   animation: spin 0.8s linear infinite;
   display: inline-block;
 }
@@ -243,16 +258,16 @@
   margin-top: 24px;
   text-align: center;
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: #94A3B8 !important;
 }
 
 .auth-switch-link {
-  color: var(--primary);
-  font-weight: 600;
+  color: #FFB800 !important;
+  font-weight: 800 !important;
 }
 
 .auth-switch-link:hover {
-  color: var(--primary-hover);
+  color: #FFE033 !important;
   text-decoration: underline;
 }
 
@@ -260,7 +275,7 @@
 .auth-footer-note {
   text-align: center;
   padding: 24px 0;
-  border-top: 1px solid var(--border-card);
-  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #64748B !important;
   font-size: 0.85rem;
 }
