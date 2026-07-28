@@ -13,6 +13,7 @@ import { PrivacyPolicy } from './components/privacy-policy/privacy-policy';
 import { TermsOfService } from './components/terms-of-service/terms-of-service';
 import { About } from './components/about/about';
 import { Contact } from './components/contact/contact';
+import { HowItWorks } from './components/how-it-works/how-it-works';
 
 import { inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
@@ -55,6 +56,7 @@ const adminGuard = (): boolean | UrlTree => {
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'TRAFFTAG | Protect Your Vehicle Anonymously with QR Decals' },
+  { path: 'how-it-works', component: HowItWorks, title: 'How It Works | TRAFFTAG System Workflow & Guide' },
   { path: 'features', component: Features, title: 'Features & Benefits | TRAFFTAG QR Vehicle Protection' },
   { path: 'pricing', component: Pricing, title: 'Pricing & Protection Plans | TRAFFTAG Safety Services' },
   { path: 'faq', component: Faq, title: 'Frequently Asked Questions | TRAFFTAG Help Center' },

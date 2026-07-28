@@ -1,16 +1,21 @@
+/* ==========================================================================
+   ABOUT PAGE - ENTERPRISE DARK NAVY & GOLD THEME
+   ========================================================================== */
+
 .page-container {
   min-height: 100vh;
-  background-color: #F8FAFC;
-  color: #08162A;
+  background-color: #06152B;
+  color: #FFFFFF;
   display: flex;
   flex-direction: column;
 }
 
 .about-hero {
-  background: linear-gradient(135deg, #08162A 0%, #0E1E36 100%);
+  background: radial-gradient(circle at 50% 0%, #0E2646 0%, #06152B 75%);
   color: #FFFFFF;
-  padding: 4rem 5% 3.5rem;
+  padding: 3.5rem 5% 4rem;
   text-align: center;
+  border-bottom: 1px solid rgba(255, 184, 0, 0.15);
 }
 
 .hero-content {
@@ -26,11 +31,12 @@
   font-size: 2.8rem;
   font-weight: 800;
   color: #FFFFFF !important;
+  letter-spacing: -0.5px;
 }
 
 .hero-content p {
   font-size: 1.05rem;
-  color: #CBD5E1 !important;
+  color: #94A3B8 !important;
   max-width: 600px;
 }
 
@@ -43,6 +49,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  z-index: 10;
 }
 
 .stats-grid {
@@ -52,51 +59,61 @@
 }
 
 .stat-card {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
+  background: rgba(15, 34, 61, 0.75);
+  border: 1px solid rgba(255, 184, 0, 0.25);
+  backdrop-filter: blur(12px);
   border-radius: 16px;
   padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(8, 22, 42, 0.04);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: #FFB800;
+  box-shadow: 0 12px 35px rgba(255, 184, 0, 0.2);
 }
 
 .stat-card h3 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 900;
   color: #FFB800 !important;
   margin-bottom: 0.25rem;
+  text-shadow: 0 0 15px rgba(255, 184, 0, 0.3);
 }
 
 .stat-card p {
   font-size: 0.88rem;
-  color: #64748B !important;
+  color: #CBD5E1 !important;
   font-weight: 600;
 }
 
 .about-card {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 20px;
+  background: rgba(15, 34, 61, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
   padding: 3rem 2.5rem;
-  box-shadow: 0 4px 25px rgba(8, 22, 42, 0.05);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
 }
 
 .about-section h2 {
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 800;
-  color: #08162A !important;
+  color: #FFFFFF !important;
   margin-bottom: 0.85rem;
-  border-bottom: 2px solid rgba(255, 184, 0, 0.4);
+  border-bottom: 2px solid #FFB800;
   padding-bottom: 6px;
   display: inline-block;
 }
 
 .about-section p {
   font-size: 0.98rem;
-  color: #475569 !important;
+  color: #CBD5E1 !important;
   line-height: 1.7;
 }
 
@@ -108,14 +125,21 @@
 }
 
 .value-item {
-  background: #F8FAFC;
-  border: 1px solid #E2E8F0;
-  border-radius: 14px;
+  background: rgba(6, 21, 43, 0.85);
+  border: 1px solid rgba(255, 184, 0, 0.2);
+  border-radius: 16px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.value-item:hover {
+  border-color: #FFB800;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255, 184, 0, 0.15);
 }
 
 .value-item i {
@@ -126,12 +150,12 @@
 .value-item h4 {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #08162A !important;
+  color: #FFFFFF !important;
 }
 
 .value-item p {
   font-size: 0.9rem;
-  color: #64748B !important;
+  color: #94A3B8 !important;
   line-height: 1.5;
 }
 

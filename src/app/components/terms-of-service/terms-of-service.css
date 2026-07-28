@@ -1,16 +1,21 @@
+/* ==========================================================================
+   TERMS OF SERVICE PAGE - ENTERPRISE DARK NAVY & GOLD THEME
+   ========================================================================== */
+
 .page-container {
   min-height: 100vh;
-  background-color: #F8FAFC;
-  color: #08162A;
+  background-color: #06152B;
+  color: #FFFFFF;
   display: flex;
   flex-direction: column;
 }
 
 .legal-hero {
-  background: linear-gradient(135deg, #08162A 0%, #0E1E36 100%);
+  background: radial-gradient(circle at 50% 0%, #0E2646 0%, #06152B 75%);
   color: #FFFFFF;
-  padding: 4rem 5% 3.5rem;
+  padding: 3.5rem 5% 4rem;
   text-align: center;
+  border-bottom: 1px solid rgba(255, 184, 0, 0.15);
 }
 
 .hero-content {
@@ -26,52 +31,67 @@
   font-size: 2.8rem;
   font-weight: 800;
   color: #FFFFFF !important;
+  letter-spacing: -0.5px;
 }
 
 .hero-content p {
   font-size: 1.05rem;
-  color: #CBD5E1 !important;
+  color: #94A3B8 !important;
   max-width: 600px;
 }
 
 .legal-body {
   max-width: 900px;
-  margin: -2rem auto 4rem;
+  margin: -2.5rem auto 4rem;
   padding: 0 20px;
   width: 100%;
   box-sizing: border-box;
+  z-index: 10;
 }
 
 .legal-card {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 20px;
+  background: rgba(15, 34, 61, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
   padding: 3rem 2.5rem;
-  box-shadow: 0 4px 25px rgba(8, 22, 42, 0.05);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
 }
 
 .legal-section h2 {
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 800;
-  color: #08162A !important;
+  color: #FFFFFF !important;
   margin-bottom: 0.85rem;
-  border-bottom: 2px solid rgba(255, 184, 0, 0.4);
+  border-bottom: 2px solid #FFB800;
   padding-bottom: 6px;
   display: inline-block;
 }
 
 .legal-section p {
   font-size: 0.98rem;
-  color: #475569 !important;
+  color: #CBD5E1 !important;
   line-height: 1.7;
   margin-bottom: 0.75rem;
 }
 
+.legal-section ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.legal-section li {
+  font-size: 0.95rem;
+  color: #CBD5E1 !important;
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}
+
 .legal-link {
-  color: #B45309 !important;
+  color: #FFB800 !important;
   font-weight: 700;
   text-decoration: underline;
 }

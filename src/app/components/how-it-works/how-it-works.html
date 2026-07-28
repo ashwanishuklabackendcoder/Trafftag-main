@@ -1,0 +1,205 @@
+<div class="how-page-wrapper">
+  <!-- Unified Global Header / Navigation Bar -->
+  <app-navbar></app-navbar>
+
+  <!-- Hero Section -->
+  <section class="how-hero-section">
+    <div class="how-hero-glow"></div>
+    <div class="how-hero-content">
+      <span class="hero-badge"><i class="fa-solid fa-crown"></i> COMPLETE SYSTEM WORKFLOW</span>
+      <h1 class="hero-title">How TRAFFTAG QR Vehicle Protection Works</h1>
+      <p class="hero-subtitle">
+        A seamless 4-step system bridging public safety, anonymous owner alerts, and instant traffic fine clearances without exposing personal data.
+      </p>
+      
+      <div class="hero-cta-group">
+        <a [routerLink]="['/register']" class="btn-3d-gold hero-btn">
+          <span>ORDER YOUR DECAL</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a [routerLink]="['/scan']" class="btn-3d-secondary hero-btn">
+          <i class="fa-solid fa-qrcode"></i>
+          <span>TEST SCAN DECAL</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4-Step Interactive Workflow Cards Grid -->
+  <section class="how-steps-section">
+    <div class="section-header">
+      <span class="sub-badge">STEP-BY-STEP PROCESS</span>
+      <h2>Four Simple Steps To Total Fleet Safety</h2>
+      <p>Designed for cab owners, private drivers, and commercial fleet managers.</p>
+    </div>
+
+    <div class="steps-grid">
+      @for (step of steps; track step.stepNumber) {
+        <div class="step-card">
+          <div class="step-top">
+            <span class="step-badge">{{ step.badge }}</span>
+            <span class="step-num">{{ step.stepNumber }}</span>
+          </div>
+
+          <div class="step-icon-bubble">
+            <i [class]="step.icon"></i>
+          </div>
+
+          <h3 class="step-title">{{ step.title }}</h3>
+          <span class="step-sub">{{ step.subtitle }}</span>
+          <p class="step-desc">{{ step.description }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Interactive Simulation Preview Section -->
+  <section class="how-demo-section">
+    <div class="demo-card-wrapper">
+      <div class="demo-header">
+        <h2>Interactive Decal Scanner Preview</h2>
+        <p>Click below to simulate what a scanner or traffic officer sees when scanning a TRAFFTAG Decal.</p>
+        
+        <div class="demo-tabs">
+          <button [class.active]="activeTab() === 'scan'" (click)="setActiveTab('scan')" class="tab-btn">
+            <i class="fa-solid fa-camera"></i> 1. Public Scanner View
+          </button>
+          <button [class.active]="activeTab() === 'alert'" (click)="setActiveTab('alert')" class="tab-btn">
+            <i class="fa-solid fa-comment-sms"></i> 2. Owner SOS Notification
+          </button>
+          <button [class.active]="activeTab() === 'challan'" (click)="setActiveTab('challan')" class="tab-btn">
+            <i class="fa-solid fa-receipt"></i> 3. E-Challan Portal Sync
+          </button>
+        </div>
+      </div>
+
+      <div class="demo-viewport">
+        @if (activeTab() === 'scan') {
+          <div class="preview-box">
+            <div class="preview-tag-card">
+              <div class="preview-header">
+                <i class="fa-solid fa-shield-halved gold-icon"></i>
+                <div>
+                  <h4>VERIFIED VEHICLE REGISTRATION</h4>
+                  <span class="status-pill online">SYSTEM ACTIVE</span>
+                </div>
+              </div>
+              <div class="preview-body">
+                <div class="vehicle-info-row">
+                  <span class="label">Registration No:</span>
+                  <span class="val">DL 01 AB 8899</span>
+                </div>
+                <div class="vehicle-info-row">
+                  <span class="label">Vehicle Category:</span>
+                  <span class="val">Commercial Taxi (Cab Fleet)</span>
+                </div>
+                <div class="vehicle-info-row">
+                  <span class="label">Owner Privacy:</span>
+                  <span class="val highlight">100% Masked & Protected</span>
+                </div>
+
+                <div class="action-buttons-stack">
+                  <button class="demo-action-btn emergency"><i class="fa-solid fa-triangle-exclamation"></i> SEND PARKING / OBSTRUCTION ALERT</button>
+                  <button class="demo-action-btn sos"><i class="fa-solid fa-phone"></i> DISPATCH ANONYMOUS CALL</button>
+                  <button class="demo-action-btn pay"><i class="fa-solid fa-credit-card"></i> CHECK & PAY E-CHALLAN FINE</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        } @else if (activeTab() === 'alert') {
+          <div class="preview-box">
+            <div class="preview-sms-mock">
+              <div class="sms-header">
+                <i class="fa-solid fa-comment-dots"></i>
+                <span>SMS ALERT RECEIVED BY DRIVER</span>
+              </div>
+              <div class="sms-bubble">
+                <p><strong>[TRAFFTAG ALERT]:</strong> Your vehicle DL01AB8899 has been reported for wrong parking on MG Road. Please relocate to avoid towing.</p>
+                <span class="time-stamp">Just now • Masked System Sender</span>
+              </div>
+            </div>
+          </div>
+        } @else if (activeTab() === 'challan') {
+          <div class="preview-box">
+            <div class="preview-challan-mock">
+              <div class="challan-header">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <span>TRAFFIC E-CHALLAN CLEARANCE GATEWAY</span>
+              </div>
+              <div class="challan-row">
+                <span>Challan #CH-884920</span>
+                <span class="amount">$25.00</span>
+                <span class="badge-status pending">PENDING</span>
+              </div>
+              <p class="challan-text">Directly integrated with official traffic police backend. Settle fines with 256-bit SSL encrypted payment gateway.</p>
+              <button class="btn-3d-gold mock-pay-btn">INSTANT FINE CLEARANCE</button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Pillars Section -->
+  <section class="how-tech-section">
+    <div class="section-header">
+      <span class="sub-badge">CORE ARCHITECTURE</span>
+      <h2>Enterprise-Grade Protection Features</h2>
+      <p>Built with bank-grade encryption and real-time municipal portal APIs.</p>
+    </div>
+
+    <div class="tech-grid">
+      @for (pillar of techPillars; track pillar.title) {
+        <div class="tech-card">
+          <div class="tech-icon-bubble">
+            <i [class]="pillar.icon"></i>
+          </div>
+          <h3>{{ pillar.title }}</h3>
+          <p>{{ pillar.desc }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- CTA Banner Section -->
+  <section class="how-cta-banner">
+    <div class="cta-card">
+      <h2>Ready to Protect Your Vehicle & Cab Fleet?</h2>
+      <p>Join thousands of commercial drivers and private vehicle owners using TRAFFTAG.</p>
+      <div class="cta-actions">
+        <a [routerLink]="['/register']" class="btn-3d-gold">ORDER DECAL NOW</a>
+        <a [routerLink]="['/pricing']" class="btn-3d-secondary">VIEW MEMBERSHIP PLANS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dedicated Footer -->
+  <footer class="how-footer">
+    <div class="footer-container">
+      <div class="footer-col brand-col">
+        <a [routerLink]="['/']" class="footer-brand">
+          <span class="logo-accent">TRAFF</span>TAG
+        </a>
+        <p class="footer-tagline">Enterprise Vehicle Protection & Anonymous Emergency Alert Gateway.</p>
+        <span class="copy-text">© 2026 TRAFFTAG. All rights reserved.</span>
+      </div>
+
+      <div class="footer-col">
+        <h4>NAVIGATION</h4>
+        <a [routerLink]="['/']">Home</a>
+        <a [routerLink]="['/how-it-works']">How It Works</a>
+        <a [routerLink]="['/features']">Features</a>
+        <a [routerLink]="['/pricing']">Pricing Plans</a>
+        <a [routerLink]="['/faq']">FAQ</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>LEGAL & SECURITY</h4>
+        <a [routerLink]="['/privacy-policy']">Privacy Policy</a>
+        <a [routerLink]="['/terms-of-service']">Terms of Service</a>
+        <a [routerLink]="['/contact']">Support Center</a>
+        <a [routerLink]="['/scan']">Decal Scanner</a>
+      </div>
+    </div>
+  </footer>
+</div>

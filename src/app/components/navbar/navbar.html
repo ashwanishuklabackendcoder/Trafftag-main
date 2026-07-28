@@ -1,0 +1,93 @@
+<header class="app-global-navbar" [class.is-scrolled]="isScrolled()">
+  <div class="gn-container">
+    <!-- Brand Logo -->
+    <a [routerLink]="['/']" class="gn-brand" (click)="closeMobileMenu()">
+      <div class="gn-shield">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <span class="gn-brand-text">TRAFF<span class="gn-accent">TAG</span></span>
+      <span class="gn-pulse-dot" title="System Active"></span>
+    </a>
+
+    <!-- Desktop Navigation Menu (Title Case) -->
+    <nav class="gn-menu">
+      <a [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="gn-nav-link">
+        Home
+      </a>
+      <a [routerLink]="['/how-it-works']" routerLinkActive="active" class="gn-nav-link">
+        How It Works
+      </a>
+      <a [routerLink]="['/features']" routerLinkActive="active" class="gn-nav-link">
+        Features
+      </a>
+      <a [routerLink]="['/pricing']" routerLinkActive="active" class="gn-nav-link">
+        Pricing
+      </a>
+      <a [routerLink]="['/faq']" routerLinkActive="active" class="gn-nav-link">
+        FAQ
+      </a>
+      <a [routerLink]="['/about']" routerLinkActive="active" class="gn-nav-link">
+        About Us
+      </a>
+      <a [routerLink]="['/contact']" routerLinkActive="active" class="gn-nav-link">
+        Contact
+      </a>
+    </nav>
+
+    <!-- Desktop Auth & Actions -->
+    <div class="gn-auth">
+      <a [routerLink]="['/login']" class="gn-signin">
+        Sign In
+      </a>
+      <a [routerLink]="['/register']" class="gn-btn-cta">
+        <span>Get QR Tag</span>
+        <i class="fa-solid fa-arrow-right gn-cta-icon"></i>
+      </a>
+    </div>
+
+    <!-- Mobile Drawer Hamburger Toggle -->
+    <button class="gn-mobile-toggle" (click)="toggleMobileMenu()" aria-label="Toggle Navigation">
+      <i class="fa-solid" [class.fa-bars]="!mobileMenuOpen()" [class.fa-xmark]="mobileMenuOpen()"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  @if (mobileMenuOpen()) {
+    <div class="gn-mobile-drawer">
+      <a [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="gn-m-link" (click)="closeMobileMenu()">
+        <i class="fa-solid fa-house"></i> Home
+      </a>
+      <a [routerLink]="['/how-it-works']" routerLinkActive="active" class="gn-m-link" (click)="closeMobileMenu()">
+        <i class="fa-solid fa-circle-play"></i> How It Works
+      </a>
+      <a [routerLink]="['/features']" routerLinkActive="active" class="gn-m-link" (click)="closeMobileMenu()">
+        <i class="fa-solid fa-layer-group"></i> Features
+      </a>
+      <a [routerLink]="['/pricing']" routerLinkActive="active" class="gn-m-link" (click)="closeMobileMenu()">
+        <i class="fa-solid fa-tags"></i> Pricing
+      </a>
+      <a [routerLink]="['/faq']" routerLinkActive="active" class="gn-m-link" (click)="closeMobileMenu()">
+        <i class="fa-solid fa-circle-question"></i> FAQ
+      </a>
+      <a [routerLink]="['/about']" routerLinkActive="active" class="gn-m-link" (click)="closeMobileMenu()">
+        <i class="fa-solid fa-users"></i> About Us
+      </a>
+      <a [routerLink]="['/contact']" routerLinkActive="active" class="gn-m-link" (click)="closeMobileMenu()">
+        <i class="fa-solid fa-headset"></i> Contact
+      </a>
+      
+      <div class="gn-m-auth">
+        <a [routerLink]="['/login']" class="gn-m-signin" (click)="closeMobileMenu()">
+          Sign In
+        </a>
+        <a [routerLink]="['/register']" class="gn-btn-cta gn-m-cta" (click)="closeMobileMenu()">
+          <span>Get QR Tag Now</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  }
+</header>
+
+<!-- Invisible layout spacer to reserve navbar height and prevent content clipping -->
+<div class="gn-navbar-spacer"></div>

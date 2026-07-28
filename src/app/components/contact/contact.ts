@@ -2,11 +2,12 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from '../navbar/navbar';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, NavbarComponent],
   templateUrl: './contact.html',
   styleUrls: ['./contact.css']
 })

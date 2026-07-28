@@ -1,25 +1,6 @@
 <div class="page-container">
-  <!-- Header -->
-  <header class="header">
-    <div class="header-container">
-      <a [routerLink]="['/']" class="brand-logo">
-        <div class="logo-shield">
-          <i class="fa-solid fa-shield-halved"></i>
-        </div>
-        <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
-      </a>
-      <nav class="nav-menu">
-        <a [routerLink]="['/']" class="nav-link">HOME</a>
-        <a [routerLink]="['/features']" class="nav-link">FEATURES</a>
-        <a [routerLink]="['/pricing']" class="nav-link">PRICING</a>
-        <a [routerLink]="['/faq']" class="nav-link">FAQ</a>
-      </nav>
-      <div class="auth-buttons">
-        <a [routerLink]="['/login']" class="btn-login">LOGIN</a>
-        <a [routerLink]="['/register']" class="btn-register">REGISTER</a>
-      </div>
-    </div>
-  </header>
+  <!-- Unified Global Header / Navigation Bar -->
+  <app-navbar></app-navbar>
 
   <!-- Hero Header -->
   <div class="contact-hero">

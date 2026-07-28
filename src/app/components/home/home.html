@@ -1,53 +1,6 @@
 <div class="home-wrapper">
-  <!-- Header / Navigation Bar -->
-  <header class="header">
-    <div class="header-container">
-      <a [routerLink]="['/']" class="brand-logo">
-        <div class="logo-shield">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <path d="M12 8v4"/>
-            <path d="M12 16h.01"/>
-          </svg>
-        </div>
-        <span class="logo-text">TRAFFTAG</span>
-      </a>
-
-      <!-- Mobile Hamburger Toggle Button -->
-      <button class="mobile-toggle-btn" (click)="toggleMobileMenu()" aria-label="Toggle Navigation">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          @if (!mobileMenuOpen()) {
-            <line x1="3" y1="12" x2="21" y2="12"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <line x1="3" y1="18" x2="21" y2="18"/>
-          } @else {
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
-          }
-        </svg>
-      </button>
-
-      <!-- Navigation Menu -->
-      <nav class="nav-menu" [class.mobile-open]="mobileMenuOpen()">
-        <a [routerLink]="['/']" class="nav-link active" (click)="closeMobileMenu()">HOME</a>
-        <a [routerLink]="['/features']" class="nav-link" (click)="closeMobileMenu()">FEATURES</a>
-        <a href="#how-it-works" class="nav-link" (click)="closeMobileMenu()">HOW IT WORKS</a>
-        <a [routerLink]="['/faq']" class="nav-link" (click)="closeMobileMenu()">FAQ</a>
-
-        <!-- Mobile Auth Actions inside drawer -->
-        <div class="mobile-auth-buttons">
-          <a [routerLink]="['/login']" class="btn-login" (click)="closeMobileMenu()">LOGIN</a>
-          <a [routerLink]="['/register']" class="btn-register" (click)="closeMobileMenu()">REGISTER</a>
-        </div>
-      </nav>
-
-      <!-- Desktop Auth Action Buttons -->
-      <div class="auth-buttons">
-        <a [routerLink]="['/login']" class="btn-login">LOGIN</a>
-        <a [routerLink]="['/register']" class="btn-register">REGISTER</a>
-      </div>
-    </div>
-  </header>
+  <!-- Unified Global Header / Navigation Bar -->
+  <app-navbar></app-navbar>
 
   <!-- Professional QR Taxi Hero Carousel Section -->
   <section class="hero-carousel-section" (mouseenter)="pauseAutoPlay()" (mouseleave)="resumeAutoPlay()">
@@ -66,15 +19,11 @@
     
     <!-- Carousel Navigation Swap Arrow Buttons -->
     <button class="carousel-nav-btn prev" (click)="prevSlide()" aria-label="Previous Slide">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M15 18l-6-6 6-6"/>
-      </svg>
+      <i class="fa-solid fa-chevron-left"></i>
     </button>
     
     <button class="carousel-nav-btn next" (click)="nextSlide()" aria-label="Next Slide">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 18l6-6-6-6"/>
-      </svg>
+      <i class="fa-solid fa-chevron-right"></i>
     </button>
 
     <!-- Carousel Slides Container -->
@@ -101,10 +50,7 @@
             <div class="hero-tags">
               @for (tag of slide.tags; track tag) {
                 <span class="tag-pill">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
-                  </svg>
+                  <i class="fa-solid fa-circle-check tag-icon"></i>
                   {{ tag }}
                 </span>
               }
@@ -112,11 +58,7 @@
 
             <div class="hero-cta-group">
               <a [routerLink]="[slide.ctaLink]" class="btn-get-started">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A2 2 0 0 0 2 11.7V16c0 .6.4 1 1 1h2"/>
-                  <circle cx="7" cy="17" r="2"/>
-                  <circle cx="17" cy="17" r="2"/>
-                </svg>
+                <i class="fa-solid fa-qrcode btn-icon"></i>
                 <span>{{ slide.ctaText }}</span>
               </a>
 
@@ -132,12 +74,18 @@
             </div>
           </div>
 
-          <!-- Slide Right: Clean Floating Glass Status Chips (No card container wrapper!) -->
-          <div class="hero-media-clean">
-            <div class="glass-status-chip">
-              <span class="chip-dot" [class.green]="slide.visualType === 'echallan-speed'" [class.red]="slide.visualType === 'sos-privacy'" [class.gold]="slide.visualType === 'weatherproof-decal'"></span>
-              <span class="chip-status">{{ slide.statusBadge }}</span>
-              <span class="chip-tag">{{ slide.taxiType }}</span>
+          <!-- Slide Right: Professional High-Resolution QR Taxi Image Showcase -->
+          <div class="hero-media">
+            <div class="hero-image-showcase">
+              <div class="glass-status-chip">
+                <span class="chip-dot" [class.green]="slide.visualType === 'echallan-speed'" [class.red]="slide.visualType === 'sos-privacy'" [class.gold]="slide.visualType === 'weatherproof-decal'"></span>
+                <span class="chip-status">{{ slide.statusBadge }}</span>
+                <span class="chip-tag">{{ slide.taxiType }}</span>
+              </div>
+              
+              <div class="card-img-wrapper">
+                <img [src]="slide.cardImage" [alt]="slide.imageAlt" class="hero-card-img-clean" />
+              </div>
             </div>
           </div>
 
@@ -148,7 +96,7 @@
     <!-- Carousel Bottom Controls & Indicators -->
     <div class="carousel-controls-bar">
       <button class="bar-nav-btn" (click)="prevSlide()" aria-label="Previous Slide">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        <i class="fa-solid fa-chevron-left"></i>
       </button>
 
       <div class="slide-counter">
@@ -166,7 +114,7 @@
       </div>
 
       <button class="bar-nav-btn" (click)="nextSlide()" aria-label="Next Slide">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        <i class="fa-solid fa-chevron-right"></i>
       </button>
 
       <div class="auto-play-status" [class.paused]="isPaused()">
@@ -421,72 +369,88 @@
     </div>
   </section>
 
-  <!-- Choose Best Plan Section Container -->
+  <!-- Choose Best Plan Section Container (Hostinger-Style Sliding Pricing Cards) -->
   <section class="mockup-section-wrapper" id="pricing">
     <div class="mockup-card-container">
       
-      <!-- MEMBERSHIP PLANS TABLE CONTAINER -->
-      <div class="home-pricing-card">
-        <div class="home-pricing-header">
-          <h2><i class="fa-solid fa-crown"></i> MEMBERSHIP & CAB FLEET PLANS</h2>
+      <!-- MEMBERSHIP PLANS HOSTINGER SLIDER CONTAINER -->
+      <div class="home-pricing-card hostinger-card-wrapper">
+        <!-- Hostinger Pricing Header & Slider Controls -->
+        <div class="hostinger-pricing-top">
+          <div class="hostinger-title-block">
+            <span class="hostinger-section-badge"><i class="fa-solid fa-crown"></i> FLEET MEMBERSHIP PLANS</span>
+            <h2 class="hostinger-main-title">Choose The Perfect Plan For Your Cab Fleet</h2>
+            <p class="hostinger-sub-title">Save big with lifetime membership plans. Instant E-Challan alerts, QR safety decals, and zero downtime.</p>
+          </div>
+
+          <div class="hostinger-slider-nav">
+            <button class="hostinger-nav-btn" (click)="scrollPricing('left')" aria-label="Previous Plan">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="hostinger-nav-btn" (click)="scrollPricing('right')" aria-label="Next Plan">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
         </div>
 
-        <div class="home-table-responsive desktop-only-table">
-          <table class="home-plans-table">
-            <thead>
-              <tr>
-                <th>PLAN</th>
-                <th>LIFETIME PRICE</th>
-                <th>MONTHLY PRICE<br><span class="sub-head">(MEMBERS ONLY)</span></th>
-                <th>SMS / EMAIL<br><span class="sub-head">INCLUDED</span></th>
-                <th>NO PLAN PRICE<br><span class="sub-head">(WITHOUT MEMBERSHIP)</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (plan of membershipPlans(); track plan.name) {
-                <tr [class.featured-row]="plan.featured">
-                  <td class="plan-name-cell">
-                    <span class="plan-title">{{ plan.name }}</span>
-                    @if (plan.featured) {
-                      <span class="popular-badge">POPULAR</span>
-                    }
-                  </td>
-                  <td class="price-cell">{{ plan.lifetimePrice }}</td>
-                  <td class="price-cell highlight">{{ plan.monthlyPrice }}</td>
-                  <td class="included-cell">{{ plan.included }}</td>
-                  <td class="no-plan-cell">{{ plan.noPlanPrice }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Responsive Compact Card Grid for Mobile Viewports -->
-        <div class="home-plans-mobile-grid">
+        <!-- Hostinger Horizontal Sliding Cards Track -->
+        <div class="hostinger-slider-track" id="pricing-slider-track">
           @for (plan of membershipPlans(); track plan.name) {
-            <div class="home-mobile-plan-card" [class.featured]="plan.featured">
+            <div class="hostinger-plan-card" [class.featured]="plan.featured">
               @if (plan.featured) {
-                <div class="mobile-popular-badge"><i class="fa-solid fa-star"></i> MOST POPULAR</div>
+                <div class="hostinger-popular-badge">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#08162A"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  MOST POPULAR • BEST VALUE
+                </div>
               }
-              <div class="m-card-header">
-                <h3 class="m-plan-title">{{ plan.name }}</h3>
-                <div class="m-price-tag">{{ plan.lifetimePrice }} <span class="m-price-sub">Lifetime</span></div>
-              </div>
-              <div class="m-price-group">
-                <div class="m-price-row">
-                  <span class="m-label">Monthly Member Rate:</span>
-                  <span class="m-val highlight">{{ plan.monthlyPrice }}</span>
+
+              <div class="hostinger-card-header">
+                <h3 class="hostinger-plan-name">{{ plan.name }}</h3>
+                <div class="hostinger-price-row">
+                  <span class="hostinger-price-val">{{ plan.lifetimePrice }}</span>
+                  <span class="hostinger-price-tag">LIFETIME</span>
                 </div>
-                <div class="m-price-row">
-                  <span class="m-label">Included Credits:</span>
-                  <span class="m-val bold">{{ plan.included }}</span>
-                </div>
-                <div class="m-price-row">
-                  <span class="m-label">Non-Member Price:</span>
-                  <span class="m-val opacity-80">{{ plan.noPlanPrice }}</span>
+                <div class="hostinger-monthly-sub">
+                  Members pay only <strong>{{ plan.monthlyPrice }}</strong>/month
                 </div>
               </div>
-              <a [routerLink]="['/register']" class="btn btn-primary m-plan-btn">Select {{ plan.name }}</a>
+
+              <div class="hostinger-cta-wrapper">
+                <a [routerLink]="['/register']" class="btn-hostinger-choose">
+                  <span>SELECT {{ plan.name }}</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+
+              <div class="hostinger-feature-list">
+                <div class="feature-heading">PLAN HIGHLIGHTS & CREDITS:</div>
+
+                <div class="hostinger-feature-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>{{ plan.included }}</strong> Included Credits</span>
+                </div>
+
+                <div class="hostinger-feature-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Automated E-Challan Alert Sync</span>
+                </div>
+
+                <div class="hostinger-feature-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Tamper-Proof QR Cab Decal Tags</span>
+                </div>
+
+                <div class="hostinger-feature-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>24/7 Passenger Safety SOS Dispatch</span>
+                </div>
+
+                <div class="hostinger-feature-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>No Membership Rate: <del>{{ plan.noPlanPrice }}</del></span>
+                </div>
+              </div>
+
             </div>
           }
         </div>
@@ -495,12 +459,14 @@
       <!-- NOTIFICATION PACKAGES (ONLY FOR MEMBERS) -->
       <div class="home-packages-card">
         <div class="home-packages-header">
+          <span class="pkg-header-badge"><i class="fa-solid fa-bell"></i> MEMBER EXCLUSIVES</span>
           <h2>NOTIFICATION PACKAGES (ONLY FOR MEMBERS)</h2>
+          <p class="pkg-header-sub">Instant alert credits for SMS, Email, and WhatsApp notifications.</p>
         </div>
 
         <div class="home-packages-grid">
           @for (pkg of notificationPackages(); track pkg.title) {
-            <div class="home-pkg-card">
+            <div class="home-pkg-card" [class.pkg-sms]="pkg.type === 'sms'" [class.pkg-email]="pkg.type === 'email'" [class.pkg-whatsapp]="pkg.type === 'whatsapp'">
               <div class="home-pkg-icon">
                 @if (pkg.type === 'sms') {
                   <div class="icon-bubble bg-emerald">
@@ -516,43 +482,66 @@
                   </div>
                 }
               </div>
-              <h3 class="home-pkg-title" [style.color]="pkg.type === 'sms' ? '#10B981' : pkg.type === 'email' ? '#6366F1' : '#25D366'">{{ pkg.title }}</h3>
-              <div class="home-pkg-price" [style.color]="pkg.type === 'sms' ? '#10B981' : pkg.type === 'email' ? '#6366F1' : '#25D366'">{{ pkg.price }}</div>
+
+              <div class="home-pkg-type-badge">
+                @if (pkg.type === 'sms') { SMS ALERT }
+                @else if (pkg.type === 'email') { EMAIL ALERT }
+                @else if (pkg.type === 'whatsapp') { WHATSAPP API }
+              </div>
+
+              <h3 class="home-pkg-title">{{ pkg.title }}</h3>
+              <div class="home-pkg-price">{{ pkg.price }}</div>
               <div class="home-pkg-details">{{ pkg.details }}</div>
-              <a [routerLink]="['/register']" class="btn-register home-pkg-btn">GET STARTED</a>
+
+              <a [routerLink]="['/register']" class="btn-3d-gold home-pkg-btn">
+                <span>GET STARTED NOW</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
             </div>
           }
         </div>
       </div>
 
-      <!-- Bottom Navy Banner Features -->
+      <!-- Bottom Enterprise Trust & Security Banner -->
       <div class="mockup-navy-banner">
         <div class="mockup-navy-feature">
           <div class="mockup-gold-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFB800"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
           </div>
-          <span>Secure Payments</span>
+          <div class="navy-feature-text">
+            <span class="navy-feature-title">Secure Payments</span>
+            <span class="navy-feature-sub">256-Bit SSL Encrypted</span>
+          </div>
         </div>
 
         <div class="mockup-navy-feature">
           <div class="mockup-gold-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFB800"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
           </div>
-          <span>100% Privacy</span>
+          <div class="navy-feature-text">
+            <span class="navy-feature-title">100% Privacy</span>
+            <span class="navy-feature-sub">Zero Data Sharing</span>
+          </div>
         </div>
 
         <div class="mockup-navy-feature">
           <div class="mockup-gold-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFB800"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
           </div>
-          <span>24/7 Support</span>
+          <div class="navy-feature-text">
+            <span class="navy-feature-title">24/7 Support</span>
+            <span class="navy-feature-sub">Instant Alert Dispatch</span>
+          </div>
         </div>
 
         <div class="mockup-navy-feature">
           <div class="mockup-gold-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFB800"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
           </div>
-          <span>Trusted by Users</span>
+          <div class="navy-feature-text">
+            <span class="navy-feature-title">Trusted by Users</span>
+            <span class="navy-feature-sub">50,000+ Active Taxis</span>
+          </div>
         </div>
       </div>
     </div>
@@ -598,8 +587,8 @@
       <div class="footer-column">
         <h4>Quick Links</h4>
         <a [routerLink]="['/']">Home</a>
+        <a [routerLink]="['/how-it-works']">How It Works</a>
         <a [routerLink]="['/features']">Features</a>
-        <a href="#how-it-works">How It Works</a>
         <a [routerLink]="['/faq']">FAQ</a>
       </div>
 

@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar';
 
 @Component({
   selector: 'app-features',
-  imports: [RouterLink],
+  imports: [RouterLink, NavbarComponent],
   templateUrl: './features.html',
   styleUrl: './features.css',
 })

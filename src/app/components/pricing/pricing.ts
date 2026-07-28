@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar';
 
 @Component({
   selector: 'app-pricing',
-  imports: [RouterLink],
+  imports: [RouterLink, NavbarComponent],
   templateUrl: './pricing.html',
   styleUrl: './pricing.css',
 })
@@ -12,6 +13,14 @@ export class Pricing {
 
   toggleMenu() {
     this.isMenuOpen.update(v => !v);
+  }
+
+  scrollPricing(direction: 'left' | 'right') {
+    const track = document.getElementById('pricingTrack');
+    if (track) {
+      const scrollAmount = direction === 'left' ? -380 : 380;
+      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
   }
 
   membershipPlans = signal([

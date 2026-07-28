@@ -1,6 +1,7 @@
 import { Component, signal, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NavbarComponent } from '../navbar/navbar';
 
 export interface HeroSlide {
   id: number;
@@ -17,13 +18,14 @@ export interface HeroSlide {
   statusBadge: string;
   imageAlt: string;
   bgImage: string;
+  cardImage: string;
   visualType: 'qr-taxi-fleet' | 'echallan-speed' | 'sos-privacy' | 'weatherproof-decal';
 }
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, NavbarComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -53,6 +55,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: 'LIVE TAXI QR ACTIVE',
       imageAlt: 'Smart QR Taxi Fleet Management',
       bgImage: 'hero-car-bg-1.png',
+      cardImage: 'hero-card-1.png',
       visualType: 'qr-taxi-fleet'
     },
     {
@@ -70,6 +73,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: 'TRAFFIC PORTAL CONNECTED',
       imageAlt: 'Taxi E-Challan Compliance',
       bgImage: 'hero-car-bg-2.png',
+      cardImage: 'hero-card-2.png',
       visualType: 'echallan-speed'
     },
     {
@@ -87,6 +91,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: '24/7 SOS MONITORING',
       imageAlt: 'In-Cab Passenger Safety SOS',
       bgImage: 'hero-car-bg-3.png',
+      cardImage: 'hero-card-3.png',
       visualType: 'sos-privacy'
     },
     {
@@ -104,6 +109,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: 'PREMIUM REFLECTIVE DECAL',
       imageAlt: 'Weatherproof Taxi QR Decal',
       bgImage: 'hero-car-bg-4.png',
+      cardImage: 'hero-card-4.png',
       visualType: 'weatherproof-decal'
     }
   ];
@@ -284,6 +290,14 @@ export class Home implements OnInit, OnDestroy {
       this.router.navigate(['/portal']);
     } else {
       this.router.navigate(['/features']);
+    }
+  }
+
+  scrollPricing(direction: 'left' | 'right') {
+    const container = document.getElementById('pricing-slider-track');
+    if (container) {
+      const scrollAmount = direction === 'left' ? -360 : 360;
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   }
 }
