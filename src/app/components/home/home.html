@@ -52,6 +52,14 @@
   <!-- Professional QR Taxi Hero Carousel Section -->
   <section class="hero-carousel-section" (mouseenter)="pauseAutoPlay()" (mouseleave)="resumeAutoPlay()">
     
+    <!-- Full-Bleed Background Car Images for Active Slide -->
+    @for (slide of heroSlides; track slide.id; let idx = $index) {
+      <div class="hero-slide-bg-wrapper" [class.active]="currentSlide() === idx">
+        <img [src]="slide.bgImage" [alt]="slide.imageAlt" class="hero-slide-bg-img" />
+        <div class="hero-slide-bg-overlay"></div>
+      </div>
+    }
+
     <!-- Carousel Background Glow Effects -->
     <div class="hero-bg-glow hero-bg-glow-1"></div>
     <div class="hero-bg-glow hero-bg-glow-2"></div>
@@ -124,219 +132,15 @@
             </div>
           </div>
 
-          <!-- Slide Right Media / Visual Graphic -->
-          <div class="hero-media">
-            
-            @if (slide.visualType === 'qr-taxi-fleet') {
-              <div class="hero-visual-card fleet-card">
-                <div class="visual-card-header">
-                  <span class="card-status-dot"></span>
-                  <span class="card-status-text">{{ slide.statusBadge }}</span>
-                  <span class="card-category">{{ slide.taxiType }}</span>
-                </div>
-                
-                <div class="hero-image-wrapper">
-                  <img src="hero-car.png" [alt]="slide.imageAlt" class="hero-car-img" />
-                </div>
-
-                <!-- Floating Overlay Badges -->
-                <div class="floating-overlay-card driver-badge">
-                  <div class="overlay-icon gold-bg">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#08162A" stroke-width="2.5">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                      <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                  </div>
-                  <div class="overlay-text">
-                    <span class="overlay-title">VERIFIED DRIVER</span>
-                    <span class="overlay-sub">TAXI ID #TX-8840</span>
-                  </div>
-                </div>
-
-                <div class="floating-overlay-card qr-badge">
-                  <div class="qr-code-box">
-                    <!-- Inline Simulated QR Code Graphic -->
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="#08162A">
-                      <rect x="2" y="2" width="7" height="7" rx="1" fill="#08162A"/>
-                      <rect x="4" y="4" width="3" height="3" fill="#FFB800"/>
-                      <rect x="15" y="2" width="7" height="7" rx="1" fill="#08162A"/>
-                      <rect x="17" y="4" width="3" height="3" fill="#FFB800"/>
-                      <rect x="2" y="15" width="7" height="7" rx="1" fill="#08162A"/>
-                      <rect x="4" y="17" width="3" height="3" fill="#FFB800"/>
-                      <rect x="11" y="11" width="3" height="3"/>
-                      <rect x="15" y="15" width="4" height="4"/>
-                      <rect x="11" y="17" width="3" height="4"/>
-                      <rect x="17" y="11" width="4" height="3"/>
-                    </svg>
-                  </div>
-                  <div class="overlay-text">
-                    <span class="overlay-title">SCAN TO VERIFY</span>
-                    <span class="overlay-sub">CAB SAFETY SYSTEM</span>
-                  </div>
-                </div>
-              </div>
-            }
-
-            @if (slide.visualType === 'echallan-speed') {
-              <div class="hero-visual-card compliance-card">
-                <div class="visual-card-header">
-                  <span class="card-status-dot green"></span>
-                  <span class="card-status-text">{{ slide.statusBadge }}</span>
-                  <span class="card-category">{{ slide.taxiType }}</span>
-                </div>
-
-                <div class="compliance-dashboard-mockup">
-                  <div class="dash-row">
-                    <div class="vehicle-plate">
-                      <span class="plate-country">IND</span>
-                      <span class="plate-num">DL 01 TAXI 9942</span>
-                    </div>
-                    <div class="fine-status-pill clear">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      0 PENDING FINES
-                    </div>
-                  </div>
-
-                  <div class="dash-grid">
-                    <div class="dash-stat">
-                      <span class="stat-label">Last Checked</span>
-                      <span class="stat-val">Today, 20:30</span>
-                    </div>
-                    <div class="dash-stat">
-                      <span class="stat-label">Alert Mode</span>
-                      <span class="stat-val highlight">SMS & WHATSAPP</span>
-                    </div>
-                  </div>
-
-                  <div class="dash-action-bar">
-                    <div class="dash-info-text">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                      </svg>
-                      Instant Digital Fine Receipt Clearance
-                    </div>
-                    <button class="dash-btn">CHECK STATUS</button>
-                  </div>
-                </div>
-
-                <div class="floating-overlay-card speed-alert-badge">
-                  <div class="overlay-icon green-bg">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                      <path d="M9 12l2 2 4-4"/>
-                    </svg>
-                  </div>
-                  <div class="overlay-text">
-                    <span class="overlay-title">CLEARED COMPLIANCE</span>
-                    <span class="overlay-sub">100% OFFICIALLY VERIFIED</span>
-                  </div>
-                </div>
-              </div>
-            }
-
-            @if (slide.visualType === 'sos-privacy') {
-              <div class="hero-visual-card sos-card">
-                <div class="visual-card-header">
-                  <span class="card-status-dot red"></span>
-                  <span class="card-status-text">{{ slide.statusBadge }}</span>
-                  <span class="card-category">{{ slide.taxiType }}</span>
-                </div>
-
-                <div class="sos-graphic-box">
-                  <div class="sos-shield-circle">
-                    <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                      <path d="M12 8v4"/>
-                      <path d="M12 16h.01"/>
-                    </svg>
-                  </div>
-                  
-                  <div class="sos-pulse-ring ring-1"></div>
-                  <div class="sos-pulse-ring ring-2"></div>
-                </div>
-
-                <div class="floating-overlay-card privacy-shield-badge">
-                  <div class="overlay-icon blue-bg">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                    </svg>
-                  </div>
-                  <div class="overlay-text">
-                    <span class="overlay-title">MASKED NUMBER SHIELD</span>
-                    <span class="overlay-sub">ZERO PHONE EXPOSURE</span>
-                  </div>
-                </div>
-
-                <div class="floating-overlay-card instant-sos-badge">
-                  <div class="sos-btn-simulation">
-                    <span class="sos-dot"></span> 1-TAP CAB SOS
-                  </div>
-                </div>
-              </div>
-            }
-
-            @if (slide.visualType === 'weatherproof-decal') {
-              <div class="hero-visual-card decal-card">
-                <div class="visual-card-header">
-                  <span class="card-status-dot gold"></span>
-                  <span class="card-status-text">{{ slide.statusBadge }}</span>
-                  <span class="card-category">{{ slide.taxiType }}</span>
-                </div>
-
-                <div class="decal-mockup-graphic">
-                  <div class="decal-frame">
-                    <div class="decal-header-bar">
-                      <div class="brand-mini">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        TRAFFTAG
-                      </div>
-                      <span class="decal-serial">TAXI-PRO-2026</span>
-                    </div>
-
-                    <div class="decal-qr-display">
-                      <svg width="90" height="90" viewBox="0 0 24 24" fill="#08162A">
-                        <rect x="2" y="2" width="7" height="7" rx="1" fill="#08162A"/>
-                        <rect x="4" y="4" width="3" height="3" fill="#FFB800"/>
-                        <rect x="15" y="2" width="7" height="7" rx="1" fill="#08162A"/>
-                        <rect x="17" y="4" width="3" height="3" fill="#FFB800"/>
-                        <rect x="2" y="15" width="7" height="7" rx="1" fill="#08162A"/>
-                        <rect x="4" y="17" width="3" height="3" fill="#FFB800"/>
-                        <rect x="11" y="4" width="2" height="5"/>
-                        <rect x="11" y="11" width="4" height="4"/>
-                        <rect x="16" y="16" width="3" height="3"/>
-                        <rect x="11" y="16" width="3" height="4"/>
-                        <rect x="16" y="11" width="4" height="3"/>
-                      </svg>
-                    </div>
-
-                    <div class="decal-footer-text">
-                      SCAN FOR VEHICLE IDENTIFICATION & EMERGENCY DETAILS
-                    </div>
-                  </div>
-                </div>
-
-                <div class="floating-overlay-card uv-protection-badge">
-                  <div class="overlay-icon gold-bg">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#08162A" stroke-width="2.5">
-                      <circle cx="12" cy="12" r="5"/>
-                      <line x1="12" y1="1" x2="12" y2="3"/>
-                      <line x1="12" y1="21" x2="12" y2="23"/>
-                      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                    </svg>
-                  </div>
-                  <div class="overlay-text">
-                    <span class="overlay-title">WEATHERPROOF & UV SAFE</span>
-                    <span class="overlay-sub">COMMERCIAL GRADE DECAL</span>
-                  </div>
-                </div>
-              </div>
-            }
-
+          <!-- Slide Right: Clean Floating Glass Status Chips (No card container wrapper!) -->
+          <div class="hero-media-clean">
+            <div class="glass-status-chip">
+              <span class="chip-dot" [class.green]="slide.visualType === 'echallan-speed'" [class.red]="slide.visualType === 'sos-privacy'" [class.gold]="slide.visualType === 'weatherproof-decal'"></span>
+              <span class="chip-status">{{ slide.statusBadge }}</span>
+              <span class="chip-tag">{{ slide.taxiType }}</span>
+            </div>
           </div>
+
         </div>
       }
     </div>

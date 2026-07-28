@@ -16,6 +16,7 @@ export interface HeroSlide {
   taxiType: string;
   statusBadge: string;
   imageAlt: string;
+  bgImage: string;
   visualType: 'qr-taxi-fleet' | 'echallan-speed' | 'sos-privacy' | 'weatherproof-decal';
 }
 
@@ -51,6 +52,7 @@ export class Home implements OnInit, OnDestroy {
       taxiType: 'YELLOW CAB & RIDESHARE',
       statusBadge: 'LIVE TAXI QR ACTIVE',
       imageAlt: 'Smart QR Taxi Fleet Management',
+      bgImage: 'hero-car-bg-1.png',
       visualType: 'qr-taxi-fleet'
     },
     {
@@ -67,6 +69,7 @@ export class Home implements OnInit, OnDestroy {
       taxiType: 'COMMERCIAL CAB FLEET',
       statusBadge: 'TRAFFIC PORTAL CONNECTED',
       imageAlt: 'Taxi E-Challan Compliance',
+      bgImage: 'hero-car-bg-2.png',
       visualType: 'echallan-speed'
     },
     {
@@ -83,6 +86,7 @@ export class Home implements OnInit, OnDestroy {
       taxiType: 'EXECUTIVE & CITY CABS',
       statusBadge: '24/7 SOS MONITORING',
       imageAlt: 'In-Cab Passenger Safety SOS',
+      bgImage: 'hero-car-bg-3.png',
       visualType: 'sos-privacy'
     },
     {
@@ -99,6 +103,7 @@ export class Home implements OnInit, OnDestroy {
       taxiType: 'AUTO-RICKSHAWS & TAXIS',
       statusBadge: 'PREMIUM REFLECTIVE DECAL',
       imageAlt: 'Weatherproof Taxi QR Decal',
+      bgImage: 'hero-car-bg-4.png',
       visualType: 'weatherproof-decal'
     }
   ];
