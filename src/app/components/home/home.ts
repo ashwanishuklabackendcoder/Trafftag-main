@@ -42,6 +42,24 @@ export class Home implements OnInit, OnDestroy {
   heroSlides: HeroSlide[] = [
     {
       id: 1,
+      badge: 'COMMERCIAL GRADE DURABILITY',
+      title: 'Tamper-Proof Decals & Tags for Cabs',
+      highlightText: 'COMMERCIAL QR DECALS',
+      description: 'Engineered for intense heat, heavy monsoon rain, and daily wear. High-visibility metallic accent decals designed specifically for cab windshields, rear doors, and passenger headrests.',
+      tags: ['UV & Scratch Resistant', 'Tamper Evident Shield', 'Bulk Fleet Decals'],
+      ctaText: 'ORDER TAXI DECALS',
+      ctaLink: '/register',
+      secondaryCtaText: 'SUPPORT & FAQ',
+      secondaryCtaLink: '#faq',
+      taxiType: 'AUTO-RICKSHAWS & TAXIS',
+      statusBadge: 'PREMIUM REFLECTIVE DECAL',
+      imageAlt: 'Weatherproof Taxi QR Decal',
+      bgImage: 'hero-car-bg-4.png',
+      cardImage: 'decal-transparent.png',
+      visualType: 'weatherproof-decal'
+    },
+    {
+      id: 2,
       badge: 'NEXT-GEN TAXI FLEET MANAGEMENT',
       title: 'Smart QR Tags for Taxis & Rideshare Cabs',
       highlightText: 'TRAFFTAG TAXI',
@@ -59,7 +77,7 @@ export class Home implements OnInit, OnDestroy {
       visualType: 'qr-taxi-fleet'
     },
     {
-      id: 2,
+      id: 3,
       badge: 'AUTOMATED FLEET COMPLIANCE',
       title: 'Never Miss a Taxi Traffic Fine or E-Challan',
       highlightText: 'INSTANT E-CHALLAN',
@@ -77,7 +95,7 @@ export class Home implements OnInit, OnDestroy {
       visualType: 'echallan-speed'
     },
     {
-      id: 3,
+      id: 4,
       badge: '100% PRIVACY & PASSENGER SAFETY',
       title: 'In-Cab SOS & Masked Emergency Contact',
       highlightText: 'PASSENGER SOS',
@@ -93,24 +111,6 @@ export class Home implements OnInit, OnDestroy {
       bgImage: 'hero-car-bg-3.png',
       cardImage: 'sos-transparent.png',
       visualType: 'sos-privacy'
-    },
-    {
-      id: 4,
-      badge: 'COMMERCIAL GRADE DURABILITY',
-      title: 'Tamper-Proof Decals & Tags for Cabs',
-      highlightText: 'COMMERCIAL QR DECALS',
-      description: 'Engineered for intense heat, heavy monsoon rain, and daily wear. High-visibility metallic accent decals designed specifically for cab windshields, rear doors, and passenger headrests.',
-      tags: ['UV & Scratch Resistant', 'Tamper Evident Shield', 'Bulk Fleet Decals'],
-      ctaText: 'ORDER TAXI DECALS',
-      ctaLink: '/register',
-      secondaryCtaText: 'SUPPORT & FAQ',
-      secondaryCtaLink: '#faq',
-      taxiType: 'AUTO-RICKSHAWS & TAXIS',
-      statusBadge: 'PREMIUM REFLECTIVE DECAL',
-      imageAlt: 'Weatherproof Taxi QR Decal',
-      bgImage: 'hero-car-bg-4.png',
-      cardImage: 'decal-transparent.png',
-      visualType: 'weatherproof-decal'
     }
   ];
 
