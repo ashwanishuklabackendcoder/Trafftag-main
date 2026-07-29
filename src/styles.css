@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
 
 @tailwind base;
@@ -6,8 +6,8 @@
 @tailwind utilities;
 
 :root {
-  --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-secondary: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-primary: 'Roboto', system-ui, -apple-system, sans-serif;
+  --font-secondary: 'Roboto', system-ui, -apple-system, sans-serif;
 
   /* Theme Palette - Enterprise Light Mode with Rich Navy & Golden Yellow */
   --bg-primary: #F8FAFC; /* Clean Light Slate Background */
@@ -297,4 +297,75 @@ input:focus, select:focus, textarea:focus, .form-input:focus {
     text-align: center !important;
     gap: 0.5rem !important;
   }
+}
+
+/* ==========================================================================
+   REAL-WORLD IMAGE GALLERY & CROP CARD STYLES
+   ========================================================================== */
+.wild-card {
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: rgba(15, 34, 61, 0.6) !important;
+  border: 1px solid rgba(255, 184, 0, 0.15) !important;
+  transition: all 0.3s ease !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.wild-card:hover {
+  border-color: #FFB800 !important;
+  transform: translateY(-5px) !important;
+  box-shadow: 0 12px 35px rgba(255, 184, 0, 0.18) !important;
+}
+
+.wild-img-container {
+  height: 200px !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  position: relative !important;
+  background: #000000 !important;
+}
+
+.wild-img-crop {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transform: scale(1.52) !important;
+  transform-origin: center !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.wild-card:hover .wild-img-crop {
+  transform: scale(1.62) !important;
+}
+
+.wild-card-content {
+  padding: 1.5rem !important;
+  flex-grow: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+}
+
+.wild-card-title {
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.wild-card-desc {
+  color: #94A3B8 !important;
+  font-size: 0.88rem !important;
+  line-height: 1.5 !important;
+}
+
+.wild-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 2rem !important;
+  width: 100% !important;
+  margin-top: 1.5rem !important;
 }

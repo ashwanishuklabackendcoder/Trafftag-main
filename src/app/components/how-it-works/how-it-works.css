@@ -6,7 +6,7 @@
   min-height: 100vh;
   background-color: #06152B;
   color: #FFFFFF;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-primary, 'Roboto', -apple-system, sans-serif);
   overflow-x: hidden;
 }
 

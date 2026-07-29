@@ -2,11 +2,11 @@
    TRAFFTAG Angular Home Component - Full Width White Section Structure
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
 :host {
   display: block;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-primary, 'Roboto', -apple-system, sans-serif);
   background-color: #08162A;
   color: #FFFFFF;
 }
@@ -587,7 +587,7 @@
 
 .hero-media {
   flex: 1;
-  max-width: 560px;
+  max-width: 640px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -647,28 +647,25 @@
 
 .card-img-wrapper {
   width: 100%;
-  max-width: 480px;
+  max-width: 600px;
   border-radius: 20px;
   overflow: hidden;
-  border: 1.5px solid rgba(255, 184, 0, 0.35);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 184, 0, 0.15);
-  background: rgba(8, 22, 42, 0.9);
-  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  transition: transform 0.4s ease !important;
 }
 
 .card-img-wrapper:hover {
-  transform: translateY(-6px) scale(1.02);
-  border-color: #FFB800;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 184, 0, 0.3);
+  transform: translateY(-6px) scale(1.04) !important;
 }
 
 .hero-card-img-clean {
   width: 100%;
   height: auto;
-  max-height: 320px;
-  object-fit: cover;
+  max-height: 420px;
+  object-fit: contain !important;
   display: block;
-  border-radius: 18px;
 }
 
 .visual-card-header {
@@ -1158,31 +1155,49 @@
 }
 
 .bar-nav-btn {
-  background: rgba(15, 23, 42, 0.85);
-  border: 1.5px solid rgba(255, 184, 0, 0.4);
-  color: #FFB800;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  flex-shrink: 0;
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1.5px solid rgba(255, 184, 0, 0.3) !important;
+  color: #FFB800 !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  flex-shrink: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  outline: none !important;
+  line-height: 1 !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
 }
 
 .bar-nav-btn i {
-  font-size: 0.95rem;
-  color: #FFB800;
-  transition: color 0.25s ease;
+  font-size: 0.9rem !important;
+  color: #FFB800 !important;
+  transition: color 0.3s ease !important;
+  display: inline-block !important;
+  line-height: 1 !important;
+}
+
+/* Optical centering adjustment for chevrons inside circles */
+.bar-nav-btn i.fa-chevron-left {
+  transform: translateX(-1px) !important;
+}
+
+.bar-nav-btn i.fa-chevron-right {
+  transform: translateX(1px) !important;
 }
 
 .bar-nav-btn:hover {
-  background: #FFB800;
-  color: #08162A;
-  border-color: #FFB800;
-  box-shadow: 0 0 15px rgba(255, 184, 0, 0.5);
+  background: #FFB800 !important;
+  color: #08162A !important;
+  border-color: #FFB800 !important;
+  box-shadow: 0 0 18px rgba(255, 184, 0, 0.5) !important;
+  transform: scale(1.06) !important;
 }
 
 .bar-nav-btn:hover i {
@@ -1196,6 +1211,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  user-select: none;
 }
 
 .current-num {
@@ -1218,26 +1234,26 @@
 }
 
 .dot-btn {
-  width: 32px;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.25);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.35s ease;
-  position: relative;
-  overflow: hidden;
+  width: 28px !important;
+  height: 4px !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  outline: none !important;
 }
 
 .dot-btn:hover {
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.45) !important;
 }
 
 .dot-btn.active {
-  width: 52px;
-  background: #FFB800;
-  box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+  width: 48px !important;
+  background: linear-gradient(90deg, #FFB800, #FFD254) !important;
+  box-shadow: 0 0 14px rgba(255, 184, 0, 0.5) !important;
 }
 
 .auto-play-status {

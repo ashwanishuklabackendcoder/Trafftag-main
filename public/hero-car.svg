@@ -19,8 +19,8 @@
     </filter>
   </defs>
   
-  <!-- Background -->
-  <rect width="800" height="600" rx="16" fill="url(#skyGrad)"/>
+  <!-- Background commented out for transparency -->
+  <!-- <rect width="800" height="600" rx="16" fill="url(#skyGrad)"/> -->
 
   <!-- SUV Car Rear Silhouette -->
   <!-- Main Body outline -->

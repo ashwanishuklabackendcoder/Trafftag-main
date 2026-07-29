@@ -55,7 +55,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: 'LIVE TAXI QR ACTIVE',
       imageAlt: 'Smart QR Taxi Fleet Management',
       bgImage: 'hero-car-bg-1.png',
-      cardImage: 'hero-card-1.png',
+      cardImage: 'taxi-transparent.png',
       visualType: 'qr-taxi-fleet'
     },
     {
@@ -73,7 +73,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: 'TRAFFIC PORTAL CONNECTED',
       imageAlt: 'Taxi E-Challan Compliance',
       bgImage: 'hero-car-bg-2.png',
-      cardImage: 'hero-card-2.png',
+      cardImage: 'echallan-transparent.png',
       visualType: 'echallan-speed'
     },
     {
@@ -91,7 +91,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: '24/7 SOS MONITORING',
       imageAlt: 'In-Cab Passenger Safety SOS',
       bgImage: 'hero-car-bg-3.png',
-      cardImage: 'hero-card-3.png',
+      cardImage: 'sos-transparent.png',
       visualType: 'sos-privacy'
     },
     {
@@ -109,7 +109,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: 'PREMIUM REFLECTIVE DECAL',
       imageAlt: 'Weatherproof Taxi QR Decal',
       bgImage: 'hero-car-bg-4.png',
-      cardImage: 'hero-card-4.png',
+      cardImage: 'decal-transparent.png',
       visualType: 'weatherproof-decal'
     }
   ];

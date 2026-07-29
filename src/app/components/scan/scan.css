@@ -6,7 +6,7 @@
   padding: 0 16px;
   position: relative;
   background-color: #08162A;
-  font-family: var(--font-primary, 'Inter', -apple-system, sans-serif);
+  font-family: var(--font-primary, 'Roboto', -apple-system, sans-serif);
   color: #FFFFFF;
 }
 
