@@ -1,3 +1,7 @@
+/* ==========================================================================
+   TRAFFTAG GLOBAL NAVBAR - ENTERPRISE CLEAN LIGHT THEME
+   ========================================================================== */
+
 :host {
   display: block;
   width: 100%;
@@ -17,11 +21,11 @@
   right: 0;
   width: 100%;
   z-index: 99999;
-  background: rgba(6, 21, 43, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 184, 0, 0.18);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #071325 0%, #0B1E36 100%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
   font-family: var(--font-primary, 'Roboto', -apple-system, sans-serif);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -36,13 +40,13 @@
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- SCROLLED ANIMATED STATE (HIGH-TECH ELEVATED SHIELD) --- */
+/* --- SCROLLED ANIMATED STATE --- */
 .app-global-navbar.is-scrolled {
-  background: rgba(4, 15, 31, 0.96);
+  background: rgba(7, 19, 37, 0.98);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
-  border-bottom: 1px solid rgba(255, 184, 0, 0.4);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 184, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 184, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 184, 0, 0.15);
   transform: translateY(0);
 }
 
@@ -51,20 +55,20 @@
 }
 
 .app-global-navbar.is-scrolled .gn-menu {
-  background: rgba(10, 20, 38, 0.88);
-  border-color: rgba(255, 184, 0, 0.3);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 6px 20px rgba(0, 0, 0, 0.6);
+  background: rgba(11, 30, 54, 0.95);
+  border-color: rgba(255, 184, 0, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transform: scale(0.98);
 }
 
 .app-global-navbar.is-scrolled .gn-shield {
   transform: scale(0.94);
-  box-shadow: 0 0 18px rgba(255, 184, 0, 0.45);
+  box-shadow: 0 0 14px rgba(255, 184, 0, 0.4);
 }
 
 .app-global-navbar.is-scrolled .gn-btn-cta {
   padding: 8px 18px !important;
-  box-shadow: 0 3px 0 #C49500, 0 6px 20px rgba(255, 184, 0, 0.5);
+  box-shadow: 0 3px 0 #C49500, 0 6px 20px rgba(255, 184, 0, 0.4);
   transform: scale(0.98);
 }
 
@@ -81,22 +85,22 @@
   width: 36px;
   height: 36px;
   border-radius: 9px;
-  background: linear-gradient(135deg, rgba(255, 184, 0, 0.25) 0%, rgba(15, 23, 42, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(255, 184, 0, 0.2) 0%, rgba(8, 22, 42, 0.8) 100%);
   border: 1.5px solid #FFB800;
   color: #FFB800;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  box-shadow: 0 0 12px rgba(255, 184, 0, 0.3);
+  box-shadow: 0 0 14px rgba(255, 184, 0, 0.3);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gn-brand:hover .gn-shield {
   transform: scale(1.06) rotate(-3deg);
   background: #FFB800;
-  color: #06152B;
-  box-shadow: 0 0 20px rgba(255, 184, 0, 0.6);
+  color: #08162A;
+  box-shadow: 0 0 22px rgba(255, 184, 0, 0.5);
 }
 
 .gn-brand-text {
@@ -109,7 +113,6 @@
 
 .gn-accent {
   color: #FFB800;
-  text-shadow: 0 0 10px rgba(255, 184, 0, 0.3);
 }
 
 .gn-pulse-dot {
@@ -127,20 +130,20 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  background: rgba(15, 23, 42, 0.65);
+  background: rgba(255, 255, 255, 0.08);
   padding: 4px 6px;
   border-radius: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gn-nav-link {
-  color: #94A3B8 !important;
+  color: #CBD5E1 !important;
   text-decoration: none !important;
   text-transform: none !important;
   font-size: 0.85rem !important;
-  font-weight: 500 !important;
+  font-weight: 700 !important;
   letter-spacing: normal !important;
   padding: 7px 16px !important;
   border-radius: 50px !important;
@@ -157,17 +160,17 @@
 }
 
 .gn-nav-link:hover {
-  color: #F8FAFC !important;
-  background: rgba(255, 255, 255, 0.08) !important;
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.15) !important;
   opacity: 1 !important;
 }
 
 .gn-nav-link.active {
-  color: #FFB800 !important;
-  background: rgba(255, 184, 0, 0.14) !important;
-  border-color: rgba(255, 184, 0, 0.35) !important;
-  font-weight: 600 !important;
-  box-shadow: 0 0 12px rgba(255, 184, 0, 0.2) !important;
+  color: #08162A !important;
+  background: #FFB800 !important;
+  border-color: #FFB800 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 2px 10px rgba(255, 184, 0, 0.45) !important;
 }
 
 /* --- DESKTOP AUTH & CTA --- */
@@ -178,25 +181,26 @@
 }
 
 .gn-signin {
-  color: #CBD5E1 !important;
+  color: #FFFFFF !important;
   text-decoration: none !important;
   text-transform: none !important;
   font-size: 0.86rem !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   white-space: nowrap !important;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .gn-signin:hover {
-  color: #FFFFFF !important;
+  color: #FFB800 !important;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .gn-btn-cta {
   background: linear-gradient(135deg, #FFD000 0%, #FFB800 60%, #E5A600 100%);
-  color: #06152B !important;
-  font-weight: 700 !important;
+  color: #08162A !important;
+  font-weight: 800 !important;
   font-size: 0.84rem !important;
   text-transform: none !important;
   padding: 9px 20px !important;
@@ -225,16 +229,11 @@
   transform: translateX(3px);
 }
 
-.gn-btn-cta:active {
-  transform: translateY(2px) scale(0.98) !important;
-  box-shadow: 0 2px 0 #C49500, 0 4px 10px rgba(255, 184, 0, 0.3);
-}
-
 /* --- MOBILE TOGGLE & DRAWER --- */
 .gn-mobile-toggle {
   display: none;
-  background: rgba(255, 184, 0, 0.12);
-  border: 1px solid rgba(255, 184, 0, 0.35);
+  background: rgba(255, 184, 0, 0.15);
+  border: 1px solid #FFB800;
   color: #FFB800;
   font-size: 1.2rem;
   width: 42px;
@@ -248,16 +247,16 @@
 
 .gn-mobile-toggle:hover {
   background: #FFB800;
-  color: #06152B;
+  color: #08162A;
 }
 
 .gn-mobile-drawer {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #08162A 0%, #06152B 100%);
+  background: #071325;
   padding: 1rem 1.5rem 1.5rem;
   border-bottom: 1px solid rgba(255, 184, 0, 0.25);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   gap: 0.3rem;
   animation: slideDown 0.2s ease-out;
 }
@@ -273,7 +272,7 @@
   text-transform: none !important;
   padding: 0.8rem 1rem;
   font-size: 0.92rem;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -287,9 +286,9 @@
 }
 
 .gn-m-link:hover, .gn-m-link.active {
-  background: rgba(255, 184, 0, 0.12);
-  color: #FFB800;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  font-weight: 700;
 }
 
 .gn-m-auth {
@@ -298,7 +297,7 @@
   gap: 0.75rem;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .gn-m-signin {
@@ -306,12 +305,12 @@
   text-decoration: none !important;
   text-transform: none !important;
   text-align: center;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9rem;
   padding: 10px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .gn-m-cta {

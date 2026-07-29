@@ -30,7 +30,7 @@ export interface HeroSlide {
   styleUrl: './home.css',
 })
 export class Home implements OnInit, OnDestroy {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   mobileMenuOpen = signal(false);
 
@@ -54,8 +54,8 @@ export class Home implements OnInit, OnDestroy {
       taxiType: 'AUTO-RICKSHAWS & TAXIS',
       statusBadge: 'PREMIUM REFLECTIVE DECAL',
       imageAlt: 'Weatherproof Taxi QR Decal',
-      bgImage: 'hero-car-bg-4.png',
-      cardImage: 'decal-transparent.png',
+      bgImage: 'hero-car-bg-1.png',
+      cardImage: 'slider1.png',
       visualType: 'weatherproof-decal'
     },
     {
@@ -72,7 +72,7 @@ export class Home implements OnInit, OnDestroy {
       taxiType: 'YELLOW CAB & RIDESHARE',
       statusBadge: 'LIVE TAXI QR ACTIVE',
       imageAlt: 'Smart QR Taxi Fleet Management',
-      bgImage: 'hero-car-bg-1.png',
+      bgImage: 'hero-car-bg-2.png',
       cardImage: 'taxi-transparent.png',
       visualType: 'qr-taxi-fleet'
     },
@@ -90,7 +90,7 @@ export class Home implements OnInit, OnDestroy {
       taxiType: 'COMMERCIAL CAB FLEET',
       statusBadge: 'TRAFFIC PORTAL CONNECTED',
       imageAlt: 'Taxi E-Challan Compliance',
-      bgImage: 'hero-car-bg-2.png',
+      bgImage: 'hero-car-bg-3.png',
       cardImage: 'echallan-transparent.png',
       visualType: 'echallan-speed'
     },
@@ -108,7 +108,7 @@ export class Home implements OnInit, OnDestroy {
       taxiType: 'EXECUTIVE & CITY CABS',
       statusBadge: '24/7 SOS MONITORING',
       imageAlt: 'In-Cab Passenger Safety SOS',
-      bgImage: 'hero-car-bg-3.png',
+      bgImage: 'hero-car-bg-4.png',
       cardImage: 'sos-transparent.png',
       visualType: 'sos-privacy'
     }

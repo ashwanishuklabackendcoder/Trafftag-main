@@ -1,3 +1,6 @@
+/* ==========================================================================
+   SCAN PAGE - ENTERPRISE CLEAN WHITE & GOLD THEME
+   ========================================================================== */
 .scan-container {
   min-height: 100vh;
   display: flex;
@@ -5,9 +8,9 @@
   justify-content: space-between;
   padding: 0 16px;
   position: relative;
-  background-color: #08162A;
+  background-color: #FFFFFF;
   font-family: var(--font-primary, 'Roboto', -apple-system, sans-serif);
-  color: #FFFFFF;
+  color: #08162A;
 }
 
 @media (min-width: 768px) {
@@ -22,7 +25,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid #E2E8F0;
 }
 
 .logo {
@@ -31,7 +34,7 @@
   gap: 8px;
   font-size: 1.35rem;
   font-weight: 900;
-  color: #FFFFFF;
+  color: #08162A;
   cursor: pointer;
   letter-spacing: -0.02em;
   text-decoration: none;
@@ -39,19 +42,19 @@
 
 .logo-icon {
   font-size: 1.4rem;
-  color: #FFB800;
+  color: #D97706;
 }
 
 .logo-text {
-  color: #FFFFFF;
+  color: #08162A;
 }
 
 .logo-highlight {
-  color: #FFB800;
+  color: #D97706;
 }
 
 .back-home-btn {
-  color: #FFFFFF;
+  color: #08162A;
   font-weight: 700;
   font-size: 0.85rem;
   text-decoration: none;
@@ -60,8 +63,8 @@
   gap: 6px;
   padding: 8px 16px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
   transition: all 0.2s ease;
 }
 
@@ -84,10 +87,10 @@
   width: 100%;
   max-width: 580px;
   padding: 36px 40px;
-  background: #0E1E36;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 20px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 520px) {
@@ -108,9 +111,9 @@
 }
 
 .shield-badge {
-  background: rgba(255, 184, 0, 0.12);
-  color: #FFB800;
-  border: 1px solid rgba(255, 184, 0, 0.3);
+  background: rgba(255, 184, 0, 0.15);
+  color: #D97706;
+  border: 1px solid #FFB800;
   padding: 5px 14px;
   border-radius: 20px;
   font-size: 0.75rem;
@@ -124,7 +127,7 @@
 .form-header h2 {
   font-size: 1.7rem;
   font-weight: 800;
-  color: #FFFFFF !important;
+  color: #08162A !important;
   margin: 0;
   letter-spacing: -0.02em;
 }
@@ -136,7 +139,7 @@
 }
 
 .form-description {
-  color: #CBD5E1 !important;
+  color: #64748B !important;
   font-size: 0.9rem;
   max-width: 460px;
   margin: 0;
@@ -159,7 +162,7 @@
 .form-label {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #FFFFFF !important;
+  color: #08162A !important;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -168,11 +171,11 @@
 .lbl-opt {
   font-size: 0.78rem;
   font-weight: 500;
-  color: #94A3B8 !important;
+  color: #64748B !important;
 }
 
 .required {
-  color: #FFB800;
+  color: #D97706;
 }
 
 /* Tag Display (Verified Mode) */
@@ -181,7 +184,7 @@
   align-items: center;
   gap: 10px;
   background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.4);
   padding: 12px 16px;
   border-radius: 12px;
 }
@@ -203,14 +206,14 @@
   font-size: 1.1rem;
   font-weight: 800;
   letter-spacing: 0.05em;
-  color: #34D399;
+  color: #047857;
 }
 
 .tag-lock {
   margin-left: auto;
   font-size: 0.72rem;
   font-weight: 700;
-  color: #10B981;
+  color: #047857;
   background: rgba(16, 185, 129, 0.15);
   padding: 4px 10px;
   border-radius: 20px;
@@ -221,8 +224,8 @@
 
 /* Owner & Vehicle Pre-filled Metadata Card */
 .owner-vehicle-card {
-  background: #0B192E;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
   border-radius: 12px;
   padding: 14px 16px;
   display: flex;
@@ -240,7 +243,7 @@
 }
 
 .meta-label {
-  color: #94A3B8;
+  color: #64748B;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -248,14 +251,14 @@
 }
 
 .meta-val {
-  color: #FFFFFF;
+  color: #08162A;
   font-weight: 700;
 }
 
 .owner-username-badge {
   background: rgba(255, 184, 0, 0.15);
-  color: #FFB800;
-  border: 1px solid rgba(255, 184, 0, 0.3);
+  color: #D97706;
+  border: 1px solid #FFB800;
   padding: 3px 12px;
   border-radius: 12px;
   font-size: 0.82rem;
@@ -266,11 +269,11 @@
 /* Form Inputs & Textarea */
 .form-input, .form-textarea {
   width: 100%;
-  background: #0B192E !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+  background: #F8FAFC !important;
+  border: 1.5px solid #CBD5E1 !important;
   border-radius: 10px;
   padding: 12px 16px;
-  color: #FFFFFF !important;
+  color: #08162A !important;
   font-family: inherit;
   font-size: 0.92rem;
   font-weight: 500;
@@ -279,11 +282,12 @@
 }
 
 .form-input::placeholder, .form-textarea::placeholder {
-  color: #64748B !important;
+  color: #94A3B8 !important;
 }
 
 .form-input:focus, .form-textarea:focus {
   outline: none;
+  background: #FFFFFF !important;
   border-color: #FFB800 !important;
   box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.18) !important;
 }
@@ -295,12 +299,12 @@
 
 /* Location Detection Box */
 .location-icon {
-  color: #FFB800;
+  color: #D97706;
 }
 
 .location-box {
-  background: #0B192E;
-  border: 1.5px dashed rgba(255, 255, 255, 0.15);
+  background: #F8FAFC;
+  border: 1.5px dashed #CBD5E1;
   border-radius: 12px;
   padding: 16px;
   display: flex;
@@ -323,7 +327,7 @@
 }
 
 .btn-detect-location {
-  background: #FFB800;
+  background: linear-gradient(135deg, #FFD000 0%, #FFB800 60%, #E5A600 100%);
   color: #08162A;
   border: none;
   padding: 10px 18px;
@@ -338,7 +342,7 @@
 }
 
 .btn-detect-location:hover:not(:disabled) {
-  background: #E6A600;
+  background: linear-gradient(135deg, #FFE033 0%, #FFC700 60%, #F59E0B 100%);
   transform: translateY(-1px);
 }
 
@@ -348,7 +352,7 @@
 }
 
 .gps-status-badge {
-  color: #34D399;
+  color: #047857;
   background: rgba(16, 185, 129, 0.15);
   border: 1px solid rgba(16, 185, 129, 0.3);
   padding: 4px 12px;
@@ -367,11 +371,11 @@
 }
 
 .msg-success {
-  color: #34D399;
+  color: #047857;
 }
 
 .msg-warn {
-  color: #FBBF24;
+  color: #D97706;
 }
 
 .coords-grid {
@@ -389,7 +393,7 @@
 .coord-label {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #94A3B8;
+  color: #64748B;
 }
 
 .coord-input {
@@ -414,8 +418,8 @@
 }
 
 .category-option {
-  background: #0B192E;
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  background: #F8FAFC;
+  border: 1.5px solid #CBD5E1;
   border-radius: 12px;
   padding: 12px 14px;
   cursor: pointer;
@@ -430,12 +434,12 @@
 }
 
 .category-option:hover {
-  border-color: rgba(255, 184, 0, 0.5);
+  border-color: #FFB800;
   transform: translateY(-2px);
 }
 
 .category-option.selected {
-  background: rgba(255, 184, 0, 0.1);
+  background: #FFFDF5;
   border-color: #FFB800 !important;
   border-width: 2px;
   transform: translateY(-2px);
@@ -457,8 +461,8 @@
   justify-content: center;
   font-size: 1.05rem;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFB800;
+  background: rgba(255, 184, 0, 0.15);
+  color: #D97706;
 }
 
 .category-option.selected .category-icon-wrapper {
@@ -469,13 +473,13 @@
 .category-label-text {
   font-size: 0.88rem;
   font-weight: 700;
-  color: #FFFFFF !important;
+  color: #08162A !important;
   line-height: 1.25;
   flex: 1;
 }
 
 .selection-check {
-  color: #FFB800;
+  color: #D97706;
   font-size: 1.1rem;
   display: inline-flex;
   align-items: center;
@@ -495,9 +499,9 @@
   font-family: inherit;
   font-size: 1rem;
   font-weight: 800;
-  color: #FFFFFF;
-  background: #0B192E;
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  color: #08162A;
+  background: #F8FAFC;
+  border: 1.5px solid #CBD5E1;
   padding: 10px 16px;
   border-radius: 10px;
   display: flex;
@@ -508,7 +512,7 @@
 .captcha-refresh-btn {
   background: transparent;
   border: none;
-  color: #FFB800;
+  color: #D97706;
   cursor: pointer;
   padding: 2px 4px;
   font-size: 0.95rem;
@@ -516,7 +520,7 @@
 }
 
 .captcha-refresh-btn:hover {
-  color: #FFFFFF;
+  color: #08162A;
 }
 
 .captcha-input {
@@ -532,11 +536,11 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1.5px solid #EF4444;
   padding: 12px 16px;
   border-radius: 10px;
-  color: #FCA5A5;
+  color: #B91C1C;
   font-size: 0.88rem;
   font-weight: 600;
 }
@@ -554,7 +558,7 @@
   font-size: 1rem;
   font-weight: 800;
   color: #08162A !important;
-  background-color: #FFB800 !important;
+  background: linear-gradient(135deg, #FFD000 0%, #FFB800 60%, #E5A600 100%) !important;
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -568,7 +572,7 @@
 }
 
 .btn-submit:hover:not(:disabled) {
-  background-color: #E6A600 !important;
+  background: linear-gradient(135deg, #FFE033 0%, #FFC700 60%, #F59E0B 100%) !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 22px rgba(255, 184, 0, 0.35);
 }
@@ -608,23 +612,23 @@
   height: 64px;
   border-radius: 50%;
   background: rgba(16, 185, 129, 0.15);
-  color: #34D399;
+  color: #10B981;
   font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(16, 185, 129, 0.3);
+  border: 2px solid #10B981;
 }
 
 .success-state h2 {
   font-size: 1.6rem;
   font-weight: 800;
-  color: #FFFFFF !important;
+  color: #08162A !important;
   margin: 0;
 }
 
 .success-message {
-  color: #CBD5E1 !important;
+  color: #64748B !important;
   font-size: 0.92rem;
   max-width: 440px;
   margin: 0;
@@ -632,8 +636,8 @@
 }
 
 .success-details {
-  background: #0B192E;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
   border-radius: 10px;
   padding: 10px 20px;
   display: flex;
@@ -642,12 +646,12 @@
 }
 
 .detail-label {
-  color: #94A3B8;
+  color: #64748B;
 }
 
 .detail-value {
   font-weight: 800;
-  color: #FFB800;
+  color: #D97706;
   font-family: 'Courier New', monospace;
 }
 
@@ -680,7 +684,7 @@
 .scan-footer-note {
   text-align: center;
   padding: 20px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid #E2E8F0;
   color: #94A3B8;
   font-size: 0.8rem;
 }

@@ -48,18 +48,13 @@
                 }
 
                 <div class="hostinger-card-header">
-                  <h3 class="hostinger-plan-title">{{ plan.name }}</h3>
-                  <p class="hostinger-plan-desc">Full fleet coverage with instant e-challan sync & emergency QR alert system.</p>
-                </div>
-
-                <div class="hostinger-pricing-block">
-                  <div class="hostinger-main-price">
-                    <span class="currency">$</span>
-                    <span class="amount">{{ plan.lifetimePrice.replace('$', '') }}</span>
-                    <span class="period">/ lifetime</span>
+                  <h3 class="hostinger-plan-name">{{ plan.name }}</h3>
+                  <div class="hostinger-price-row">
+                    <span class="hostinger-price-val">{{ plan.lifetimePrice }}</span>
+                    <span class="hostinger-price-tag">LIFETIME</span>
                   </div>
                   <div class="hostinger-monthly-sub">
-                    Members rate: <strong class="gold-text">{{ plan.monthlyPrice }} /mo</strong>
+                    Members rate: <strong>{{ plan.monthlyPrice }}</strong>/month
                   </div>
                 </div>
 

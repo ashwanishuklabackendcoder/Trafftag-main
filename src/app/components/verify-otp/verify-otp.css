@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VERIFY OTP PAGE - ENTERPRISE DARK NAVY & GOLD THEME
+   VERIFY OTP PAGE - ENTERPRISE CLEAN WHITE & GOLD THEME
    ========================================================================== */
 .auth-container {
   min-height: 100vh;
@@ -8,8 +8,8 @@
   justify-content: space-between;
   padding: 0 24px;
   position: relative;
-  background: #06152B !important;
-  color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  color: #08162A !important;
 }
 
 @media (min-width: 1200px) {
@@ -24,7 +24,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 0;
-  border-bottom: 1px solid rgba(255, 184, 0, 0.15);
+  border-bottom: 1px solid #E2E8F0;
 }
 
 .logo {
@@ -39,22 +39,22 @@
 
 .logo-icon {
   font-size: 1.8rem;
-  color: #FFB800 !important;
+  color: #D97706 !important;
 }
 
 .logo-highlight {
-  color: #FFB800;
+  color: #D97706;
 }
 
 .back-home-btn {
-  color: #CBD5E1;
+  color: #64748B;
   font-weight: 500;
   font-size: 0.95rem;
   text-decoration: none;
 }
 
 .back-home-btn:hover {
-  color: #FFB800;
+  color: #08162A;
 }
 
 /* Card Wrapper */
@@ -70,11 +70,10 @@
   width: 100%;
   max-width: 480px;
   padding: 40px;
-  background: rgba(15, 34, 61, 0.8) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  backdrop-filter: blur(20px) !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
   border-radius: 24px !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
 }
 
 /* Form Header */
@@ -89,11 +88,11 @@
 
 .form-header h2 {
   font-size: 2rem;
-  color: #FFFFFF !important;
+  color: #08162A !important;
 }
 
 .form-description {
-  color: #94A3B8 !important;
+  color: #64748B !important;
   font-size: 0.95rem;
 }
 
@@ -113,7 +112,7 @@
 .form-label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #E2E8F0 !important;
+  color: #08162A !important;
 }
 
 /* Embedded Icon Inputs */
@@ -127,7 +126,7 @@
 .input-icon-left {
   position: absolute;
   left: 14px;
-  color: #FFB800;
+  color: #D97706;
   font-size: 1rem;
   pointer-events: none;
   display: flex;
@@ -141,23 +140,23 @@
 
 .form-input {
   width: 100%;
-  background: rgba(6, 21, 43, 0.9) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background: #F8FAFC !important;
+  border: 1.5px solid #CBD5E1 !important;
   border-radius: 12px !important;
   padding: 12px 16px;
-  color: #FFFFFF !important;
+  color: #08162A !important;
   font-family: var(--font-primary);
   font-size: 0.95rem;
   transition: all 0.2s ease;
 }
 
 .form-input:hover {
-  border-color: rgba(255, 184, 0, 0.4) !important;
+  border-color: #FFB800 !important;
 }
 
 .form-input:focus {
   outline: none !important;
-  background: rgba(6, 21, 43, 0.95) !important;
+  background: #FFFFFF !important;
   border-color: #FFB800 !important;
   box-shadow: 0 0 15px rgba(255, 184, 0, 0.25) !important;
 }
@@ -173,7 +172,7 @@
   letter-spacing: normal;
   font-size: 0.95rem;
   font-weight: normal;
-  color: #64748B !important;
+  color: #94A3B8 !important;
 }
 
 /* Success Alert */
@@ -181,11 +180,11 @@
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
-  background: rgba(16, 185, 129, 0.15) !important;
-  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  background: rgba(16, 185, 129, 0.1) !important;
+  border: 1.5px solid #10B981 !important;
   padding: 12px 16px !important;
   border-radius: 10px !important;
-  color: #34D399 !important;
+  color: #047857 !important;
   font-weight: 600 !important;
   font-size: 0.9rem !important;
 }
@@ -199,11 +198,11 @@
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
-  background: rgba(239, 68, 68, 0.15) !important;
-  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1.5px solid #EF4444 !important;
   padding: 12px 16px !important;
   border-radius: 10px !important;
-  color: #FCA5A5 !important;
+  color: #B91C1C !important;
   font-weight: 600 !important;
   font-size: 0.9rem !important;
 }
@@ -218,7 +217,7 @@
   padding: 14px !important;
   font-size: 1rem !important;
   background: linear-gradient(135deg, #FFD000 0%, #FFB800 60%, #E5A600 100%) !important;
-  color: #06152B !important;
+  color: #08162A !important;
   font-weight: 800 !important;
   border-radius: 12px !important;
   border: none !important;
@@ -242,9 +241,9 @@
 .spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(6, 21, 43, 0.3);
+  border: 2px solid rgba(8, 22, 42, 0.3);
   border-radius: 50%;
-  border-top-color: #06152B;
+  border-top-color: #08162A;
   animation: spin 0.8s linear infinite;
   display: inline-block;
 }
@@ -258,16 +257,16 @@
   margin-top: 24px;
   text-align: center;
   font-size: 0.9rem;
-  color: #94A3B8 !important;
+  color: #64748B !important;
 }
 
 .auth-switch-link {
-  color: #FFB800 !important;
+  color: #D97706 !important;
   font-weight: 800 !important;
 }
 
 .auth-switch-link:hover {
-  color: #FFE033 !important;
+  color: #B45309 !important;
   text-decoration: underline;
 }
 
@@ -275,7 +274,7 @@
 .auth-footer-note {
   text-align: center;
   padding: 24px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  color: #64748B !important;
+  border-top: 1px solid #E2E8F0 !important;
+  color: #94A3B8 !important;
   font-size: 0.85rem;
 }

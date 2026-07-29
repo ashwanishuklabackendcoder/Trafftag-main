@@ -1,21 +1,22 @@
 /* ==========================================================================
-   PRIVACY POLICY PAGE - ENTERPRISE DARK NAVY & GOLD THEME
+   PRIVACY POLICY PAGE - ENTERPRISE CLEAN WHITE & GOLD THEME
    ========================================================================== */
 
 .page-container {
   min-height: 100vh;
-  background-color: #06152B;
-  color: #FFFFFF;
+  background-color: #FFFFFF;
+  color: #08162A;
   display: flex;
   flex-direction: column;
 }
 
 .legal-hero {
-  background: radial-gradient(circle at 50% 0%, #0E2646 0%, #06152B 75%);
+  background: linear-gradient(135deg, #071325 0%, #0A192F 50%, #0F2744 100%);
   color: #FFFFFF;
-  padding: 3.5rem 5% 4rem;
+  padding: 4.5rem 5% 5rem;
   text-align: center;
-  border-bottom: 1px solid rgba(255, 184, 0, 0.15);
+  border-bottom: 1px solid rgba(255, 184, 0, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .hero-content {
@@ -29,14 +30,14 @@
 
 .hero-content h1 {
   font-size: 2.8rem;
-  font-weight: 800;
+  font-weight: 900;
   color: #FFFFFF !important;
   letter-spacing: -0.5px;
 }
 
 .hero-content p {
   font-size: 1.05rem;
-  color: #94A3B8 !important;
+  color: #CBD5E1 !important;
   max-width: 600px;
 }
 
@@ -50,12 +51,11 @@
 }
 
 .legal-card {
-  background: rgba(15, 34, 61, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(16px);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 24px;
   padding: 3rem 2.5rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
@@ -64,7 +64,7 @@
 .legal-section h2 {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #FFFFFF !important;
+  color: #08162A !important;
   margin-bottom: 0.85rem;
   border-bottom: 2px solid #FFB800;
   padding-bottom: 6px;
@@ -73,7 +73,7 @@
 
 .legal-section p {
   font-size: 0.98rem;
-  color: #CBD5E1 !important;
+  color: #475569 !important;
   line-height: 1.7;
   margin-bottom: 0.75rem;
 }
@@ -85,13 +85,13 @@
 
 .legal-section li {
   font-size: 0.95rem;
-  color: #CBD5E1 !important;
+  color: #475569 !important;
   line-height: 1.7;
   margin-bottom: 0.5rem;
 }
 
 .legal-link {
-  color: #FFB800 !important;
+  color: #D97706 !important;
   font-weight: 700;
   text-decoration: underline;
 }

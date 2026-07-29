@@ -159,22 +159,24 @@
 .resend-otp-btn,
 .profile-card .btn-indigo,
 .profile-card .btn-primary {
-  background: #08162A !important;
-  color: #FFFFFF !important;
-  border: 1px solid #08162A !important;
+  background: linear-gradient(135deg, #FFD000 0%, #FFB800 60%, #E5A600 100%) !important;
+  color: #08162A !important;
+  border: none !important;
   border-radius: 10px !important;
   padding: 12px 18px !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
   font-size: 0.92rem !important;
   cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(255, 184, 0, 0.25) !important;
   transition: all 0.2s ease !important;
 }
 
 .resend-otp-btn:hover,
 .profile-card .btn-indigo:hover,
 .profile-card .btn-primary:hover {
-  background: #050B16 !important;
-  color: #FFB800 !important;
+  background: linear-gradient(135deg, #FFE033 0%, #FFC700 60%, #F59E0B 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(255, 184, 0, 0.35) !important;
 }
 
 .resend-otp-btn {

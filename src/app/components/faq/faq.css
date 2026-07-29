@@ -7,26 +7,32 @@
 
 .page-hero {
   text-align: center;
-  padding: 4rem 5% 2rem;
+  padding: 4rem 5% 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
-  max-width: 800px;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
+  background: linear-gradient(135deg, #071325 0%, #0A192F 50%, #0F2744 100%) !important;
+  border-bottom: 1px solid rgba(255, 184, 0, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .page-hero h1 {
   font-size: 2.8rem;
   line-height: 1.2;
-  font-weight: 800;
-  color: #FFFFFF;
+  font-weight: 900;
+  color: #FFFFFF !important;
+  max-width: 800px;
 }
 
 .hero-subtitle {
   font-size: 1.05rem;
   color: #CBD5E1 !important;
   line-height: 1.6;
+  max-width: 700px;
 }
 
 .faq-categories {
@@ -34,7 +40,8 @@
   justify-content: center;
   gap: 0.85rem;
   flex-wrap: wrap;
-  margin-bottom: 2.5rem;
+  margin-top: 2.5rem !important;
+  margin-bottom: 2.5rem !important;
   padding: 0 5%;
 }
 
@@ -48,16 +55,18 @@
 
 .faq-item {
   padding: 1.5rem 1.75rem;
-  background: #0E1E36 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
   border-radius: 14px;
   cursor: pointer;
   transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
 }
 
 .faq-item:hover {
-  border-color: rgba(255, 184, 0, 0.35) !important;
+  border-color: #FFB800 !important;
   transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 184, 0, 0.15);
 }
 
 .faq-question {
@@ -69,20 +78,20 @@
 .faq-question h3 {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #FFFFFF !important;
+  color: #08162A !important;
 }
 
 .faq-toggle-icon {
   font-size: 1.2rem;
-  color: #FFB800 !important;
+  color: #D97706 !important;
   font-weight: bold;
 }
 
 .faq-answer {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  color: #CBD5E1 !important;
+  border-top: 1px solid #E2E8F0 !important;
+  color: #64748B !important;
   font-size: 0.95rem;
   line-height: 1.6;
 }
@@ -95,14 +104,15 @@
   max-width: 850px;
   margin: 0 auto;
   padding: 3.5rem 2rem;
-  background: linear-gradient(135deg, #0E1E36, #0A1628) !important;
+  background: linear-gradient(135deg, #071325 0%, #0A192F 50%, #0F2744 100%) !important;
   border-radius: 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
-  border: 1px solid rgba(255, 184, 0, 0.2) !important;
+  border: 1.5px solid rgba(255, 184, 0, 0.35) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .support-icon {
@@ -111,12 +121,13 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(255, 184, 0, 0.1) !important;
+  background: rgba(255, 184, 0, 0.15) !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 184, 0, 0.25) !important;
+  border: 1.5px solid #FFB800 !important;
   margin-bottom: 0.5rem;
+  box-shadow: 0 4px 15px rgba(255, 184, 0, 0.25);
 }
 
 .support-card h2 {
