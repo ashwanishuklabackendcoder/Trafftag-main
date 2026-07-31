@@ -74,20 +74,22 @@
             </div>
           </div>
 
-          <!-- Slide Right: Professional High-Resolution QR Taxi Image Showcase -->
-          <div class="hero-media">
-            <div class="hero-image-showcase">
-              <div class="glass-status-chip">
-                <span class="chip-dot" [class.green]="slide.visualType === 'echallan-speed'" [class.red]="slide.visualType === 'sos-privacy'" [class.gold]="slide.visualType === 'weatherproof-decal'"></span>
-                <span class="chip-status">{{ slide.statusBadge }}</span>
-                <span class="chip-tag">{{ slide.taxiType }}</span>
-              </div>
-              
-              <div class="card-img-wrapper">
-                <img [src]="slide.cardImage" [alt]="slide.imageAlt" class="hero-card-img-clean" />
+          <!-- Slide Right: Professional High-Resolution QR Taxi Image Showcase (Only on First Banner Slide) -->
+          @if (idx === 0) {
+            <div class="hero-media">
+              <div class="hero-image-showcase">
+                <div class="glass-status-chip">
+                  <span class="chip-dot gold"></span>
+                  <span class="chip-status">{{ slide.statusBadge }}</span>
+                  <span class="chip-tag">{{ slide.taxiType }}</span>
+                </div>
+                
+                <div class="card-img-wrapper">
+                  <img [src]="slide.cardImage" [alt]="slide.imageAlt" class="hero-card-img-clean" />
+                </div>
               </div>
             </div>
-          </div>
+          }
 
         </div>
       }

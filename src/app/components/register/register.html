@@ -54,6 +54,52 @@
           </div>
         </div>
 
+        <!-- Nickname Field -->
+        <div class="form-group animate-fade-in-up delay-175">
+          <label class="form-label">Nickname</label>
+          <div class="input-wrapper-inner">
+            <span class="input-icon-left"><i class="fa-solid fa-id-badge"></i></span>
+            <input 
+              type="text" 
+              name="nickname" 
+              [ngModel]="nickname()" 
+              (ngModelChange)="nickname.set($event)"
+              class="form-input form-input-with-icon" 
+              placeholder="e.g. Johnny" 
+            />
+          </div>
+        </div>
+
+        <!-- Digital Signature Field (Modal Trigger & Preview) -->
+        <div class="form-group animate-fade-in-up delay-185">
+          <label class="form-label">Digital Signature</label>
+          
+          @if (!digitalSign()) {
+            <button 
+              type="button" 
+              class="sig-trigger-btn"
+              (click)="openSignatureModal()"
+            >
+              <i class="fa-solid fa-file-signature"></i>
+              <span>Click to Add Digital Signature</span>
+            </button>
+          } @else {
+            <div class="sig-preview-card">
+              <div class="sig-preview-image-wrapper">
+                <img [src]="digitalSign()" alt="Digital Signature" class="sig-preview-img" />
+              </div>
+              <div class="sig-preview-actions">
+                <button type="button" class="btn-sig-small" (click)="openSignatureModal()">
+                  <i class="fa-solid fa-pen"></i> Edit
+                </button>
+                <button type="button" class="btn-sig-small btn-sig-danger" (click)="removeSignature()">
+                  <i class="fa-solid fa-trash"></i> Remove
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+
         <!-- Email Input -->
         <div class="form-group animate-fade-in-up delay-200">
           <label class="form-label">Email Address <span class="required">*</span></label>
@@ -163,3 +209,61 @@
     <p>&copy; 2026 TRAFFTAG. Secure Access Console.</p>
   </footer>
 </div>
+
+<!-- Digital Signature Modal Overlay -->
+@if (showSignatureModal()) {
+  <div class="modal-backdrop animate-fade-in" (click)="closeSignatureModal()">
+    <div class="modal-dialog signature-modal animate-scale-up" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-signature"></i> Digital Signature Pad</h3>
+        <button type="button" class="modal-close-btn" (click)="closeSignatureModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-instruction">Draw your signature inside the box using mouse/touch screen or upload an image file.</p>
+
+        <div class="signature-pad-container" [class.has-signature]="hasSignatureInModal()">
+          <canvas 
+            #sigCanvas 
+            class="signature-canvas"
+            (mousedown)="startDrawing($event)"
+            (mousemove)="draw($event)"
+            (mouseup)="stopDrawing()"
+            (mouseleave)="stopDrawing()"
+            (touchstart)="startDrawing($event)"
+            (touchmove)="draw($event)"
+            (touchend)="stopDrawing()"
+          ></canvas>
+          @if (!hasSignatureInModal()) {
+            <div class="signature-placeholder">
+              <i class="fa-solid fa-signature"></i>
+              <span>Sign here with mouse or touch</span>
+            </div>
+          }
+        </div>
+
+        <div class="signature-modal-tools">
+          <button 
+            type="button" 
+            class="btn-sig-action" 
+            (click)="clearSignatureCanvas()"
+            [disabled]="!hasSignatureInModal()"
+          >
+            <i class="fa-solid fa-rotate-left"></i> Clear Canvas
+          </button>
+          <label class="btn-sig-action btn-sig-upload">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Image
+            <input type="file" accept="image/*" (change)="onFileUpload($event)" style="display: none;" />
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeSignatureModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveSignatureFromModal()" [disabled]="!hasSignatureInModal()">
+          <i class="fa-solid fa-check"></i> Save Signature
+        </button>
+      </div>
+    </div>
+  </div>
+}
