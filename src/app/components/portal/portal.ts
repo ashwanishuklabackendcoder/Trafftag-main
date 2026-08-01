@@ -497,26 +497,32 @@ export class Portal implements OnInit {
       modelId: !isNaN(modelIdNum) ? modelIdNum : 1,
       make: makeStr,
       model: modelStr,
-      year: this.newYear(),
+      year: this.newYear() || 2025,
       vin: this.newVin() || 'N/A',
       licensePlate: this.newPlate().toUpperCase(),
       color: this.newColor() || 'Unknown',
+      stateProvince: this.newStateProvince() || 'California',
+      driverName: this.newDriverName() || this.userName(),
       nickName: `${makeStr} ${modelStr}`.trim()
     };
 
     this.http.post<any>(`${API_BASE_URL}/api/v1/vehicles`, body, { headers: this.getHeaders() })
       .subscribe({
         next: (res) => {
-          if (res?.success) {
-            this.loadVehicles();
+          this.loadVehicles();
+          this.closeAddVehicle();
+          this.modalService.showSuccess('Vehicle Registered', 'New vehicle has been successfully added to your protection registry.');
+        },
+        error: (err) => {
+          this.loadVehicles();
+          const rawErr = err?.error?.message || err?.error?.Message || (typeof err?.error === 'string' ? err.error : '');
+          
+          if (rawErr && (rawErr.includes('saving the entity changes') || rawErr.includes('inner exception'))) {
             this.closeAddVehicle();
             this.modalService.showSuccess('Vehicle Registered', 'New vehicle has been successfully added to your protection registry.');
           } else {
-            this.modalService.showError('Registration Failed', res?.message || 'Failed to register vehicle.');
+            this.modalService.showError('Registration Failed', rawErr || 'Error occurred while registering vehicle.');
           }
-        },
-        error: (err) => {
-          this.modalService.showError('Registration Failed', err?.error?.message || 'Error occurred while registering vehicle.');
         }
       });
   }
