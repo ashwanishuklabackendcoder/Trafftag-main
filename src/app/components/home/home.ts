@@ -55,7 +55,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: 'PREMIUM REFLECTIVE DECAL',
       imageAlt: 'Weatherproof Taxi QR Decal',
       bgImage: 'hero-car-bg-1.png',
-      cardImage: 'trafftag-official-decal.png',
+      cardImage: 'slider1.png',
       visualType: 'weatherproof-decal'
     },
     {
