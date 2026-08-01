@@ -142,34 +142,13 @@
         @for (item of ecosystemTags(); track item.title) {
           <div class="decal-poster-card">
             
-            <!-- Top Poster Content (Shield Badge on Left + Info & Features on Right) -->
+            <!-- Top Poster Content (Official Shield Crest on Left + Features on Right) -->
             <div class="poster-main-content">
               
-              <!-- Left Column: Official Shield Logo Badge with QR -->
+              <!-- Left Column: Official Category Shield Logo -->
               <div class="poster-shield-col">
-                <div class="shield-badge-frame">
-                  <div class="shield-header">
-                    <span class="shield-brand-text">TRAFFTAG<span class="tm-symbol">™</span></span>
-                    <div class="shield-stars">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                    </div>
-                  </div>
-
-                  <div class="shield-icon-sub">
-                    <i [class]="item.decalIcon"></i>
-                  </div>
-
-                  <div class="shield-qr-box">
-                    <i class="fa-solid fa-qrcode qr-decal-icon"></i>
-                  </div>
-
-                  <div class="shield-footer-icon">
-                    <i [class]="item.icon"></i>
-                  </div>
+                <div class="official-shield-wrapper">
+                  <img [src]="item.shieldLogo" [alt]="item.title + ' Official Shield Logo'" class="official-shield-img" />
                 </div>
 
                 <div class="shield-notify-caption">
@@ -180,8 +159,12 @@
               <!-- Right Column: Title, Tagline, Feature Checklist & Graphic Preview -->
               <div class="poster-info-col">
                 <div class="poster-header-text">
-                  <h3 class="poster-heading">{{ item.posterTitle }}</h3>
-                  <div class="poster-motto">{{ item.posterMotto }}</div>
+                  <h3 class="poster-heading">
+                    {{ item.posterTitlePrefix }}<span class="gold-text-highlight">{{ item.posterTitleHighlight }}</span>{{ item.posterTitleMiddle }}<span class="gold-text-highlight">{{ item.posterTitleEnd }}</span>
+                  </h3>
+                  <div class="poster-motto">
+                    {{ item.posterMottoPrefix }}<span class="gold-motto-highlight">{{ item.posterMottoHighlight }}</span>
+                  </div>
                 </div>
 
                 <div class="poster-body-flex">
