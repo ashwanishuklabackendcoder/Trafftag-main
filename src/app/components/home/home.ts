@@ -293,7 +293,7 @@ export class Home implements OnInit, OnDestroy {
     }
   }
 
-  // Universal Smart QR Tags for Everyone & Every Need
+  // Universal Smart QR Tags for Everyone & Every Need (Official Decal Poster Cards)
   ecosystemTags = signal([
     {
       category: 'VEHICLE TAG',
@@ -301,9 +301,20 @@ export class Home implements OnInit, OnDestroy {
       subtitle: 'Cars, Bikes, Cabs & Auto Rickshaws',
       desc: 'Protect your vehicle from illegal parking fines, towing, blocked driveways, or accidental damage with instant masked owner dispatch.',
       icon: 'fa-solid fa-car',
+      decalIcon: 'fa-solid fa-car-side',
       image: 'card-vehicle.png',
       badge: 'PARKING & CHALLAN GUARD',
       badgeColor: 'amber',
+      posterTitle: 'GET YOUR TRAFFTAG™ TODAY FOR YOUR VEHICLE',
+      posterMotto: 'OR RISK GETTING ANOTHER PARKING TICKET — YOUR CHOICE 😊',
+      posterBanner: 'LESS PARKING STRESS • ZERO CHALLAN WORRY',
+      posterFeatures: [
+        { icon: 'fa-solid fa-bell', text: 'Parking & Challan Alerts' },
+        { icon: 'fa-solid fa-truck-towed', text: 'Towing Prevention Dispatch' },
+        { icon: 'fa-solid fa-triangle-exclamation', text: 'Vehicle Damage Warnings' },
+        { icon: 'fa-solid fa-broom', text: 'Road Sweeping Alerts' },
+        { icon: 'fa-solid fa-lock', text: '100% Masked Phone Privacy' }
+      ],
       features: ['Avoid Parking Challans', 'Road Sweeping Alerts', 'Vehicle Damage Report']
     },
     {
@@ -312,9 +323,20 @@ export class Home implements OnInit, OnDestroy {
       subtitle: 'Dogs, Cats, Birds & Domestic Pets',
       desc: 'They don’t have a voice, but TRAFFTAG does! Instant scan to contact owner if your pet strays or gets lost without revealing your phone number.',
       icon: 'fa-solid fa-paw',
+      decalIcon: 'fa-solid fa-paw',
       image: 'card-pet.png',
       badge: 'LOST PET RECOVERY',
       badgeColor: 'emerald',
+      posterTitle: 'GET YOUR TRAFFTAG™ TODAY FOR YOUR LOVELY PET 🐾',
+      posterMotto: 'THEY DON’T HAVE VOICE BUT TRAFFTAG™ DOES ❤',
+      posterBanner: 'LESS PET STRESS • INSTANT GPS LOCATION',
+      posterFeatures: [
+        { icon: 'fa-solid fa-phone-volume', text: 'Masked Owner Call' },
+        { icon: 'fa-solid fa-location-dot', text: 'Instant GPS Location Drop' },
+        { icon: 'fa-solid fa-shield-cat', text: 'Waterproof Collar Tag' },
+        { icon: 'fa-solid fa-notes-medical', text: 'Pet Vet & Medical Profile' },
+        { icon: 'fa-solid fa-heart', text: '24/7 Citizen Helper Dispatch' }
+      ],
       features: ['Masked Owner Call', 'Instant GPS Location Drop', 'Waterproof QR Collar Tag']
     },
     {
@@ -323,9 +345,20 @@ export class Home implements OnInit, OnDestroy {
       subtitle: 'Independent Houses, Gated Flats & Villas',
       desc: 'Every house is a home! Never miss delivery drivers, visitors, emergency alerts, or neighborhood maintenance notices even when away from home.',
       icon: 'fa-solid fa-house-user',
+      decalIcon: 'fa-solid fa-house-flag',
       image: 'card-home.png',
       badge: 'DIGITAL GATE DOORBELL',
       badgeColor: 'indigo',
+      posterTitle: 'GET YOUR TRAFFTAG™ TODAY FOR YOUR HOME 🏠',
+      posterMotto: 'EVERY HOUSE IS A HOME ❤',
+      posterBanner: 'LESS WORRY • MORE SECURITY • MORE PEACE ❤',
+      posterFeatures: [
+        { icon: 'fa-solid fa-box-open', text: 'Delivery Package Alerts' },
+        { icon: 'fa-solid fa-user-check', text: 'Visitor Contact Relay' },
+        { icon: 'fa-solid fa-bell-concierge', text: 'Digital Gate Doorbell' },
+        { icon: 'fa-solid fa-wrench', text: 'Maintenance Dispatch' },
+        { icon: 'fa-solid fa-shield-halved', text: 'Neighborhood Safety' }
+      ],
       features: ['Delivery Dispatch Alert', 'Visitor Contact Relay', 'Neighborhood Safety']
     },
     {
@@ -334,9 +367,20 @@ export class Home implements OnInit, OnDestroy {
       subtitle: 'School Bags, Backpacks & Field Trips',
       desc: 'Ensure instant parent emergency contact during school commutes, field trips, or lost bag recovery with confidential QR tags.',
       icon: 'fa-solid fa-child-reaching',
+      decalIcon: 'fa-solid fa-child-dress',
       image: 'card-kids.png',
       badge: 'KID SAFETY SHIELD',
       badgeColor: 'rose',
+      posterTitle: 'GET YOUR TRAFFTAG™ TODAY FOR YOUR CHILD 🎒',
+      posterMotto: 'EVERY CHILD DESERVES 24/7 SAFETY SHIELD ⭐',
+      posterBanner: 'SAFE SCHOOL COMMUTE • CONFIDENTIAL PARENT SOS',
+      posterFeatures: [
+        { icon: 'fa-solid fa-hospital-user', text: 'Parent SOS Emergency Relay' },
+        { icon: 'fa-solid fa-briefcase', text: 'Instant Bag Recovery' },
+        { icon: 'fa-solid fa-file-medical', text: 'Confidential Medical Info' },
+        { icon: 'fa-solid fa-bus', text: 'School Bus Commute Shield' },
+        { icon: 'fa-solid fa-lock', text: 'Zero Parent Number Exposure' }
+      ],
       features: ['Parent SOS Trigger', 'Instant Bag Recovery', 'Confidential Medical Info']
     },
     {
@@ -345,9 +389,20 @@ export class Home implements OnInit, OnDestroy {
       subtitle: 'Elderly Family Members & Care Lanyards',
       desc: 'Provides immediate access to emergency family contacts and critical medical profiles if an elderly loved one needs help or gets lost.',
       icon: 'fa-solid fa-person-cane',
+      decalIcon: 'fa-solid fa-hand-holding-medical',
       image: 'card-senior.png',
       badge: 'SENIOR CARE ASSIST',
       badgeColor: 'purple',
+      posterTitle: 'GET YOUR TRAFFTAG™ TODAY FOR SENIOR CITIZENS 👵👴',
+      posterMotto: 'ALWAYS PROTECTED, CARE AT EVERY STEP ❤',
+      posterBanner: 'SENIOR CARE ASSIST • ONE-TAP EMERGENCY HELP',
+      posterFeatures: [
+        { icon: 'fa-solid fa-phone-flip', text: 'Family Emergency Relay' },
+        { icon: 'fa-solid fa-notes-medical', text: 'Critical Health & Blood Group' },
+        { icon: 'fa-solid fa-person-shelter', text: 'Lost Elder Assistance' },
+        { icon: 'fa-solid fa-kit-medical', text: 'First Responder Medical ID' },
+        { icon: 'fa-solid fa-heart-pulse', text: 'Instant Family Notification' }
+      ],
       features: ['Emergency Contact Relay', 'Critical Medical Info', 'One-Tap Assistance']
     }
   ]);

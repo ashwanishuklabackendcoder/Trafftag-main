@@ -138,46 +138,124 @@
         </p>
       </div>
 
-      <div class="ecosystem-grid">
+      <div class="decal-poster-grid">
         @for (item of ecosystemTags(); track item.title) {
-          <div class="eco-card" [class]="'eco-card-' + item.badgeColor">
-            <div class="eco-card-top">
-              <div class="eco-card-badge">
-                <i [class]="item.icon"></i>
-                <span>{{ item.category }}</span>
+          <div class="decal-poster-card">
+            
+            <!-- Top Poster Content (Shield Badge on Left + Info & Features on Right) -->
+            <div class="poster-main-content">
+              
+              <!-- Left Column: Official Shield Logo Badge with QR -->
+              <div class="poster-shield-col">
+                <div class="shield-badge-frame">
+                  <div class="shield-header">
+                    <span class="shield-brand-text">TRAFFTAG<span class="tm-symbol">™</span></span>
+                    <div class="shield-stars">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                  </div>
+
+                  <div class="shield-icon-sub">
+                    <i [class]="item.decalIcon"></i>
+                  </div>
+
+                  <div class="shield-qr-box">
+                    <i class="fa-solid fa-qrcode qr-decal-icon"></i>
+                  </div>
+
+                  <div class="shield-footer-icon">
+                    <i [class]="item.icon"></i>
+                  </div>
+                </div>
+
+                <div class="shield-notify-caption">
+                  <span>SCAN TO NOTIFY</span>
+                </div>
               </div>
-              <span class="eco-pill-badge">{{ item.badge }}</span>
+
+              <!-- Right Column: Title, Tagline, Feature Checklist & Graphic Preview -->
+              <div class="poster-info-col">
+                <div class="poster-header-text">
+                  <h3 class="poster-heading">{{ item.posterTitle }}</h3>
+                  <div class="poster-motto">{{ item.posterMotto }}</div>
+                </div>
+
+                <div class="poster-body-flex">
+                  <div class="poster-features-list">
+                    <div class="poster-features-title">GET NOTIFIED FOR:</div>
+                    @for (feat of item.posterFeatures; track feat.text) {
+                      <div class="poster-feat-row">
+                        <div class="feat-icon-bubble">
+                          <i [class]="feat.icon"></i>
+                        </div>
+                        <span class="feat-text">{{ feat.text }}</span>
+                      </div>
+                    }
+                  </div>
+
+                  <div class="poster-graphic-preview">
+                    <img [src]="item.image" [alt]="item.title" class="poster-crop-img" />
+                  </div>
+                </div>
+              </div>
+
             </div>
 
-            <div class="eco-img-container">
-              <img [src]="item.image" [alt]="item.title" class="eco-img-crop" />
-              <div class="eco-overlay-gradient"></div>
-              <div class="eco-floating-icon">
-                <i [class]="item.icon"></i>
+            <!-- Middle Bar: Website & Motto -->
+            <div class="poster-middle-bar">
+              <span class="poster-domain"><i class="fa-solid fa-globe"></i> WWW.TRAFFTAG.COM</span>
+              <span class="poster-divider-line">|</span>
+              <span class="poster-motto-banner">{{ item.posterBanner }}</span>
+            </div>
+
+            <!-- Steps Bar: 3 Action Circles (Scan, Notify, Smile) -->
+            <div class="poster-steps-bar">
+              <div class="step-circle-box step-scan">
+                <div class="step-icon-circle green-circle">
+                  <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <div class="step-text-group">
+                  <span class="step-title">SCAN</span>
+                  <span class="step-sub">IT'S FREE</span>
+                </div>
+              </div>
+
+              <div class="step-divider">|</div>
+
+              <div class="step-circle-box step-notify">
+                <div class="step-icon-circle blue-circle">
+                  <i class="fa-solid fa-bell"></i>
+                </div>
+                <div class="step-text-group">
+                  <span class="step-title">NOTIFY</span>
+                  <span class="step-sub">IT'S FREE</span>
+                </div>
+              </div>
+
+              <div class="step-divider">|</div>
+
+              <div class="step-circle-box step-smile">
+                <div class="step-icon-circle yellow-circle">
+                  <i class="fa-solid fa-face-smile"></i>
+                </div>
+                <div class="step-text-group">
+                  <span class="step-title">SMILE<span class="tm-symbol">™</span></span>
+                  <span class="step-sub">IT'S FREE</span>
+                </div>
               </div>
             </div>
 
-            <div class="eco-card-body">
-              <h3 class="eco-card-title">{{ item.title }}</h3>
-              <div class="eco-card-subtitle">{{ item.subtitle }}</div>
-              <p class="eco-card-desc">{{ item.desc }}</p>
+            <!-- Bottom Solid Gold Action Bar -->
+            <a [routerLink]="['/register']" class="poster-bottom-gold-bar">
+              <i class="fa-solid fa-star"></i>
+              <span>SCAN TO NOTIFY MY OWNER</span>
+              <i class="fa-solid fa-star"></i>
+            </a>
 
-              <div class="eco-feature-chips">
-                @for (feat of item.features; track feat) {
-                  <span class="eco-chip">
-                    <i class="fa-solid fa-check"></i>
-                    {{ feat }}
-                  </span>
-                }
-              </div>
-
-              <div class="eco-card-footer">
-                <a [routerLink]="['/register']" class="btn-eco-action">
-                  <span>GET {{ item.category }}</span>
-                  <i class="fa-solid fa-arrow-right"></i>
-                </a>
-              </div>
-            </div>
           </div>
         }
       </div>
