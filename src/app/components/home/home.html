@@ -198,10 +198,16 @@
       <div class="benefits-grid">
         @for (benefit of keyAlertBenefits(); track benefit.id) {
           <div class="benefit-card">
-            <div class="benefit-card-header">
-              <div class="benefit-icon-box">
+            
+            <div class="benefit-img-container">
+              <img [src]="benefit.image" [alt]="benefit.title" class="benefit-img-crop" />
+              <div class="benefit-img-overlay"></div>
+              <div class="benefit-floating-icon">
                 <i [class]="benefit.icon"></i>
               </div>
+            </div>
+
+            <div class="benefit-card-header">
               <div class="benefit-tag-wrapper">
                 <span class="benefit-badge-pill">{{ benefit.badge }}</span>
                 <span class="benefit-tag-title">{{ benefit.tag }}</span>

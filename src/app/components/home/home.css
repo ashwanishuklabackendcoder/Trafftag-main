@@ -1980,25 +1980,26 @@
 .eco-card-purple .eco-pill-badge { background: rgba(168, 85, 247, 0.12); color: #9333EA; border-color: rgba(168, 85, 247, 0.3); }
 
 .eco-img-container {
-  height: 190px;
+  height: 200px;
   width: 100%;
   overflow: hidden;
   position: relative;
-  background: #0F172A;
+  background: #08162A;
 }
 
 .eco-img-crop {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.1);
+  object-position: center;
+  transform: scale(1);
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0.88;
+  opacity: 0.95;
 }
 
 .eco-card:hover .eco-img-crop {
-  transform: scale(1.18);
-  opacity: 0.98;
+  transform: scale(1.05);
+  opacity: 1;
 }
 
 .eco-overlay-gradient {
@@ -2142,7 +2143,8 @@
   background: rgba(255, 255, 255, 0.04);
   border: 1.5px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
-  padding: 1.75rem 1.5rem;
+  padding: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2157,11 +2159,63 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 184, 0, 0.15);
 }
 
+.benefit-img-container {
+  height: 160px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #0B1E36;
+}
+
+.benefit-img-crop {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  transition: transform 0.5s ease;
+  opacity: 0.85;
+}
+
+.benefit-card:hover .benefit-img-crop {
+  transform: scale(1.15);
+  opacity: 1;
+}
+
+.benefit-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 20%, rgba(7, 19, 37, 0.92) 100%);
+}
+
+.benefit-floating-icon {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 1.25rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FFB800 0%, #F59E0B 100%);
+  border: 1.5px solid #FFB800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #08162A;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 14px rgba(255, 184, 0, 0.4);
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
+.benefit-card:hover .benefit-floating-icon {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 0 20px rgba(255, 184, 0, 0.6);
+}
+
 .benefit-card-header {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  margin-bottom: 1.25rem;
+  padding: 1.25rem 1.5rem 0.5rem;
 }
 
 .benefit-icon-box {
@@ -2212,6 +2266,13 @@
   text-transform: uppercase;
 }
 
+.benefit-card-body {
+  padding: 0 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .benefit-card-title {
   font-size: 1.15rem;
   font-weight: 900;
@@ -2224,12 +2285,12 @@
   font-size: 0.88rem;
   color: #CBD5E1 !important;
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .benefit-card-footer {
   margin-top: auto;
-  padding-top: 1rem;
+  padding: 1rem 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
