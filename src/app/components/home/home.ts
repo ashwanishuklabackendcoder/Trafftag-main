@@ -293,6 +293,105 @@ export class Home implements OnInit, OnDestroy {
     }
   }
 
+  // Universal Smart QR Tags for Everyone & Every Need
+  ecosystemTags = signal([
+    {
+      category: 'VEHICLE TAG',
+      title: 'Vehicle & Cab Protection',
+      subtitle: 'Cars, Bikes, Cabs & Auto Rickshaws',
+      desc: 'Protect your vehicle from illegal parking fines, towing, blocked driveways, or accidental damage with instant masked owner dispatch.',
+      icon: 'fa-solid fa-car',
+      image: 'hero-car-bg-1.jpg',
+      badge: 'PARKING & CHALLAN GUARD',
+      badgeColor: 'amber',
+      features: ['Avoid Parking Challans', 'Road Sweeping Alerts', 'Vehicle Damage Report']
+    },
+    {
+      category: 'PET TAG',
+      title: 'Lovely Pet Smart Tags',
+      subtitle: 'Dogs, Cats, Birds & Domestic Pets',
+      desc: 'They don’t have a voice, but TRAFFTAG does! Instant scan to contact owner if your pet strays or gets lost without revealing your phone number.',
+      icon: 'fa-solid fa-paw',
+      image: 'hero-car-bg-2.jpg',
+      badge: 'LOST PET RECOVERY',
+      badgeColor: 'emerald',
+      features: ['Masked Owner Call', 'Instant GPS Location Drop', 'Waterproof QR Collar Tag']
+    },
+    {
+      category: 'HOME TAG',
+      title: 'Home & Property Gate Tags',
+      subtitle: 'Independent Houses, Gated Flats & Villas',
+      desc: 'Every house is a home! Never miss delivery drivers, visitors, emergency alerts, or neighborhood maintenance notices even when away from home.',
+      icon: 'fa-solid fa-house-user',
+      image: 'hero-car-bg-3.jpg',
+      badge: 'DIGITAL GATE DOORBELL',
+      badgeColor: 'indigo',
+      features: ['Delivery Dispatch Alert', 'Visitor Contact Relay', 'Neighborhood Safety']
+    },
+    {
+      category: 'KIDS TAG',
+      title: 'Child & School Bag Safety',
+      subtitle: 'School Bags, Backpacks & Field Trips',
+      desc: 'Ensure instant parent emergency contact during school commutes, field trips, or lost bag recovery with confidential QR tags.',
+      icon: 'fa-solid fa-child-reaching',
+      image: 'hero-car-bg-4.jpg',
+      badge: 'KID SAFETY SHIELD',
+      badgeColor: 'rose',
+      features: ['Parent SOS Trigger', 'Instant Bag Recovery', 'Confidential Medical Info']
+    },
+    {
+      category: 'SENIOR TAG',
+      title: 'Senior Citizens & Medical ID',
+      subtitle: 'Elderly Family Members & Care Lanyards',
+      desc: 'Provides immediate access to emergency family contacts and critical medical profiles if an elderly loved one needs help or gets lost.',
+      icon: 'fa-solid fa-person-cane',
+      image: 'hero-car-bg-5.jpg',
+      badge: 'SENIOR CARE ASSIST',
+      badgeColor: 'purple',
+      features: ['Emergency Contact Relay', 'Critical Medical Info', 'One-Tap Assistance']
+    }
+  ]);
+
+  // Real-Time Alert Benefits & Protection Scenarios
+  keyAlertBenefits = signal([
+    {
+      id: 'challan-prevention',
+      icon: 'fa-solid fa-shield-halved',
+      badge: 'SAVE UP TO ₹2,000+',
+      title: 'Avoid Traffic Fines & Towing (Challan Katne Se Bachein)',
+      desc: 'If your vehicle is blocking a driveway or parked in a restricted zone, nearby citizens scan your QR tag to send an instant SMS/WhatsApp alert so you can move your vehicle before police issue a fine or tow truck arrives.',
+      tag: 'CHALLAN PREVENTION',
+      accentColor: '#F59E0B'
+    },
+    {
+      id: 'road-cleaning',
+      icon: 'fa-solid fa-broom',
+      badge: 'CLEAN & DAMAGE FREE',
+      title: 'Road Sweeping & Debris Warning',
+      desc: 'Get notified immediately when municipal road cleaning, street painting, or tree trimming is happening on your road so you can move your vehicle before it gets dirty, scratched, or covered in dust.',
+      tag: 'DIRT & DUST ALERTS',
+      accentColor: '#10B981'
+    },
+    {
+      id: 'damage-alert',
+      icon: 'fa-solid fa-triangle-exclamation',
+      badge: 'INSTANT CITIZEN ALERTS',
+      title: 'Vehicle Damage & Emergency Alerts (Kuch Nukshan Ho Gya H)',
+      desc: 'Passersby or neighbors can notify you instantly if your headlights were left ON, car window is open, tire is flat, or if your vehicle was accidentally bumped or damaged.',
+      tag: 'DAMAGE REPORTING',
+      accentColor: '#EF4444'
+    },
+    {
+      id: 'privacy-shield',
+      icon: 'fa-solid fa-lock',
+      badge: '100% CONFIDENTIAL',
+      title: 'Masked Contact Privacy Guarantee',
+      desc: 'Anyone scanning your tag can call or send alerts through TRAFFTAG’s secure gateway without seeing your personal phone number. Zero risk of spam, leaks, or harassment.',
+      tag: 'ZERO NUMBER DISCLOSURE',
+      accentColor: '#0284C7'
+    }
+  ]);
+
   scrollPricing(direction: 'left' | 'right') {
     const container = document.getElementById('pricing-slider-track');
     if (container) {

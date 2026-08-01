@@ -127,47 +127,100 @@
 
   </section>
 
-  <!-- Real-World Decal Placements Gallery Showcase -->
-  <section class="mockup-section-wrapper" id="real-world-placements">
+  <!-- Universal Ecosystem Showcase Section (Vehicles, Pets, Home, Kids, Senior Citizens) -->
+  <section class="mockup-section-wrapper" id="ecosystem-tags">
     <div class="mockup-card-container">
       <div class="section-header" style="text-align: center; margin-bottom: 2.5rem;">
-        <span class="sub-badge"><i class="fa-solid fa-camera"></i> DECAL PLACEMENTS IN THE WILD</span>
-        <h2 class="mockup-section-title" style="margin-top: 0.5rem;">Active Vehicle Protection in the Real World</h2>
-        <p style="color: #475569; max-width: 650px; margin: 0.5rem auto 0; font-size: 0.95rem; line-height: 1.6;">See how official TRAFFTAG safety decals sit cleanly on windshields to provide peace of mind in busy urban environments.</p>
+        <span class="sub-badge"><i class="fa-solid fa-layer-group"></i> UNIVERSAL SMART QR TAGS</span>
+        <h2 class="mockup-section-title" style="margin-top: 0.5rem;">Smart Tags Available For Everyone & Everything</h2>
+        <p style="color: #475569; max-width: 720px; margin: 0.5rem auto 0; font-size: 0.98rem; line-height: 1.6;">
+          Whether it's your vehicle, beloved pet, home entrance gate, child's school bag, or elderly family members — TRAFFTAG offers smart QR protection for everyone with 100% phone privacy.
+        </p>
       </div>
 
-      <div class="wild-grid">
-        
-        <div class="wild-card">
-          <div class="wild-img-container">
-            <img src="hero-car-bg-1.jpg" alt="Rideshare taxi fleet" class="wild-img-crop" />
-          </div>
-          <div class="wild-card-content">
-            <h3 class="wild-card-title">Taxi & Rideshare Verification</h3>
-            <p class="wild-card-desc">Applied securely to high-capacity vehicles for instant passenger SOS scans and compliance verification.</p>
-          </div>
-        </div>
+      <div class="ecosystem-grid">
+        @for (item of ecosystemTags(); track item.title) {
+          <div class="eco-card" [class]="'eco-card-' + item.badgeColor">
+            <div class="eco-card-top">
+              <div class="eco-card-badge">
+                <i [class]="item.icon"></i>
+                <span>{{ item.category }}</span>
+              </div>
+              <span class="eco-pill-badge">{{ item.badge }}</span>
+            </div>
 
-        <div class="wild-card">
-          <div class="wild-img-container">
-            <img src="hero-car-bg-2.jpg" alt="Fleet vehicles in queue" class="wild-img-crop" />
-          </div>
-          <div class="wild-card-content">
-            <h3 class="wild-card-title">Queue Alert Dispatch</h3>
-            <p class="wild-card-desc">Maintains reliable network routing for instant driver alerts in active metropolitan traffic.</p>
-          </div>
-        </div>
+            <div class="eco-img-container">
+              <img [src]="item.image" [alt]="item.title" class="eco-img-crop" />
+              <div class="eco-overlay-gradient"></div>
+              <div class="eco-floating-icon">
+                <i [class]="item.icon"></i>
+              </div>
+            </div>
 
-        <div class="wild-card">
-          <div class="wild-img-container">
-            <img src="hero-car-bg-5.jpg" alt="Parallel parked cars" class="wild-img-crop" />
-          </div>
-          <div class="wild-card-content">
-            <h3 class="wild-card-title">Parallel Parking Guard</h3>
-            <p class="wild-card-desc">Alerts vehicle owners for headlights left on, open windows, or blocked driveways on city streets.</p>
-          </div>
-        </div>
+            <div class="eco-card-body">
+              <h3 class="eco-card-title">{{ item.title }}</h3>
+              <div class="eco-card-subtitle">{{ item.subtitle }}</div>
+              <p class="eco-card-desc">{{ item.desc }}</p>
 
+              <div class="eco-feature-chips">
+                @for (feat of item.features; track feat) {
+                  <span class="eco-chip">
+                    <i class="fa-solid fa-check"></i>
+                    {{ feat }}
+                  </span>
+                }
+              </div>
+
+              <div class="eco-card-footer">
+                <a [routerLink]="['/register']" class="btn-eco-action">
+                  <span>GET {{ item.category }}</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Benefits & Real-Time Alerts Section (Challan Prevention, Road Cleaning, Damage Report) -->
+  <section class="mockup-section-wrapper benefits-section-dark" id="real-time-benefits">
+    <div class="mockup-card-container">
+      <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
+        <span class="sub-badge gold-badge"><i class="fa-solid fa-bolt"></i> INSTANT REAL-TIME ALERTS</span>
+        <h2 class="mockup-section-title dark-title" style="margin-top: 0.5rem;">Why Drivers & Families Trust TRAFFTAG</h2>
+        <p style="color: #CBD5E1; max-width: 720px; margin: 0.5rem auto 0; font-size: 0.98rem; line-height: 1.6;">
+          Real-world protection scenarios that save you money, protect your vehicles from damage, and provide complete peace of mind.
+        </p>
+      </div>
+
+      <div class="benefits-grid">
+        @for (benefit of keyAlertBenefits(); track benefit.id) {
+          <div class="benefit-card">
+            <div class="benefit-card-header">
+              <div class="benefit-icon-box">
+                <i [class]="benefit.icon"></i>
+              </div>
+              <div class="benefit-tag-wrapper">
+                <span class="benefit-badge-pill">{{ benefit.badge }}</span>
+                <span class="benefit-tag-title">{{ benefit.tag }}</span>
+              </div>
+            </div>
+
+            <div class="benefit-card-body">
+              <h3 class="benefit-card-title">{{ benefit.title }}</h3>
+              <p class="benefit-card-desc">{{ benefit.desc }}</p>
+            </div>
+
+            <div class="benefit-card-footer">
+              <div class="benefit-status-bar">
+                <span class="status-dot"></span>
+                <span>Active 24/7 Citizen & Traffic Network</span>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </div>
   </section>
