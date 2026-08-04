@@ -1,0 +1,297 @@
+<div class="reminders-container">
+  <div class="reminders-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+    <div class="header-text-side">
+      <h2>Vehicle Reminders & Expiration Dates</h2>
+      <p class="subtitle">Add important dates below to get timely alerts and reminders before they expire.</p>
+      <p class="privacy-note">This information is private and will not be shown to anyone who scans your TRAFFTAG QR code.</p>
+    </div>
+    <div class="header-logo-side">
+      <img src="trafftag-logo.png" alt="TraffTag Logo" style="width: 120px; height: auto;" />
+    </div>
+  </div>
+
+  <div class="features-row">
+    <div class="feature-badge">
+      <div class="fb-icon"><i class="fa-solid fa-lock" style="color: #3b82f6;"></i></div>
+      <div class="fb-text">
+        <strong>100% Private</strong>
+        <span>Your information is always private</span>
+      </div>
+    </div>
+    <div class="feature-badge">
+      <div class="fb-icon"><i class="fa-solid fa-shield-check" style="color: #22c55e;"></i></div>
+      <div class="fb-text">
+        <strong>Timely Alerts</strong>
+        <span>Get reminders before anything expires</span>
+      </div>
+    </div>
+    <div class="feature-badge">
+      <div class="fb-icon"><i class="fa-solid fa-bell" style="color: #8b5cf6;"></i></div>
+      <div class="fb-text">
+        <strong>Multi-Channel Alerts</strong>
+        <span>SMS, Email or WhatsApp - you choose</span>
+      </div>
+    </div>
+    <div class="feature-badge">
+      <div class="fb-icon"><i class="fa-solid fa-pen" style="color: #f97316;"></i></div>
+      <div class="fb-text">
+        <strong>Update Anytime</strong>
+        <span>You can update or delete any time</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <!-- Card 1 -->
+    <div class="reminder-card">
+      <div class="card-header">
+        <div class="ch-icon"><i class="fa-solid fa-car" style="color: #3b82f6;"></i></div>
+        <div class="ch-text">
+          <h3>1. Registration Expiration</h3>
+          <span class="optional">(Optional)</span>
+        </div>
+      </div>
+      <p class="card-desc">Enter your vehicle registration expiration date.</p>
+      
+      <div class="card-form">
+        <label>Expiration Date</label>
+        <input type="date" [(ngModel)]="regDate">
+        
+        <label class="schedule-label">Reminder Schedule</label>
+        <div class="checkbox-grid">
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="reg60"> 60 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="reg30"> 30 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="reg7"> 7 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="regOn"> On Date</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="regAfter"> After Expiry</label>
+        </div>
+        
+        <div class="card-footer-toggle">
+          <span>Enable Reminders</span>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="regEnabled">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="reminder-card">
+      <div class="card-header">
+        <div class="ch-icon"><i class="fa-solid fa-clipboard-check" style="color: #22c55e;"></i></div>
+        <div class="ch-text">
+          <h3>2. Inspection Sticker Expiration (NYS)</h3>
+          <span class="optional green">(Optional)</span>
+        </div>
+      </div>
+      <p class="card-desc">Select the expiration month and year shown on your NY State inspection sticker.</p>
+      
+      <div class="card-form">
+        <div class="split-inputs">
+          <div>
+            <label>Expiration Month</label>
+            <select [(ngModel)]="inspMonth">
+              @for (m of months; track m) { <option [value]="m">{{m}}</option> }
+            </select>
+          </div>
+          <div>
+            <label>Expiration Year</label>
+            <select [(ngModel)]="inspYear">
+              @for (y of years; track y) { <option [value]="y">{{y}}</option> }
+            </select>
+          </div>
+        </div>
+        
+        <label class="schedule-label">Reminder Schedule</label>
+        <div class="checkbox-grid">
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="insp60"> 60 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="insp30"> 30 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="insp7"> 7 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="inspOn"> On Date</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="inspAfter"> After Expiry</label>
+        </div>
+        
+        <div class="card-footer-toggle">
+          <span>Enable Reminders</span>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="inspEnabled">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="reminder-card">
+      <div class="card-header">
+        <div class="ch-icon"><i class="fa-solid fa-shield-heart" style="color: #8b5cf6;"></i></div>
+        <div class="ch-text">
+          <h3>3. Insurance Expiration</h3>
+          <span class="optional purple">(Optional)</span>
+        </div>
+      </div>
+      <p class="card-desc">Enter your vehicle insurance policy expiration date.</p>
+      
+      <div class="card-form">
+        <label>Expiration Date</label>
+        <input type="date" [(ngModel)]="insDate">
+        
+        <label class="schedule-label">Reminder Schedule</label>
+        <div class="checkbox-grid">
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="ins60"> 60 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="ins30"> 30 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="ins7"> 7 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="insOn"> On Date</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="insAfter"> After Expiry</label>
+        </div>
+        
+        <div class="card-footer-toggle">
+          <span>Enable Reminders</span>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="insEnabled">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="reminder-card">
+      <div class="card-header">
+        <div class="ch-icon"><i class="fa-solid fa-id-card" style="color: #f97316;"></i></div>
+        <div class="ch-text">
+          <h3>4. Driver License Renewal</h3>
+          <span class="optional orange">(Optional)</span>
+        </div>
+      </div>
+      <p class="card-desc">Enter your driver license expiration date to get reminders.</p>
+      
+      <div class="card-form">
+        <label>Expiration Date</label>
+        <input type="date" [(ngModel)]="licDate">
+        
+        <label class="schedule-label">Reminder Schedule</label>
+        <div class="checkbox-grid">
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="lic60"> 60 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="lic30"> 30 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="lic7"> 7 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="licOn"> On Date</label>
+        </div>
+        
+        <div class="card-footer-toggle">
+          <span>Enable Reminders</span>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="licEnabled">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="reminder-card">
+      <div class="card-header">
+        <div class="ch-icon"><i class="fa-solid fa-square-parking" style="color: #3b82f6;"></i></div>
+        <div class="ch-text">
+          <h3>5. EZ-Pass / Parking Permit</h3>
+          <span class="optional">(Optional)</span>
+        </div>
+      </div>
+      <p class="card-desc">Enter EZ-Pass or parking permit expiration date (if any).</p>
+      
+      <div class="card-form">
+        <label>Expiration Date</label>
+        <input type="date" [(ngModel)]="ezDate">
+        
+        <label class="schedule-label">Reminder Schedule</label>
+        <div class="checkbox-grid">
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="ez30"> 30 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="ez7"> 7 Days Before</label>
+          <label class="cb-label"><input type="checkbox" [(ngModel)]="ezOn"> On Date</label>
+        </div>
+        
+        <div class="card-footer-toggle" style="margin-top: 50px;">
+          <span>Enable Reminders</span>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="ezEnabled">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="reminder-card">
+      <div class="card-header">
+        <div class="ch-icon"><i class="fa-solid fa-file-lines" style="color: #ec4899;"></i></div>
+        <div class="ch-text">
+          <h3>6. Other Reminders</h3>
+          <span class="optional pink">(Optional)</span>
+        </div>
+      </div>
+      <p class="card-desc">Add any other important expiration date you want to track.</p>
+      
+      <div class="card-form">
+        <label>Reminder Name</label>
+        <input type="text" placeholder="e.g. Emission Test" [(ngModel)]="otherName">
+        
+        <label style="margin-top: 10px;">Expiration Date</label>
+        <input type="date" [(ngModel)]="otherDate">
+        
+        <div class="card-footer-toggle" style="margin-top: 60px;">
+          <span>Enable Reminders</span>
+          <label class="switch">
+            <input type="checkbox" [(ngModel)]="otherEnabled">
+            <span class="slider round gray-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="preferences-section">
+    <h3>Preferred Notification Method</h3>
+    <p>How would you like to receive reminder alerts?</p>
+    
+    <div class="methods-grid">
+      <div class="method-card" [class.active]="notifySms" (click)="selectMethod('sms')">
+        <i class="fa-solid fa-mobile-screen"></i> SMS
+        <div class="radio-circle"><div class="dot" *ngIf="notifySms"></div></div>
+      </div>
+      <div class="method-card" [class.active]="notifyEmail" (click)="selectMethod('email')">
+        <i class="fa-regular fa-envelope"></i> Email
+        <div class="radio-circle"><div class="dot" *ngIf="notifyEmail"></div></div>
+      </div>
+      <div class="method-card" [class.active]="notifyWhatsapp" (click)="selectMethod('whatsapp')">
+        <i class="fa-brands fa-whatsapp" style="color: #22c55e;"></i> WhatsApp
+        <div class="radio-circle"><div class="dot" *ngIf="notifyWhatsapp"></div></div>
+      </div>
+      <div class="method-card" [class.active]="notifyAll" (click)="selectMethod('all')">
+        <i class="fa-regular fa-bell"></i> All (SMS, Email & WhatsApp)
+        <div class="radio-circle"><div class="dot" *ngIf="notifyAll"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note-box">
+    <i class="fa-solid fa-star"></i>
+    <p><strong>Please Note:</strong> TRAFFTAG reminders are provided as a convenience to help you stay informed. You are responsible for renewing your registration, inspection, insurance and other items on time.</p>
+  </div>
+
+  <div class="bottom-actions-row">
+    <div class="privacy-assurance">
+      <i class="fa-solid fa-shield-check" style="color: #3b82f6;"></i>
+      <div>
+        <strong>Your Privacy, Our Priority</strong>
+        <p>Your information is encrypted and securely stored. We never share your data with anyone.</p>
+      </div>
+    </div>
+    <div class="action-buttons">
+      <button class="btn btn-secondary">Cancel</button>
+      <button class="btn btn-primary">Save Changes</button>
+    </div>
+  </div>
+
+</div>

@@ -10,8 +10,10 @@ import { QrFleetTabComponent } from './components/qr-fleet-tab/qr-fleet-tab.comp
 import { AlertsTabComponent } from './components/alerts-tab/alerts-tab.component';
 import { SupportTabComponent } from './components/support-tab/support-tab.component';
 import { ProfileTabComponent } from './components/profile-tab/profile-tab.component';
+import { VehicleRemindersTabComponent } from './components/vehicle-reminders-tab/vehicle-reminders-tab.component';
 import { AddVehicleModalComponent } from './components/add-vehicle-modal/add-vehicle-modal.component';
 import { LinkTagModalComponent } from './components/link-tag-modal/link-tag-modal.component';
+import { State, City } from 'country-state-city';
 
 interface Vehicle {
   id: string;
@@ -20,9 +22,10 @@ interface Vehicle {
   year: number;
   plate: string;
   color: string;
-  stateProvince: string;
   vin?: string;
   driverName?: string;
+  stateProvince?: string;
+  city?: string;
   totalScans: number;
   lastScan: string;
   prefSMS: boolean;
@@ -43,6 +46,8 @@ interface QRNotification {
   status: 'Unresolved' | 'Resolved';
 }
 
+export type PortalTab = 'dashboard' | 'vehicles' | 'tags' | 'notifications' | 'support' | 'profile' | 'pay-fine' | 'reports' | 'rules' | 'alerts' | 'messages' | 'finders' | 'rewards' | 'profile-vehicle-reminders' | 'profile-notifications' | 'profile-password' | 'profile-settings';
+
 @Component({
   selector: 'app-portal',
   standalone: true,
@@ -54,6 +59,7 @@ interface QRNotification {
       AlertsTabComponent,
       SupportTabComponent,
       ProfileTabComponent,
+      VehicleRemindersTabComponent,
       AddVehicleModalComponent,
       LinkTagModalComponent
     ],
@@ -69,7 +75,7 @@ export class Portal implements OnInit {
   private qrDecalService = inject(QrDecalService);
 
   // Navigation
-  activeTab = signal<'dashboard' | 'vehicles' | 'tags' | 'notifications' | 'support' | 'profile' | 'pay-fine' | 'reports' | 'rules'>('dashboard');
+  activeTab = signal<PortalTab>('dashboard');
   isMobileSidebarOpen = signal(false);
 
   // Resend OTP variables
@@ -179,7 +185,8 @@ export class Portal implements OnInit {
   newPlate = signal('');
   newColor = signal('');
   newTagId = signal('');
-  newStateProvince = signal('California');
+  newStateProvince = signal('');
+  newCity = signal('');
   newVin = signal('');
   newDriverName = signal('');
 
@@ -270,6 +277,20 @@ export class Portal implements OnInit {
     return makeId ? this.modelsMap[makeId] || [] : [];
   }
 
+  // Location Database Dropdowns (US only)
+  usStates = State.getStatesOfCountry('US');
+  usCities = signal<any[]>([]);
+
+  onStateChange(stateCode: string) {
+    this.newStateProvince.set(stateCode);
+    this.newCity.set('');
+    if (stateCode) {
+      this.usCities.set(City.getCitiesOfState('US', stateCode));
+    } else {
+      this.usCities.set([]);
+    }
+  }
+
   getHeaders() {
     const token = localStorage.getItem('accessToken');
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -308,9 +329,10 @@ export class Portal implements OnInit {
       year: apiV.year || 2025,
       plate: apiV.licensePlate || 'Unknown',
       color: apiV.color || 'Unknown',
-      stateProvince: apiV.stateProvince || 'California',
+      stateProvince: apiV.state || apiV.stateProvince || 'California',
+      city: apiV.city || '',
       vin: apiV.vin || '',
-      driverName: apiV.driverName || this.userName(),
+      driverName: apiV.driverName || apiV.driverName || this.userName(),
       totalScans: apiV.totalScans || 0,
       lastScan: apiV.lastScan || 'Never',
       prefSMS: apiV.receiveSMS ?? true,
@@ -356,13 +378,13 @@ export class Portal implements OnInit {
     return {
       id: (apiN.notificationId || apiN.id || Math.random().toString()).toString(),
       vehicleId: (apiN.vehicleId || '').toString(),
-      timestamp: apiN.createdAt ? new Date(apiN.createdAt).toLocaleString() : apiN.timestamp || 'Just now',
+      timestamp: (apiN.createdOn || apiN.createdAt) ? new Date(apiN.createdOn || apiN.createdAt).toLocaleString() : apiN.timestamp || 'Just now',
       category: apiN.category || 'General Alert',
       icon: this.getCategoryIcon(apiN.category),
       message: apiN.message || '',
       senderPhone: apiN.finderContact || apiN.senderPhone || '',
-      read: apiN.isRead ?? apiN.read ?? false,
-      status: apiN.status === 'Resolved' ? 'Resolved' : 'Unresolved'
+      read: apiN.readStatus ?? apiN.isRead ?? apiN.read ?? false,
+      status: (apiN.deliveryStatus || apiN.status) === 'Resolved' ? 'Resolved' : 'Unresolved'
     };
   }
 
@@ -454,7 +476,7 @@ export class Portal implements OnInit {
     }
   }
 
-  selectTab(tab: 'dashboard' | 'vehicles' | 'tags' | 'notifications' | 'support' | 'profile' | 'pay-fine' | 'reports' | 'rules') {
+  selectTab(tab: PortalTab) {
     this.activeTab.set(tab);
     this.isMobileSidebarOpen.set(false);
     this.router.navigate(['/portal', tab]);
@@ -501,7 +523,8 @@ export class Portal implements OnInit {
       vin: this.newVin() || 'N/A',
       licensePlate: this.newPlate().toUpperCase(),
       color: this.newColor() || 'Unknown',
-      stateProvince: this.newStateProvince() || 'California',
+      state: this.newStateProvince() || 'CA',
+      city: this.newCity() || '',
       driverName: this.newDriverName() || this.userName(),
       nickName: `${makeStr} ${modelStr}`.trim()
     };
@@ -769,7 +792,8 @@ export class Portal implements OnInit {
     this.newPlate.set('');
     this.newColor.set('');
     this.newTagId.set('');
-    this.newStateProvince.set('California');
+    this.newStateProvince.set('');
+    this.newCity.set('');
     this.newVin.set('');
     this.newDriverName.set('');
   }

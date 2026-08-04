@@ -27,45 +27,85 @@
       <i class="fa-solid fa-xmark"></i>
     </button>
 
-    <div class="sidebar-brand" [routerLink]="['/']">
-      <div class="brand-logo-badge">
-        <i class="fa-solid fa-shield-halved"></i>
+      <div class="sidebar-brand custom-logo-block" [routerLink]="['/']">
+        <img src="trafftag-logo.png" alt="TraffTag Logo" style="width: 100%; max-width: 160px; height: auto;" />
+        <div class="logo-tagline" style="margin-top: 10px; text-align: center;">
+          <div class="tag-caps" style="color: #ffffff; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;">TAG IT WITH LOVE</div>
+          <div class="tag-cursive" style="color: #eab308; font-size: 0.9rem; font-style: italic; font-family: serif;">Bringing Smiles Back</div>
+        </div>
       </div>
-      <div class="brand-text-wrapper">
-        <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
-      </div>
-    </div>
 
-    <nav class="sidebar-nav">
-      <button class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
-        <span class="nav-label-group"><i class="fa-solid fa-house nav-icon"></i> Dashboard</span>
-      </button>
-      <button class="nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
-        <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> My Vehicles</span>
-      </button>
-      <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
-        <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> QR Tags</span>
-      </button>
-      <button class="nav-item" [class.active]="activeTab() === 'notifications'" (click)="selectTab('notifications')">
-        <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> Notifications</span>
-      </button>
-      <button class="nav-item" [class.active]="activeTab() === 'pay-fine'" (click)="selectTab('pay-fine')">
-        <span class="nav-label-group"><i class="fa-solid fa-credit-card nav-icon"></i> Pay Fine / E-Challan</span>
-      </button>
-      <button class="nav-item" [class.active]="activeTab() === 'reports'" (click)="selectTab('reports')">
-        <span class="nav-label-group"><i class="fa-solid fa-chart-line nav-icon"></i> Reports</span>
-      </button>
-      <button class="nav-item" [class.active]="activeTab() === 'rules'" (click)="selectTab('rules')">
-        <span class="nav-label-group"><i class="fa-solid fa-square-plus nav-icon"></i> Traffic Rules</span>
-      </button>
-      <button class="nav-item" [class.active]="activeTab() === 'support'" (click)="selectTab('support')">
-        <span class="nav-label-group"><i class="fa-solid fa-headset nav-icon"></i> Support</span>
-      </button>
-      <button class="nav-item" [class.active]="activeTab() === 'profile'" (click)="selectTab('profile')">
-        <span class="nav-label-group"><i class="fa-solid fa-gear nav-icon"></i> Settings</span>
-      </button>
-    </nav>
-    
+      <nav class="sidebar-nav">
+        <button class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
+          <span class="nav-label-group"><i class="fa-solid fa-house nav-icon"></i> Dashboard</span>
+        </button>
+        <button class="nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
+          <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> My Vehicles</span>
+        </button>
+        <button class="nav-item" [class.active]="activeTab() === 'alerts'" (click)="selectTab('alerts')">
+          <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> Alerts</span>
+        </button>
+        <button class="nav-item" [class.active]="activeTab() === 'messages'" (click)="selectTab('messages')">
+          <span class="nav-label-group"><i class="fa-solid fa-envelope nav-icon"></i> Messages</span>
+        </button>
+        <button class="nav-item" [class.active]="activeTab() === 'finders'" (click)="selectTab('finders')">
+          <span class="nav-label-group"><i class="fa-solid fa-users nav-icon"></i> Finders</span>
+        </button>
+        <button class="nav-item" [class.active]="activeTab() === 'rewards'" (click)="selectTab('rewards')">
+          <span class="nav-label-group"><i class="fa-solid fa-gift nav-icon"></i> Rewards</span>
+        </button>
+        
+        <!-- My Profile & Sub-menu -->
+        <button class="nav-item" [class.active]="activeTab().startsWith('profile')" (click)="selectTab('profile')">
+          <span class="nav-label-group"><i class="fa-solid fa-user nav-icon"></i> My Profile</span>
+        </button>
+        
+        @if (activeTab().startsWith('profile')) {
+          <div class="sub-nav-list">
+            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-vehicle-reminders'" (click)="selectTab('profile-vehicle-reminders')">
+              Vehicle Reminders
+            </button>
+            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-notifications'" (click)="selectTab('profile-notifications')">
+              Notification Preferences
+            </button>
+            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-password'" (click)="selectTab('profile-password')">
+              Change Password
+            </button>
+            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-settings'" (click)="selectTab('profile-settings')">
+              Settings
+            </button>
+          </div>
+        }
+
+        <button class="nav-item" [class.active]="activeTab() === 'support'" (click)="selectTab('support')">
+          <span class="nav-label-group"><i class="fa-solid fa-circle-question nav-icon"></i> Help & Support</span>
+        </button>
+      </nav>
+        <div class="sidebar-promo-banner">
+        <div class="promo-text">
+          <span class="yellow-highlight">STAY CONNECTED</span>
+          <span class="yellow-highlight">STAY PROTECTED</span>
+          <span class="white-text">WITH TRAFFTAG</span>
+        </div>
+        <div class="promo-car">
+          <i class="fa-solid fa-car-side fa-3x" style="color: #3b82f6;"></i>
+        </div>
+        <div class="promo-features">
+          <div class="p-feat">
+            <i class="fa-solid fa-qrcode"></i>
+            <span>SCAN<br>IS FREE</span>
+          </div>
+          <div class="p-feat">
+            <i class="fa-solid fa-bell"></i>
+            <span>NOTIFY<br>IS FREE</span>
+          </div>
+          <div class="p-feat">
+            <i class="fa-solid fa-face-smile"></i>
+            <span>SMILE<br>IS FREE</span>
+          </div>
+        </div>
+      </div>
+
     <div class="sidebar-footer">
       <button class="logout-btn" (click)="logout()">
         <i class="fa-solid fa-right-from-bracket logout-icon"></i>
@@ -77,125 +117,34 @@
   <!-- Main Dashboard Content -->
   <main class="main-content">
     
-    <!-- Top Header -->
-    <header class="content-header">
-      <div class="header-welcome">
-        @if (activeTab() === 'dashboard') {
-          <h1>Dashboard Overview</h1>
-        } @else if (activeTab() === 'vehicles') {
-          <h1>My Registered Vehicles</h1>
-        } @else if (activeTab() === 'tags') {
-          <h1>My Active QR Tags</h1>
-        } @else if (activeTab() === 'notifications') {
-          <h1>Notification Alerts</h1>
-        } @else if (activeTab() === 'pay-fine') {
-          <h1>E-Challan & Fines</h1>
-        } @else if (activeTab() === 'reports') {
-          <h1>Analytics & Reports</h1>
-        } @else if (activeTab() === 'rules') {
-          <h1>Traffic Regulations</h1>
-        } @else if (activeTab() === 'support') {
-          <h1>Customer Support Tickets</h1>
-        } @else if (activeTab() === 'profile') {
-          <h1>My Profile Settings</h1>
-        }
-        <p>Manage your account, check alerts, and monitor your vehicles.</p>
-      </div>
-      <div class="header-actions">
-        @if (membershipType() === 'Free Plan') {
-          <button class="btn btn-primary upgrade-cta" (click)="openUpgrade()"><i class="fa-solid fa-star"></i> Upgrade to Premium</button>
-        } @else {
-          <span class="premium-active-badge"><i class="fa-solid fa-star"></i> Premium Active</span>
-        }
-      </div>
-    </header>
+      <!-- Top Header (Global Nav) -->
+      <header class="content-header" style="display: flex; justify-content: flex-end; align-items: center; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid #E2E8F0;">
+        <div class="header-actions" style="display: flex; align-items: center; gap: 20px;">
+          
+          <button style="background: transparent; border: none; font-size: 1.2rem; color: #475569; cursor: pointer; position: relative;">
+            <i class="fa-regular fa-bell"></i>
+            <span style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: white; font-size: 0.65rem; padding: 2px 5px; border-radius: 10px; font-weight: bold;">3</span>
+          </button>
+          
+          <button style="background: transparent; border: none; font-size: 1.2rem; color: #475569; cursor: pointer;">
+            <i class="fa-regular fa-circle-question"></i>
+          </button>
+          
+          <div class="user-profile-summary" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+            <img src="https://ui-avatars.com/api/?name=Ravi+Sharma&background=0D8ABC&color=fff" alt="User" style="width: 36px; height: 36px; border-radius: 50%;">
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+              <span style="font-size: 0.75rem; color: #64748b; line-height: 1;">Welcome,</span>
+              <span style="font-size: 0.9rem; font-weight: 700; color: #0f172a; line-height: 1.2;">{{ userName() || 'Ravi Sharma' }}</span>
+            </div>
+          </div>
+
+        </div>
+      </header>
 
     <!-- Tab 1: Overview (Matching Mockup & Filling Desktop Viewport) -->
     @if (activeTab() === 'dashboard') {
-      <div class="tab-panel dashboard-mockup-panel">
-        
-        <div class="dashboard-grid-layout">
-          <!-- Left Column: Main Dark Navy Action Card -->
-          <div class="mockup-navy-card">
-            
-            <!-- Top Welcome Header Row with QR Code -->
-            <div class="mockup-user-header-row">
-              <div class="user-info-side">
-                <span class="welcome-label">Welcome back,</span>
-                <h2 class="user-full-name">{{ userName() }}</h2>
-                <span class="vehicle-tag-plate">{{ vehicles()[0]?.plate || 'XYZ-3434' }}</span>
-              </div>
-              <div class="user-qr-card" (click)="selectTab('tags')" style="cursor: pointer;" title="View QR Decal Fleet">
-                <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRAFFTAG-' + (vehicles()[0]?.plate || 'XYZ-3434')" alt="Vehicle QR Code" class="qr-img" />
-              </div>
-            </div>
-
-            <!-- 3x4 Grid of White Pill Action Cards -->
-            <div class="mockup-action-cards-grid">
-              <!-- Row 1 -->
-              <button class="mockup-pill-card" (click)="selectTab('tags')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-qrcode"></i></div>
-                <span>QR Tags</span>
-              </button>
-              <button class="mockup-pill-card" (click)="selectTab('pay-fine')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-calculator"></i></div>
-                <span>Pay Fine</span>
-              </button>
-              <button class="mockup-pill-card" (click)="selectTab('notifications')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-file-circle-check"></i></div>
-                <span>Check Status</span>
-              </button>
-              <button class="mockup-pill-card" (click)="selectTab('notifications')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-bell"></i></div>
-                <span>Notifications</span>
-              </button>
-
-              <!-- Row 2 -->
-              <button class="mockup-pill-card" (click)="openAddVehicle()">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-car"></i></div>
-                <span>Add Vehicle</span>
-              </button>
-              <button class="mockup-pill-card" (click)="selectTab('rules')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-book-bookmark"></i></div>
-                <span>Traffic Pulse</span>
-              </button>
-              <button class="mockup-pill-card" (click)="selectTab('reports')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-chart-line"></i></div>
-                <span>Reports</span>
-              </button>
-              <button class="mockup-pill-card" (click)="selectTab('support')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-headset"></i></div>
-                <span>Support</span>
-              </button>
-
-              <!-- Row 3 -->
-              <button class="mockup-pill-card" (click)="openUpgrade()">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-credit-card"></i></div>
-                <span>Payment</span>
-              </button>
-              <button class="mockup-pill-card" (click)="selectTab('profile')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-user"></i></div>
-                <span>Profile</span>
-              </button>
-              <button class="mockup-pill-card" (click)="selectTab('profile')">
-                <div class="pill-icon-wrapper"><i class="fa-solid fa-gear"></i></div>
-                <span>Settings</span>
-              </button>
-            </div>
-
-            <!-- Bottom Main CTA Buttons -->
-            <div class="mockup-bottom-buttons">
-              <button class="btn-yellow-cta" (click)="openAddVehicle()">
-                Add New Vehicle
-              </button>
-              <button class="btn-navy-cta" (click)="selectTab('profile')">
-                Refer & Earn Rewards 🎁
-              </button>
-            </div>
-
-          </div>
-        </div>
-
+      <div class="tab-panel">
+        <app-vehicle-reminders-tab></app-vehicle-reminders-tab>
       </div>
     }
 
@@ -255,11 +204,12 @@
         (openSubmitTicket)="openSubmitTicket()"
         (rateTicket)="rateTicket($event.ticketId, $event.stars)">
       </app-support-tab>
-    }
-
-    <!-- Tab 6: Profile / Account -->
-    @if (activeTab() === 'profile') {
-      <app-profile-tab
+    } @else if (activeTab() === 'rules') {
+        <div class="tab-panel"><div class="mockup-navy-card" style="padding:40px;text-align:center;"><h2>Traffic Regulations</h2><p>This module is under development.</p></div></div>
+      } @else if (activeTab() === 'support') {
+        <app-support-tab></app-support-tab>
+      } @else if (activeTab() === 'profile') {
+        <app-profile-tab
         [userName]="userName()"
         [userEmail]="userEmail()"
         [membershipType]="membershipType()"
@@ -294,7 +244,9 @@
         (updatePassword)="updatePassword()"
         (redirectToBillingPortal)="redirectToBillingPortal()">
       </app-profile-tab>
-    }
+      } @else if (activeTab() === 'profile-vehicle-reminders') {
+        <app-vehicle-reminders-tab></app-vehicle-reminders-tab>
+      }
 
     <!-- Tab 7: Pay Fine / E-Challan Gateway -->
     @if (activeTab() === 'pay-fine') {
@@ -545,11 +497,15 @@
     [newColor]="newColor()"
     (newColorChange)="newColor.set($event)"
     [newStateProvince]="newStateProvince()"
-    (newStateProvinceChange)="newStateProvince.set($event)"
-    [newVin]="newVin()"
-    (newVinChange)="newVin.set($event)"
+    (newStateProvinceChange)="onStateChange($event)"
+    [newCity]="newCity()"
+    (newCityChange)="newCity.set($event)"
     [newDriverName]="newDriverName()"
     (newDriverNameChange)="newDriverName.set($event)"
+    [newVin]="newVin()"
+    (newVinChange)="newVin.set($event)"
+    [usStates]="usStates"
+    [usCities]="usCities()"
     [colorPresets]="colorPresets"
     (close)="closeAddVehicle()"
     (submit)="addVehicle()">

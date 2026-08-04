@@ -10,11 +10,39 @@
           <div class="form-grid-2">
             <div class="form-group">
               <label for="veh-make">Make / Manufacturer *</label>
-              <input id="veh-make" type="text" placeholder="e.g. Toyota, Honda, Ford" [ngModel]="selectedMakeId" (ngModelChange)="selectedMakeIdChange.emit($event)" name="make" required>
+              <select id="veh-make" [ngModel]="selectedMakeId" (ngModelChange)="selectedMakeIdChange.emit($event)" name="make" required>
+                <option value="">Select Make</option>
+                <option value="1">Toyota</option>
+                <option value="2">Honda</option>
+                <option value="3">Ford</option>
+                <option value="4">Tesla</option>
+              </select>
             </div>
             <div class="form-group">
               <label for="veh-model">Model *</label>
-              <input id="veh-model" type="text" placeholder="e.g. Camry, Civic, Mustang" [ngModel]="selectedModelId" (ngModelChange)="selectedModelIdChange.emit($event)" name="model" required>
+              <select id="veh-model" [ngModel]="selectedModelId" (ngModelChange)="selectedModelIdChange.emit($event)" name="model" required>
+                <option value="">Select Model</option>
+                @if (selectedMakeId === '1') {
+                  <option value="1">Fortuner</option>
+                  <option value="2">RAV4</option>
+                  <option value="4">Camry</option>
+                } @else if (selectedMakeId === '2') {
+                  <option value="5">Civic</option>
+                  <option value="6">Accord</option>
+                  <option value="7">CR-V</option>
+                  <option value="8">Pilot</option>
+                } @else if (selectedMakeId === '3') {
+                  <option value="9">Mustang</option>
+                  <option value="10">F-150</option>
+                  <option value="11">Explorer</option>
+                  <option value="12">Escape</option>
+                } @else if (selectedMakeId === '4') {
+                  <option value="13">Model 3</option>
+                  <option value="14">Model Y</option>
+                  <option value="15">Model S</option>
+                  <option value="16">Model X</option>
+                }
+              </select>
             </div>
           </div>
           <div class="form-grid-2">
@@ -28,18 +56,48 @@
             </div>
           </div>
           <div class="form-grid-2">
+            <div class="form-group" style="position: relative;">
+              <label for="veh-state">State (US) *</label>
+              <input id="veh-state" type="text" placeholder="Search State..." 
+                     [ngModel]="stateSearchQuery" (ngModelChange)="stateSearchQuery = $event"
+                     (focus)="showStateDropdown = true" (blur)="showStateDropdown = false"
+                     name="state" autocomplete="off" required>
+              @if (showStateDropdown) {
+                <div class="custom-dropdown">
+                  @for (state of filteredStates; track state.isoCode) {
+                    <div class="dropdown-item" (mousedown)="$event.preventDefault(); selectState(state.isoCode, state.name)">
+                      {{ state.name }}
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group" style="position: relative;">
+              <label for="veh-city">City *</label>
+              <input id="veh-city" type="text" placeholder="Search City..." 
+                     [ngModel]="citySearchQuery" (ngModelChange)="citySearchQuery = $event"
+                     (focus)="showCityDropdown = true" (blur)="showCityDropdown = false"
+                     name="city" autocomplete="off" required [disabled]="!newStateProvince">
+              @if (showCityDropdown && newStateProvince) {
+                <div class="custom-dropdown">
+                  @for (city of filteredCities; track city.name) {
+                    <div class="dropdown-item" (mousedown)="$event.preventDefault(); selectCity(city.name)">
+                      {{ city.name }}
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+          <div class="form-grid-2">
             <div class="form-group">
               <label for="veh-plate">License Plate Number *</label>
               <input id="veh-plate" type="text" placeholder="e.g. XYZ-1234" [ngModel]="newPlate" (ngModelChange)="newPlateChange.emit($event)" name="plate" required>
             </div>
             <div class="form-group">
-              <label for="veh-state">State / Province *</label>
-              <input id="veh-state" type="text" placeholder="e.g. California" [ngModel]="newStateProvince" (ngModelChange)="newStateProvinceChange.emit($event)" name="state" required>
+              <label for="veh-driver">Driver Name</label>
+              <input id="veh-driver" type="text" placeholder="e.g. Sarah Jenkins" [ngModel]="newDriverName" (ngModelChange)="newDriverNameChange.emit($event)" name="driver">
             </div>
-          </div>
-          <div class="form-group">
-            <label for="veh-driver">Driver Name</label>
-            <input id="veh-driver" type="text" placeholder="e.g. Sarah Jenkins" [ngModel]="newDriverName" (ngModelChange)="newDriverNameChange.emit($event)" name="driver">
           </div>
           <div class="form-group">
             <label for="veh-vin">VIN (Vehicle Identification Number)</label>
