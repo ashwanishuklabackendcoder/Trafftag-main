@@ -1,4 +1,4 @@
-import { Component, signal, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, signal, inject, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -10,7 +10,7 @@ import { API_BASE_URL } from '../../config/api.config';
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
-export class Register {
+export class Register implements OnInit, OnDestroy {
   private router = inject(Router);
   private http = inject(HttpClient);
 
@@ -19,10 +19,14 @@ export class Register {
   firstName = signal('');
   lastName = signal('');
   nickname = signal('');
-  digitalSign = signal('');
-  email = signal('');
+  address = signal('');
   phone = signal('');
+  alternatePhone = signal('');
+  email = signal('');
+  alternateEmail = signal('');
   password = signal('');
+  digitalSign = signal('');
+  captcha = signal('');
   showPassword = signal(false);
   agreeTerms = signal(false);
 
@@ -33,6 +37,33 @@ export class Register {
 
   private isDrawing = false;
   private ctx!: CanvasRenderingContext2D | null;
+
+  ngOnInit() {
+    // Expose callback to global window for reCAPTCHA script
+    (window as any).onRecaptchaSuccess = (token: string) => {
+      this.captcha.set(token);
+      this.errorMessage.set('');
+    };
+
+    (window as any).onRecaptchaExpired = () => {
+      this.captcha.set('');
+    };
+
+    // Dynamically load the script if not present
+    if (!document.getElementById('recaptcha-script')) {
+      const script = document.createElement('script');
+      script.id = 'recaptcha-script';
+      script.src = 'https://www.google.com/recaptcha/api.js';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  }
+
+  ngOnDestroy() {
+    delete (window as any).onRecaptchaSuccess;
+    delete (window as any).onRecaptchaExpired;
+  }
 
   openSignatureModal() {
     this.showSignatureModal.set(true);
@@ -167,8 +198,18 @@ export class Register {
   }
 
   submitRegister() {
-    if (!this.firstName() || !this.lastName() || !this.email() || !this.password()) {
-      this.errorMessage.set('Please fill out all required fields.');
+    if (
+      !this.firstName() ||
+      !this.lastName() ||
+      !this.nickname() ||
+      !this.address() ||
+      !this.phone() ||
+      !this.email() ||
+      !this.password() ||
+      !this.digitalSign() ||
+      !this.captcha()
+    ) {
+      this.errorMessage.set('Please fill out all required fields and complete the captcha.');
       return;
     }
 
@@ -198,12 +239,16 @@ export class Register {
     const body = {
       firstName: this.firstName().trim(),
       lastName: this.lastName().trim(),
-      nickname: this.nickname().trim() || null,
-      digitalSign: this.digitalSign() || null,
+      nickname: this.nickname().trim(),
+      address: this.address().trim(),
+      alternatePhone: this.alternatePhone().trim(),
+      alternateEmail: this.alternateEmail().trim(),
+      digitalSign: this.digitalSign(),
       email: this.email().trim(),
       password: this.password(),
-      phoneNumber: phoneNumber || null,
-      countryCode: phoneNumber ? countryCode : null
+      phoneNumber: phoneNumber,
+      countryCode: countryCode,
+      captcha: this.captcha().trim()
     };
 
     this.http.post<any>(`${API_BASE_URL}/api/v1/auth/register`, body)

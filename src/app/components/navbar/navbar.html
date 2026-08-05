@@ -1,12 +1,7 @@
 <header class="app-global-navbar" [class.is-scrolled]="isScrolled()">
   <div class="gn-container">
-    <!-- Brand Logo -->
-    <a [routerLink]="['/']" class="gn-brand" (click)="closeMobileMenu()">
-      <div class="gn-shield">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <span class="gn-brand-text">TRAFF<span class="gn-accent">TAG</span></span>
-      <span class="gn-pulse-dot" title="System Active"></span>
+    <a [routerLink]="['/']" class="gn-brand" (click)="closeMobileMenu()" style="display: flex; align-items: center;">
+      <img src="trafftag-logo.png" alt="TraffTag Logo" style="height: 65px; width: auto; object-fit: contain; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1));" />
     </a>
 
     <!-- Desktop Navigation Menu (Title Case) -->

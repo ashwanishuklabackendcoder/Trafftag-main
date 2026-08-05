@@ -20,7 +20,7 @@
 
       <form (ngSubmit)="submitRegister()" #registerForm="ngForm" class="auth-form">
         
-        <!-- Name Group -->
+        <!-- Row 1: First Name, Last Name, Nickname, Address -->
         <div class="form-row animate-fade-in-up delay-150">
           <div class="form-group flex-1">
             <label class="form-label">First Name <span class="required">*</span></label>
@@ -52,27 +52,128 @@
               />
             </div>
           </div>
-        </div>
-
-        <!-- Nickname Field -->
-        <div class="form-group animate-fade-in-up delay-175">
-          <label class="form-label">Nickname</label>
-          <div class="input-wrapper-inner">
-            <span class="input-icon-left"><i class="fa-solid fa-id-badge"></i></span>
-            <input 
-              type="text" 
-              name="nickname" 
-              [ngModel]="nickname()" 
-              (ngModelChange)="nickname.set($event)"
-              class="form-input form-input-with-icon" 
-              placeholder="e.g. Johnny" 
-            />
+          <div class="form-group flex-1">
+            <label class="form-label">Nickname <span class="required">*</span></label>
+            <div class="input-wrapper-inner">
+              <span class="input-icon-left"><i class="fa-solid fa-id-badge"></i></span>
+              <input 
+                type="text" 
+                name="nickname" 
+                [ngModel]="nickname()" 
+                (ngModelChange)="nickname.set($event)"
+                class="form-input form-input-with-icon" 
+                placeholder="e.g. Johnny" 
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label">Address <span class="required">*</span></label>
+            <div class="input-wrapper-inner">
+              <span class="input-icon-left"><i class="fa-solid fa-location-dot"></i></span>
+              <input 
+                type="text" 
+                name="address" 
+                [ngModel]="address()" 
+                (ngModelChange)="address.set($event)"
+                class="form-input form-input-with-icon" 
+                placeholder="123 Main St" 
+                required
+              />
+            </div>
           </div>
         </div>
 
-        <!-- Digital Signature Field (Modal Trigger & Preview) -->
-        <div class="form-group animate-fade-in-up delay-185">
-          <label class="form-label">Digital Signature</label>
+        <!-- Row 2: Phone, Alternate Phone, Email, Alternate Email -->
+        <div class="form-row animate-fade-in-up delay-200">
+          <div class="form-group flex-1">
+            <label class="form-label">Phone Number <span class="required">*</span></label>
+            <div class="input-wrapper-inner">
+              <span class="input-icon-left"><i class="fa-solid fa-phone"></i></span>
+              <input 
+                type="tel" 
+                name="phone" 
+                [ngModel]="phone()" 
+                (ngModelChange)="phone.set($event)"
+                class="form-input form-input-with-icon" 
+                placeholder="e.g. +1 (555) 019-2834"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label">Alternate Phone</label>
+            <div class="input-wrapper-inner">
+              <span class="input-icon-left"><i class="fa-solid fa-phone"></i></span>
+              <input 
+                type="tel" 
+                name="alternatePhone" 
+                [ngModel]="alternatePhone()" 
+                (ngModelChange)="alternatePhone.set($event)"
+                class="form-input form-input-with-icon" 
+                placeholder="e.g. +1 (555) 999-1111"
+              />
+            </div>
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label">Email Address <span class="required">*</span></label>
+            <div class="input-wrapper-inner">
+              <span class="input-icon-left"><i class="fa-solid fa-envelope"></i></span>
+              <input 
+                type="email" 
+                name="email" 
+                [ngModel]="email()" 
+                (ngModelChange)="email.set($event)"
+                class="form-input form-input-with-icon" 
+                placeholder="john.doe@example.com" 
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label">Alternate Email</label>
+            <div class="input-wrapper-inner">
+              <span class="input-icon-left"><i class="fa-solid fa-envelope"></i></span>
+              <input 
+                type="email" 
+                name="alternateEmail" 
+                [ngModel]="alternateEmail()" 
+                (ngModelChange)="alternateEmail.set($event)"
+                class="form-input form-input-with-icon" 
+                placeholder="john.alt@example.com" 
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. Password Input -->
+        <div class="form-group animate-fade-in-up delay-250">
+          <label class="form-label">Password <span class="required">*</span></label>
+          <div class="input-wrapper-inner">
+            <span class="input-icon-left"><i class="fa-solid fa-lock"></i></span>
+            <input 
+              [type]="showPassword() ? 'text' : 'password'" 
+              name="password" 
+              [ngModel]="password()" 
+              (ngModelChange)="password.set($event)"
+              class="form-input form-input-with-icon" 
+              placeholder="Min. 8 characters" 
+              required
+            />
+            <button 
+              type="button" 
+              class="btn-toggle-password" 
+              (click)="togglePasswordVisibility()"
+              aria-label="Toggle password visibility"
+            >
+              <i class="fa-solid" [class.fa-eye]="!showPassword()" [class.fa-eye-slash]="showPassword()"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 10. Digital Signature Field (Modal Trigger & Preview) -->
+        <div class="form-group animate-fade-in-up delay-275">
+          <label class="form-label">Digital Signature <span class="required">*</span></label>
           
           @if (!digitalSign()) {
             <button 
@@ -100,66 +201,20 @@
           }
         </div>
 
-        <!-- Email Input -->
-        <div class="form-group animate-fade-in-up delay-200">
-          <label class="form-label">Email Address <span class="required">*</span></label>
-          <div class="input-wrapper-inner">
-            <span class="input-icon-left"><i class="fa-solid fa-envelope"></i></span>
-            <input 
-              type="email" 
-              name="email" 
-              [ngModel]="email()" 
-              (ngModelChange)="email.set($event)"
-              class="form-input form-input-with-icon" 
-              placeholder="john.doe@example.com" 
-              required
-            />
-          </div>
-        </div>
-
-        <!-- Phone Input -->
-        <div class="form-group animate-fade-in-up delay-250">
-          <label class="form-label">Phone Number (Optional)</label>
-          <p class="input-tip">For receiving instant SMS notification alerts.</p>
-          <div class="input-wrapper-inner">
-            <span class="input-icon-left"><i class="fa-solid fa-phone"></i></span>
-            <input 
-              type="tel" 
-              name="phone" 
-              [ngModel]="phone()" 
-              (ngModelChange)="phone.set($event)"
-              class="form-input form-input-with-icon" 
-              placeholder="e.g. +1 (555) 019-2834"
-            />
-          </div>
-        </div>
-
-        <!-- Password Input -->
+        <!-- 11. Verification (Captcha) -->
         <div class="form-group animate-fade-in-up delay-300">
-          <label class="form-label">Password <span class="required">*</span></label>
-          <div class="input-wrapper-inner">
-            <span class="input-icon-left"><i class="fa-solid fa-lock"></i></span>
-            <input 
-              [type]="showPassword() ? 'text' : 'password'" 
-              name="password" 
-              [ngModel]="password()" 
-              (ngModelChange)="password.set($event)"
-              class="form-input form-input-with-icon" 
-              placeholder="Min. 8 characters" 
-              required
-            />
-            <button 
-              type="button" 
-              class="btn-toggle-password" 
-              (click)="togglePasswordVisibility()"
-              aria-label="Toggle password visibility"
-            >
-              <i class="fa-solid" [class.fa-eye]="!showPassword()" [class.fa-eye-slash]="showPassword()"></i>
-            </button>
+          <label class="form-label">Verification (Are you human?) <span class="required">*</span></label>
+          <div class="input-wrapper-inner captcha-wrapper" style="border: none; padding: 0;">
+            <div 
+              class="g-recaptcha" 
+              data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              data-callback="onRecaptchaSuccess"
+              data-expired-callback="onRecaptchaExpired"
+            ></div>
           </div>
         </div>
 
-        <!-- Terms Agreement -->
+        <!-- 12. Terms Agreement -->
         <div class="form-checkbox-group animate-fade-in-up delay-350">
           <label class="checkbox-container">
             <input 
