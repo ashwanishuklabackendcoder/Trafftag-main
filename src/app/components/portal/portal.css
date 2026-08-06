@@ -76,6 +76,42 @@
   margin-top: 1px;
 }
 
+/* Custom Logo Block Styling */
+.custom-logo-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.custom-logo-img {
+  width: 100%;
+  max-width: 160px;
+  height: auto;
+}
+
+.logo-tagline {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.tag-caps {
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.tag-cursive {
+  color: #eab308;
+  font-size: 0.9rem;
+  font-style: italic;
+  font-family: serif;
+}
+
 /* User Profile Summary Card */
 .user-profile-summary {
   display: flex;
@@ -169,6 +205,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
+  min-height: 0;
 }
 
 .sidebar-nav::-webkit-scrollbar {
@@ -3692,3 +3729,4 @@ input:checked + .slider:before {
 .btn-dash-secondary:hover {
   background: #e2e8f0;
 }
+@media (max-width: 1024px) { .custom-logo-block { flex-direction: row; align-items: center; justify-content: flex-start; padding: 0 10px; margin-bottom: 12px; } .custom-logo-img { max-width: 50px; margin-right: 10px; } .logo-tagline { margin-top: 0; text-align: left; } .tag-caps { font-size: 0.75rem; letter-spacing: 0.5px; } .tag-cursive { font-size: 0.85rem; } .sidebar-promo-banner { display: none !important; } }

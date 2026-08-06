@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './add-vehicle-modal.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class AddVehicleModalComponent {
+export class AddVehicleModalComponent implements OnChanges {
   @Input() show = false;
   @Input() makes: any[] = [];
   @Input() models: any[] = [];
@@ -40,9 +40,61 @@ export class AddVehicleModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<void>();
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['show'] && changes['show'].currentValue) {
+      if (!this.selectedMakeId) this.makeSearchQuery = '';
+      if (!this.selectedModelId) this.modelSearchQuery = '';
+      if (!this.newStateProvince) this.stateSearchQuery = '';
+      if (!this.newCity) this.citySearchQuery = '';
+    }
+  }
+
   onMakeChange(makeId: string) {
     this.selectedMakeIdChange.emit(makeId);
     this.selectedModelIdChange.emit('');
+    this.modelSearchQuery = '';
+  }
+
+  // Searchable Dropdown State for "Make"
+  showMakeDropdown = false;
+  makeSearchQuery = '';
+
+  get filteredMakes() {
+    if (!this.makeSearchQuery) return this.makes;
+    const query = this.makeSearchQuery.toLowerCase();
+    return this.makes.filter(m => m.name.toLowerCase().includes(query));
+  }
+
+  selectMake(makeId: string, makeName: string) {
+    this.onMakeChange(makeId);
+    this.makeSearchQuery = makeName;
+    this.showMakeDropdown = false;
+  }
+
+  getMakeName(makeId: string): string {
+    const m = this.makes.find(x => x.id === makeId);
+    return m ? m.name : '';
+  }
+
+  // Searchable Dropdown State for "Model"
+  showModelDropdown = false;
+  modelSearchQuery = '';
+
+  get filteredModels() {
+    if (!this.modelSearchQuery) return this.models;
+    const query = this.modelSearchQuery.toLowerCase();
+    return this.models.filter(m => m.name.toLowerCase().includes(query));
+  }
+
+  selectModel(modelId: string, modelName: string) {
+    this.selectedModelIdChange.emit(modelId);
+    this.modelSearchQuery = modelName;
+    this.showModelDropdown = false;
+  }
+
+  getModelName(modelId: string): string {
+    const m = this.models.find(x => x.id === modelId);
+    return m ? m.name : '';
   }
 
   // Searchable Dropdown State for "State"

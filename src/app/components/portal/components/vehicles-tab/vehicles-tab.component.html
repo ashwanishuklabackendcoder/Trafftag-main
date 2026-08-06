@@ -52,9 +52,35 @@
           <!-- Stylized License Plate -->
           <div class="veh-license-plate-wrapper">
             <div class="veh-license-plate">
-              <div class="plate-state">{{ veh.stateProvince | uppercase }}</div>
+              <!-- Top Section -->
+              <div class="plate-top">
+                <div class="plate-flag us-flag"></div>
+                <img src="/trafftag-shield.png" alt="TraffTag Shield Logo" class="plate-logo">
+                <div class="plate-title">
+                  TRAFFTAG<span class="tm">TM</span>
+                </div>
+                <img src="/trafftag-shield.png" alt="TraffTag Shield Logo" class="plate-logo">
+                <div class="plate-flag us-flag"></div>
+              </div>
+              
+              <!-- Middle Section -->
               <div class="plate-number">{{ veh.plate }}</div>
-              <div class="plate-hologram"></div>
+              
+              <!-- Bottom Section -->
+              <div class="plate-bottom">
+                <div class="plate-lines">
+                  <div class="line-red"></div>
+                  <div class="line-blue"></div>
+                </div>
+                <div class="plate-subtitle">
+                  <span class="text-red">TRAFFTAG<span class="tm-small">TM</span></span>
+                  <span class="text-blue">USA</span>
+                </div>
+                <div class="plate-lines">
+                  <div class="line-red"></div>
+                  <div class="line-blue"></div>
+                </div>
+              </div>
             </div>
           </div>
 

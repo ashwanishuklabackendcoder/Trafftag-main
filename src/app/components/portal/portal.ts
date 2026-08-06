@@ -227,54 +227,62 @@ export class Portal implements OnInit {
     }
   }
 
-  // Make/Model Database Dropdowns
-  makes = [
-    { id: '1', name: 'Toyota' },
-    { id: '2', name: 'Honda' },
-    { id: '3', name: 'Ford' },
-    { id: '4', name: 'Tesla' }
-  ];
-
-  modelsMap: { [key: string]: { id: string; name: string }[] } = {
-    '1': [
-      { id: '1', name: 'Fortuner' },
-      { id: '2', name: 'RAV4' },
-      { id: '4', name: 'Camry' }
-    ],
-    '2': [
-      { id: '5', name: 'Civic' },
-      { id: '6', name: 'Accord' },
-      { id: '7', name: 'CR-V' },
-      { id: '8', name: 'Pilot' }
-    ],
-    '3': [
-      { id: '9', name: 'Mustang' },
-      { id: '10', name: 'F-150' },
-      { id: '11', name: 'Explorer' },
-      { id: '12', name: 'Escape' }
-    ],
-    '4': [
-      { id: '13', name: 'Model 3' },
-      { id: '14', name: 'Model Y' },
-      { id: '15', name: 'Model S' },
-      { id: '16', name: 'Model X' }
-    ]
-  };
+  // Make/Model Database Dropdowns (Fetched from NHTSA API)
+  makes: { id: string; name: string }[] = [];
+  currentModels: { id: string; name: string }[] = [];
 
   selectedMakeId = signal('');
   selectedModelId = signal('');
 
+  loadMakes() {
+    this.http.get<any>(`${API_BASE_URL}/api/v1/vehicles/makes`)
+      .subscribe({
+        next: (res) => {
+          if (res && res.data) {
+            this.makes = res.data.map((item: any) => ({
+              id: item.makeId.toString(),
+              name: item.name
+            })).sort((a: any, b: any) => a.name.localeCompare(b.name));
+          }
+        },
+        error: (err) => console.error('Error loading makes:', err)
+      });
+  }
+
   onMakeChange(makeId: string) {
     this.selectedMakeId.set(makeId);
     this.selectedModelId.set('');
-    const makeObj = this.makes.find(m => m.id === makeId);
-    this.newMake.set(makeObj ? makeObj.name : '');
+    this.newMake.set('');
     this.newModel.set('');
+    this.currentModels = [];
+
+    const makeObj = this.makes.find(m => m.id === makeId);
+    if (makeObj) {
+      this.newMake.set(makeObj.name);
+      
+      this.currentModels = [{ id: '', name: 'Loading models...' }];
+      this.http.get<any>(`${API_BASE_URL}/api/v1/vehicles/models/${makeId}`)
+        .subscribe({
+          next: (res) => {
+            if (res && res.data) {
+              this.currentModels = res.data.map((item: any) => ({
+                id: item.modelId.toString(),
+                name: item.name
+              })).sort((a: any, b: any) => a.name.localeCompare(b.name));
+            } else {
+              this.currentModels = [];
+            }
+          },
+          error: (err) => {
+            console.error('Error loading models:', err);
+            this.currentModels = [];
+          }
+        });
+    }
   }
 
   getModelsForSelectedMake() {
-    const makeId = this.selectedMakeId();
-    return makeId ? this.modelsMap[makeId] || [] : [];
+    return this.currentModels;
   }
 
   // Location Database Dropdowns (US only)
@@ -468,6 +476,7 @@ export class Portal implements OnInit {
         this.lastName.set('VERMA');
         this.userEmail.set('arvindverma630635@gmail.com');
       }
+      this.loadMakes();
       this.loadVehicles();
       this.loadProfile();
       this.loadUserMemberships();
