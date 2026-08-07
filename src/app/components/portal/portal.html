@@ -39,9 +39,21 @@
         <button class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
           <span class="nav-label-group"><i class="fa-solid fa-house nav-icon"></i> Dashboard</span>
         </button>
-        <button class="nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
+        <!-- My Vehicles & Sub-menu -->
+        <button class="nav-item" [class.active]="activeTab().startsWith('vehicle')" (click)="selectTab('vehicles')">
           <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> My Vehicles</span>
         </button>
+        
+        @if (activeTab().startsWith('vehicle')) {
+          <div class="sub-nav-list">
+            <button class="sub-nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
+              Overview / Tags
+            </button>
+            <button class="sub-nav-item" [class.active]="activeTab() === 'vehicle-reminders'" (click)="selectTab('vehicle-reminders')">
+              Reminders & Expiration Dates
+            </button>
+          </div>
+        }
         <button class="nav-item" [class.active]="activeTab() === 'alerts'" (click)="selectTab('alerts')">
           <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> Alerts</span>
         </button>
@@ -62,6 +74,9 @@
         
         @if (activeTab().startsWith('profile')) {
           <div class="sub-nav-list">
+            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-membership'" (click)="selectTab('profile-membership')">
+              Membership Plan
+            </button>
             <button class="sub-nav-item" [class.active]="activeTab() === 'profile-vehicle-reminders'" (click)="selectTab('profile-vehicle-reminders')">
               Vehicle Reminders
             </button>
@@ -141,10 +156,139 @@
         </div>
       </header>
 
-    <!-- Tab 1: Overview (Matching Mockup & Filling Desktop Viewport) -->
+    <!-- Tab 1: Dashboard (New Design) -->
     @if (activeTab() === 'dashboard') {
-      <div class="tab-panel">
-        <app-vehicle-reminders-tab></app-vehicle-reminders-tab>
+      <div class="tab-panel dashboard-panel">
+        <!-- Top Title -->
+        <div class="dashboard-header-title">
+          <i class="fa-solid fa-sparkles text-yellow-400"></i>
+          <h1>What do you want to do today?</h1>
+          <i class="fa-solid fa-sparkles text-yellow-400"></i>
+        </div>
+        
+        <div class="dash-divider"></div>
+        
+        <!-- Top Actions Row -->
+        <div class="dash-actions-row">
+          <div class="dash-action-btn" (click)="selectTab('vehicles')">
+            <div class="dash-action-icon text-blue">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+            <div class="dash-action-label">Register<br>a New Tag</div>
+            <div class="dash-action-sub">Add a new tag</div>
+          </div>
+          
+          <div class="dash-action-btn" (click)="openScanner()">
+            <div class="dash-action-icon text-green">
+              <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <div class="dash-action-label">Scan<br>a Tag</div>
+            <div class="dash-action-sub">Scan & notify</div>
+          </div>
+          
+          <div class="dash-action-btn" (click)="redirectToShop()">
+            <div class="dash-action-icon text-orange">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <div class="dash-action-label">Buy<br>a Tag</div>
+            <div class="dash-action-sub">Shop now</div>
+          </div>
+          
+          <div class="dash-action-btn" (click)="selectTab('profile')">
+            <div class="dash-action-icon text-purple">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="dash-action-label">My<br>Account</div>
+            <div class="dash-action-sub">View profile</div>
+          </div>
+        </div>
+
+        <!-- Middle Grid Cards -->
+        <div class="dash-cards-grid">
+          <div class="dash-category-card bg-blue-soft" (click)="selectTab('vehicles')">
+            <div class="dash-card-img-wrapper"><img src="/illust-vehicle.png" alt="Vehicle Tags" class="dash-card-img img-vehicle"></div>
+            <div class="dash-card-content">
+              <h3>Vehicle Tags</h3>
+              <p>Cars, Bikes, Trucks & More</p>
+            </div>
+            <div class="dash-card-arrow bg-blue-primary"><i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+          
+          <div class="dash-category-card bg-green-soft">
+            <div class="dash-card-img-wrapper"><img src="/illust-family.png" alt="Happy Tags" class="dash-card-img img-family"></div>
+            <div class="dash-card-content">
+              <h3 class="text-green-primary">My Happy Tags</h3>
+              <p>Kids, Adults & Seniors</p>
+            </div>
+            <div class="dash-card-arrow bg-green-primary"><i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+          
+          <div class="dash-category-card bg-orange-soft">
+            <div class="dash-card-img-wrapper"><img src="/illust-pets.png" alt="Pet Tags" class="dash-card-img img-pet"></div>
+            <div class="dash-card-content">
+              <h3 class="text-orange-primary">Pet Tags</h3>
+              <p>Dogs, Cats, Birds & More</p>
+            </div>
+            <div class="dash-card-arrow bg-orange-primary"><i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+          
+          <div class="dash-category-card bg-purple-soft">
+            <div class="dash-card-img-wrapper"><img src="/illust-home.png" alt="Home Tags" class="dash-card-img img-home"></div>
+            <div class="dash-card-content">
+              <h3 class="text-purple-primary">Home Tags</h3>
+              <p>Home, Apartment, Office & More</p>
+            </div>
+            <div class="dash-card-arrow bg-purple-primary"><i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+        </div>
+
+        <!-- Shop Banner -->
+        <div class="dash-shop-banner" (click)="redirectToShop()">
+          <div class="dash-shop-icon">
+            <i class="fa-solid fa-bag-shopping"></i>
+          </div>
+          <div class="dash-shop-text">
+            <h3>Shop Products</h3>
+            <p>Tags, Wristbands, Keychains, Stickers & More</p>
+          </div>
+          <div class="dash-shop-arrow text-yellow-500"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+        
+        <!-- Bottom Toolbar -->
+        <div class="dash-bottom-toolbar">
+          <div class="toolbar-item" (click)="openScanner()">
+            <div class="tb-icon text-blue-tb"><i class="fa-solid fa-mobile-screen"></i></div>
+            <div class="tb-text">
+              <strong>Scan QR</strong>
+              <span>Scan any tag<br>and notify</span>
+            </div>
+          </div>
+          <div class="toolbar-item" (click)="selectTab('alerts')">
+            <div class="tb-icon text-red-tb"><i class="fa-solid fa-bell"></i></div>
+            <div class="tb-text">
+              <strong>Alerts</strong>
+              <span>View all<br>alerts</span>
+            </div>
+          </div>
+          <div class="toolbar-item" (click)="selectTab('messages')">
+            <div class="tb-icon text-green-tb relative">
+              <i class="fa-solid fa-comment-dots"></i>
+              <span class="tb-badge">8</span>
+            </div>
+            <div class="tb-text">
+              <strong>Messages</strong>
+              <span>View your<br>messages</span>
+            </div>
+          </div>
+          <div class="toolbar-item" (click)="selectTab('rewards')">
+            <div class="tb-icon text-yellow-tb"><i class="fa-solid fa-gift"></i></div>
+            <div class="tb-text">
+              <strong>Rewards</strong>
+              <span>350 Points<br>Available</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     }
 
@@ -160,6 +304,13 @@
         (deleteVehicle)="deleteVehicle($event)"
         (toggleActive)="toggleVehicleActive($event)">
       </app-vehicles-tab>
+    }
+
+    <!-- Tab 2.1: Vehicle Reminders -->
+    @if (activeTab() === 'vehicle-reminders') {
+      <div class="tab-panel">
+        <app-vehicle-reminders-tab></app-vehicle-reminders-tab>
+      </div>
     }
 
     <!-- Tab 3: Active QR Tags -->
@@ -244,6 +395,73 @@
         (updatePassword)="updatePassword()"
         (redirectToBillingPortal)="redirectToBillingPortal()">
       </app-profile-tab>
+      } @else if (activeTab() === 'profile-membership') {
+        <div class="tab-panel">
+          <div class="enterprise-white-card">
+            <div class="panel-header-row">
+              <div>
+                <h2>Membership Plan</h2>
+                <p class="panel-subtext">View your current active plan and explore available upgrades</p>
+              </div>
+              <span class="badge"><i class="fa-solid fa-crown"></i> {{ membershipType() }}</span>
+            </div>
+            
+            <div style="margin-top: 30px;">
+              @if (membershipPlans().length === 0) {
+                <div style="display: flex; flex-direction: column; align-items: center; padding: 40px 20px;">
+                  <div class="spinner" style="width: 36px; height: 36px; border-width: 3px; margin-bottom: 12px;"></div>
+                  <p style="font-size: 0.9rem; color: #64748B;">Loading available subscription plans...</p>
+                </div>
+              } @else {
+                <div class="upgrade-plans-row">
+                  @for (plan of membershipPlans(); track plan.planId) {
+                    <div class="upgrade-plan-box" 
+                         [class.recommended]="plan.planId === 2 || plan.planId === 3" 
+                         [class.current]="membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()">
+                      
+                      @if (plan.planId === 2) {
+                        <span class="rec-badge badge-popular">Best Seller</span>
+                      } @else if (plan.planId === 3) {
+                        <span class="rec-badge badge-value">Best Value</span>
+                      } @else if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
+                        <span class="rec-badge badge-active">Active</span>
+                      }
+
+                      <div class="plan-card-header">
+                        <h3 class="plan-card-title">{{ plan.name }}</h3>
+                        <div class="up-price">
+                          <span class="currency">$</span>{{ plan.price.toFixed(2) }}
+                          <span class="period">/ {{ plan.name.toLowerCase().includes('lifetime') ? 'one-time' : 'mo' }}</span>
+                        </div>
+                      </div>
+                      
+                      <ul class="plan-features-list">
+                        @for (feat of getPlanFeatures(plan); track feat) {
+                          <li>
+                            <i class="fa-solid fa-circle-check check-icon"></i>
+                            <span>{{ feat }}</span>
+                          </li>
+                        }
+                      </ul>
+                      
+                      <div class="plan-card-footer">
+                        @if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
+                          <button class="plan-btn btn-current" disabled><i class="fa-solid fa-check"></i> Current Plan</button>
+                        } @else if (plan.planId === 1) {
+                          <button class="plan-btn btn-disabled" disabled>Default Plan</button>
+                        } @else {
+                          <button class="plan-btn btn-upgrade" (click)="upgradePlan(plan.planId)">
+                            Select Plan <i class="fa-solid fa-arrow-right"></i>
+                          </button>
+                        }
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </div>
       } @else if (activeTab() === 'profile-vehicle-reminders') {
         <app-vehicle-reminders-tab></app-vehicle-reminders-tab>
       }

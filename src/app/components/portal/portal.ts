@@ -46,7 +46,26 @@ interface QRNotification {
   status: 'Unresolved' | 'Resolved';
 }
 
-export type PortalTab = 'dashboard' | 'vehicles' | 'tags' | 'notifications' | 'support' | 'profile' | 'pay-fine' | 'reports' | 'rules' | 'alerts' | 'messages' | 'finders' | 'rewards' | 'profile-vehicle-reminders' | 'profile-notifications' | 'profile-password' | 'profile-settings';
+export type PortalTab = 
+  | 'dashboard' 
+  | 'vehicles' 
+  | 'vehicle-reminders'
+  | 'tags' 
+  | 'notifications' 
+  | 'alerts'
+  | 'reports' 
+  | 'pay-fine' 
+  | 'rules' 
+  | 'support'
+  | 'finders'
+  | 'rewards'
+  | 'messages'
+  | 'profile' 
+  | 'profile-membership'
+  | 'profile-vehicle-reminders'
+  | 'profile-notifications' 
+  | 'profile-password' 
+  | 'profile-settings';
 
 @Component({
   selector: 'app-portal',
@@ -403,7 +422,9 @@ export class Portal implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const sub = params.get('subpage');
-      if (sub && ['dashboard', 'vehicles', 'tags', 'notifications', 'support', 'profile', 'pay-fine', 'reports', 'rules'].includes(sub)) {
+      const validTabs = ['dashboard', 'vehicles', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings'];
+      
+      if (sub && validTabs.includes(sub)) {
         this.activeTab.set(sub as any);
       } else {
         this.router.navigate(['/portal', 'dashboard'], { replaceUrl: true });
@@ -1130,6 +1151,14 @@ export class Portal implements OnInit {
           .then(() => this.downloadingVehicleId.set(null));
       }
     });
+  }
+
+  openScanner() {
+    this.modalService.showWarning('Scanner', 'QR Code Scanner is not available on desktop. Please use the mobile app.');
+  }
+
+  redirectToShop() {
+    window.open('https://shop.trafftag.com', '_blank');
   }
 }
 
