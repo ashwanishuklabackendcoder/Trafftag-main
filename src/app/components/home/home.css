@@ -575,14 +575,16 @@
 }
 
 .hero-media {
-  flex: 1;
-  max-width: 640px;
-  width: 100%;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  width: 250px;
+  z-index: 20;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  z-index: 10;
+  transform: scale(0.85);
+  transform-origin: bottom right;
 }
 
 .hero-image-showcase {
@@ -2457,5 +2459,132 @@
   .ecosystem-grid, .benefits-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+  }
+}
+
+/* NEW ECOSYSTEM GRID (5 Columns) */
+.new-ecosystem-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.new-tag-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.new-tag-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.new-tag-card-header {
+  padding: 1.5rem 1rem 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.new-tag-icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.color-vehicle .new-tag-icon-circle { background: #0B306A; }
+.color-pet .new-tag-icon-circle { background: #065A1A; }
+.color-home .new-tag-icon-circle { background: #CC5500; }
+.color-life .new-tag-icon-circle { background: #4B166A; }
+.color-items .new-tag-icon-circle { background: #A5090F; }
+
+.new-tag-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0 0 0.25rem 0;
+}
+.color-vehicle .new-tag-title { color: #0B306A; }
+.color-pet .new-tag-title { color: #065A1A; }
+.color-home .new-tag-title { color: #CC5500; }
+.color-life .new-tag-title { color: #4B166A; }
+.color-items .new-tag-title { color: #A5090F; }
+
+.new-tag-subtitle {
+  font-size: 0.8rem;
+  color: #1e293b;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.new-tag-image-wrapper {
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-tag-image {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  object-fit: contain;
+}
+
+.new-tag-footer-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: opacity 0.2s ease;
+}
+
+.new-tag-footer-btn:hover {
+  opacity: 0.9;
+  color: white;
+}
+
+.color-vehicle .new-tag-footer-btn { background: #0B306A; }
+.color-pet .new-tag-footer-btn { background: #065A1A; }
+.color-home .new-tag-footer-btn { background: #CC5500; }
+.color-life .new-tag-footer-btn { background: #4B166A; }
+.color-items .new-tag-footer-btn { background: #A5090F; }
+
+@media (max-width: 1200px) {
+  .new-ecosystem-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .new-ecosystem-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .new-ecosystem-grid {
+    grid-template-columns: 1fr;
   }
 }

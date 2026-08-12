@@ -214,8 +214,24 @@
           </div>
         </div>
 
-        <!-- 12. Terms Agreement -->
-        <div class="form-checkbox-group animate-fade-in-up delay-350">
+        <!-- 12. Age Verification & Consents -->
+        <div class="form-checkbox-group animate-fade-in-up delay-350" style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- 18+ Checkbox -->
+          <label class="checkbox-container">
+            <input 
+              type="checkbox" 
+              name="is18Plus" 
+              [ngModel]="is18Plus()" 
+              (ngModelChange)="is18Plus.set($event)"
+              required
+            />
+            <span class="checkmark"></span>
+            <span class="checkbox-label">
+              I confirm that I am 18 years or older <span class="required">*</span>
+            </span>
+          </label>
+          
+          <!-- Terms Checkbox -->
           <label class="checkbox-container">
             <input 
               type="checkbox" 
@@ -226,7 +242,36 @@
             />
             <span class="checkmark"></span>
             <span class="checkbox-label">
-              I agree to the <a href="#" class="inline-link">Terms of Service</a> and <a href="#" class="inline-link">Privacy Policy</a>
+              I agree to the <a href="/terms" target="_blank" class="inline-link">Terms of Service</a> <span class="required">*</span>
+            </span>
+          </label>
+
+          <!-- Privacy Policy Checkbox -->
+          <label class="checkbox-container">
+            <input 
+              type="checkbox" 
+              name="privacyAccepted" 
+              [ngModel]="privacyAccepted()" 
+              (ngModelChange)="privacyAccepted.set($event)"
+              required
+            />
+            <span class="checkmark"></span>
+            <span class="checkbox-label">
+              I agree to the <a href="/privacy" target="_blank" class="inline-link">Privacy Policy</a> <span class="required">*</span>
+            </span>
+          </label>
+
+          <!-- Marketing Consent Checkbox (Optional) -->
+          <label class="checkbox-container">
+            <input 
+              type="checkbox" 
+              name="marketingAccepted" 
+              [ngModel]="marketingAccepted()" 
+              (ngModelChange)="marketingAccepted.set($event)"
+            />
+            <span class="checkmark"></span>
+            <span class="checkbox-label">
+              (Optional) I consent to receive marketing SMS/Email from TRAFFTAG
             </span>
           </label>
         </div>

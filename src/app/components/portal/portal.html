@@ -393,7 +393,8 @@
         (saveProfile)="saveProfile()"
         (resendOtp)="resendOtp()"
         (updatePassword)="updatePassword()"
-        (redirectToBillingPortal)="redirectToBillingPortal()">
+        (redirectToBillingPortal)="redirectToBillingPortal()"
+        (confirmDeleteAccount)="openDeleteAccountModal()">
       </app-profile-tab>
       } @else if (activeTab() === 'profile-membership') {
         <div class="tab-panel">
@@ -741,6 +742,32 @@
     (close)="closeLinkTag()"
     (submit)="linkTag()">
   </app-link-tag-modal>
+
+  <!-- Delete Account Modal -->
+  @if (showDeleteAccountModal()) {
+    <div class="modal-backdrop animate-fade-in" (click)="closeDeleteAccountModal()">
+      <div class="modal-dialog animate-scale-up" (click)="$event.stopPropagation()" style="max-width: 500px;">
+        <div class="modal-header" style="background: rgba(239, 68, 68, 0.05); border-bottom-color: rgba(239, 68, 68, 0.1);">
+          <h3 style="color: var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i> Delete Account</h3>
+          <button type="button" class="modal-close-btn" (click)="closeDeleteAccountModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Are you absolutely sure you want to delete your account?</p>
+          <p style="font-size: 0.9rem; color: #64748b; margin-top: 10px;">This action cannot be undone. All your personal data will be anonymized, and you will lose access to all your registered vehicles and tags immediately.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeDeleteAccountModal()">Cancel</button>
+          <button type="button" class="btn btn-danger" style="background-color: var(--danger); border-color: var(--danger);" (click)="executeDeleteAccount()" [disabled]="isDeletingAccount()">
+            @if (isDeletingAccount()) {
+              <span class="spinner"></span> Deleting...
+            } @else {
+              <i class="fa-solid fa-trash-can"></i> Yes, Delete My Account
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 
   <!-- Upgrade Modal -->
   @if (showUpgradeModal()) {

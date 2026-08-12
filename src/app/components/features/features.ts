@@ -1,10 +1,11 @@
+import { FooterComponent } from '../footer/footer';
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar';
 
 @Component({
   selector: 'app-features',
-  imports: [RouterLink, NavbarComponent],
+  imports: [FooterComponent, RouterLink, NavbarComponent],
   templateUrl: './features.html',
   styleUrl: './features.css',
 })
@@ -48,3 +49,5 @@ export class Features {
     }
   ]);
 }
+
+

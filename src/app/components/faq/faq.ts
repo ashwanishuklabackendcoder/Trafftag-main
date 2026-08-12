@@ -1,10 +1,11 @@
+import { FooterComponent } from '../footer/footer';
 import { Component, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar';
 
 @Component({
   selector: 'app-faq',
-  imports: [RouterLink, NavbarComponent],
+  imports: [FooterComponent, RouterLink, NavbarComponent],
   templateUrl: './faq.html',
   styleUrl: './faq.css',
 })
@@ -74,3 +75,5 @@ export class Faq {
     );
   }
 }
+
+

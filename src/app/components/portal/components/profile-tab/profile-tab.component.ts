@@ -49,4 +49,5 @@ export class ProfileTabComponent {
   @Output() resendOtp = new EventEmitter<void>();
   @Output() updatePassword = new EventEmitter<void>();
   @Output() redirectToBillingPortal = new EventEmitter<void>();
+  @Output() confirmDeleteAccount = new EventEmitter<void>();
 }

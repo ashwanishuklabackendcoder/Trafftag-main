@@ -166,5 +166,36 @@
       </form>
     </div>
 
+    <!-- Danger Zone (Account Deletion) -->
+    <div class="profile-card glass-card">
+      <div class="profile-card-header" style="border-bottom-color: rgba(239, 68, 68, 0.2);">
+        <i class="fa-solid fa-triangle-exclamation profile-main-icon" style="color: var(--danger);"></i>
+        <div>
+          <h3 style="color: var(--danger);">Danger Zone</h3>
+          <p>Permanently delete your account and anonymize your data.</p>
+        </div>
+      </div>
+      
+      <div class="profile-security-actions" style="padding-top: 15px;">
+        <div class="security-action-box" style="border-color: rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.02);">
+          <div class="action-info">
+            <h4 style="color: var(--danger);">Delete Account & Data</h4>
+            <p>Once you delete your account, there is no going back. All personal data will be permanently anonymized and you will lose access to all your tags.</p>
+          </div>
+          
+          <div class="action-trigger-area">
+            <button 
+              type="button" 
+              class="btn btn-danger" 
+              style="background-color: var(--danger); border-color: var(--danger);"
+              (click)="confirmDeleteAccount.emit()"
+            >
+              <i class="fa-solid fa-trash-can"></i> Delete Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

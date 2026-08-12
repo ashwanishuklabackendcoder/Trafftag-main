@@ -125,23 +125,13 @@ export class Scan implements OnInit {
     this.http.get<any>(`${API_BASE_URL}/api/v1/notifications/scan/${encodeURIComponent(tagIdStr)}`).subscribe({
       next: (res) => {
         if (res) {
-          const make = res.vehicleMake || '';
-          const model = res.vehicleModel || '';
-          const color = res.vehicleColor || '';
-          const plate = res.vehiclePlate || '';
           const nick = res.nickname || '';
 
-          let infoStr = '';
-          if (color || make || model) {
-            infoStr = `${color} ${make} ${model}`.trim();
-          }
-          if (plate) {
-            infoStr += infoStr ? ` [Plate: ${plate}]` : `Plate: ${plate}`;
-          }
           if (nick) {
-            infoStr += infoStr ? ` (${nick})` : nick;
+            this.vehicleInfo.set(nick);
+          } else {
+            this.vehicleInfo.set('');
           }
-          this.vehicleInfo.set(infoStr || 'Registered Vehicle');
           
           if (res.categories && Array.isArray(res.categories)) {
             const mapped = res.categories.map((c: string) => {

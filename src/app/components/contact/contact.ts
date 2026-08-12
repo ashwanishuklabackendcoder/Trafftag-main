@@ -1,3 +1,4 @@
+import { FooterComponent } from '../footer/footer';
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -7,7 +8,7 @@ import { NavbarComponent } from '../navbar/navbar';
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, NavbarComponent],
+  imports: [FooterComponent, CommonModule, RouterLink, FormsModule, NavbarComponent],
   templateUrl: './contact.html',
   styleUrls: ['./contact.css']
 })
@@ -39,3 +40,5 @@ export class Contact {
     }, 1000);
   }
 }
+
+

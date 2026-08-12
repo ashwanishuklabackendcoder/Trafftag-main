@@ -85,9 +85,9 @@
                 </div>
               </div>
               <div class="preview-body">
-                <div class="vehicle-info-row">
-                  <span class="label">Registration No:</span>
-                  <span class="val">DL 01 AB 8899</span>
+                <div class="stat-item">
+                  <span class="val highlight">Securely Masked & Protected</span>
+                  <span class="lbl">Privacy Standard</span>
                 </div>
                 <div class="vehicle-info-row">
                   <span class="label">Vehicle Category:</span>
@@ -217,32 +217,6 @@
   </section>
 
   <!-- Dedicated Footer -->
-  <footer class="how-footer">
-    <div class="footer-container">
-      <div class="footer-col brand-col">
-        <a [routerLink]="['/']" class="footer-brand">
-          <span class="logo-accent">TRAFF</span>TAG
-        </a>
-        <p class="footer-tagline">Enterprise Vehicle Protection & Anonymous Emergency Alert Gateway.</p>
-        <span class="copy-text">© 2026 TRAFFTAG. All rights reserved.</span>
-      </div>
-
-      <div class="footer-col">
-        <h4>NAVIGATION</h4>
-        <a [routerLink]="['/']">Home</a>
-        <a [routerLink]="['/how-it-works']">How It Works</a>
-        <a [routerLink]="['/features']">Features</a>
-        <a [routerLink]="['/pricing']">Pricing Plans</a>
-        <a [routerLink]="['/faq']">FAQ</a>
-      </div>
-
-      <div class="footer-col">
-        <h4>LEGAL & SECURITY</h4>
-        <a [routerLink]="['/privacy-policy']">Privacy Policy</a>
-        <a [routerLink]="['/terms-of-service']">Terms of Service</a>
-        <a [routerLink]="['/contact']">Support Center</a>
-        <a [routerLink]="['/scan']">Decal Scanner</a>
-      </div>
-    </div>
-  </footer>
+  <app-footer></app-footer>
 </div>
+

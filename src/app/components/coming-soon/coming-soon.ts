@@ -5,11 +5,11 @@ import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar';
 
 @Component({
-  selector: 'app-about',
+  selector: 'app-coming-soon',
   standalone: true,
   imports: [FooterComponent, CommonModule, RouterLink, NavbarComponent],
-  templateUrl: './about.html',
-  styleUrls: ['./about.css']
+  templateUrl: './coming-soon.html',
+  styleUrls: ['./coming-soon.css']
 })
-export class About {}
+export class ComingSoon {}
 

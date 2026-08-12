@@ -1,3 +1,4 @@
+import { FooterComponent } from '../footer/footer';
 import { Component, signal, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -25,7 +26,7 @@ export interface HeroSlide {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CommonModule, NavbarComponent],
+  imports: [FooterComponent, RouterLink, CommonModule, NavbarComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -294,141 +295,56 @@ export class Home implements OnInit, OnDestroy {
   }
 
   // Universal Smart QR Tags for Everyone & Every Need (Official Decal Poster Cards)
-  ecosystemTags = signal([
+    ecosystemTags = signal([
     {
-      category: 'VEHICLE TAG',
-      title: 'Vehicle & Cab Protection',
-      subtitle: 'Cars, Bikes, Cabs & Auto Rickshaws',
-      desc: 'Protect your vehicle from illegal parking fines, towing, blocked driveways, or accidental damage with instant masked owner dispatch.',
+      category: 'VEHICLE TAGS',
+      subtitle: 'Cars � SUVs � Trucks',
+      subtitle2: 'Bikes & More',
       icon: 'fa-solid fa-car',
-      decalIcon: 'fa-solid fa-car-side',
-      image: 'card-vehicle.png',
-      shieldLogo: 'logo-shield-vehicle.png',
-      badge: 'PARKING & CHALLAN GUARD',
-      badgeColor: 'amber',
-      posterTitlePrefix: 'GET YOUR ',
-      posterTitleHighlight: 'TRAFFTAG™',
-      posterTitleMiddle: ' TODAY FOR YOUR ',
-      posterTitleEnd: 'VEHICLE',
-      posterMottoPrefix: 'OR RISK GETTING ANOTHER PARKING TICKET — ',
-      posterMottoHighlight: 'YOUR CHOICE 😊',
-      posterBanner: 'LESS PARKING STRESS • ZERO CHALLAN WORRY',
-      posterFeatures: [
-        { icon: 'fa-solid fa-bell', text: 'Parking & Challan Alerts' },
-        { icon: 'fa-solid fa-truck-towed', text: 'Towing Prevention Dispatch' },
-        { icon: 'fa-solid fa-triangle-exclamation', text: 'Vehicle Damage Warnings' },
-        { icon: 'fa-solid fa-broom', text: 'Road Sweeping Alerts' },
-        { icon: 'fa-solid fa-lock', text: '100% Masked Phone Privacy' }
-      ],
-      features: ['Avoid Parking Challans', 'Road Sweeping Alerts', 'Vehicle Damage Report']
+      image: 'card_vehicle_new.jpg',
+      buttonText: 'PROTECT YOUR RIDE',
+      link: '/features',
+      colorClass: 'color-vehicle'
     },
     {
-      category: 'PET TAG',
-      title: 'Lovely Pet Smart Tags',
-      subtitle: 'Dogs, Cats, Birds & Domestic Pets',
-      desc: 'They don’t have a voice, but TRAFFTAG does! Instant scan to contact owner if your pet strays or gets lost without revealing your phone number.',
+      category: 'PET TAGS',
+      subtitle: 'Dogs � Cats � Birds',
+      subtitle2: 'All Pets',
       icon: 'fa-solid fa-paw',
-      decalIcon: 'fa-solid fa-paw',
-      image: 'card-pet.png',
-      shieldLogo: 'logo-shield-pet.png',
-      badge: 'LOST PET RECOVERY',
-      badgeColor: 'emerald',
-      posterTitlePrefix: 'GET YOUR ',
-      posterTitleHighlight: 'TRAFFTAG™',
-      posterTitleMiddle: ' TODAY FOR YOUR ',
-      posterTitleEnd: 'LOVELY PET 🐾',
-      posterMottoPrefix: 'THEY DON’T HAVE VOICE BUT ',
-      posterMottoHighlight: 'TRAFFTAG™ DOES ❤',
-      posterBanner: 'LESS PET STRESS • INSTANT GPS LOCATION',
-      posterFeatures: [
-        { icon: 'fa-solid fa-phone-volume', text: 'Masked Owner Call' },
-        { icon: 'fa-solid fa-location-dot', text: 'Instant GPS Location Drop' },
-        { icon: 'fa-solid fa-shield-cat', text: 'Waterproof Collar Tag' },
-        { icon: 'fa-solid fa-notes-medical', text: 'Pet Vet & Medical Profile' },
-        { icon: 'fa-solid fa-heart', text: '24/7 Citizen Helper Dispatch' }
-      ],
-      features: ['Masked Owner Call', 'Instant GPS Location Drop', 'Waterproof QR Collar Tag']
+      image: 'card_pet_new.jpg',
+      buttonText: 'KEEP THEM SAFE',
+      link: '/features',
+      colorClass: 'color-pet'
     },
     {
-      category: 'HOME TAG',
-      title: 'Home & Property Gate Tags',
-      subtitle: 'Independent Houses, Gated Flats & Villas',
-      desc: 'Every house is a home! Never miss delivery drivers, visitors, emergency alerts, or neighborhood maintenance notices even when away from home.',
-      icon: 'fa-solid fa-house-user',
-      decalIcon: 'fa-solid fa-house-flag',
-      image: 'card-home.png',
-      shieldLogo: 'logo-shield-home.png',
-      badge: 'DIGITAL GATE DOORBELL',
-      badgeColor: 'indigo',
-      posterTitlePrefix: 'GET YOUR ',
-      posterTitleHighlight: 'TRAFFTAG™',
-      posterTitleMiddle: ' TODAY FOR YOUR ',
-      posterTitleEnd: 'HOME 🏠',
-      posterMottoPrefix: 'EVERY HOUSE IS A ',
-      posterMottoHighlight: 'HOME ❤',
-      posterBanner: 'LESS WORRY • MORE SECURITY • MORE PEACE ❤',
-      posterFeatures: [
-        { icon: 'fa-solid fa-box-open', text: 'Delivery Package Alerts' },
-        { icon: 'fa-solid fa-user-check', text: 'Visitor Contact Relay' },
-        { icon: 'fa-solid fa-bell-concierge', text: 'Digital Gate Doorbell' },
-        { icon: 'fa-solid fa-wrench', text: 'Maintenance Dispatch' },
-        { icon: 'fa-solid fa-shield-halved', text: 'Neighborhood Safety' }
-      ],
-      features: ['Delivery Dispatch Alert', 'Visitor Contact Relay', 'Neighborhood Safety']
+      category: 'HOME TAGS',
+      subtitle: 'House � Apartment',
+      subtitle2: 'Office � Shops',
+      icon: 'fa-solid fa-house',
+      image: 'card_home_new.jpg',
+      buttonText: 'FOR YOUR PROPERTY',
+      link: '/features',
+      colorClass: 'color-home'
     },
     {
-      category: 'KIDS TAG',
-      title: 'Child & School Bag Safety',
-      subtitle: 'School Bags, Backpacks & Field Trips',
-      desc: 'Ensure instant parent emergency contact during school commutes, field trips, or lost bag recovery with confidential QR tags.',
-      icon: 'fa-solid fa-child-reaching',
-      decalIcon: 'fa-solid fa-child-dress',
-      image: 'card-kids.png',
-      shieldLogo: 'logo-shield-kids.png',
-      badge: 'KID SAFETY SHIELD',
-      badgeColor: 'rose',
-      posterTitlePrefix: 'GET YOUR ',
-      posterTitleHighlight: 'TRAFFTAG™',
-      posterTitleMiddle: ' TODAY FOR YOUR ',
-      posterTitleEnd: 'CHILD 🎒',
-      posterMottoPrefix: 'EVERY CHILD DESERVES A ',
-      posterMottoHighlight: '24/7 SAFETY SHIELD ⭐',
-      posterBanner: 'SAFE SCHOOL COMMUTE • CONFIDENTIAL PARENT SOS',
-      posterFeatures: [
-        { icon: 'fa-solid fa-hospital-user', text: 'Parent SOS Emergency Relay' },
-        { icon: 'fa-solid fa-briefcase', text: 'Instant Bag Recovery' },
-        { icon: 'fa-solid fa-file-medical', text: 'Confidential Medical Info' },
-        { icon: 'fa-solid fa-bus', text: 'School Bus Commute Shield' },
-        { icon: 'fa-solid fa-lock', text: 'Zero Parent Number Exposure' }
-      ],
-      features: ['Parent SOS Trigger', 'Instant Bag Recovery', 'Confidential Medical Info']
+      category: 'LIFE TAGS',
+      subtitle: 'Kids � Adults � Seniors',
+      subtitle2: 'Students',
+      icon: 'fa-solid fa-users',
+      image: 'card_life_new.jpg',
+      buttonText: 'FOR EVERY PERSON',
+      link: '/features',
+      colorClass: 'color-life'
     },
     {
-      category: 'SENIOR TAG',
-      title: 'Senior Citizens & Medical ID',
-      subtitle: 'Elderly Family Members & Care Lanyards',
-      desc: 'Provides immediate access to emergency family contacts and critical medical profiles if an elderly loved one needs help or gets lost.',
-      icon: 'fa-solid fa-person-cane',
-      decalIcon: 'fa-solid fa-hand-holding-medical',
-      image: 'card-senior.png',
-      shieldLogo: 'logo-shield-senior.png',
-      badge: 'SENIOR CARE ASSIST',
-      badgeColor: 'purple',
-      posterTitlePrefix: 'GET YOUR ',
-      posterTitleHighlight: 'TRAFFTAG™',
-      posterTitleMiddle: ' TODAY FOR ',
-      posterTitleEnd: 'SENIOR CITIZENS 👵',
-      posterMottoPrefix: 'ALWAYS PROTECTED — ',
-      posterMottoHighlight: 'CARE AT EVERY STEP ❤',
-      posterBanner: 'SENIOR CARE ASSIST • ONE-TAP EMERGENCY HELP',
-      posterFeatures: [
-        { icon: 'fa-solid fa-phone-flip', text: 'Family Emergency Relay' },
-        { icon: 'fa-solid fa-notes-medical', text: 'Critical Health & Blood Group' },
-        { icon: 'fa-solid fa-person-shelter', text: 'Lost Elder Assistance' },
-        { icon: 'fa-solid fa-kit-medical', text: 'First Responder Medical ID' },
-        { icon: 'fa-solid fa-heart-pulse', text: 'Instant Family Notification' }
-      ],
-      features: ['Emergency Contact Relay', 'Critical Medical Info', 'One-Tap Assistance']
+      category: 'ITEMS TAGS',
+      subtitle: 'Keys � Phone � Laptop',
+      subtitle2: 'Wallet & More',
+      icon: 'fa-solid fa-tag',
+      image: 'card_items_new.jpg',
+      buttonText: 'FOR YOUR BELONGINGS',
+      link: '/features',
+      colorClass: 'color-items'
     }
   ]);
 
@@ -484,3 +400,6 @@ export class Home implements OnInit, OnDestroy {
     }
   }
 }
+
+
+

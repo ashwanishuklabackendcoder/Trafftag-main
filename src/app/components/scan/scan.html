@@ -64,19 +64,15 @@
             }
           </div>
 
-          <!-- Pre-filled Owner Username & Vehicle Details (SRS Requirement) -->
-          <div class="owner-vehicle-card animate-fade-in-up delay-150">
-            <div class="meta-row">
-              <span class="meta-label"><i class="fa-solid fa-user-shield text-indigo"></i> Owner Username:</span>
-              <span class="meta-val owner-username-badge">{{ ownerUsername() }}</span>
-            </div>
-            @if (vehicleInfo()) {
+          <!-- Pre-filled Tag Details (Privacy Requirement) -->
+          @if (vehicleInfo()) {
+            <div class="owner-vehicle-card animate-fade-in-up delay-150">
               <div class="meta-row">
-                <span class="meta-label"><i class="fa-solid fa-car text-amber"></i> Vehicle:</span>
-                <span class="meta-val">{{ vehicleInfo() }}</span>
+                <span class="meta-label"><i class="fa-solid fa-tag text-indigo"></i> Tag Nickname:</span>
+                <span class="meta-val owner-username-badge">{{ vehicleInfo() }}</span>
               </div>
-            }
-          </div>
+            </div>
+          }
 
           <!-- Alert Categories (Grid of Cards) -->
           <div class="form-group animate-fade-in-up delay-100">
@@ -226,7 +222,7 @@
             @if (isSubmitting()) {
               <span class="spinner"></span> Sending Anonymized Alert...
             } @else {
-              <i class="fa-solid fa-paper-plane"></i> Send Anonymous Alert
+              <i class="fa-solid fa-bell"></i> Notify Account Holder
             }
           </button>
 

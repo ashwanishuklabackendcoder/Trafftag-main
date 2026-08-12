@@ -1,10 +1,11 @@
+import { FooterComponent } from '../footer/footer';
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar';
 
 @Component({
   selector: 'app-pricing',
-  imports: [RouterLink, NavbarComponent],
+  imports: [FooterComponent, RouterLink, NavbarComponent],
   templateUrl: './pricing.html',
   styleUrl: './pricing.css',
 })
@@ -95,3 +96,5 @@ export class Pricing {
     }
   ]);
 }
+
+

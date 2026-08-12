@@ -134,111 +134,27 @@
         <span class="sub-badge"><i class="fa-solid fa-layer-group"></i> UNIVERSAL SMART QR TAGS</span>
         <h2 class="mockup-section-title" style="margin-top: 0.5rem;">Smart Tags Available For Everyone & Everything</h2>
         <p style="color: #475569; max-width: 720px; margin: 0.5rem auto 0; font-size: 0.98rem; line-height: 1.6;">
-          Whether it's your vehicle, beloved pet, home entrance gate, child's school bag, or elderly family members — TRAFFTAG offers smart QR protection for everyone with 100% phone privacy.
+          Whether it's your vehicle, beloved pet, home entrance gate, child's school bag, or elderly family members — TRAFFTAG offers smart QR protection for everyone with enhanced phone privacy.
         </p>
       </div>
 
-      <div class="decal-poster-grid">
-        @for (item of ecosystemTags(); track item.title) {
-          <div class="decal-poster-card">
-            
-            <!-- Top Poster Content (Official Shield Crest on Left + Features on Right) -->
-            <div class="poster-main-content">
-              
-              <!-- Left Column: Official Category Shield Logo -->
-              <div class="poster-shield-col">
-                <div class="official-shield-wrapper">
-                  <img [src]="item.shieldLogo" [alt]="item.title + ' Official Shield Logo'" class="official-shield-img" />
-                </div>
-
-                <div class="shield-notify-caption">
-                  <span>SCAN TO NOTIFY</span>
-                </div>
+            <div class="new-ecosystem-grid">
+        @for (item of ecosystemTags(); track item.category) {
+          <div class="new-tag-card" [ngClass]="item.colorClass">
+            <div class="new-tag-card-header">
+              <div class="new-tag-icon-circle">
+                <i [class]="item.icon"></i>
               </div>
-
-              <!-- Right Column: Title, Tagline, Feature Checklist & Graphic Preview -->
-              <div class="poster-info-col">
-                <div class="poster-header-text">
-                  <h3 class="poster-heading">
-                    {{ item.posterTitlePrefix }}<span class="gold-text-highlight">{{ item.posterTitleHighlight }}</span>{{ item.posterTitleMiddle }}<span class="gold-text-highlight">{{ item.posterTitleEnd }}</span>
-                  </h3>
-                  <div class="poster-motto">
-                    {{ item.posterMottoPrefix }}<span class="gold-motto-highlight">{{ item.posterMottoHighlight }}</span>
-                  </div>
-                </div>
-
-                <div class="poster-body-flex">
-                  <div class="poster-features-list">
-                    <div class="poster-features-title">GET NOTIFIED FOR:</div>
-                    @for (feat of item.posterFeatures; track feat.text) {
-                      <div class="poster-feat-row">
-                        <div class="feat-icon-bubble">
-                          <i [class]="feat.icon"></i>
-                        </div>
-                        <span class="feat-text">{{ feat.text }}</span>
-                      </div>
-                    }
-                  </div>
-
-                  <div class="poster-graphic-preview">
-                    <img [src]="item.image" [alt]="item.title" class="poster-crop-img" />
-                  </div>
-                </div>
-              </div>
-
+              <h3 class="new-tag-title">{{ item.category }}</h3>
+              <p class="new-tag-subtitle">{{ item.subtitle }}<br>{{ item.subtitle2 }}</p>
             </div>
-
-            <!-- Middle Bar: Website & Motto -->
-            <div class="poster-middle-bar">
-              <span class="poster-domain"><i class="fa-solid fa-globe"></i> WWW.TRAFFTAG.COM</span>
-              <span class="poster-divider-line">|</span>
-              <span class="poster-motto-banner">{{ item.posterBanner }}</span>
+            <div class="new-tag-image-wrapper">
+              <img [src]="item.image" [alt]="item.category" class="new-tag-image" />
             </div>
-
-            <!-- Steps Bar: 3 Action Circles (Scan, Notify, Smile) -->
-            <div class="poster-steps-bar">
-              <div class="step-circle-box step-scan">
-                <div class="step-icon-circle green-circle">
-                  <i class="fa-solid fa-qrcode"></i>
-                </div>
-                <div class="step-text-group">
-                  <span class="step-title">SCAN</span>
-                  <span class="step-sub">IT'S FREE</span>
-                </div>
-              </div>
-
-              <div class="step-divider">|</div>
-
-              <div class="step-circle-box step-notify">
-                <div class="step-icon-circle blue-circle">
-                  <i class="fa-solid fa-bell"></i>
-                </div>
-                <div class="step-text-group">
-                  <span class="step-title">NOTIFY</span>
-                  <span class="step-sub">IT'S FREE</span>
-                </div>
-              </div>
-
-              <div class="step-divider">|</div>
-
-              <div class="step-circle-box step-smile">
-                <div class="step-icon-circle yellow-circle">
-                  <i class="fa-solid fa-face-smile"></i>
-                </div>
-                <div class="step-text-group">
-                  <span class="step-title">SMILE<span class="tm-symbol">™</span></span>
-                  <span class="step-sub">IT'S FREE</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Bottom Solid Gold Action Bar -->
-            <a [routerLink]="['/register']" class="poster-bottom-gold-bar">
-              <i class="fa-solid fa-star"></i>
-              <span>SCAN TO NOTIFY MY OWNER</span>
-              <i class="fa-solid fa-star"></i>
+            <a [routerLink]="[item.link]" class="new-tag-footer-btn">
+              <span>{{ item.buttonText }}</span>
+              <i class="fa-solid fa-arrow-right"></i>
             </a>
-
           </div>
         }
       </div>
@@ -686,7 +602,7 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="#FFB800"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
           </div>
           <div class="navy-feature-text">
-            <span class="navy-feature-title">100% Privacy</span>
+            <span class="navy-feature-title">Enhanced Privacy</span>
             <span class="navy-feature-sub">Zero Data Sharing</span>
           </div>
         </div>
@@ -737,44 +653,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-brand">
-        <div class="brand-logo">
-          <div class="logo-shield">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-          </div>
-          <span class="logo-text">TRAFFTAG</span>
-        </div>
-        <p>One unified application for managing vehicle fines, checking e-challans, traffic compliance, and smart vehicle security.</p>
-      </div>
-
-      <div class="footer-column">
-        <h4>Quick Links</h4>
-        <a [routerLink]="['/']">Home</a>
-        <a [routerLink]="['/how-it-works']">How It Works</a>
-        <a [routerLink]="['/features']">Features</a>
-        <a [routerLink]="['/faq']">FAQ</a>
-      </div>
-
-      <div class="footer-column">
-        <h4>Services</h4>
-        <a [routerLink]="['/scan']">Pay Fine</a>
-        <a [routerLink]="['/portal']">Check Status</a>
-        <a [routerLink]="['/features']">E-Challan</a>
-      </div>
-
-      <div class="footer-column">
-        <h4>Trust & Legal</h4>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Support Center</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 TRAFFTAG Ecosystem. All rights reserved.</p>
-    </div>
-  </footer>
+  <app-footer></app-footer>
 </div>
+
+

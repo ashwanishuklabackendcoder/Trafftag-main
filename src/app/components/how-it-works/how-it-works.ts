@@ -1,3 +1,4 @@
+import { FooterComponent } from '../footer/footer';
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -6,7 +7,7 @@ import { NavbarComponent } from '../navbar/navbar';
 @Component({
   selector: 'app-how-it-works',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent],
+  imports: [FooterComponent, CommonModule, RouterLink, NavbarComponent],
   templateUrl: './how-it-works.html',
   styleUrls: ['./how-it-works.css']
 })
@@ -76,3 +77,5 @@ export class HowItWorks {
     this.activeTab.set(tab);
   }
 }
+
+

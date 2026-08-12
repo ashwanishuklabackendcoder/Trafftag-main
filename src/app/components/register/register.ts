@@ -29,6 +29,9 @@ export class Register implements OnInit, OnDestroy {
   captcha = signal('');
   showPassword = signal(false);
   agreeTerms = signal(false);
+  is18Plus = signal(false);
+  privacyAccepted = signal(false);
+  marketingAccepted = signal(false);
 
   showSignatureModal = signal(false);
   isSubmitting = signal(false);
@@ -213,8 +216,13 @@ export class Register implements OnInit, OnDestroy {
       return;
     }
 
-    if (!this.agreeTerms()) {
+    if (!this.agreeTerms() || !this.privacyAccepted()) {
       this.errorMessage.set('You must agree to the Terms of Service and Privacy Policy.');
+      return;
+    }
+
+    if (!this.is18Plus()) {
+      this.errorMessage.set('You must confirm that you are 18 years or older.');
       return;
     }
 
@@ -248,7 +256,11 @@ export class Register implements OnInit, OnDestroy {
       password: this.password(),
       phoneNumber: phoneNumber,
       countryCode: countryCode,
-      captcha: this.captcha().trim()
+      captcha: this.captcha().trim(),
+      is18Plus: this.is18Plus(),
+      termsAccepted: this.agreeTerms(),
+      privacyAccepted: this.privacyAccepted(),
+      marketingAccepted: this.marketingAccepted()
     };
 
     this.http.post<any>(`${API_BASE_URL}/api/v1/auth/register`, body)

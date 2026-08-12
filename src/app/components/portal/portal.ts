@@ -196,6 +196,8 @@ export class Portal implements OnInit {
   showAddVehicleModal = signal(false);
   showLinkTagModal = signal(false);
   showUpgradeModal = signal(false);
+  showDeleteAccountModal = signal(false);
+  isDeletingAccount = signal(false);
 
   // Form Fields
   newMake = signal('');
@@ -1046,6 +1048,32 @@ export class Portal implements OnInit {
         error: (err) => {
           this.isUpdatingPassword.set(false);
           this.passwordUpdateError.set(err?.error?.message || 'Failed to update password.');
+        }
+      });
+  }
+
+  // Account Deletion Modal handling
+  openDeleteAccountModal() {
+    this.showDeleteAccountModal.set(true);
+  }
+
+  closeDeleteAccountModal() {
+    this.showDeleteAccountModal.set(false);
+  }
+
+  executeDeleteAccount() {
+    this.isDeletingAccount.set(true);
+    this.http.delete(`${API_BASE_URL}/api/v1/profile/account`, { headers: this.getHeaders() })
+      .subscribe({
+        next: () => {
+          this.isDeletingAccount.set(false);
+          this.closeDeleteAccountModal();
+          this.logout();
+        },
+        error: (err) => {
+          console.error('Failed to delete account', err);
+          this.isDeletingAccount.set(false);
+          this.modalService.showError('Account Deletion Failed', 'Could not delete your account at this time.');
         }
       });
   }
