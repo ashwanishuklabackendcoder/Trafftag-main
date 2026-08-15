@@ -15,6 +15,7 @@ export class LinkTagModalComponent {
   @Input() linkSerial = '';
   @Input() linkVehicleId = '';
   @Input() vehicles: any[] = [];
+  @Input() unassignedTags: any[] = [];
   @Input() qrImageBase64: string | null = null;
 
   @Output() linkSerialChange = new EventEmitter<string>();
@@ -22,4 +23,20 @@ export class LinkTagModalComponent {
 
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<void>();
+
+  // Dropdown state
+  showDropdown = false;
+  
+  get filteredTags() {
+    if (!this.linkSerial) return this.unassignedTags;
+    const lowerSearch = this.linkSerial.toLowerCase();
+    return this.unassignedTags.filter(tag => 
+      tag.tagId?.toLowerCase().includes(lowerSearch)
+    );
+  }
+
+  selectTag(tagId: string) {
+    this.linkSerialChange.emit(tagId);
+    this.showDropdown = false;
+  }
 }

@@ -149,6 +149,10 @@
                     <i class="fa-solid fa-download"></i> Download QR
                   }
                 </button>
+              } @else if (unassignedTags?.length > 0) {
+                <button class="footer-btn btn-action-pdf" (click)="openLinkTag.emit(veh.id)" title="Assign an existing QR Code to this Vehicle">
+                  <i class="fa-solid fa-link"></i> Assign QR Tag
+                </button>
               } @else {
                 <button class="footer-btn btn-action-pdf" (click)="generateQr.emit(veh.id)" title="Generate QR Code for this Vehicle">
                   <i class="fa-solid fa-wand-magic-sparkles"></i> Generate QR

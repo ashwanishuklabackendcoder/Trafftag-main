@@ -297,7 +297,7 @@ export class Home implements OnInit, OnDestroy {
   // Universal Smart QR Tags for Everyone & Every Need (Official Decal Poster Cards)
     ecosystemTags = signal([
     {
-      category: 'MY VEHICLE TAG',
+      category: 'MY HAPPY VEHICLE TAG',
       subtitle: 'Cars • SUVs • Trucks',
       subtitle2: 'Bikes & More',
       icon: 'fa-solid fa-car',
@@ -307,7 +307,7 @@ export class Home implements OnInit, OnDestroy {
       colorClass: 'color-vehicle'
     },
     {
-      category: 'MY HAPPY TAG',
+      category: 'MY HAPPY PET TAG',
       subtitle: 'Dogs • Cats • Birds',
       subtitle2: 'All Pets',
       icon: 'fa-solid fa-paw',
@@ -317,7 +317,7 @@ export class Home implements OnInit, OnDestroy {
       colorClass: 'color-pet'
     },
     {
-      category: 'MY HOME TAG',
+      category: 'MY HAPPY HOME TAG',
       subtitle: 'House • Apartment',
       subtitle2: 'Office • Shops',
       icon: 'fa-solid fa-house',
@@ -327,7 +327,7 @@ export class Home implements OnInit, OnDestroy {
       colorClass: 'color-home'
     },
     {
-      category: 'MY LIFE TAG',
+      category: 'MY HAPPY LIFE TAG',
       subtitle: 'Adults • Seniors',
       subtitle2: 'Students',
       icon: 'fa-solid fa-users',
@@ -337,7 +337,7 @@ export class Home implements OnInit, OnDestroy {
       colorClass: 'color-life'
     },
     {
-      category: 'MY ITEMS TAG',
+      category: 'MY HAPPY ITEMS TAG',
       subtitle: 'Keys • Phone • Laptop',
       subtitle2: 'Wallet & More',
       icon: 'fa-solid fa-tag',
@@ -400,6 +400,7 @@ export class Home implements OnInit, OnDestroy {
     }
   }
 }
+
 
 
 

@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 })
 export class QrFleetTabComponent {
   @Input() vehicles: any[] = [];
+  @Input() unassignedTags: any[] = [];
   @Input() downloadingVehicleId: string | null = null;
   @Input() membershipType = 'Free Plan';
   @Input() scanUrlFn!: (tagId: string) => string;
@@ -25,6 +26,6 @@ export class QrFleetTabComponent {
   }
 
   get hasVehicles(): boolean {
-    return this.vehicles && this.vehicles.length > 0;
+    return (this.vehicles && this.vehicles.length > 0) || (this.unassignedTags && this.unassignedTags.length > 0);
   }
 }

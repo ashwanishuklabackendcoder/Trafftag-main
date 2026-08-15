@@ -7,9 +7,21 @@
       </div>
       <div class="modal-body">
         <form (submit)="$event.preventDefault(); submit.emit()">
-          <div class="form-group">
+          <div class="form-group" style="position: relative;">
             <label for="serial-code">Sticker Serial / QR Code ID *</label>
-            <input id="serial-code" type="text" placeholder="e.g. TT-718-204" [ngModel]="linkSerial" (ngModelChange)="linkSerialChange.emit($event)" name="serial" required>
+            <input id="serial-code" type="text" placeholder="e.g. TT-718-204" 
+                   [ngModel]="linkSerial" (ngModelChange)="linkSerialChange.emit($event)" 
+                   (focus)="showDropdown = true" (blur)="showDropdown = false"
+                   name="serial" autocomplete="off" required>
+            @if (showDropdown) {
+              <div class="custom-dropdown">
+                @for (tag of filteredTags; track tag.tagId) {
+                  <div class="dropdown-item" (mousedown)="$event.preventDefault(); selectTag(tag.tagId)">
+                    {{ tag.tagId }}
+                  </div>
+                }
+              </div>
+            }
           </div>
           
           @if (qrImageBase64) {

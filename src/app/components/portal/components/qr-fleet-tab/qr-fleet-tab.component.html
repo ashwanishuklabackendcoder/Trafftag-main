@@ -116,6 +116,60 @@
           </div>
         </div>
       }
+
+      @for (tag of unassignedTags; track tag.id) {
+        <div class="decal-card">
+          <!-- Physical Decal Preview Column -->
+          <div class="decal-preview-wrapper">
+            <div class="decal-sticker-mock">
+              <div class="sticker-header">TRAFFTAG &bull; PROTECT</div>
+              <div class="sticker-qr-container">
+                <div class="qr-target-corner top-left"></div>
+                <div class="qr-target-corner top-right"></div>
+                <div class="qr-target-corner bottom-left"></div>
+                <div class="qr-target-corner bottom-right"></div>
+                <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' + getScanUrl(tag.tagId)" alt="QR Code" class="decal-qr-image" />
+              </div>
+              <div class="sticker-serial-footer">{{ tag.tagId }}</div>
+            </div>
+          </div>
+
+          <!-- Metadata & Actions Column -->
+          <div class="decal-details-wrapper">
+            <div class="decal-header-row">
+              <span class="decal-badge-id">Serial: <strong>{{ tag.tagId }}</strong></span>
+              <span class="status-pill-badge tag-missing">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Unassigned Tag
+              </span>
+            </div>
+
+            <div class="decal-meta-grid">
+              <div class="decal-meta-item">
+                <span class="lbl"><i class="fa-solid fa-car text-indigo"></i> Linked Vehicle:</span>
+                <span class="val" style="color: #ef4444;">Not Linked to Any Vehicle</span>
+              </div>
+              <div class="decal-meta-item">
+                <span class="lbl"><i class="fa-solid fa-shield-halved text-primary"></i> Protection Plan:</span>
+                <span class="val">{{ tag.planName || membershipType }}</span>
+              </div>
+              <div class="decal-meta-item">
+                <span class="lbl"><i class="fa-solid fa-barcode text-muted"></i> Hardware Type:</span>
+                <span class="val">Premium Matte Vinyl Decal</span>
+              </div>
+            </div>
+
+            <div class="decal-actions-footer">
+              <a [routerLink]="['/scan', tag.tagId]" target="_blank" class="footer-btn btn-action-scan">
+                <i class="fa-solid fa-up-right-from-square"></i> Test Scan
+              </a>
+              <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit(undefined)">
+                <i class="fa-solid fa-link"></i> Link to Vehicle
+              </button>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   }
 </div>

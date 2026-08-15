@@ -54,6 +54,11 @@
             </button>
           </div>
         }
+        
+        <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
+          <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> My QR</span>
+        </button>
+        
         <button class="nav-item" [class.active]="activeTab() === 'alerts'" (click)="selectTab('alerts')">
           <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> Alerts</span>
         </button>
@@ -296,11 +301,13 @@
     @if (activeTab() === 'vehicles') {
       <app-vehicles-tab
         [vehicles]="vehicles()"
+        [unassignedTags]="unassignedTags()"
         [downloadingVehicleId]="downloadingVehicleId()"
         [membershipType]="membershipType()"
         (addVehicleClick)="openAddVehicle()"
         (downloadQr)="downloadQrCode($event)"
         (generateQr)="generateNewQrTag($event)"
+        (openLinkTag)="openLinkTag($event)"
         (deleteVehicle)="deleteVehicle($event)"
         (toggleActive)="toggleVehicleActive($event)">
       </app-vehicles-tab>
@@ -317,6 +324,7 @@
     @if (activeTab() === 'tags') {
       <app-qr-fleet-tab
         [vehicles]="vehicles()"
+        [unassignedTags]="unassignedTags()"
         [downloadingVehicleId]="downloadingVehicleId()"
         [membershipType]="membershipType()"
         [scanUrlFn]="getScanUrl.bind(this)"
@@ -738,6 +746,7 @@
     [linkVehicleId]="linkVehicleId()"
     (linkVehicleIdChange)="linkVehicleId.set($event)"
     [vehicles]="vehicles()"
+    [unassignedTags]="unassignedTags()"
     [qrImageBase64]="qrImageBase64()"
     (close)="closeLinkTag()"
     (submit)="linkTag()">
@@ -745,11 +754,11 @@
 
   <!-- Delete Account Modal -->
   @if (showDeleteAccountModal()) {
-    <div class="modal-backdrop animate-fade-in" (click)="closeDeleteAccountModal()">
-      <div class="modal-dialog animate-scale-up" (click)="$event.stopPropagation()" style="max-width: 500px;">
+    <div class="modal-overlay animate-fade-in" (click)="closeDeleteAccountModal()">
+      <div class="modal-content animate-scale-up" (click)="$event.stopPropagation()" style="max-width: 500px;">
         <div class="modal-header" style="background: rgba(239, 68, 68, 0.05); border-bottom-color: rgba(239, 68, 68, 0.1);">
           <h3 style="color: var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i> Delete Account</h3>
-          <button type="button" class="modal-close-btn" (click)="closeDeleteAccountModal()">&times;</button>
+          <button type="button" class="modal-close" (click)="closeDeleteAccountModal()"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="modal-body">
           <p>Are you absolutely sure you want to delete your account?</p>

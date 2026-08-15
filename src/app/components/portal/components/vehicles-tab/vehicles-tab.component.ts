@@ -12,12 +12,14 @@ import { RouterLink } from '@angular/router';
 })
 export class VehiclesTabComponent {
   @Input() vehicles: any[] = [];
+  @Input() unassignedTags: any[] = [];
   @Input() downloadingVehicleId: string | null = null;
   @Input() membershipType = 'Free Plan';
 
   @Output() addVehicleClick = new EventEmitter<void>();
   @Output() downloadQr = new EventEmitter<any>();
   @Output() generateQr = new EventEmitter<string>();
+  @Output() openLinkTag = new EventEmitter<string>();
   @Output() deleteVehicle = new EventEmitter<string>();
   @Output() toggleActive = new EventEmitter<any>();
 }

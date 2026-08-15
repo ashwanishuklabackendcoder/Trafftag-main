@@ -140,9 +140,22 @@ export class Portal implements OnInit {
   });
 
   vehicles = signal<Vehicle[]>([]);
+  rawUserMemberships = signal<any[]>([]);
+  
+  unassignedTags = computed(() => {
+    const vehiclesList = this.vehicles();
+    return this.rawUserMemberships()
+      .filter((m: any) => m.qrTagSerialNumber && !vehiclesList.some(v => v.tagId === m.qrTagSerialNumber))
+      .map((m: any) => ({
+        id: m.qrTagId || m.userMembershipId,
+        tagId: m.qrTagSerialNumber,
+        status: m.qrTagStatus || 'Active',
+        planName: m.planName || 'Free Plan'
+      }));
+  });
 
   // Tag counters
-  activeTagsCount = computed(() => this.vehicles().filter(v => v.tagId && v.tagId !== 'Not Assigned' && v.active).length);
+  activeTagsCount = computed(() => this.vehicles().filter(v => v.tagId && v.tagId !== 'Not Assigned' && v.active).length + this.unassignedTags().length);
   inactiveTagsCount = computed(() => this.vehicles().filter(v => !v.tagId || v.tagId === 'Not Assigned' || !v.active).length);
 
   // Notifications List
@@ -345,10 +358,9 @@ export class Portal implements OnInit {
 
   mapApiVehicle(apiV: any): Vehicle {
     const vehId = apiV.vehicleId.toString();
-    const userAssignedTag = localStorage.getItem(`assigned_tag_${vehId}`);
     
     // Vehicles start as Unassigned unless explicitly linked by user
-    const effectiveTagId = userAssignedTag || 'Not Assigned';
+    const effectiveTagId = apiV.activeQrTag || 'Not Assigned';
     const isAssigned = effectiveTagId !== 'Not Assigned';
 
     return {
@@ -592,7 +604,6 @@ export class Portal implements OnInit {
     });
 
     if (confirmed) {
-      localStorage.removeItem(`assigned_tag_${id}`);
       this.http.delete<any>(`${API_BASE_URL}/api/v1/vehicles/${id}`, { headers: this.getHeaders() })
         .subscribe({
           next: () => {
@@ -637,36 +648,41 @@ export class Portal implements OnInit {
     const vehicleIdStr = this.linkVehicleId();
     const vehicleIdNum = parseInt(vehicleIdStr, 10);
     
-    // Step 1: Call API /api/v1/qrtags/activate to activate the QR tag by serial number
-    const activateBody = {
-      serialNumber: serialStr,
-      activationCode: ''
-    };
-
     const assignTagToVehicle = (resolvedTagId: number) => {
       const assignBody = { vehicleId: vehicleIdNum };
       this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/${resolvedTagId}/assign`, assignBody, { headers: this.getHeaders() })
         .subscribe({
           next: (res) => {
-            localStorage.setItem(`assigned_tag_${vehicleIdStr}`, serialStr);
             this.loadVehicles();
+            this.loadUserMemberships();
             this.closeLinkTag();
             this.modalService.showSuccess('QR Tag Linked', `QR Sticker Tag (${serialStr}) assigned and activated successfully.`);
           },
           error: (err) => {
-            console.warn('API /qrtags/{id}/assign fallback:', err);
-            localStorage.setItem(`assigned_tag_${vehicleIdStr}`, serialStr);
-            this.loadVehicles();
-            this.closeLinkTag();
-            this.modalService.showSuccess('QR Tag Linked', `QR Sticker Tag (${serialStr}) linked to vehicle.`);
+            console.error('API /qrtags/{id}/assign failed:', err);
+            this.modalService.showError('Assignment Failed', err?.error?.message || 'Failed to link QR tag to vehicle. Please try again.');
           }
         });
+    };
+
+    // Fast-path: if the tag is already in our unassigned tags list, we already know its database ID!
+    // And because it was generated via the system, it's already Active. We can skip activation!
+    const existingTag = this.unassignedTags().find(t => t.tagId === serialStr);
+    if (existingTag && existingTag.id) {
+      assignTagToVehicle(existingTag.id);
+      return;
+    }
+
+    // Fallback: If it's a completely new physical tag not in the system yet, activate it first
+    const activateBody = {
+      serialNumber: serialStr,
+      activationCode: ''
     };
 
     this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/activate`, activateBody, { headers: this.getHeaders() })
       .subscribe({
         next: (actRes) => {
-          const resolvedTagId = actRes?.qrTagId || actRes?.id || actRes?.data?.qrTagId || actRes?.data?.id || this.generatedTagId();
+          const resolvedTagId = (typeof actRes?.data === 'number' ? actRes.data : null) || actRes?.qrTagId || actRes?.id || actRes?.data?.qrTagId || actRes?.data?.id || this.generatedTagId();
           if (resolvedTagId) {
             assignTagToVehicle(resolvedTagId);
           } else {
@@ -916,6 +932,8 @@ export class Portal implements OnInit {
               this.membershipType.set(planName);
             }
           }
+
+          this.rawUserMemberships.set(items);
         },
         error: (err) => {
           console.warn('Could not fetch user memberships from /api/v1/user-memberships:', err);
@@ -1129,6 +1147,8 @@ export class Portal implements OnInit {
           if (vehicleId) {
             this.linkVehicleId.set(vehicleId);
           }
+          
+          this.loadUserMemberships();
           this.showLinkTagModal.set(true);
 
           this.modalService.showSuccess(
