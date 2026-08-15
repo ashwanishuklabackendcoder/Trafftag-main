@@ -1,4 +1,4 @@
-import { FooterComponent } from '../footer/footer';
+ï»¿import { FooterComponent } from '../footer/footer';
 import { Component, signal, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -297,8 +297,8 @@ export class Home implements OnInit, OnDestroy {
   // Universal Smart QR Tags for Everyone & Every Need (Official Decal Poster Cards)
     ecosystemTags = signal([
     {
-      category: 'VEHICLE TAGS',
-      subtitle: 'Cars • SUVs • Trucks',
+      category: 'MY VEHICLE TAG',
+      subtitle: 'Cars â€¢ SUVs â€¢ Trucks',
       subtitle2: 'Bikes & More',
       icon: 'fa-solid fa-car',
       image: 'card_vehicle_new.jpg',
@@ -307,8 +307,8 @@ export class Home implements OnInit, OnDestroy {
       colorClass: 'color-vehicle'
     },
     {
-      category: 'PET TAGS',
-      subtitle: 'Dogs • Cats • Birds',
+      category: 'MY HAPPY TAG',
+      subtitle: 'Dogs â€¢ Cats â€¢ Birds',
       subtitle2: 'All Pets',
       icon: 'fa-solid fa-paw',
       image: 'card_pet_new.jpg',
@@ -317,9 +317,9 @@ export class Home implements OnInit, OnDestroy {
       colorClass: 'color-pet'
     },
     {
-      category: 'HOME TAGS',
-      subtitle: 'House • Apartment',
-      subtitle2: 'Office • Shops',
+      category: 'MY HOME TAG',
+      subtitle: 'House â€¢ Apartment',
+      subtitle2: 'Office â€¢ Shops',
       icon: 'fa-solid fa-house',
       image: 'card_home_new.jpg',
       buttonText: 'FOR YOUR PROPERTY',
@@ -327,18 +327,18 @@ export class Home implements OnInit, OnDestroy {
       colorClass: 'color-home'
     },
     {
-      category: 'LIFE TAGS',
-      subtitle: 'Kids • Adults • Seniors',
+      category: 'MY LIFE TAG',
+      subtitle: 'Adults â€¢ Seniors',
       subtitle2: 'Students',
       icon: 'fa-solid fa-users',
-      image: 'card_life_new.jpg',
+      image: 'card_life_adults.jpg',
       buttonText: 'FOR EVERY PERSON',
       link: '/features',
       colorClass: 'color-life'
     },
     {
-      category: 'ITEMS TAGS',
-      subtitle: 'Keys • Phone • Laptop',
+      category: 'MY ITEMS TAG',
+      subtitle: 'Keys â€¢ Phone â€¢ Laptop',
       subtitle2: 'Wallet & More',
       icon: 'fa-solid fa-tag',
       image: 'card_items_new.jpg',
@@ -353,7 +353,7 @@ export class Home implements OnInit, OnDestroy {
     {
       id: 'challan-prevention',
       icon: 'fa-solid fa-shield-halved',
-      badge: 'SAVE UP TO â‚¹2,000+',
+      badge: 'SAVE UP TO Ã¢â€šÂ¹2,000+',
       title: 'Avoid Traffic Fines & Towing (Challan Katne Se Bachein)',
       desc: 'If your vehicle is blocking a driveway or parked in a restricted zone, nearby citizens scan your QR tag to send an instant SMS/WhatsApp alert so you can move your vehicle before police issue a fine or tow truck arrives.',
       tag: 'CHALLAN PREVENTION',
@@ -385,7 +385,7 @@ export class Home implements OnInit, OnDestroy {
       icon: 'fa-solid fa-lock',
       badge: '100% CONFIDENTIAL',
       title: 'Masked Contact Privacy Guarantee',
-      desc: 'Anyone scanning your tag can call or send alerts through TRAFFTAGâ€™s secure gateway without seeing your personal phone number. Zero risk of spam, leaks, or harassment.',
+      desc: 'Anyone scanning your tag can call or send alerts through TRAFFTAGÃ¢â‚¬â„¢s secure gateway without seeing your personal phone number. Zero risk of spam, leaks, or harassment.',
       tag: 'ZERO NUMBER DISCLOSURE',
       accentColor: '#0284C7',
       image: 'card-pet.png'
@@ -400,6 +400,9 @@ export class Home implements OnInit, OnDestroy {
     }
   }
 }
+
+
+
 
 
 
