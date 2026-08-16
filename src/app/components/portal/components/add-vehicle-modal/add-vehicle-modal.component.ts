@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AddVehicleModalComponent implements OnChanges {
   @Input() show = false;
+  @Input() isLoading = false;
   @Input() makes: any[] = [];
   @Input() models: any[] = [];
   @Input() selectedMakeId = '';

@@ -711,6 +711,7 @@
   <!-- Add Vehicle Modal -->
   <app-add-vehicle-modal
     [show]="showAddVehicleModal()"
+    [isLoading]="isRegisteringVehicle()"
     [makes]="makes"
     [models]="getModelsForSelectedMake()"
     [selectedMakeId]="selectedMakeId()"

@@ -104,8 +104,11 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="close.emit()">Cancel</button>
-            <button type="submit" class="btn btn-primary">Add Vehicle</button>
+            <button type="button" class="btn btn-secondary" (click)="close.emit()" [disabled]="isLoading">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+              <i *ngIf="isLoading" class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i>
+              {{ isLoading ? 'Adding...' : 'Add Vehicle' }}
+            </button>
           </div>
         </form>
       </div>

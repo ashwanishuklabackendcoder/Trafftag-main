@@ -207,6 +207,7 @@ export class Portal implements OnInit {
 
   // Modals
   showAddVehicleModal = signal(false);
+  isRegisteringVehicle = signal(false);
   showLinkTagModal = signal(false);
   showUpgradeModal = signal(false);
   showDeleteAccountModal = signal(false);
@@ -564,7 +565,7 @@ export class Portal implements OnInit {
       make: makeStr,
       model: modelStr,
       year: this.newYear() || 2025,
-      vin: this.newVin() || 'N/A',
+      vin: this.newVin() || null,
       licensePlate: this.newPlate().toUpperCase(),
       color: this.newColor() || 'Unknown',
       state: this.newStateProvince() || 'CA',
@@ -573,23 +574,20 @@ export class Portal implements OnInit {
       nickName: `${makeStr} ${modelStr}`.trim()
     };
 
+    this.isRegisteringVehicle.set(true);
     this.http.post<any>(`${API_BASE_URL}/api/v1/vehicles`, body, { headers: this.getHeaders() })
       .subscribe({
         next: (res) => {
+          this.isRegisteringVehicle.set(false);
           this.loadVehicles();
           this.closeAddVehicle();
           this.modalService.showSuccess('Vehicle Registered', 'New vehicle has been successfully added to your protection registry.');
         },
         error: (err) => {
+          this.isRegisteringVehicle.set(false);
           this.loadVehicles();
           const rawErr = err?.error?.message || err?.error?.Message || (typeof err?.error === 'string' ? err.error : '');
-          
-          if (rawErr && (rawErr.includes('saving the entity changes') || rawErr.includes('inner exception'))) {
-            this.closeAddVehicle();
-            this.modalService.showSuccess('Vehicle Registered', 'New vehicle has been successfully added to your protection registry.');
-          } else {
-            this.modalService.showError('Registration Failed', rawErr || 'Error occurred while registering vehicle.');
-          }
+          this.modalService.showError('Registration Failed', rawErr || 'Error occurred while registering vehicle.');
         }
       });
   }
