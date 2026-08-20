@@ -77,23 +77,34 @@
           <!-- Alert Categories (Grid of Cards) -->
           <div class="form-group animate-fade-in-up delay-100">
             <label class="form-label">What is the issue? <span class="required">*</span></label>
-            <div class="category-grid">
-              @for (cat of categories(); track cat.value; let idx = $index) {
-                <label class="category-option animate-fade-in-up" [class.selected]="selectedCategory() === cat.value">
-                  <input 
-                    type="radio" 
-                    name="category" 
-                    [value]="cat.value" 
-                    [ngModel]="selectedCategory()"
-                    (ngModelChange)="selectedCategory.set($event)"
-                    class="hidden-radio"
-                  />
-                  <span class="category-icon-wrapper" [class]="cat.colorClass"><i [class]="cat.icon"></i></span>
-                  <span class="category-label-text">{{ cat.label }}</span>
-                  @if (selectedCategory() === cat.value) {
-                    <span class="selection-check"><i class="fa-solid fa-circle-check"></i></span>
+            <div class="category-dropdown-wrapper custom-select-wrapper">
+              <input
+                type="text"
+                class="form-input form-select"
+                placeholder="Select or type to search an issue..."
+                [ngModel]="searchQuery()"
+                (ngModelChange)="searchQuery.set($event); dropdownOpen.set(true)"
+                (focus)="dropdownOpen.set(true)"
+                (blur)="onDropdownBlur()"
+                name="categorySearch"
+                autocomplete="off"
+                required
+              />
+              <span class="dropdown-chevron" (click)="dropdownOpen.set(!dropdownOpen())">
+                <i class="fa-solid fa-chevron-down"></i>
+              </span>
+              
+              @if (dropdownOpen()) {
+                <div class="dropdown-list">
+                  @for (cat of filteredCategories(); track cat.value) {
+                    <div class="dropdown-item" (mousedown)="selectCategory(cat.value, cat.label)">
+                      {{ cat.label }}
+                    </div>
                   }
-                </label>
+                  @if (filteredCategories().length === 0) {
+                    <div class="dropdown-item no-results">No issues found</div>
+                  }
+                </div>
               }
             </div>
           </div>

@@ -1,0 +1,71 @@
+
+/* Custom Searchable Dropdown */
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-wrapper input {
+  padding-right: 36px;
+  cursor: text;
+}
+
+.dropdown-chevron {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748B;
+  cursor: pointer;
+  pointer-events: none; /* Let clicks pass through if needed, but we bound it just in case */
+}
+
+/* Make chevron clickable directly */
+.custom-select-wrapper .dropdown-chevron {
+  pointer-events: auto; 
+  padding: 8px;
+  right: 6px;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 10px;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #08162A;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background-color: #F8FAFC;
+  color: #D97706;
+}
+
+.no-results {
+  color: #94A3B8;
+  font-style: italic;
+  cursor: default;
+}
+.no-results:hover {
+  background-color: #FFFFFF;
+  color: #94A3B8;
+}

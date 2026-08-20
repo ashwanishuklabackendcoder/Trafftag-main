@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -17,6 +17,8 @@ export class Scan implements OnInit {
   tagId = signal('');
   manualTagInput = signal('');
   selectedCategory = signal('');
+  searchQuery = signal('');
+  dropdownOpen = signal(false);
   customMessage = signal('');
   contactNumber = signal('');
   
@@ -41,37 +43,33 @@ export class Scan implements OnInit {
   ownerUsername = signal<string>('Vehicle Owner');
   vehicleInfo = signal<string>('');
 
-  categories = signal<any[]>([
-    { value: 'Headlights On', label: 'Headlights On', icon: 'fa-solid fa-lightbulb', colorClass: 'cat-amber' },
-    { value: 'Window Open', label: 'Window Open', icon: 'fa-solid fa-window-maximize', colorClass: 'cat-blue' },
-    { value: 'Flat Tire', label: 'Flat Tire', icon: 'fa-solid fa-circle-notch', colorClass: 'cat-red' },
-    { value: 'Parking Issue / Blocking', label: 'Parking Issue / Blocking', icon: 'fa-solid fa-square-parking', colorClass: 'cat-purple' },
-    { value: 'Vehicle Damage', label: 'Vehicle Damage', icon: 'fa-solid fa-car-burst', colorClass: 'cat-orange' },
-    { value: 'Emergency / Tow Warning', label: 'Emergency / Tow Warning', icon: 'fa-solid fa-truck-pickup', colorClass: 'cat-crimson' },
-    { value: 'Other', label: 'Other', icon: 'fa-solid fa-pen-to-square', colorClass: 'cat-slate' }
-  ]);
+  categories = signal<any[]>([]);
 
-  getCategoryMeta(name: string) {
-    const lower = name.toLowerCase();
-    if (lower.includes('headlight') || lower.includes('light')) {
-      return { icon: 'fa-solid fa-lightbulb', colorClass: 'cat-amber' };
-    }
-    if (lower.includes('window')) {
-      return { icon: 'fa-solid fa-window-maximize', colorClass: 'cat-blue' };
-    }
-    if (lower.includes('tire') || lower.includes('flat')) {
-      return { icon: 'fa-solid fa-circle-notch', colorClass: 'cat-red' };
-    }
-    if (lower.includes('parking') || lower.includes('block') || lower.includes('obstruction') || lower.includes('blocking')) {
-      return { icon: 'fa-solid fa-square-parking', colorClass: 'cat-purple' };
-    }
-    if (lower.includes('damage') || lower.includes('burst') || lower.includes('scratch') || lower.includes('collision')) {
-      return { icon: 'fa-solid fa-car-burst', colorClass: 'cat-orange' };
-    }
-    if (lower.includes('emergency') || lower.includes('tow') || lower.includes('warning')) {
-      return { icon: 'fa-solid fa-truck-pickup', colorClass: 'cat-crimson' };
-    }
-    return { icon: 'fa-solid fa-pen-to-square', colorClass: 'cat-slate' };
+  filteredCategories = computed(() => {
+    const q = this.searchQuery().toLowerCase();
+    if (!q) return this.categories();
+    return this.categories().filter(c => c.label.toLowerCase().includes(q));
+  });
+
+  selectCategory(val: string, label: string) {
+    this.selectedCategory.set(val);
+    this.searchQuery.set(label);
+    this.dropdownOpen.set(false);
+  }
+
+  onDropdownBlur() {
+    // delay to allow mousedown on item to fire first
+    setTimeout(() => {
+      this.dropdownOpen.set(false);
+      // Optional: reset search query to selected label if invalid
+      const match = this.categories().find(c => c.value === this.selectedCategory());
+      if (match) {
+        this.searchQuery.set(match.label);
+      } else {
+        this.searchQuery.set('');
+        this.selectedCategory.set('');
+      }
+    }, 200);
   }
 
   ngOnInit() {
@@ -125,7 +123,8 @@ export class Scan implements OnInit {
     this.http.get<any>(`${API_BASE_URL}/api/v1/notifications/scan/${encodeURIComponent(tagIdStr)}`).subscribe({
       next: (res) => {
         if (res) {
-          const nick = res.nickname || '';
+          const data = res.data || res;
+          const nick = data.nickname || '';
 
           if (nick) {
             this.vehicleInfo.set(nick);
@@ -133,14 +132,11 @@ export class Scan implements OnInit {
             this.vehicleInfo.set('');
           }
           
-          if (res.categories && Array.isArray(res.categories)) {
-            const mapped = res.categories.map((c: string) => {
-              const meta = this.getCategoryMeta(c);
+          if (data.categories && Array.isArray(data.categories)) {
+            const mapped = data.categories.map((c: string) => {
               return {
                 value: c,
-                label: c,
-                icon: meta.icon,
-                colorClass: meta.colorClass
+                label: c
               };
             });
             this.categories.set(mapped);

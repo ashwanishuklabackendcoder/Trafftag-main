@@ -15,6 +15,7 @@ import { About } from './components/about/about';
 import { Contact } from './components/contact/contact';
 import { HowItWorks } from './components/how-it-works/how-it-works';
 import { ComingSoon } from './components/coming-soon/coming-soon';
+import { TagType } from './components/tag-type/tag-type';
 
 import { inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
@@ -69,6 +70,7 @@ export const routes: Routes = [
   { path: 'shipping-replacement', component: ComingSoon, title: 'Shipping & Replacement Policy | TRAFFTAG' },
   { path: 'disclaimers', component: ComingSoon, title: 'Disclaimers | TRAFFTAG Legal' },
   { path: 'consent-tracking', component: ComingSoon, title: 'Consent & Tracking | TRAFFTAG Privacy' },
+  { path: 'tags/:type', component: TagType, title: 'Smart Tags | TRAFFTAG' },
   { path: 'login', component: Login, title: 'Sign In | TRAFFTAG Customer Portal' },
   { path: 'register', component: Register, title: 'Create Account | TRAFFTAG Safety Registry' },
   { path: 'verify-otp', component: VerifyOtp, title: 'Verify OTP Code | TRAFFTAG Security' },
