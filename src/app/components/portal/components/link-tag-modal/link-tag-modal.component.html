@@ -41,8 +41,11 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="close.emit()">Cancel</button>
-            <button type="submit" class="btn btn-primary">Link & Activate Sticker</button>
+            <button type="button" class="btn btn-secondary" (click)="close.emit()" [disabled]="isLinkingTag">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="isLinkingTag">
+              <i *ngIf="isLinkingTag" class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i>
+              {{ isLinkingTag ? 'Linking...' : 'Link & Activate Sticker' }}
+            </button>
           </div>
         </form>
       </div>

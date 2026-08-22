@@ -227,6 +227,7 @@ export class Portal implements OnInit {
 
   linkSerial = signal('');
   linkVehicleId = signal('');
+  isLinkingTag = signal(false);
   
   userMembershipId = signal<number | null>(null);
   generatedTagId = signal<number | null>(null);
@@ -538,6 +539,7 @@ export class Portal implements OnInit {
   }
 
   addVehicle() {
+    if (this.isRegisteringVehicle()) return;
     if (!this.selectedMakeId() || !this.selectedModelId() || !this.newPlate()) return;
     
     // Free membership plan vehicle limit check (SRS & Business Rule: Max 2 vehicles on Free Plan)
@@ -640,7 +642,10 @@ export class Portal implements OnInit {
   }
 
   linkTag() {
+    if (this.isLinkingTag()) return;
     if (!this.linkSerial() || !this.linkVehicleId()) return;
+
+    this.isLinkingTag.set(true);
 
     const serialStr = this.linkSerial().trim();
     const vehicleIdStr = this.linkVehicleId();
@@ -651,12 +656,14 @@ export class Portal implements OnInit {
       this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/${resolvedTagId}/assign`, assignBody, { headers: this.getHeaders() })
         .subscribe({
           next: (res) => {
+            this.isLinkingTag.set(false);
             this.loadVehicles();
             this.loadUserMemberships();
             this.closeLinkTag();
             this.modalService.showSuccess('QR Tag Linked', `QR Sticker Tag (${serialStr}) assigned and activated successfully.`);
           },
           error: (err) => {
+            this.isLinkingTag.set(false);
             console.error('API /qrtags/{id}/assign failed:', err);
             this.modalService.showError('Assignment Failed', err?.error?.message || 'Failed to link QR tag to vehicle. Please try again.');
           }
@@ -1035,10 +1042,12 @@ export class Portal implements OnInit {
   }
 
   updatePassword() {
+    if (this.isUpdatingPassword()) return;
     if (!this.currentPassword() || !this.newPassword()) {
       this.passwordUpdateError.set('Please fill out all password fields.');
       return;
     }
+
 
     this.isUpdatingPassword.set(true);
     this.passwordUpdateMessage.set('');
@@ -1177,15 +1186,17 @@ export class Portal implements OnInit {
     const scanUrl = this.getScanUrl(tagId);
     this.downloadingVehicleId.set(veh.id);
 
-    // Attempt to download image from API endpoint
+    // Fetch image from API endpoint
     this.http.get(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(tagId)}/image`, {
       headers: this.getHeaders(),
       responseType: 'blob'
     }).subscribe({
       next: (blob: Blob) => {
         if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
-          this.qrDecalService.triggerBlobDownload(blob, `${veh.make}_${veh.model}_${veh.plate}_QR_Decal.png`);
-          this.downloadingVehicleId.set(null);
+          // Generate PDF with the backend image instead of direct PNG download
+          this.qrDecalService.generateAndDownloadPdfWithFrame(veh, blob)
+            .then(() => this.downloadingVehicleId.set(null))
+            .catch(() => this.downloadingVehicleId.set(null));
         } else {
           this.qrDecalService.generateAndDownloadCanvasQr(veh, tagId, scanUrl)
             .then(() => this.downloadingVehicleId.set(null));

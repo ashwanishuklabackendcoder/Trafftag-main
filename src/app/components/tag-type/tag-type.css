@@ -45,14 +45,15 @@
 }
 
 .primary-btn {
-  background-color: #2563eb;
-  color: white;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+  background: linear-gradient(135deg, #FFD000 0%, #FFB800 60%, #E5A600 100%);
+  color: #08162A;
+  box-shadow: 0 4px 15px rgba(255, 184, 0, 0.25);
 }
 
 .primary-btn:hover {
-  background-color: #1d4ed8;
+  background: linear-gradient(135deg, #FFE033 0%, #FFC700 60%, #F59E0B 100%);
   transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(255, 184, 0, 0.35);
 }
 
 .secondary-btn {

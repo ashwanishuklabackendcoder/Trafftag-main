@@ -1,4 +1,4 @@
-﻿import { FooterComponent } from '../footer/footer';
+import { FooterComponent } from '../footer/footer';
 import { Component, signal, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -303,7 +303,7 @@ export class Home implements OnInit, OnDestroy {
       icon: 'fa-solid fa-car',
       image: 'card_vehicle_new.jpg',
       buttonText: 'PROTECT YOUR RIDE',
-      link: '/features',
+      link: '/tags/vehicle',
       colorClass: 'color-vehicle'
     },
     {
@@ -313,7 +313,7 @@ export class Home implements OnInit, OnDestroy {
       icon: 'fa-solid fa-paw',
       image: 'card_pet_new.jpg',
       buttonText: 'KEEP THEM SAFE',
-      link: '/features',
+      link: '/tags/pet',
       colorClass: 'color-pet'
     },
     {
@@ -323,7 +323,7 @@ export class Home implements OnInit, OnDestroy {
       icon: 'fa-solid fa-house',
       image: 'card_home_new.jpg',
       buttonText: 'FOR YOUR PROPERTY',
-      link: '/features',
+      link: '/tags/home',
       colorClass: 'color-home'
     },
     {
@@ -333,7 +333,7 @@ export class Home implements OnInit, OnDestroy {
       icon: 'fa-solid fa-users',
       image: 'card_life_adults.jpg',
       buttonText: 'FOR EVERY PERSON',
-      link: '/features',
+      link: '/tags/life',
       colorClass: 'color-life'
     },
     {
@@ -343,7 +343,7 @@ export class Home implements OnInit, OnDestroy {
       icon: 'fa-solid fa-tag',
       image: 'card_items_new.jpg',
       buttonText: 'FOR YOUR BELONGINGS',
-      link: '/features',
+      link: '/tags/items',
       colorClass: 'color-items'
     }
   ]);

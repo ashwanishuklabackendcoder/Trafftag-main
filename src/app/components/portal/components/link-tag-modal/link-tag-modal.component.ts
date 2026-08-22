@@ -17,6 +17,7 @@ export class LinkTagModalComponent {
   @Input() vehicles: any[] = [];
   @Input() unassignedTags: any[] = [];
   @Input() qrImageBase64: string | null = null;
+  @Input() isLinkingTag = false;
 
   @Output() linkSerialChange = new EventEmitter<string>();
   @Output() linkVehicleIdChange = new EventEmitter<string>();

@@ -47,6 +47,54 @@ export class TagType implements OnInit {
         'Weatherproof & Durable Decal',
         'Easy Setup & Activation'
       ]
+    },
+    'pet': {
+      title: 'Pet Protection Tag',
+      subtitle: 'Keep your furry and feathered friends safe.',
+      bannerImage: '/banner-pet.jpg',
+      description: 'Our Pet Protection Tag ensures anyone who finds your lost pet can instantly notify you while keeping your phone number completely private.',
+      features: [
+        'Instant Location Scan Alerts',
+        '100% Number Masking Privacy',
+        'Waterproof Collar Tag',
+        'No Batteries Required'
+      ]
+    },
+    'home': {
+      title: 'Home Protection Tag',
+      subtitle: 'Secure your property and entrance gates.',
+      bannerImage: '/banner-home.jpg',
+      description: 'Place the Home Protection Tag on your main gate or door. Delivery agents or visitors can alert you instantly without needing your direct contact details.',
+      features: [
+        'Instant Delivery & Visitor Alerts',
+        'Total Privacy & Security',
+        'Weather-Resistant Decal',
+        'Quick Setup'
+      ]
+    },
+    'life': {
+      title: 'Life Protection Tag',
+      subtitle: 'Safety for kids, students, and seniors.',
+      bannerImage: '/banner-life.jpg',
+      description: 'The Life Protection Tag gives your loved ones an easy way to carry emergency contact info. In an emergency, first responders or helpful strangers can instantly alert you.',
+      features: [
+        'Emergency SOS Contact',
+        'Medical Info Access',
+        'Durable ID Cards',
+        'Peace of Mind'
+      ]
+    },
+    'items': {
+      title: 'Items Protection Tag',
+      subtitle: 'Never lose your keys, laptop, or luggage.',
+      bannerImage: '/banner-vehical.png',
+      description: 'Attach this tag to your valuable belongings. If lost, the finder can scan it to coordinate a safe return, all while your personal identity remains protected.',
+      features: [
+        'Lost & Found Tracking',
+        'Privacy Assured',
+        'Adhesive & Keychain Options',
+        'Global Coverage'
+      ]
     }
   };
 

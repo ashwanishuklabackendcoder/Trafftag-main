@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { jsPDF } from 'jspdf';
+
 export interface VehicleDecalInfo {
   id: string;
   make: string;
@@ -25,6 +27,50 @@ export class QrDecalService {
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
+  }
+
+  generateAndDownloadPdfWithFrame(veh: VehicleDecalInfo, qrImageBlob: Blob): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const imgUrl = URL.createObjectURL(qrImageBlob);
+      const img = new Image();
+      img.onload = () => {
+        // Use an invisible canvas to convert the loaded image to a JPEG data URL
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          URL.revokeObjectURL(imgUrl);
+          resolve();
+          return;
+        }
+
+        ctx.drawImage(img, 0, 0);
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+        // Create PDF matching the exact dimensions of the image
+        const orientation = img.width > img.height ? 'l' : 'p';
+        const pdf = new jsPDF({
+          orientation: orientation,
+          unit: 'px',
+          format: [img.width, img.height]
+        });
+
+        pdf.addImage(imgData, 'JPEG', 0, 0, img.width, img.height);
+        pdf.save(`${veh.make}_${veh.model}_${veh.plate}_QR_Decal.pdf`);
+        
+        URL.revokeObjectURL(imgUrl);
+        resolve();
+      };
+      
+      img.onerror = () => {
+        console.error("Failed to load backend QR Image Blob");
+        URL.revokeObjectURL(imgUrl);
+        resolve(); // resolve so it doesn't leave the UI spinning
+      };
+      
+      img.src = imgUrl;
+    });
   }
 
   generateAndDownloadCanvasQr(veh: VehicleDecalInfo, tagId: string, scanUrl: string): Promise<void> {

@@ -138,9 +138,9 @@
         </p>
       </div>
 
-            <div class="new-ecosystem-grid">
+      <div class="new-ecosystem-grid">
         @for (item of ecosystemTags(); track item.category) {
-          <div class="new-tag-card" [ngClass]="item.colorClass">
+          <a [routerLink]="[item.link]" class="new-tag-card" [ngClass]="item.colorClass" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; cursor: pointer;">
             <div class="new-tag-card-header">
               <div class="new-tag-icon-circle">
                 <i [class]="item.icon"></i>
@@ -151,11 +151,11 @@
             <div class="new-tag-image-wrapper">
               <img [src]="item.image" [alt]="item.category" class="new-tag-image" />
             </div>
-            <a [routerLink]="[item.link]" class="new-tag-footer-btn">
+            <div class="new-tag-footer-btn">
               <span>{{ item.buttonText }}</span>
               <i class="fa-solid fa-arrow-right"></i>
-            </a>
-          </div>
+            </div>
+          </a>
         }
       </div>
     </div>
