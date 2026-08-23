@@ -335,13 +335,8 @@ export class Portal implements OnInit {
     }
   }
 
-  getHeaders() {
-    const token = localStorage.getItem('accessToken');
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  }
-
   loadVehicles() {
-    this.http.get<any>(`${API_BASE_URL}/api/v1/vehicles`, { headers: this.getHeaders() })
+    this.http.get<any>(`${API_BASE_URL}/api/v1/vehicles`)
       .subscribe({
         next: (res) => {
           if (res?.success && res?.data?.data) {
@@ -386,7 +381,7 @@ export class Portal implements OnInit {
   }
 
   loadNotifications() {
-    this.http.get<any>(`${API_BASE_URL}/api/v1/notifications`, { headers: this.getHeaders() })
+    this.http.get<any>(`${API_BASE_URL}/api/v1/notifications`)
       .subscribe({
         next: (res) => {
           if (res?.success && res?.data?.data) {
@@ -453,7 +448,7 @@ export class Portal implements OnInit {
 
       if (paymentStatus === 'success') {
         if (sessionId) {
-          this.http.post<any>(`${API_BASE_URL}/api/v1/payments/verify-session`, { sessionId }, { headers: this.getHeaders() })
+          this.http.post<any>(`${API_BASE_URL}/api/v1/payments/verify-session`, { sessionId })
             .subscribe({
               next: () => {
                 this.modalService.showSuccess(
@@ -577,7 +572,7 @@ export class Portal implements OnInit {
     };
 
     this.isRegisteringVehicle.set(true);
-    this.http.post<any>(`${API_BASE_URL}/api/v1/vehicles`, body, { headers: this.getHeaders() })
+    this.http.post<any>(`${API_BASE_URL}/api/v1/vehicles`, body)
       .subscribe({
         next: (res) => {
           this.isRegisteringVehicle.set(false);
@@ -604,7 +599,7 @@ export class Portal implements OnInit {
     });
 
     if (confirmed) {
-      this.http.delete<any>(`${API_BASE_URL}/api/v1/vehicles/${id}`, { headers: this.getHeaders() })
+      this.http.delete<any>(`${API_BASE_URL}/api/v1/vehicles/${id}`)
         .subscribe({
           next: () => {
             this.loadVehicles();
@@ -630,7 +625,7 @@ export class Portal implements OnInit {
       silentHoursEnd: null
     };
 
-    this.http.put<any>(`${API_BASE_URL}/api/v1/vehicles/${id}/preferences`, body, { headers: this.getHeaders() })
+    this.http.put<any>(`${API_BASE_URL}/api/v1/vehicles/${id}/preferences`, body)
       .subscribe({
         next: () => {
           this.loadVehicles();
@@ -653,7 +648,7 @@ export class Portal implements OnInit {
     
     const assignTagToVehicle = (resolvedTagId: number) => {
       const assignBody = { vehicleId: vehicleIdNum };
-      this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/${resolvedTagId}/assign`, assignBody, { headers: this.getHeaders() })
+      this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/${resolvedTagId}/assign`, assignBody)
         .subscribe({
           next: (res) => {
             this.isLinkingTag.set(false);
@@ -684,7 +679,7 @@ export class Portal implements OnInit {
       activationCode: ''
     };
 
-    this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/activate`, activateBody, { headers: this.getHeaders() })
+    this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/activate`, activateBody)
       .subscribe({
         next: (actRes) => {
           const resolvedTagId = (typeof actRes?.data === 'number' ? actRes.data : null) || actRes?.qrTagId || actRes?.id || actRes?.data?.qrTagId || actRes?.data?.id || this.generatedTagId();
@@ -742,7 +737,7 @@ export class Portal implements OnInit {
       longitute: '-122.4194'
     };
 
-    this.http.post<any>(`${API_BASE_URL}/api/v1/notifications/send`, sendPayload, { headers: this.getHeaders() })
+    this.http.post<any>(`${API_BASE_URL}/api/v1/notifications/send`, sendPayload)
       .subscribe({
         next: (res) => {
           this.loadNotifications();
@@ -816,7 +811,7 @@ export class Portal implements OnInit {
       cancelUrl: `${window.location.origin}/portal/dashboard?payment=cancelled`
     };
 
-    this.http.post<any>(`${API_BASE_URL}/api/v1/payments/checkout`, payload, { headers: this.getHeaders() })
+    this.http.post<any>(`${API_BASE_URL}/api/v1/payments/checkout`, payload)
       .subscribe({
         next: (res) => {
           this.showUpgradeModal.set(false);
@@ -891,7 +886,7 @@ export class Portal implements OnInit {
   passwordUpdateError = signal('');
 
   loadProfile() {
-    this.http.get<any>(`${API_BASE_URL}/api/v1/profile`, { headers: this.getHeaders() })
+    this.http.get<any>(`${API_BASE_URL}/api/v1/profile`)
       .subscribe({
         next: (res) => {
           if (res?.success && res?.data) {
@@ -921,7 +916,7 @@ export class Portal implements OnInit {
   }
 
   loadUserMemberships() {
-    this.http.get<any>(`${API_BASE_URL}/api/v1/user-memberships`, { headers: this.getHeaders() })
+    this.http.get<any>(`${API_BASE_URL}/api/v1/user-memberships`)
       .subscribe({
         next: (res) => {
           const list = Array.isArray(res) ? res : (res?.data || res?.data?.data || (res?.success && res?.data ? res.data : []));
@@ -947,7 +942,7 @@ export class Portal implements OnInit {
   }
 
   loadMembershipPlans() {
-    this.http.get<any>(`${API_BASE_URL}/api/v1/memberships/plans`, { headers: this.getHeaders() })
+    this.http.get<any>(`${API_BASE_URL}/api/v1/memberships/plans`)
       .subscribe({
         next: (res) => {
           if (res?.success && Array.isArray(res.data)) {
@@ -984,7 +979,7 @@ export class Portal implements OnInit {
       returnUrl: `${window.location.origin}/portal/profile`
     };
 
-    this.http.post<any>(`${API_BASE_URL}/api/v1/payments/portal`, payload, { headers: this.getHeaders() })
+    this.http.post<any>(`${API_BASE_URL}/api/v1/payments/portal`, payload)
       .subscribe({
         next: (res) => {
           const portalUrl = typeof res === 'string' ? res : (res?.url || res?.data?.url || res?.data);
@@ -1022,7 +1017,7 @@ export class Portal implements OnInit {
       profileImage: this.profileImage() || null
     };
 
-    this.http.put<any>(`${API_BASE_URL}/api/v1/profile`, body, { headers: this.getHeaders() })
+    this.http.put<any>(`${API_BASE_URL}/api/v1/profile`, body)
       .subscribe({
         next: (res) => {
           if (res?.success) {
@@ -1058,7 +1053,7 @@ export class Portal implements OnInit {
       newPassword: this.newPassword()
     };
 
-    this.http.put<any>(`${API_BASE_URL}/api/v1/profile/password`, body, { headers: this.getHeaders() })
+    this.http.put<any>(`${API_BASE_URL}/api/v1/profile/password`, body)
       .subscribe({
         next: (res) => {
           this.isUpdatingPassword.set(false);
@@ -1088,7 +1083,7 @@ export class Portal implements OnInit {
 
   executeDeleteAccount() {
     this.isDeletingAccount.set(true);
-    this.http.delete(`${API_BASE_URL}/api/v1/profile/account`, { headers: this.getHeaders() })
+    this.http.delete(`${API_BASE_URL}/api/v1/profile/account`)
       .subscribe({
         next: () => {
           this.isDeletingAccount.set(false);
@@ -1126,7 +1121,7 @@ export class Portal implements OnInit {
       userMembershipId: memId
     };
 
-    this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/generate`, payload, { headers: this.getHeaders() })
+    this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/generate`, payload)
       .subscribe({
         next: (res) => {
           let serialNumber = `TT-${Math.floor(10000000 + Math.random() * 90000000)}`;
@@ -1188,7 +1183,6 @@ export class Portal implements OnInit {
 
     // Fetch image from API endpoint
     this.http.get(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(tagId)}/image`, {
-      headers: this.getHeaders(),
       responseType: 'blob'
     }).subscribe({
       next: (blob: Blob) => {
