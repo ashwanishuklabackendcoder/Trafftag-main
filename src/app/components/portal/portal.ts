@@ -454,7 +454,18 @@ export class Portal implements OnInit {
                 this.modalService.showSuccess(
                   'Payment Successful',
                   'Thank you for upgrading! Your membership is now active.'
-                );
+                ).then(() => {
+                  const pending = localStorage.getItem('pendingAction');
+                  if (pending) {
+                    localStorage.removeItem('pendingAction');
+                    try {
+                      const action = JSON.parse(pending);
+                      if (action.action === 'generateNewQrTag') {
+                        setTimeout(() => this.generateNewQrTag(action.vehicleId), 500);
+                      }
+                    } catch (e) {}
+                  }
+                });
                 this.loadUserMemberships();
                 this.router.navigate([], {
                   queryParams: { payment: null, session_id: null },
@@ -922,7 +933,10 @@ export class Portal implements OnInit {
           const list = Array.isArray(res) ? res : (res?.data || res?.data?.data || (res?.success && res?.data ? res.data : []));
           const items = Array.isArray(list) ? list : (res?.data ? [res.data] : []);
           if (items.length > 0) {
-            const active = items.find((m: any) => m.status === 'Active' || m.isActive) || items[0];
+            // Prioritize an active membership that hasn't generated a QR tag yet
+            const active = items.find((m: any) => (m.status === 'Active' || m.isActive) && !m.qrTagId) 
+                        || items.find((m: any) => m.status === 'Active' || m.isActive) 
+                        || items[0];
             const membershipId = active.userMembershipId || active.id || active.membershipId;
             if (membershipId) {
               this.userMembershipId.set(membershipId);
@@ -1110,10 +1124,18 @@ export class Portal implements OnInit {
   generateNewQrTag(vehicleId?: string) {
     const memId = this.userMembershipId();
     if (!memId) {
-      this.modalService.showWarning(
-        'Active Membership Required',
-        'We could not find an active membership ID on your account. Please purchase a membership plan or try again.'
-      );
+      this.modalService.confirm({
+        title: 'Active Membership Required',
+        message: 'You need an active membership plan to generate a new QR Tag. Would you like to view our plans now?',
+        confirmText: 'View Plans',
+        cancelText: 'Cancel',
+        type: 'info'
+      }).then(confirmed => {
+        if (confirmed) {
+          localStorage.setItem('pendingAction', JSON.stringify({ action: 'generateNewQrTag', vehicleId: vehicleId || null }));
+          this.showUpgradeModal.set(true);
+        }
+      });
       return;
     }
 
@@ -1160,10 +1182,24 @@ export class Portal implements OnInit {
         },
         error: (err) => {
           console.warn('API /qrtags/generate attempt:', err);
-          this.modalService.showError(
-            'QR Tag Generation Failed',
-            err?.error?.message || 'Could not generate QR tag. Ensure your membership is active.'
-          );
+          const errorMsg = err?.error?.message || 'Could not generate QR tag. Ensure your membership is active.';
+          
+          if (errorMsg.includes('already been used')) {
+            this.modalService.confirm({
+              title: 'Plan Limit Reached',
+              message: 'Your current membership has already been used to generate a QR Tag. Would you like to view our plans to get another one?',
+              confirmText: 'View Plans',
+              cancelText: 'Cancel',
+              type: 'warning'
+            }).then(confirmed => {
+              if (confirmed) {
+                localStorage.setItem('pendingAction', JSON.stringify({ action: 'generateNewQrTag', vehicleId: vehicleId || null }));
+                this.showUpgradeModal.set(true);
+              }
+            });
+          } else {
+            this.modalService.showError('QR Tag Generation Failed', errorMsg);
+          }
         }
       });
   }
