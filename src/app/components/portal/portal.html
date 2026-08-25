@@ -30,7 +30,6 @@
       <div class="sidebar-brand custom-logo-block" [routerLink]="['/']">
         <img src="trafftag-logo.png" alt="TraffTag Logo" class="custom-logo-img" />
         <div class="logo-tagline">
-          <div class="tag-caps">TAG IT WITH LOVE</div>
           <div class="tag-cursive">Bringing Smiles Back</div>
         </div>
       </div>
@@ -56,7 +55,7 @@
         }
         
         <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
-          <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> My QR</span>
+          <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> My Trafftag Qr</span>
         </button>
         
         <button class="nav-item" [class.active]="activeTab() === 'alerts'" (click)="selectTab('alerts')">
@@ -151,7 +150,7 @@
           </button>
           
           <div class="user-profile-summary" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-            <img src="https://ui-avatars.com/api/?name=Ravi+Sharma&background=0D8ABC&color=fff" alt="User" style="width: 36px; height: 36px; border-radius: 50%;">
+            <img [src]="'https://ui-avatars.com/api/?name=' + (userName() || 'User') + '&background=0D8ABC&color=fff'" alt="User" style="width: 36px; height: 36px; border-radius: 50%;">
             <div style="display: flex; flex-direction: column; align-items: flex-start;">
               <span style="font-size: 0.75rem; color: #64748b; line-height: 1;">Welcome,</span>
               <span style="font-size: 0.9rem; font-weight: 700; color: #0f172a; line-height: 1.2;">{{ userName() || 'Ravi Sharma' }}</span>

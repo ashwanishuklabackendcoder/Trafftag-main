@@ -5,7 +5,7 @@
         <i class="fa-solid fa-car-side"></i>
       </div>
       <div>
-        <h2>Vehicle Protection Registry</h2>
+        <h2>Register & Activate Your TraffTag</h2>
         <p>Register all your household or company cars to link them with protective TRAFFTAG QR decals.</p>
       </div>
     </div>
@@ -146,16 +146,16 @@
                   @if (downloadingVehicleId === veh.id) {
                     <span class="spinner-sm"></span> Loading...
                   } @else {
-                    <i class="fa-solid fa-download"></i> Download QR
+                    <i class="fa-solid fa-download"></i> Trafftag Qr Download
                   }
                 </button>
               } @else if (unassignedTags?.length > 0) {
                 <button class="footer-btn btn-action-pdf" (click)="openLinkTag.emit(veh.id)" title="Assign an existing QR Code to this Vehicle">
-                  <i class="fa-solid fa-link"></i> Assign QR Tag
+                  <i class="fa-solid fa-link"></i> Link and Activate Trafftag
                 </button>
               } @else {
                 <button class="footer-btn btn-action-pdf" (click)="generateQr.emit(veh.id)" title="Generate QR Code for this Vehicle">
-                  <i class="fa-solid fa-wand-magic-sparkles"></i> Generate QR
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Get Your Qr tag
                 </button>
               }
               <button class="footer-btn btn-action-delete" (click)="deleteVehicle.emit(veh.id)" title="Remove Vehicle from Registry">

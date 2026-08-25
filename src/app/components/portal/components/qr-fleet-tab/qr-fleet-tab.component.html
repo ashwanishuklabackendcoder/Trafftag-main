@@ -11,10 +11,10 @@
     </div>
     <div class="panel-header-actions" style="display: flex; gap: 10px;">
       <button class="btn btn-secondary" (click)="generateNewQr.emit()">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate New QR Tag
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Get Your Qr tag
       </button>
       <button class="btn btn-primary register-btn" (click)="openLinkTag.emit(undefined)">
-        <i class="fa-solid fa-link"></i> Link Sticker
+        <i class="fa-solid fa-link"></i> Link and Activate Trafftag
       </button>
     </div>
   </div>
@@ -29,10 +29,10 @@
         <p>You haven't added any vehicles or generated protective QR sticker tags yet.</p>
         <div style="display: flex; gap: 12px; justify-content: center; margin-top: 8px;">
           <button class="btn btn-secondary" (click)="generateNewQr.emit()">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate QR Tag
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Get Your Qr tag
           </button>
           <button class="btn btn-primary register-btn" (click)="openLinkTag.emit(undefined)">
-            <i class="fa-solid fa-link"></i> Link Physical Sticker
+            <i class="fa-solid fa-link"></i> Link and Activate Trafftag
           </button>
         </div>
       </div>
@@ -101,15 +101,15 @@
                   @if (downloadingVehicleId === veh.id) {
                     <span class="spinner-sm"></span> Downloading...
                   } @else {
-                    <i class="fa-solid fa-download"></i> Download QR
+                    <i class="fa-solid fa-download"></i> Trafftag Qr Download
                   }
                 </button>
               } @else {
                 <button class="footer-btn btn-action-scan" (click)="generateNewQr.emit()">
-                  <i class="fa-solid fa-wand-magic-sparkles"></i> Generate QR Tag
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Get Your Qr tag
                 </button>
                 <button class="footer-btn btn-action-pdf" (click)="openLinkTag.emit(veh.id)">
-                  <i class="fa-solid fa-link"></i> Link Physical Sticker
+                  <i class="fa-solid fa-link"></i> Link and Activate Trafftag
                 </button>
               }
             </div>

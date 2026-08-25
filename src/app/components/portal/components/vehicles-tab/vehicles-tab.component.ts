@@ -15,6 +15,7 @@ export class VehiclesTabComponent {
   @Input() unassignedTags: any[] = [];
   @Input() downloadingVehicleId: string | null = null;
   @Input() membershipType = 'Free Plan';
+  @Input() userName = 'User';
 
   @Output() addVehicleClick = new EventEmitter<void>();
   @Output() downloadQr = new EventEmitter<any>();
