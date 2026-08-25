@@ -142,21 +142,25 @@ export class Portal implements OnInit {
   vehicles = signal<Vehicle[]>([]);
   rawUserMemberships = signal<any[]>([]);
   
+  myQrs = signal<any[]>([]);
+
   unassignedTags = computed(() => {
     const vehiclesList = this.vehicles();
-    return this.rawUserMemberships()
-      .filter((m: any) => m.qrTagSerialNumber && !vehiclesList.some(v => v.tagId === m.qrTagSerialNumber))
-      .map((m: any) => ({
-        id: m.qrTagId || m.userMembershipId,
-        tagId: m.qrTagSerialNumber,
-        status: m.qrTagStatus || 'Active',
-        planName: m.planName || 'Free Plan'
+    // QRs that belong to the user but are not yet assigned to any vehicle
+    return this.myQrs()
+      .filter((q: any) => !vehiclesList.some(v => v.tagId === q.serialNumber))
+      .map((q: any) => ({
+        id: q.qrTagId,
+        tagId: q.serialNumber,
+        status: q.status || 'Active',
+        planName: 'Purchased Tag'
       }));
   });
 
   // Tag counters
   activeTagsCount = computed(() => this.vehicles().filter(v => v.tagId && v.tagId !== 'Not Assigned' && v.active).length + this.unassignedTags().length);
   inactiveTagsCount = computed(() => this.vehicles().filter(v => !v.tagId || v.tagId === 'Not Assigned' || !v.active).length);
+
 
   // Notifications List
   notifications = signal<QRNotification[]>([]);
@@ -401,6 +405,18 @@ export class Portal implements OnInit {
       });
   }
 
+  loadMyQrs() {
+    this.http.get<any>(`${API_BASE_URL}/api/v1/qrtags/my-qrs`)
+      .subscribe({
+        next: (res) => {
+          if (res?.success && Array.isArray(res?.data)) {
+            this.myQrs.set(res.data);
+          }
+        },
+        error: (err) => console.error('Error loading My QRs:', err)
+      });
+  }
+
   getCategoryIcon(category: string): string {
     switch (category) {
       case 'Headlights Left On': return 'fa-solid fa-lightbulb';
@@ -465,6 +481,19 @@ export class Portal implements OnInit {
                       }
                     } catch (e) {}
                   }
+                  
+                  const pendingQr = localStorage.getItem('pendingQrCode');
+                  if (pendingQr) {
+                    setTimeout(() => {
+                      this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/claim/${pendingQr}`, {}).subscribe({
+                        next: () => {
+                          this.modalService.showSuccess('QR Claimed', 'Your QR code is now active and assigned to you.');
+                          localStorage.removeItem('pendingQrCode');
+                          this.selectTab('tags');
+                        }
+                      });
+                    }, 500);
+                  }
                 });
                 this.loadUserMemberships();
                 this.router.navigate([], {
@@ -525,6 +554,35 @@ export class Portal implements OnInit {
       this.loadUserMemberships();
       this.loadNotifications();
       this.loadMembershipPlans();
+      this.loadMyQrs();
+
+      const pendingQr = localStorage.getItem('pendingQrCode');
+      if (pendingQr) {
+        // If we just came in with a pending QR, redirect to membership tab
+        // Or if they already have an active membership, try to claim it directly.
+        // For simplicity, we just route to profile-membership and let them upgrade/claim.
+        // A robust solution would call the API to check membership and claim automatically.
+        setTimeout(() => {
+          this.http.post<any>(`${API_BASE_URL}/api/v1/qrtags/claim/${pendingQr}`, {}).subscribe({
+            next: (res) => {
+              this.modalService.showSuccess('QR Claimed', 'The scanned QR code has been successfully assigned to your account.');
+              localStorage.removeItem('pendingQrCode');
+              this.selectTab('tags');
+            },
+            error: (err) => {
+              if (err?.error?.message?.includes('membership')) {
+                this.modalService.showWarning('Membership Required', 'Please purchase a membership to activate this QR tag.');
+                this.selectTab('profile-membership');
+              } else if (err?.error?.message?.includes('already')) {
+                this.modalService.showWarning('Already Claimed', 'This QR tag is already claimed.');
+                localStorage.removeItem('pendingQrCode');
+              } else {
+                this.modalService.showError('Claim Failed', 'Could not claim the QR tag. Please try again from the tags menu.');
+              }
+            }
+          });
+        }, 1000);
+      }
     }
   }
 

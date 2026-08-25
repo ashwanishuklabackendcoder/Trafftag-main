@@ -1,5 +1,5 @@
 import { Component, signal, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_URL } from '../../config/api.config';
@@ -12,6 +12,7 @@ import { API_BASE_URL } from '../../config/api.config';
 })
 export class Login {
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
 
   email = signal('');
@@ -20,6 +21,14 @@ export class Login {
   
   isSubmitting = signal(false);
   errorMessage = signal('');
+
+  constructor() {
+    this.route.queryParams.subscribe(params => {
+      if (params['qrCode']) {
+        localStorage.setItem('pendingQrCode', params['qrCode']);
+      }
+    });
+  }
 
   togglePasswordVisibility() {
     this.showPassword.update(show => !show);

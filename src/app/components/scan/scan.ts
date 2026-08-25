@@ -1,5 +1,5 @@
 import { Component, OnInit, signal, computed, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_URL } from '../../config/api.config';
@@ -13,6 +13,7 @@ import { API_BASE_URL } from '../../config/api.config';
 export class Scan implements OnInit {
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
+  private router = inject(Router);
 
   tagId = signal('');
   manualTagInput = signal('');
@@ -58,10 +59,8 @@ export class Scan implements OnInit {
   }
 
   onDropdownBlur() {
-    // delay to allow mousedown on item to fire first
     setTimeout(() => {
       this.dropdownOpen.set(false);
-      // Optional: reset search query to selected label if invalid
       const match = this.categories().find(c => c.value === this.selectedCategory());
       if (match) {
         this.searchQuery.set(match.label);
@@ -119,32 +118,21 @@ export class Scan implements OnInit {
   lookupTagDetails(tagIdStr: string) {
     this.ownerUsername.set('Protected Owner');
 
-    // Query backend public API to resolve associated vehicle & owner details for the scanned QR tag
-    this.http.get<any>(`${API_BASE_URL}/api/v1/notifications/scan/${encodeURIComponent(tagIdStr)}`).subscribe({
+    this.http.get<any>(`${API_BASE_URL}/api/v1/qrtags/scan/${encodeURIComponent(tagIdStr)}`).subscribe({
       next: (res) => {
+        if (res && res.status === 'RequiresActivation') {
+          // Store QR in local storage or navigate with query param
+          this.router.navigate(['/login'], { queryParams: { qrCode: res.qrCode } });
+          return;
+        }
+
         if (res) {
           const data = res.data || res;
-          const nick = data.nickname || '';
-
-          if (nick) {
-            this.vehicleInfo.set(nick);
-          } else {
-            this.vehicleInfo.set('');
-          }
-          
-          if (data.categories && Array.isArray(data.categories)) {
-            const mapped = data.categories.map((c: string) => {
-              return {
-                value: c,
-                label: c
-              };
-            });
-            this.categories.set(mapped);
-          }
+          this.vehicleInfo.set('Registered Vehicle');
         }
       },
       error: (err) => {
-        console.warn('Failed to resolve scan details via public API:', err);
+        console.warn('Failed to resolve scan details:', err);
         this.vehicleInfo.set('Registered Vehicle');
       }
     });

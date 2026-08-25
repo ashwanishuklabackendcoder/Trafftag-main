@@ -4,9 +4,13 @@
     <button class="mobile-menu-toggle" (click)="toggleMobileSidebar()" aria-label="Toggle Navigation Menu">
       <i class="fa-solid fa-bars"></i>
     </button>
-    <div class="logo" [routerLink]="['/']">
-      <span class="logo-icon"><i class="fa-solid fa-taxi"></i></span>
-      <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
+    <div class="sidebar-brand mobile-brand" [routerLink]="['/']">
+      <div class="brand-logo-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div class="brand-text-wrapper">
+        <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
+      </div>
     </div>
     <div class="user-avatar-small">AD</div>
   </header>
@@ -23,37 +27,31 @@
       <i class="fa-solid fa-xmark"></i>
     </button>
 
-    <div class="sidebar-brand" [routerLink]="['/']">
-      <span class="logo-icon"><i class="fa-solid fa-taxi"></i></span>
-      <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
-    </div>
-    
-    <div class="admin-profile-summary">
-      <div class="admin-avatar">AD</div>
-      <div class="admin-info">
-        <h4>System Admin</h4>
-        <span class="admin-role-badge">Super Admin</span>
+    <div class="sidebar-brand custom-logo-block" [routerLink]="['/']">
+      <img src="trafftag-logo.png" alt="TraffTag Logo" class="custom-logo-img" />
+      <div class="logo-tagline">
+        <div class="tag-cursive">Bringing Smiles Back</div>
       </div>
     </div>
 
     <nav class="sidebar-nav">
       <button class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
-        <span><i class="fa-solid fa-chart-line nav-icon"></i> KPI Overview</span>
+        <span class="nav-label-group"><i class="fa-solid fa-chart-line nav-icon"></i> KPI Overview</span>
       </button>
       <button class="nav-item" [class.active]="activeTab() === 'users'" (click)="selectTab('users')">
-        <span><i class="fa-solid fa-users nav-icon"></i> Users Mgmt</span>
+        <span class="nav-label-group"><i class="fa-solid fa-users nav-icon"></i> Users Mgmt</span>
       </button>
       <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
-        <span><i class="fa-solid fa-qrcode nav-icon"></i> QR Code Decals</span>
+        <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> QR Code Decals</span>
       </button>
       <button class="nav-item" [class.active]="activeTab() === 'enquiries'" (click)="selectTab('enquiries')">
-        <span><i class="fa-solid fa-envelope-open-text nav-icon"></i> Inquiries</span>
+        <span class="nav-label-group"><i class="fa-solid fa-envelope-open-text nav-icon"></i> Inquiries</span>
       </button>
       <button class="nav-item" [class.active]="activeTab() === 'gateways'" (click)="selectTab('gateways')">
-        <span><i class="fa-solid fa-server nav-icon"></i> System Gateways</span>
+        <span class="nav-label-group"><i class="fa-solid fa-server nav-icon"></i> System Gateways</span>
       </button>
       <button class="nav-item" [class.active]="activeTab() === 'profile'" (click)="selectTab('profile')">
-        <span><i class="fa-solid fa-user-gear nav-icon"></i> My Profile</span>
+        <span class="nav-label-group"><i class="fa-solid fa-user-gear nav-icon"></i> My Profile</span>
       </button>
     </nav>
 
@@ -66,22 +64,41 @@
   <main class="main-content">
     
     <!-- Top Header -->
-    <header class="content-header">
+    <header class="content-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid #E2E8F0;">
       <div class="header-welcome">
         @if (activeTab() === 'dashboard') {
-          <h1>Administrative Overview</h1>
+          <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">Administrative Overview</h1>
         } @else if (activeTab() === 'users') {
-          <h1>User Accounts Directory</h1>
+          <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">User Accounts Directory</h1>
         } @else if (activeTab() === 'tags') {
-          <h1>QR Code Tag Inventory</h1>
+          <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">QR Code Tag Inventory</h1>
         } @else if (activeTab() === 'enquiries') {
-          <h1>Inbound Help Inquiries</h1>
+          <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">Inbound Help Inquiries</h1>
         } @else if (activeTab() === 'gateways') {
-          <h1>Gateway Services Health</h1>
+          <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">Gateway Services Health</h1>
         } @else if (activeTab() === 'profile') {
-          <h1>My Profile Settings</h1>
+          <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">My Profile Settings</h1>
         }
-        <p>Manage users, tags, verify services, and track general platform activity logs.</p>
+        <p style="margin: 4px 0 0; color: #64748b; font-size: 0.9rem;">Manage users, tags, verify services, and track general platform activity logs.</p>
+      </div>
+
+      <div class="header-actions" style="display: flex; align-items: center; gap: 20px;">
+        <button style="background: transparent; border: none; font-size: 1.2rem; color: #475569; cursor: pointer; position: relative;">
+          <i class="fa-regular fa-bell"></i>
+          <span style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: white; font-size: 0.65rem; padding: 2px 5px; border-radius: 10px; font-weight: bold;">3</span>
+        </button>
+        
+        <button style="background: transparent; border: none; font-size: 1.2rem; color: #475569; cursor: pointer;">
+          <i class="fa-regular fa-circle-question"></i>
+        </button>
+        
+        <div class="user-profile-summary" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+          <img src="https://ui-avatars.com/api/?name=System+Admin&background=0ea5e9&color=fff" alt="Admin" style="width: 36px; height: 36px; border-radius: 50%;">
+          <div style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span style="font-size: 0.75rem; color: #64748b; line-height: 1;">Welcome,</span>
+            <span style="font-size: 0.9rem; font-weight: 700; color: #0f172a; line-height: 1.2;">System Admin</span>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -91,49 +108,49 @@
         
         <!-- Metrics Grid (KPI Cards) -->
         <div class="metrics-grid">
-          <div class="metric-card glass-card">
-            <span class="metric-icon"><i class="fa-solid fa-users text-primary"></i></span>
+          <div class="metric-card glass-card" style="background: #EFF6FF; border: 1px solid #BFDBFE;">
+            <span class="metric-icon" style="background: #DBEAFE; color: #1D4ED8;"><i class="fa-solid fa-users"></i></span>
             <div class="metric-info">
-              <span class="metric-label">Total Users</span>
-              <span class="metric-value">{{ totalUsersCount() }}</span>
-              <span class="metric-subtext text-success">Active: {{ activeUsersCount() }}</span>
+              <span class="metric-label" style="color: #1E3A8A; font-weight: 600;">Total Users</span>
+              <span class="metric-value" style="color: #1E40AF;">{{ totalUsersCount() }}</span>
+              <span class="metric-subtext text-success" style="color: #166534;">Active: {{ activeUsersCount() }}</span>
             </div>
           </div>
-          <div class="metric-card glass-card">
-            <span class="metric-icon"><i class="fa-solid fa-car text-indigo"></i></span>
+          <div class="metric-card glass-card" style="background: #F0FDF4; border: 1px solid #BBF7D0;">
+            <span class="metric-icon" style="background: #DCFCE7; color: #15803D;"><i class="fa-solid fa-car"></i></span>
             <div class="metric-info">
-              <span class="metric-label">Registered Cars</span>
-              <span class="metric-value">{{ totalVehiclesCount() }}</span>
+              <span class="metric-label" style="color: #14532D; font-weight: 600;">Registered Cars</span>
+              <span class="metric-value" style="color: #166534;">{{ totalVehiclesCount() }}</span>
             </div>
           </div>
-          <div class="metric-card glass-card">
-            <span class="metric-icon"><i class="fa-solid fa-qrcode text-warning"></i></span>
+          <div class="metric-card glass-card" style="background: #FEF3C7; border: 1px solid #FDE68A;">
+            <span class="metric-icon" style="background: #FEF08A; color: #A16207;"><i class="fa-solid fa-qrcode"></i></span>
             <div class="metric-info">
-              <span class="metric-label">QR Decals Printed</span>
-              <span class="metric-value">{{ totalTagsCount() }}</span>
+              <span class="metric-label" style="color: #713F12; font-weight: 600;">QR Decals Printed</span>
+              <span class="metric-value" style="color: #854D0E;">{{ totalTagsCount() }}</span>
             </div>
           </div>
-          <div class="metric-card glass-card">
-            <span class="metric-icon"><i class="fa-solid fa-wallet text-success"></i></span>
+          <div class="metric-card glass-card" style="background: #ECFEFF; border: 1px solid #A5F3FC;">
+            <span class="metric-icon" style="background: #CFFAFE; color: #0E7490;"><i class="fa-solid fa-wallet"></i></span>
             <div class="metric-info">
-              <span class="metric-label">Revenue</span>
-              <span class="metric-value">${{ membershipRevenue() }}</span>
-              <span class="metric-subtext">Orders Today: {{ ordersTodayCount() }}</span>
+              <span class="metric-label" style="color: #164E63; font-weight: 600;">Revenue</span>
+              <span class="metric-value" style="color: #155E75;">${{ membershipRevenue() }}</span>
+              <span class="metric-subtext" style="color: #0F766E;">Orders Today: {{ ordersTodayCount() }}</span>
             </div>
           </div>
-          <div class="metric-card glass-card">
-            <span class="metric-icon"><i class="fa-solid fa-circle-question text-danger"></i></span>
+          <div class="metric-card glass-card" style="background: #FEF2F2; border: 1px solid #FECACA;">
+            <span class="metric-icon" style="background: #FEE2E2; color: #B91C1C;"><i class="fa-solid fa-circle-question"></i></span>
             <div class="metric-info">
-              <span class="metric-label">Support Tickets</span>
-              <span class="metric-value">{{ ticketsTodayCount() }}</span>
-              <span class="metric-subtext text-danger">Pending Review</span>
+              <span class="metric-label" style="color: #7F1D1D; font-weight: 600;">Support Tickets</span>
+              <span class="metric-value" style="color: #991B1B;">{{ ticketsTodayCount() }}</span>
+              <span class="metric-subtext text-danger" style="color: #B91C1C;">Pending Review</span>
             </div>
           </div>
-          <div class="metric-card glass-card">
-            <span class="metric-icon"><i class="fa-solid fa-bell text-indigo"></i></span>
+          <div class="metric-card glass-card" style="background: #F5F3FF; border: 1px solid #DDD6FE;">
+            <span class="metric-icon" style="background: #EDE9FE; color: #6D28D9;"><i class="fa-solid fa-bell"></i></span>
             <div class="metric-info">
-              <span class="metric-label">SMS Scans Today</span>
-              <span class="metric-value">{{ notificationsTodayCount() }}</span>
+              <span class="metric-label" style="color: #4C1D95; font-weight: 600;">SMS Scans Today</span>
+              <span class="metric-value" style="color: #5B21B6;">{{ notificationsTodayCount() }}</span>
             </div>
           </div>
         </div>
@@ -284,6 +301,7 @@
               <option value="all">Status: All</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
+              <option value="manufactured">Manufactured</option>
               <option value="lost/stolen">Lost/Stolen</option>
             </select>
           </div>
@@ -313,12 +331,20 @@
                       {{ tag.status }}
                     </span>
                   </td>
-                  <td>
+                  <td style="display: flex; gap: 8px; align-items: center;">
                     <select class="action-select" [value]="tag.status" (change)="updateTagStatus(tag.serial, $any($event.target).value)">
                       <option value="Active">Active</option>
                       <option value="Inactive">Inactive</option>
                       <option value="Lost/Stolen">Lost/Stolen</option>
+                      <option value="Manufactured">Manufactured</option>
                     </select>
+                    <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;" (click)="downloadQrPdf(tag)" [disabled]="downloadingTagId() === tag.serial">
+                      @if (downloadingTagId() === tag.serial) {
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                      } @else {
+                        <i class="fa-solid fa-file-pdf"></i> Download PDF
+                      }
+                    </button>
                   </td>
                 </tr>
               }
@@ -489,11 +515,11 @@
           <form (submit)="$event.preventDefault(); generateTagsBulk()">
             <div class="form-group">
               <label for="prefix">Tag Code Prefix</label>
-              <input id="prefix" type="text" [(ngModel)]="prefix" name="prefix" placeholder="e.g. TT">
+              <input id="prefix" type="text" [ngModel]="prefix()" (ngModelChange)="prefix.set($event)" name="prefix" placeholder="e.g. TT">
             </div>
             <div class="form-group">
               <label for="quantity">Quantity to Generate *</label>
-              <input id="quantity" type="number" [(ngModel)]="bulkQuantity" name="quantity" min="1" max="100" required>
+              <input id="quantity" type="number" [ngModel]="bulkQuantity()" (ngModelChange)="bulkQuantity.set($event)" name="quantity" min="1" max="100" required>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" (click)="showGenerateModal.set(false)">Cancel</button>

@@ -1,6 +1,9 @@
 import { Component, OnInit, signal, inject, computed } from '@angular/core';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { API_BASE_URL } from '../../config/api.config';
+import { QrDecalService } from '../../services/qr-decal.service';
 
 interface AdminUser {
   id: string;
@@ -15,21 +18,26 @@ interface AdminUser {
 
 interface AdminTag {
   serial: string;
+  uniqueCode: string;
+  qrValue?: string;
   ownerEmail: string;
   plate: string;
-  status: 'Active' | 'Inactive' | 'Lost/Stolen';
+  status: string;
   scansCount: number;
 }
 
 @Component({
   selector: 'app-admin',
-  imports: [FormsModule, RouterLink],
+  standalone: true,
+  imports: [RouterLink, FormsModule],
   templateUrl: './admin.html',
-  styleUrl: './admin.css',
+  styleUrls: ['./admin.css']
 })
 export class Admin implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private http = inject(HttpClient);
+  private qrDecalService = inject(QrDecalService);
 
   activeTab = signal<'dashboard' | 'users' | 'tags' | 'enquiries' | 'gateways' | 'profile'>('dashboard');
   isMobileSidebarOpen = signal(false);
@@ -57,13 +65,7 @@ export class Admin implements OnInit {
   ]);
 
   // QR Tags list
-  tags = signal<AdminTag[]>([
-    { serial: 'TT-482-901', ownerEmail: 'sarah.j@example.com', plate: 'EVE-9032', status: 'Active', scansCount: 14 },
-    { serial: 'TT-718-204', ownerEmail: 'sarah.j@example.com', plate: 'HRT-4109', status: 'Active', scansCount: 3 },
-    { serial: 'TT-109-883', ownerEmail: 'marcus.b@fleet.com', plate: 'FLT-001A', status: 'Active', scansCount: 42 },
-    { serial: 'TT-901-382', ownerEmail: 'liam.oc@example.com', plate: 'XYZ-1029', status: 'Lost/Stolen', scansCount: 0 },
-    { serial: 'TT-331-508', ownerEmail: 'None (Unassigned)', plate: 'N/A', status: 'Inactive', scansCount: 0 }
-  ]);
+  tags = signal<AdminTag[]>([]);
 
   // Enquiries & Support tickets
   enquiries = signal([
@@ -143,6 +145,34 @@ export class Admin implements OnInit {
         this.router.navigate(['/admin', 'dashboard'], { replaceUrl: true });
       }
     });
+
+    this.loadStats();
+  }
+
+  loadStats() {
+    this.http.get<any>(`${API_BASE_URL}/api/Admin/dashboard/stats`).subscribe({
+      next: (res) => {
+        if (res) {
+          this.totalUsersCount.set(res.totalUsers);
+          this.totalVehiclesCount.set(res.totalVehicles);
+          this.totalTagsCount.set(res.totalQrsGenerated);
+          this.membershipRevenue.set(res.totalPaymentsCollected || 0);
+          this.notificationsTodayCount.set(res.totalEmailsSent);
+          
+          this.activeUsersCount.set(res.totalUsers); 
+        }
+      },
+      error: (err) => console.error('Failed to load admin stats', err)
+    });
+
+    this.http.get<any[]>(`${API_BASE_URL}/api/Admin/qr/inventory`).subscribe({
+      next: (res) => {
+        if (res) {
+          this.tags.set(res);
+        }
+      },
+      error: (err) => console.error('Failed to load tags inventory', err)
+    });
   }
 
   selectTab(tab: 'dashboard' | 'users' | 'tags' | 'enquiries' | 'gateways' | 'profile') {
@@ -165,24 +195,63 @@ export class Admin implements OnInit {
     this.isMobileSidebarOpen.update(v => !v);
   }
 
-  generateTagsBulk() {
-    const newTags: AdminTag[] = [];
-    for (let i = 0; i < this.bulkQuantity(); i++) {
-      const p1 = Math.floor(100 + Math.random() * 900);
-      const p2 = Math.floor(100 + Math.random() * 900);
-      const serial = `${this.prefix()}-${p1}-${p2}`;
-      newTags.push({
-        serial: serial,
-        ownerEmail: 'None (Unassigned)',
-        plate: 'N/A',
-        status: 'Inactive',
-        scansCount: 0
-      });
-    }
+  downloadingTagId = signal<string | null>(null);
 
-    this.tags.update(list => [...list, ...newTags]);
-    this.totalTagsCount.update(val => val + this.bulkQuantity());
-    this.showGenerateModal.set(false);
+  downloadQrPdf(tag: AdminTag) {
+    this.downloadingTagId.set(tag.serial);
+    const scanUrl = tag.qrValue || (window.location.origin + '/scan/' + tag.uniqueCode);
+    
+    // Create a dummy vehicle to pass to QrDecalService
+    const dummyVehicle = {
+      id: tag.uniqueCode,
+      make: tag.plate === 'N/A' ? 'Unassigned' : 'TraffTag',
+      model: 'Tag',
+      plate: tag.plate === 'N/A' ? 'PENDING' : tag.plate,
+      tagId: tag.serial,
+      image: ''
+    };
+
+    this.http.get(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(tag.serial)}/image`, {
+      responseType: 'blob'
+    }).subscribe({
+      next: (blob: Blob) => {
+        if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
+          this.qrDecalService.generateAndDownloadPdfWithFrame(dummyVehicle, blob)
+            .then(() => this.downloadingTagId.set(null))
+            .catch(() => this.downloadingTagId.set(null));
+        } else {
+          this.qrDecalService.generateAndDownloadCanvasQr(dummyVehicle, tag.serial, scanUrl)
+            .then(() => this.downloadingTagId.set(null));
+        }
+      },
+      error: () => {
+        this.qrDecalService.generateAndDownloadCanvasQr(dummyVehicle, tag.serial, scanUrl)
+          .then(() => this.downloadingTagId.set(null));
+      }
+    });
+  }
+
+  generateTagsBulk() {
+    const qty = Number(this.bulkQuantity());
+    const payload = {
+      Count: qty,
+      BaseUrl: window.location.origin + '/scan/'
+    };
+
+    this.http.post<any>(`${API_BASE_URL}/api/Admin/qr/bulk-generate`, payload).subscribe({
+      next: (res) => {
+        // Update total tags count
+        this.totalTagsCount.update(val => val + qty);
+        this.showGenerateModal.set(false);
+        this.loadStats();
+
+        alert(`Successfully generated ${qty} tags for Batch ${res.batchNumber}! You can now download them as PDFs from the inventory list.`);
+      },
+      error: (err) => {
+        console.error('Failed to bulk generate tags', err);
+        alert('Failed to generate tags.');
+      }
+    });
   }
 
   toggleUserStatus(userId: string) {
@@ -214,3 +283,6 @@ export class Admin implements OnInit {
     );
   }
 }
+
+
+
