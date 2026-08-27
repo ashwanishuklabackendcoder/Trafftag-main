@@ -56,7 +56,8 @@
                 type="text" 
                 name="manualTagInput" 
                 [ngModel]="manualTagInput()"
-                (ngModelChange)="manualTagInput.set($event)" 
+                (ngModelChange)="manualTagInput.set($event)"
+                (blur)="lookupTagDetails(manualTagInput())" 
                 class="form-input" 
                 placeholder="Enter Tag Serial (e.g., TT-00000022)" 
                 required
@@ -114,58 +115,15 @@
             <label class="form-label">
               <i class="fa-solid fa-location-dot location-icon"></i> Incident Location <span class="required">*</span>
             </label>
-            <div class="location-box" [class.location-verified]="locationSuccess()">
-              <div class="location-btn-row">
-                <button 
-                  type="button" 
-                  class="btn-detect-location" 
-                  (click)="detectLocation()" 
-                  [disabled]="isDetectingLocation()"
-                >
-                  @if (isDetectingLocation()) {
-                    <span class="spinner"></span> Detecting GPS...
-                  } @else {
-                    <i class="fa-solid fa-location-crosshairs"></i> Detect GPS Location
-                  }
-                </button>
-                @if (locationSuccess()) {
-                  <span class="gps-status-badge"><i class="fa-solid fa-circle-check"></i> GPS Verified</span>
-                }
-              </div>
-
-              @if (locationStatusMessage()) {
-                <p class="location-msg" [class.msg-success]="locationSuccess()" [class.msg-warn]="!locationSuccess() && !isDetectingLocation()">
-                  {{ locationStatusMessage() }}
-                </p>
-              }
-
-              <div class="coords-grid">
-                <div class="coord-item">
-                  <span class="coord-label">Latitude <span class="required">*</span></span>
-                  <input 
-                    type="text" 
-                    name="latitude" 
-                    [ngModel]="latitude()"
-                    (ngModelChange)="latitude.set($event)" 
-                    class="form-input coord-input" 
-                    placeholder="e.g. 12.971598" 
-                    required 
-                  />
-                </div>
-                <div class="coord-item">
-                  <span class="coord-label">Longitude <span class="required">*</span></span>
-                  <input 
-                    type="text" 
-                    name="longitude" 
-                    [ngModel]="longitude()"
-                    (ngModelChange)="longitude.set($event)" 
-                    class="form-input coord-input" 
-                    placeholder="e.g. 77.594566" 
-                    required 
-                  />
-                </div>
-              </div>
-            </div>
+            <input 
+              type="text" 
+              name="incidentLocation" 
+              [ngModel]="incidentLocation()"
+              (ngModelChange)="incidentLocation.set($event)" 
+              class="form-input" 
+              placeholder="Enter precise location (e.g., Block A Parking Lot)" 
+              required 
+            />
           </div>
 
           <!-- Custom Message -->

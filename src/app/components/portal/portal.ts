@@ -108,13 +108,17 @@ export class Portal implements OnInit {
   // User & Membership Details
   firstName = signal('');
   lastName = signal('');
-  userName = computed(() => `${this.firstName()} ${this.lastName()}`.trim() || 'ARVIND VERMA');
-  userInitials = computed(() => {
-    const first = this.firstName() ? this.firstName().charAt(0).toUpperCase() : '';
-    const last = this.lastName() ? this.lastName().charAt(0).toUpperCase() : '';
-    return (first + last) || 'AV';
+  userEmail = signal('');
+
+  userName = computed(() => {
+    const email = this.userEmail();
+    return email ? email.split('@')[0] : 'User';
   });
-  userEmail = signal('arvindverma630635@gmail.com');
+
+  userInitials = computed(() => {
+    const name = this.userName().toUpperCase();
+    return name.substring(0, 2) || 'U';
+  });
   phoneNumber = signal('');
   countryCode = signal('');
   profileImage = signal('');

@@ -14,107 +14,14 @@
   <main class="auth-card-wrapper">
     <div class="glass-card auth-card animate-fade-in-up">
       <div class="form-header animate-fade-in-up delay-100">
-        <h2>Create Account</h2>
+        <h2>Create TRAFFTAG Account</h2>
         <p class="form-description">Get started with a free account and protect your vehicle.</p>
       </div>
 
       <form (ngSubmit)="submitRegister()" #registerForm="ngForm" class="auth-form">
         
-        <!-- Row 1: First Name, Last Name, Nickname, Address -->
+        <!-- Email Field -->
         <div class="form-row animate-fade-in-up delay-150">
-          <div class="form-group flex-1">
-            <label class="form-label">First Name <span class="required">*</span></label>
-            <div class="input-wrapper-inner">
-              <span class="input-icon-left"><i class="fa-solid fa-user"></i></span>
-              <input 
-                type="text" 
-                name="firstName" 
-                [ngModel]="firstName()" 
-                (ngModelChange)="firstName.set($event)"
-                class="form-input form-input-with-icon" 
-                placeholder="John" 
-                required
-              />
-            </div>
-          </div>
-          <div class="form-group flex-1">
-            <label class="form-label">Last Name <span class="required">*</span></label>
-            <div class="input-wrapper-inner">
-              <span class="input-icon-left"><i class="fa-solid fa-user"></i></span>
-              <input 
-                type="text" 
-                name="lastName" 
-                [ngModel]="lastName()" 
-                (ngModelChange)="lastName.set($event)"
-                class="form-input form-input-with-icon" 
-                placeholder="Doe" 
-                required
-              />
-            </div>
-          </div>
-          <div class="form-group flex-1">
-            <label class="form-label">Nickname <span class="required">*</span></label>
-            <div class="input-wrapper-inner">
-              <span class="input-icon-left"><i class="fa-solid fa-id-badge"></i></span>
-              <input 
-                type="text" 
-                name="nickname" 
-                [ngModel]="nickname()" 
-                (ngModelChange)="nickname.set($event)"
-                class="form-input form-input-with-icon" 
-                placeholder="e.g. Johnny" 
-                required
-              />
-            </div>
-          </div>
-          <div class="form-group flex-1">
-            <label class="form-label">Address <span class="required">*</span></label>
-            <div class="input-wrapper-inner">
-              <span class="input-icon-left"><i class="fa-solid fa-location-dot"></i></span>
-              <input 
-                type="text" 
-                name="address" 
-                [ngModel]="address()" 
-                (ngModelChange)="address.set($event)"
-                class="form-input form-input-with-icon" 
-                placeholder="123 Main St" 
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Row 2: Phone, Alternate Phone, Email, Alternate Email -->
-        <div class="form-row animate-fade-in-up delay-200">
-          <div class="form-group flex-1">
-            <label class="form-label">Phone Number <span class="required">*</span></label>
-            <div class="input-wrapper-inner">
-              <span class="input-icon-left"><i class="fa-solid fa-phone"></i></span>
-              <input 
-                type="tel" 
-                name="phone" 
-                [ngModel]="phone()" 
-                (ngModelChange)="phone.set($event)"
-                class="form-input form-input-with-icon" 
-                placeholder="e.g. +1 (555) 019-2834"
-                required
-              />
-            </div>
-          </div>
-          <div class="form-group flex-1">
-            <label class="form-label">Alternate Phone</label>
-            <div class="input-wrapper-inner">
-              <span class="input-icon-left"><i class="fa-solid fa-phone"></i></span>
-              <input 
-                type="tel" 
-                name="alternatePhone" 
-                [ngModel]="alternatePhone()" 
-                (ngModelChange)="alternatePhone.set($event)"
-                class="form-input form-input-with-icon" 
-                placeholder="e.g. +1 (555) 999-1111"
-              />
-            </div>
-          </div>
           <div class="form-group flex-1">
             <label class="form-label">Email Address <span class="required">*</span></label>
             <div class="input-wrapper-inner">
@@ -127,20 +34,6 @@
                 class="form-input form-input-with-icon" 
                 placeholder="john.doe@example.com" 
                 required
-              />
-            </div>
-          </div>
-          <div class="form-group flex-1">
-            <label class="form-label">Alternate Email</label>
-            <div class="input-wrapper-inner">
-              <span class="input-icon-left"><i class="fa-solid fa-envelope"></i></span>
-              <input 
-                type="email" 
-                name="alternateEmail" 
-                [ngModel]="alternateEmail()" 
-                (ngModelChange)="alternateEmail.set($event)"
-                class="form-input form-input-with-icon" 
-                placeholder="john.alt@example.com" 
               />
             </div>
           </div>
@@ -171,48 +64,34 @@
           </div>
         </div>
 
-        <!-- 10. Digital Signature Field (Modal Trigger & Preview) -->
-        <div class="form-group animate-fade-in-up delay-275">
-          <label class="form-label">Digital Signature <span class="required">*</span></label>
-          
-          @if (!digitalSign()) {
+        <!-- Confirm Password Input -->
+        <div class="form-group animate-fade-in-up delay-250">
+          <label class="form-label">Confirm Password <span class="required">*</span></label>
+          <div class="input-wrapper-inner">
+            <span class="input-icon-left"><i class="fa-solid fa-lock"></i></span>
+            <input 
+              [type]="showConfirmPassword() ? 'text' : 'password'" 
+              name="confirmPassword" 
+              [ngModel]="confirmPassword()" 
+              (ngModelChange)="confirmPassword.set($event)"
+              class="form-input form-input-with-icon" 
+              placeholder="Confirm your password" 
+              required
+            />
             <button 
               type="button" 
-              class="sig-trigger-btn"
-              (click)="openSignatureModal()"
+              class="btn-toggle-password" 
+              (click)="toggleConfirmPasswordVisibility()"
+              aria-label="Toggle confirm password visibility"
             >
-              <i class="fa-solid fa-file-signature"></i>
-              <span>Click to Add Digital Signature</span>
+              <i class="fa-solid" [class.fa-eye]="!showConfirmPassword()" [class.fa-eye-slash]="showConfirmPassword()"></i>
             </button>
-          } @else {
-            <div class="sig-preview-card">
-              <div class="sig-preview-image-wrapper">
-                <img [src]="digitalSign()" alt="Digital Signature" class="sig-preview-img" />
-              </div>
-              <div class="sig-preview-actions">
-                <button type="button" class="btn-sig-small" (click)="openSignatureModal()">
-                  <i class="fa-solid fa-pen"></i> Edit
-                </button>
-                <button type="button" class="btn-sig-small btn-sig-danger" (click)="removeSignature()">
-                  <i class="fa-solid fa-trash"></i> Remove
-                </button>
-              </div>
-            </div>
-          }
-        </div>
-
-        <!-- 11. Verification (Captcha) -->
-        <div class="form-group animate-fade-in-up delay-300">
-          <label class="form-label">Verification (Are you human?) <span class="required">*</span></label>
-          <div class="input-wrapper-inner captcha-wrapper" style="border: none; padding: 0;">
-            <div 
-              class="g-recaptcha" 
-              data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-              data-callback="onRecaptchaSuccess"
-              data-expired-callback="onRecaptchaExpired"
-            ></div>
           </div>
         </div>
+
+
+
+
 
         <!-- 12. Age Verification & Consents -->
         <div class="form-checkbox-group animate-fade-in-up delay-350" style="display: flex; flex-direction: column; gap: 10px;">
@@ -261,19 +140,7 @@
             </span>
           </label>
 
-          <!-- Marketing Consent Checkbox (Optional) -->
-          <label class="checkbox-container">
-            <input 
-              type="checkbox" 
-              name="marketingAccepted" 
-              [ngModel]="marketingAccepted()" 
-              (ngModelChange)="marketingAccepted.set($event)"
-            />
-            <span class="checkmark"></span>
-            <span class="checkbox-label">
-              (Optional) I consent to receive marketing SMS/Email from TRAFFTAG
-            </span>
-          </label>
+
         </div>
 
         <!-- Error Alert -->
@@ -310,60 +177,4 @@
   </footer>
 </div>
 
-<!-- Digital Signature Modal Overlay -->
-@if (showSignatureModal()) {
-  <div class="modal-backdrop animate-fade-in" (click)="closeSignatureModal()">
-    <div class="modal-dialog signature-modal animate-scale-up" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-signature"></i> Digital Signature Pad</h3>
-        <button type="button" class="modal-close-btn" (click)="closeSignatureModal()">&times;</button>
-      </div>
 
-      <div class="modal-body">
-        <p class="modal-instruction">Draw your signature inside the box using mouse/touch screen or upload an image file.</p>
-
-        <div class="signature-pad-container" [class.has-signature]="hasSignatureInModal()">
-          <canvas 
-            #sigCanvas 
-            class="signature-canvas"
-            (mousedown)="startDrawing($event)"
-            (mousemove)="draw($event)"
-            (mouseup)="stopDrawing()"
-            (mouseleave)="stopDrawing()"
-            (touchstart)="startDrawing($event)"
-            (touchmove)="draw($event)"
-            (touchend)="stopDrawing()"
-          ></canvas>
-          @if (!hasSignatureInModal()) {
-            <div class="signature-placeholder">
-              <i class="fa-solid fa-signature"></i>
-              <span>Sign here with mouse or touch</span>
-            </div>
-          }
-        </div>
-
-        <div class="signature-modal-tools">
-          <button 
-            type="button" 
-            class="btn-sig-action" 
-            (click)="clearSignatureCanvas()"
-            [disabled]="!hasSignatureInModal()"
-          >
-            <i class="fa-solid fa-rotate-left"></i> Clear Canvas
-          </button>
-          <label class="btn-sig-action btn-sig-upload">
-            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Image
-            <input type="file" accept="image/*" (change)="onFileUpload($event)" style="display: none;" />
-          </label>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeSignatureModal()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="saveSignatureFromModal()" [disabled]="!hasSignatureInModal()">
-          <i class="fa-solid fa-check"></i> Save Signature
-        </button>
-      </div>
-    </div>
-  </div>
-}

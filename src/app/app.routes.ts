@@ -16,6 +16,10 @@ import { Contact } from './components/contact/contact';
 import { HowItWorks } from './components/how-it-works/how-it-works';
 import { ComingSoon } from './components/coming-soon/coming-soon';
 import { TagType } from './components/tag-type/tag-type';
+import { RefundCancellation } from './components/refund-cancellation/refund-cancellation';
+import { ShippingReplacement } from './components/shipping-replacement/shipping-replacement';
+import { Disclaimers } from './components/disclaimers/disclaimers';
+import { ConsentTracking } from './components/consent-tracking/consent-tracking';
 
 import { inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
@@ -66,10 +70,10 @@ export const routes: Routes = [
   { path: 'contact', component: Contact, title: 'Contact Us & Support | TRAFFTAG' },
   { path: 'privacy-policy', component: PrivacyPolicy, title: 'Privacy Policy | TRAFFTAG Safety Services' },
   { path: 'terms-of-service', component: TermsOfService, title: 'Terms of Service | TRAFFTAG Legal' },
-  { path: 'refund-cancellation', component: ComingSoon, title: 'Refund & Cancellation Policy | TRAFFTAG' },
-  { path: 'shipping-replacement', component: ComingSoon, title: 'Shipping & Replacement Policy | TRAFFTAG' },
-  { path: 'disclaimers', component: ComingSoon, title: 'Disclaimers | TRAFFTAG Legal' },
-  { path: 'consent-tracking', component: ComingSoon, title: 'Consent & Tracking | TRAFFTAG Privacy' },
+  { path: 'refund-cancellation', component: RefundCancellation, title: 'Refund & Cancellation Policy | TRAFFTAG' },
+  { path: 'shipping-replacement', component: ShippingReplacement, title: 'Shipping & Replacement Policy | TRAFFTAG' },
+  { path: 'disclaimers', component: Disclaimers, title: 'Disclaimers | TRAFFTAG Legal' },
+  { path: 'consent-tracking', component: ConsentTracking, title: 'Consent & Tracking | TRAFFTAG Privacy' },
   { path: 'tags/:type', component: TagType, title: 'Smart Tags | TRAFFTAG' },
   { path: 'login', component: Login, title: 'Sign In | TRAFFTAG Customer Portal' },
   { path: 'register', component: Register, title: 'Create Account | TRAFFTAG Safety Registry' },

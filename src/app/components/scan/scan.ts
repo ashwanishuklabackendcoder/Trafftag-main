@@ -33,12 +33,8 @@ export class Scan implements OnInit {
   isSuccess = signal(false);
   errorMessage = signal('');
 
-  // Location signals (Compulsory)
-  latitude = signal('');
-  longitude = signal('');
-  isDetectingLocation = signal(false);
-  locationStatusMessage = signal('');
-  locationSuccess = signal(false);
+  // Location signals
+  incidentLocation = signal('');
 
   vehicleId = signal<number>(0);
   ownerUsername = signal<string>('Vehicle Owner');
@@ -80,44 +76,17 @@ export class Scan implements OnInit {
       }
     });
     this.generateCaptcha();
-    this.detectLocation();
-  }
-
-  detectLocation() {
-    if (!navigator.geolocation) {
-      this.locationStatusMessage.set('Geolocation is not supported by your browser.');
-      return;
-    }
-
-    this.isDetectingLocation.set(true);
-    this.locationStatusMessage.set('Acquiring precise GPS location...');
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude.toFixed(6);
-        const lng = position.coords.longitude.toFixed(6);
-        this.latitude.set(lat);
-        this.longitude.set(lng);
-        this.isDetectingLocation.set(false);
-        this.locationSuccess.set(true);
-        this.locationStatusMessage.set(`GPS Location Verified (${lat}, ${lng})`);
-      },
-      (error) => {
-        this.isDetectingLocation.set(false);
-        this.locationSuccess.set(false);
-        let msg = 'Could not fetch GPS automatically. Please enter location coordinates manually below.';
-        if (error.code === error.PERMISSION_DENIED) {
-          msg = 'Location permission denied by browser. Please enter location coordinates manually below.';
-        }
-        this.locationStatusMessage.set(msg);
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
   }
 
   lookupTagDetails(tagIdStr: string) {
+    if (!tagIdStr) {
+      this.categories.set([]);
+      this.vehicleInfo.set('');
+      return;
+    }
     this.ownerUsername.set('Protected Owner');
 
+    // First check tag status to handle activation flow
     this.http.get<any>(`${API_BASE_URL}/api/v1/qrtags/scan/${encodeURIComponent(tagIdStr)}`).subscribe({
       next: (res) => {
         if (res && res.status === 'RequiresActivation') {
@@ -127,8 +96,22 @@ export class Scan implements OnInit {
         }
 
         if (res) {
-          const data = res.data || res;
-          this.vehicleInfo.set('Registered Vehicle');
+          // Tag is active, now fetch the full scan details including categories
+          this.http.get<any>(`${API_BASE_URL}/api/v1/notifications/scan/${encodeURIComponent(tagIdStr)}`).subscribe({
+            next: (notifyRes) => {
+              const data = notifyRes.data || notifyRes;
+              this.vehicleInfo.set('Registered Vehicle');
+              const cats = data.categories || data.Categories;
+              if (cats && Array.isArray(cats)) {
+                const dynamicCategories = cats.map((c: string) => ({ value: c, label: c }));
+                this.categories.set(dynamicCategories);
+              }
+            },
+            error: (err) => {
+              console.warn('Failed to fetch categories:', err);
+              this.vehicleInfo.set('Registered Vehicle');
+            }
+          });
         }
       },
       error: (err) => {
@@ -159,8 +142,8 @@ export class Scan implements OnInit {
     }
 
     // Compulsory Location Validation
-    if (!this.latitude() || !this.longitude()) {
-      this.errorMessage.set('Location is compulsory! Click "Detect Location" or enter Latitude and Longitude.');
+    if (!this.incidentLocation()) {
+      this.errorMessage.set('Location is compulsory! Please enter the incident location.');
       return;
     }
 
@@ -184,8 +167,8 @@ export class Scan implements OnInit {
       category: categoryLabel,
       message: this.customMessage() || `${categoryLabel} reported for tag ${activeTag}`,
       findercontact: this.contactNumber() || '',
-      lattitute: this.latitude(),
-      longitute: this.longitude()
+      lattitute: this.incidentLocation(), // Sent as latitude in payload to match backend schema for now
+      longitute: ''
     };
 
     // Dispatch HTTP POST request to /api/v1/notifications/send
@@ -217,10 +200,7 @@ export class Scan implements OnInit {
     this.selectedCategory.set('');
     this.customMessage.set('');
     this.contactNumber.set('');
-    this.latitude.set('');
-    this.longitude.set('');
-    this.locationSuccess.set(false);
-    this.locationStatusMessage.set('');
+    this.incidentLocation.set('');
     this.generateCaptcha();
   }
 }
