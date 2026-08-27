@@ -338,7 +338,7 @@
                       <option value="Lost/Stolen">Lost/Stolen</option>
                       <option value="Manufactured">Manufactured</option>
                     </select>
-                    <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;" (click)="downloadQrPdf(tag)" [disabled]="downloadingTagId() === tag.serial">
+                    <button class="btn btn-primary" style="padding: 4px 10px; font-size: 0.8rem;" (click)="downloadQrPdf(tag)" [disabled]="downloadingTagId() === tag.serial">
                       @if (downloadingTagId() === tag.serial) {
                         <i class="fa-solid fa-spinner fa-spin"></i>
                       } @else {

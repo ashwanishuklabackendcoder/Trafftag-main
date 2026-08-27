@@ -164,6 +164,7 @@
     @if (activeTab() === 'dashboard') {
       <div class="tab-panel dashboard-panel">
         <!-- Top Title -->
+        <!-- 
         <div class="dashboard-header-title">
           <i class="fa-solid fa-sparkles text-yellow-400"></i>
           <h1>What do you want to do today?</h1>
@@ -172,7 +173,6 @@
         
         <div class="dash-divider"></div>
         
-        <!-- Top Actions Row -->
         <div class="dash-actions-row">
           <div class="dash-action-btn" (click)="selectTab('vehicles')">
             <div class="dash-action-icon text-blue">
@@ -206,40 +206,41 @@
             <div class="dash-action-sub">View profile</div>
           </div>
         </div>
+        -->
 
         <!-- Middle Grid Cards -->
         <div class="dash-cards-grid">
           <div class="dash-category-card bg-blue-soft" (click)="selectTab('vehicles')">
-            <div class="dash-card-img-wrapper"><img src="/illust-vehicle.png" alt="Vehicle Tags" class="dash-card-img img-vehicle"></div>
+            <div class="dash-card-img-wrapper"><img src="/maybach-tag.png" alt="My Happy Vehicle Tag" class="dash-card-img img-vehicle"></div>
             <div class="dash-card-content">
-              <h3>Vehicle Tags</h3>
+              <h3>My Happy Vehicle Tag</h3>
               <p>Cars, Bikes, Trucks & More</p>
             </div>
             <div class="dash-card-arrow bg-blue-primary"><i class="fa-solid fa-arrow-right"></i></div>
           </div>
           
           <div class="dash-category-card bg-green-soft">
-            <div class="dash-card-img-wrapper"><img src="/illust-family.png" alt="Happy Tags" class="dash-card-img img-family"></div>
+            <div class="dash-card-img-wrapper"><img src="/illust-family.png" alt="My Happy Life Tag" class="dash-card-img img-family"></div>
             <div class="dash-card-content">
-              <h3 class="text-green-primary">My Happy Tags</h3>
-              <p>Kids, Adults & Seniors</p>
+              <h3 class="text-green-primary">My Happy Life Tag</h3>
+              <p>Adults & Seniors</p>
             </div>
             <div class="dash-card-arrow bg-green-primary"><i class="fa-solid fa-arrow-right"></i></div>
           </div>
           
           <div class="dash-category-card bg-orange-soft">
-            <div class="dash-card-img-wrapper"><img src="/illust-pets.png" alt="Pet Tags" class="dash-card-img img-pet"></div>
+            <div class="dash-card-img-wrapper"><img src="/pet-tag.png" alt="My Happy Pet Tag" class="dash-card-img img-pet"></div>
             <div class="dash-card-content">
-              <h3 class="text-orange-primary">Pet Tags</h3>
+              <h3 class="text-orange-primary">My Happy Pet Tag</h3>
               <p>Dogs, Cats, Birds & More</p>
             </div>
             <div class="dash-card-arrow bg-orange-primary"><i class="fa-solid fa-arrow-right"></i></div>
           </div>
           
           <div class="dash-category-card bg-purple-soft">
-            <div class="dash-card-img-wrapper"><img src="/illust-home.png" alt="Home Tags" class="dash-card-img img-home"></div>
+            <div class="dash-card-img-wrapper"><img src="/illust-home.png" alt="My Happy Home Tag" class="dash-card-img img-home"></div>
             <div class="dash-card-content">
-              <h3 class="text-purple-primary">Home Tags</h3>
+              <h3 class="text-purple-primary">My Happy Home Tag</h3>
               <p>Home, Apartment, Office & More</p>
             </div>
             <div class="dash-card-arrow bg-purple-primary"><i class="fa-solid fa-arrow-right"></i></div>
