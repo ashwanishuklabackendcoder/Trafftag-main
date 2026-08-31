@@ -41,6 +41,9 @@
       <button class="nav-item" [class.active]="activeTab() === 'users'" (click)="selectTab('users')">
         <span class="nav-label-group"><i class="fa-solid fa-users nav-icon"></i> Users Mgmt</span>
       </button>
+      <button class="nav-item" [class.active]="activeTab() === 'memberships'" (click)="selectTab('memberships')">
+        <span class="nav-label-group"><i class="fa-solid fa-crown nav-icon"></i> Memberships</span>
+      </button>
       <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
         <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> QR Code Decals</span>
       </button>
@@ -70,6 +73,8 @@
           <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">Administrative Overview</h1>
         } @else if (activeTab() === 'users') {
           <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">User Accounts Directory</h1>
+        } @else if (activeTab() === 'memberships') {
+          <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">Memberships & Credits</h1>
         } @else if (activeTab() === 'tags') {
           <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">QR Code Tag Inventory</h1>
         } @else if (activeTab() === 'enquiries') {
@@ -280,7 +285,51 @@
       </div>
     }
 
-    <!-- Tab 3: QR Tags Inventory -->
+    <!-- Tab 3: Memberships Management -->
+    @if (activeTab() === 'memberships') {
+      <div class="tab-panel">
+        <div class="panel-header">
+          <p>Create and manage dynamic membership pricing and notification packages.</p>
+          <button class="btn btn-primary" (click)="showPlanModal.set(true)"><i class="fa-solid fa-plus"></i> Add New Plan</button>
+        </div>
+
+        <div class="table-container glass-card" style="margin-top: 20px;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Plan Name</th>
+                <th>Price</th>
+                <th>Validity</th>
+                <th>Included Credits</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (plan of activePlans(); track plan.planId) {
+                <tr>
+                  <td><strong>{{ plan.name }}</strong></td>
+                  <td>${{ plan.price }}</td>
+                  <td>{{ plan.validityDays }} Days</td>
+                  <td>{{ plan.credits }} Credits</td>
+                  <td>
+                    <button class="btn btn-sm" [class.btn-danger-outline]="plan.status === 'Active'" [class.btn-success]="plan.status !== 'Active'" (click)="togglePlanStatus(plan.planId)">
+                      {{ plan.status === 'Active' ? 'Deactivate' : 'Activate' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+              @if(activePlans().length === 0) {
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 20px;">No custom dynamic plans created yet. Click "Add New Plan" above.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 4: QR Tags Inventory -->
     @if (activeTab() === 'tags') {
       <div class="tab-panel">
         
@@ -524,6 +573,56 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" (click)="showGenerateModal.set(false)">Cancel</button>
               <button type="submit" class="btn btn-primary">Generate Serials</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Create Plan Modal -->
+  @if (showPlanModal()) {
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Create New Plan</h2>
+          <button class="modal-close" (click)="showPlanModal.set(false)"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <form (submit)="$event.preventDefault(); createPlan()">
+            <div class="form-group">
+              <label for="pName">Plan Name</label>
+              <input id="pName" type="text" [ngModel]="newPlan().name" (ngModelChange)="newPlan().name = $event" name="pName" placeholder="e.g. Basic Plan" required>
+            </div>
+            <div class="form-group">
+              <label for="pPrice">Price ($)</label>
+              <input id="pPrice" type="number" step="0.01" [ngModel]="newPlan().price" (ngModelChange)="newPlan().price = $event" name="pPrice" required>
+            </div>
+            <div class="form-group">
+              <label for="pCredits">Credits</label>
+              <input id="pCredits" type="number" [ngModel]="newPlan().credits" (ngModelChange)="newPlan().credits = $event" name="pCredits" required>
+            </div>
+            <div class="form-group">
+              <label for="pType">Membership Type</label>
+              <select id="pType" [ngModel]="newPlan().membershipTypeId" (ngModelChange)="newPlan().membershipTypeId = $event" name="pType" required>
+                @for (type of membershipTypes(); track type.id) {
+                  <option [value]="type.id">{{ type.name }}</option>
+                }
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="pValidity">Validity (Days)</label>
+              <input id="pValidity" type="number" [ngModel]="newPlan().validityDays" (ngModelChange)="newPlan().validityDays = $event" name="pValidity" placeholder="e.g. 30" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="showPlanModal.set(false)">Cancel</button>
+              <button type="submit" class="btn btn-primary" [disabled]="isCreatingPlan()">
+                @if (isCreatingPlan()) {
+                  <i class="fa-solid fa-spinner fa-spin"></i> Saving...
+                } @else {
+                  Save Plan
+                }
+              </button>
             </div>
           </form>
         </div>

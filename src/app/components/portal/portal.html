@@ -140,6 +140,13 @@
       <header class="content-header" style="display: flex; justify-content: flex-end; align-items: center; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid #E2E8F0;">
         <div class="header-actions" style="display: flex; align-items: center; gap: 20px;">
           
+          <div class="user-credits-summary" style="display: flex; align-items: center; gap: 8px; margin-right: 15px;">
+            <i class="fa-solid fa-coins" style="color: #f59e0b; font-size: 1.1rem;"></i>
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+              <span style="font-size: 0.75rem; color: #64748b; line-height: 1;">Credits</span>
+              <span style="font-size: 0.9rem; font-weight: 700; color: #0f172a; line-height: 1.2;">{{ remainingCredits() }}</span>
+            </div>
+          </div>
           <button style="background: transparent; border: none; font-size: 1.2rem; color: #475569; cursor: pointer; position: relative;">
             <i class="fa-regular fa-bell"></i>
             <span style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: white; font-size: 0.65rem; padding: 2px 5px; border-radius: 10px; font-weight: bold;">3</span>

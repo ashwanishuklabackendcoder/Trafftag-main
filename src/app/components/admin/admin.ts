@@ -39,7 +39,7 @@ export class Admin implements OnInit {
   private http = inject(HttpClient);
   private qrDecalService = inject(QrDecalService);
 
-  activeTab = signal<'dashboard' | 'users' | 'tags' | 'enquiries' | 'gateways' | 'profile'>('dashboard');
+  activeTab = signal<'dashboard' | 'users' | 'memberships' | 'tags' | 'enquiries' | 'gateways' | 'profile'>('dashboard');
   isMobileSidebarOpen = signal(false);
 
   // Resend OTP variables
@@ -139,7 +139,7 @@ export class Admin implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const sub = params.get('subpage');
-      if (sub && ['dashboard', 'users', 'tags', 'enquiries', 'gateways', 'profile'].includes(sub)) {
+      if (sub && ['dashboard', 'users', 'memberships', 'tags', 'enquiries', 'gateways', 'profile'].includes(sub)) {
         this.activeTab.set(sub as any);
       } else {
         this.router.navigate(['/admin', 'dashboard'], { replaceUrl: true });
@@ -147,6 +147,7 @@ export class Admin implements OnInit {
     });
 
     this.loadStats();
+    this.loadPlans();
   }
 
   loadStats() {
@@ -175,7 +176,7 @@ export class Admin implements OnInit {
     });
   }
 
-  selectTab(tab: 'dashboard' | 'users' | 'tags' | 'enquiries' | 'gateways' | 'profile') {
+  selectTab(tab: 'dashboard' | 'users' | 'memberships' | 'tags' | 'enquiries' | 'gateways' | 'profile') {
     this.activeTab.set(tab);
     this.isMobileSidebarOpen.set(false);
     this.router.navigate(['/admin', tab]);
@@ -281,6 +282,74 @@ export class Admin implements OnInit {
     this.enquiries.update(list =>
       list.map(e => e.id === enqId ? { ...e, status: 'Resolved' } : e)
     );
+  }
+
+  // --- Memberships Logic ---
+  activePlans = signal<any[]>([]);
+  membershipTypes = signal<any[]>([]);
+  showPlanModal = signal(false);
+  isCreatingPlan = signal(false);
+  newPlan = signal({
+    name: '',
+    price: null,
+    credits: null,
+    validityDays: null,
+    membershipTypeId: 1
+  });
+
+  loadPlans() {
+    const headers = { Authorization: `Bearer ${localStorage.getItem('accessToken')}` };
+    this.http.get<{success: boolean, data: any[]}>(`${API_BASE_URL}/api/v1/memberships/plans/admin`, { headers }).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.activePlans.set(res.data);
+        }
+      },
+      error: (err) => console.error('Failed to load plans', err)
+    });
+    
+    this.http.get<{success: boolean, data: any[]}>(`${API_BASE_URL}/api/v1/memberships/types`, { headers }).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.membershipTypes.set(res.data);
+          if (res.data.length > 0) {
+            this.newPlan.update(p => ({ ...p, membershipTypeId: res.data[0].id }));
+          }
+        }
+      },
+      error: (err) => console.error('Failed to load membership types', err)
+    });
+  }
+
+  togglePlanStatus(planId: number) {
+    const headers = { Authorization: `Bearer ${localStorage.getItem('accessToken')}` };
+    this.http.put(`${API_BASE_URL}/api/v1/memberships/plans/${planId}/toggle-status`, {}, { headers }).subscribe({
+      next: (res) => {
+        this.loadPlans();
+      },
+      error: (err) => {
+        console.error('Failed to toggle plan status', err);
+        alert('Failed to toggle plan status.');
+      }
+    });
+  }
+
+  createPlan() {
+    this.isCreatingPlan.set(true);
+    const headers = { Authorization: `Bearer ${localStorage.getItem('accessToken')}` };
+    this.http.post(`${API_BASE_URL}/api/v1/memberships/plans`, this.newPlan(), { headers }).subscribe({
+      next: (res) => {
+        this.isCreatingPlan.set(false);
+        this.showPlanModal.set(false);
+        alert('Plan created successfully!');
+        this.loadPlans();
+      },
+      error: (err) => {
+        this.isCreatingPlan.set(false);
+        console.error('Failed to create plan', err);
+        alert('Failed to create plan. Make sure you have Admin rights and the SQL tables exist.');
+      }
+    });
   }
 }
 

@@ -3,14 +3,42 @@ import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar';
 
+import { HttpClient } from '@angular/common/http';
+import { inject, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-pricing',
   imports: [FooterComponent, RouterLink, NavbarComponent],
   templateUrl: './pricing.html',
   styleUrl: './pricing.css',
 })
-export class Pricing {
+export class Pricing implements OnInit {
   isMenuOpen = signal(false);
+  http = inject(HttpClient);
+  dynamicPlans = signal<any[]>([]);
+
+  ngOnInit() {
+    this.http.get<{success: boolean, data: any[]}>('http://localhost:5000/api/v1/memberships/plans')
+      .subscribe({
+        next: (res) => {
+          if(res.success && res.data && res.data.length > 0) {
+            const mappedPlans = res.data.map((p: any) => ({
+              id: p.planId,
+              name: p.name.toUpperCase(),
+              lifetimePrice: `${p.validityDays} Days`,
+              monthlyPrice: `$${p.price.toFixed(2)}`,
+              credits: p.credits,
+              validityDays: p.validityDays,
+              membershipTypeName: p.membershipTypeName,
+              featured: false,
+              isDynamic: true
+            }));
+            this.membershipPlans.set(mappedPlans);
+          }
+        },
+        error: (err) => console.error('Error fetching dynamic plans', err)
+      });
+  }
 
   toggleMenu() {
     this.isMenuOpen.update(v => !v);
@@ -24,7 +52,7 @@ export class Pricing {
     }
   }
 
-  membershipPlans = signal([
+  membershipPlans = signal<any[]>([
     {
       name: 'BASIC PLAN',
       lifetimePrice: '$99.99',

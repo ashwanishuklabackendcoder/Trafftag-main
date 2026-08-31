@@ -124,6 +124,7 @@ export class Portal implements OnInit {
   profileImage = signal('');
   userRole = signal('Customer');
   membershipType = signal('Free Plan');
+  remainingCredits = signal<number>(0);
   activeSince = signal('Jan 15, 2026');
   lastLogin = signal('Jul 16, 2026 19:30');
   referralCode = signal('TT-SARAH-992');
@@ -997,15 +998,17 @@ export class Portal implements OnInit {
           if (items.length > 0) {
             // Prioritize an active membership that hasn't generated a QR tag yet
             const active = items.find((m: any) => (m.status === 'Active' || m.isActive) && !m.qrTagId) 
-                        || items.find((m: any) => m.status === 'Active' || m.isActive) 
+                        || items.find((m: any) => (m.status === 'Active' || m.isActive)) 
                         || items[0];
-            const membershipId = active.userMembershipId || active.id || active.membershipId;
-            if (membershipId) {
-              this.userMembershipId.set(membershipId);
-            }
-            const planName = active.planName || active.membershipPlan?.name || active.plan?.name || active.name;
-            if (planName) {
-              this.membershipType.set(planName);
+            if (active) {
+              this.userMembershipId.set(active.userMembershipId);
+              const planName = active.planName || active.membershipPlan?.name || active.plan?.name || active.name;
+              if (planName) {
+                this.membershipType.set(planName);
+              }
+              if (active.remainingCredits !== undefined) {
+                this.remainingCredits.set(active.remainingCredits);
+              }
             }
           }
 
@@ -1034,20 +1037,27 @@ export class Portal implements OnInit {
   }
 
   getPlanFeatures(plan: any): string[] {
-    const name = (plan?.name || '').toLowerCase();
-    if (name.includes('free')) {
-      return ['Up to 2 Registered Vehicles', '10 Alert Scans / month', 'Email Alert Notifications'];
+    const features: string[] = [];
+    
+    if (plan.membershipTypeName) {
+      features.push(`${plan.membershipTypeName} Notifications`);
+    } else {
+      features.push(`Standard Notifications`);
     }
-    if (name.includes('monthly')) {
-      return ['Unlimited Vehicles Protection', 'Unlimited Scan Alerts', 'Instant SMS & Email Notifications', 'Matte Finish QR Decals'];
+    
+    if (plan.credits !== undefined && plan.credits !== null) {
+      features.push(`${plan.credits} Credits Allowance`);
     }
-    if (name.includes('annual') || name.includes('yearly')) {
-      return ['Unlimited Vehicles Protection', 'Unlimited Scan Alerts', 'Save 17% (2 Months Free)', 'Priority Support & Free Decals'];
+
+    if (plan.validityDays !== undefined && plan.validityDays !== null) {
+      features.push(`${plan.validityDays} Days Validity Period`);
     }
-    if (name.includes('lifetime') || name.includes('life')) {
-      return ['Unlimited Vehicles Protection', 'Unlimited Scan Alerts', 'One-time Payment (No Recurrent Fees)', 'Lifetime Support & Free Decals'];
+
+    if (features.length === 0) {
+      return ['Active Vehicle Protection', 'Alert scan notification'];
     }
-    return ['Active Vehicle Protection', 'Alert scan notification'];
+    
+    return features;
   }
 
   redirectToBillingPortal() {
