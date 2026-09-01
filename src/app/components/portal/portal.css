@@ -1506,7 +1506,7 @@
 
 .upgrade-plans-row {
   display: grid !important;
-  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
   gap: 14px !important;
   align-items: stretch !important;
 }
@@ -3739,9 +3739,7 @@ input:checked + .slider:before {
 ========================================= */
 
 .dashboard-panel {
-  padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+  padding: 0;
 }
 
 .dashboard-header-title {
@@ -4030,5 +4028,199 @@ input:checked + .slider:before {
   }
   .toolbar-item {
     flex: 1 1 calc(50% - 10px);
+  }
+}
+/* NEW DASHBOARD LAYOUT STYLES */
+.dashboard-new-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .dashboard-new-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dash-col-left, .dash-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dash-col-left h3, .dash-col-right h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+/* Card Styles */
+.card-navy {
+  background: #bd102a; /* Fallback */
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card-golden {
+  background: linear-gradient(135deg, #fef08a 0%, #f59e0b 100%);
+  color: #713f12;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card-white {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.card-light-blue {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+/* Plan Overview */
+.plan-overview-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plan-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.plan-name { font-size: 1.1rem; font-weight: 600; opacity: 0.9; }
+.plan-name .highlight-text { font-size: 1.4rem; font-weight: 800; color: white; opacity: 1; }
+.plan-status { font-size: 0.9rem; font-weight: 600; opacity: 0.9; }
+.badge-active { background: #10b981; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; margin-left: 8px; font-weight: 700;}
+.plan-end { font-size: 0.9rem; font-weight: 600; opacity: 0.9; }
+.plan-end .highlight-text { font-weight: 400; }
+.plan-note {
+  background: rgba(255,255,255,0.1);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plan-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 8px solid rgba(255,255,255,0.2);
+  border-left-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-45deg);
+}
+.progress-ring-text {
+  transform: rotate(45deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.progress-ring-text .count { font-size: 2rem; font-weight: 800; line-height: 1; }
+.progress-ring-text .desc { font-size: 0.75rem; opacity: 0.8; margin-top: 4px; }
+
+/* Reminders List */
+.reminders-card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+}
+.reminder-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 16px;
+}
+.reminder-item:last-child { border-bottom: none; }
+.reminder-item.disabled { opacity: 0.5; }
+.rem-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.rem-title { font-weight: 700; color: #1e293b; width: 110px; font-size: 0.9rem;}
+.rem-desc { font-size: 0.85rem; color: #64748b; flex: 1; }
+.rem-status { font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; }
+.badge-pending { background: #fef3c7; color: #d97706; }
+.badge-na { background: #f1f5f9; color: #64748b; }
+.bg-yellow-light { background: #fef9c3; }
+.bg-orange-light { background: #ffedd5; }
+.bg-red-light { background: #fee2e2; }
+.bg-red { background: #ef4444; }
+.bg-gray { background: #e2e8f0; }
+
+/* Alerts Ending Card */
+.alerts-ending-card .golden-header {
+  font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; color: #92400e;
+}
+.alerts-ending-card h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; color: #713f12; line-height: 1.3;}
+.alerts-ending-card p { font-size: 0.95rem; margin-bottom: 24px; color: #713f12; opacity: 0.9; }
+.btn-renew {
+  background: #1e3a8a; color: white; font-weight: 700; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; width: 100%; transition: opacity 0.2s;
+}
+.btn-renew:hover { opacity: 0.9; }
+
+/* Why Renew Card */
+.why-renew-card h3 { margin-bottom: 16px; color: #0369a1; }
+.why-renew-card ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;}
+.why-renew-card li { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #0c4a6e; }
+.why-renew-card li i { color: #0284c7; }
+
+/* Need More Card */
+.need-more-card h3 { margin-bottom: 12px; }
+.need-more-card p { font-size: 0.9rem; color: #64748b; margin-bottom: 20px; }
+.btn-upgrade-outline {
+  background: transparent; color: #1e3a8a; font-weight: 700; border: 1px solid #1e3a8a; padding: 10px 24px; border-radius: 8px; cursor: pointer; width: 100%; transition: all 0.2s;
+}
+.btn-upgrade-outline:hover { background: #1e3a8a; color: white; }
+@media (max-width: 600px) {
+  .plan-overview-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .plan-circle {
+    align-self: center;
+  }
+  .reminder-item {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 8px;
+  }
+  .rem-title {
+    width: auto;
+  }
+  .header-actions {
+    flex-wrap: wrap;
+    gap: 10px !important;
+  }
+  .user-profile-summary span:nth-child(2) {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

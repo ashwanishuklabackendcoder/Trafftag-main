@@ -38,6 +38,9 @@
         <button class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
           <span class="nav-label-group"><i class="fa-solid fa-house nav-icon"></i> Dashboard</span>
         </button>
+        <button class="nav-item" [class.active]="activeTab() === 'explore-more'" (click)="selectTab('explore-more')">
+          <span class="nav-label-group"><i class="fa-solid fa-compass nav-icon"></i> Explore More</span>
+        </button>
         <!-- My Vehicles & Sub-menu -->
         <button class="nav-item" [class.active]="activeTab().startsWith('vehicle')" (click)="selectTab('vehicles')">
           <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> My Vehicles</span>
@@ -61,12 +64,7 @@
         <button class="nav-item" [class.active]="activeTab() === 'alerts'" (click)="selectTab('alerts')">
           <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> Alerts</span>
         </button>
-        <button class="nav-item" [class.active]="activeTab() === 'messages'" (click)="selectTab('messages')">
-          <span class="nav-label-group"><i class="fa-solid fa-envelope nav-icon"></i> Messages</span>
-        </button>
-        <button class="nav-item" [class.active]="activeTab() === 'finders'" (click)="selectTab('finders')">
-          <span class="nav-label-group"><i class="fa-solid fa-users nav-icon"></i> Finders</span>
-        </button>
+
         <button class="nav-item" [class.active]="activeTab() === 'rewards'" (click)="selectTab('rewards')">
           <span class="nav-label-group"><i class="fa-solid fa-gift nav-icon"></i> Rewards</span>
         </button>
@@ -158,9 +156,9 @@
           
           <div class="user-profile-summary" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
             <img [src]="'https://ui-avatars.com/api/?name=' + (userName() || 'User') + '&background=0D8ABC&color=fff'" alt="User" style="width: 36px; height: 36px; border-radius: 50%;">
-            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+            <div style="display: flex; flex-direction: column; align-items: flex-start; max-width: 120px;">
               <span style="font-size: 0.75rem; color: #64748b; line-height: 1;">Welcome,</span>
-              <span style="font-size: 0.9rem; font-weight: 700; color: #0f172a; line-height: 1.2;">{{ userName() }}</span>
+              <span style="font-size: 0.9rem; font-weight: 700; color: #0f172a; line-height: 1.2; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [title]="userName()">{{ userName() }}</span>
             </div>
           </div>
 
@@ -170,51 +168,81 @@
     <!-- Tab 1: Dashboard (New Design) -->
     @if (activeTab() === 'dashboard') {
       <div class="tab-panel dashboard-panel">
-        <!-- Top Title -->
-        <!-- 
-        <div class="dashboard-header-title">
-          <i class="fa-solid fa-sparkles text-yellow-400"></i>
-          <h1>What do you want to do today?</h1>
-          <i class="fa-solid fa-sparkles text-yellow-400"></i>
-        </div>
-        
-        <div class="dash-divider"></div>
-        
-        <div class="dash-actions-row">
-          <div class="dash-action-btn" (click)="selectTab('vehicles')">
-            <div class="dash-action-icon text-blue">
-              <i class="fa-solid fa-plus"></i>
-            </div>
-            <div class="dash-action-label">Register<br>a New Tag</div>
-            <div class="dash-action-sub">Add a new tag</div>
-          </div>
+        <div class="dashboard-new-grid">
           
-          <div class="dash-action-btn" (click)="openScanner()">
-            <div class="dash-action-icon text-green">
-              <i class="fa-solid fa-qrcode"></i>
+          <!-- Left Column -->
+          <div class="dash-col-left">
+            <h3>Plan & Alerts Overview</h3>
+            <div class="card-navy plan-overview-card">
+              <div class="plan-info">
+                <div class="plan-name">Plan<br><span class="highlight-text">{{ membershipType() }} - {{ totalAlerts() }} Alerts</span></div>
+                <div class="plan-status">Status <span class="badge-active">{{ planStatus() }}</span></div>
+                <div class="plan-end">Plan Ends <span class="highlight-text">{{ planEndDate() }} ({{ planDaysLeft() }} days left)</span></div>
+                
+                <div class="plan-note">
+                  <i class="fa-solid fa-circle-info"></i> You will continue to receive scan alerts until your plan ends.
+                </div>
+              </div>
+              <div class="plan-circle">
+                <div class="progress-ring">
+                  <div class="progress-ring-text">
+                    <span class="count">{{ alertsRemaining() }}</span>
+                    <span class="desc">Alerts Left<br>/{{ totalAlerts() }}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="dash-action-label">Scan<br>a Tag</div>
-            <div class="dash-action-sub">Scan & notify</div>
-          </div>
-          
-          <div class="dash-action-btn" (click)="redirectToShop()">
-            <div class="dash-action-icon text-orange">
-              <i class="fa-solid fa-cart-shopping"></i>
-            </div>
-            <div class="dash-action-label">Buy<br>a Tag</div>
-            <div class="dash-action-sub">Shop now</div>
-          </div>
-          
-          <div class="dash-action-btn" (click)="selectTab('profile')">
-            <div class="dash-action-icon text-purple">
-              <i class="fa-solid fa-user"></i>
-            </div>
-            <div class="dash-action-label">My<br>Account</div>
-            <div class="dash-action-sub">View profile</div>
-          </div>
-        </div>
-        -->
 
+            <h3 class="mt-4">Alert Expiration Reminders</h3>
+            <div class="card-white reminders-card">
+              @for (rem of reminders(); track rem.title) {
+                <div class="reminder-item" [class.disabled]="rem.disabled">
+                  <div [class]="'rem-icon ' + rem.iconClass.split(' ')[0]"><i [class]="rem.icon + ' ' + (rem.iconClass.split(' ')[1] || '')"></i></div>
+                  <div class="rem-title">{{ rem.title }}</div>
+                  <div class="rem-desc">{{ rem.desc }}</div>
+                  <div class="rem-status" [class]="'rem-status ' + (rem.status === 'N/A' ? 'badge-na' : 'badge-pending')">{{ rem.status }}</div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="dash-col-right">
+            <h3 style="visibility: hidden">Spacing</h3>
+            <div class="card-golden alerts-ending-card">
+              <div class="golden-header">
+                <i class="fa-solid fa-bell"></i> ALERTS ENDING SOON
+              </div>
+              <h2>Your TRAFFTAG alerts will end in {{ planDaysLeft() }} days!</h2>
+              <p>Renew your plan to keep receiving scan alerts without interruption.</p>
+              <button class="btn-renew" (click)="selectTab('profile-membership')">RENEW NOW</button>
+            </div>
+
+            <div class="card-light-blue why-renew-card">
+              <h3>Why Renew?</h3>
+              <ul>
+                <li><i class="fa-solid fa-check"></i> Continue receiving scan alerts</li>
+                <li><i class="fa-solid fa-check"></i> Keep your vehicle protected</li>
+                <li><i class="fa-solid fa-check"></i> Stay informed in real-time</li>
+                <li><i class="fa-solid fa-check"></i> No interruption in your alert service</li>
+              </ul>
+            </div>
+
+            <div class="card-white need-more-card">
+              <h3>Need More Alerts?</h3>
+              <p>Upgrade your plan anytime and get more alerts to stay protected.</p>
+              <button class="btn-upgrade-outline" (click)="selectTab('profile-membership')">UPGRADE PLAN</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    }
+
+    <!-- Tab 1.1: Explore More (Old Dashboard) -->
+    @if (activeTab() === 'explore-more') {
+      <div class="tab-panel dashboard-panel">
+        
         <!-- Middle Grid Cards -->
         <div class="dash-cards-grid">
           <div class="dash-category-card bg-blue-soft" (click)="selectTab('vehicles')">
@@ -282,16 +310,7 @@
               <span>View all<br>alerts</span>
             </div>
           </div>
-          <div class="toolbar-item" (click)="selectTab('messages')">
-            <div class="tb-icon text-green-tb relative">
-              <i class="fa-solid fa-comment-dots"></i>
-              <span class="tb-badge">8</span>
-            </div>
-            <div class="tb-text">
-              <strong>Messages</strong>
-              <span>View your<br>messages</span>
-            </div>
-          </div>
+
           <div class="toolbar-item" (click)="selectTab('rewards')">
             <div class="tb-icon text-yellow-tb"><i class="fa-solid fa-gift"></i></div>
             <div class="tb-text">
@@ -342,7 +361,7 @@
     }
 
     <!-- Tab 4: Notifications & Scan History -->
-    @if (activeTab() === 'notifications') {
+    @if (activeTab() === 'alerts' || activeTab() === 'notifications') {
       <app-alerts-tab
         [notifications]="notifications()"
         [filteredNotifications]="filteredNotifications()"
@@ -361,6 +380,37 @@
         (clearFilters)="clearNotificationFilters()"
         (simulateTestNotification)="simulateTestNotification()">
       </app-alerts-tab>
+
+<div class="enterprise-white-card margin-top-20">
+          <div class="panel-header-row">
+            <div>
+              <h2>Vehicle Decal Scan & Activity Log</h2>
+              <p class="panel-subtext">Historical analytics of anonymous QR scans, alert triggers, and emergency notifications.</p>
+            </div>
+            <button class="btn btn-secondary"><i class="fa-solid fa-file-pdf"></i> Export PDF Report</button>
+          </div>
+
+          <div class="activity-log-list">
+            <div class="log-item">
+              <div class="log-icon bg-yellow"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div class="log-details">
+                <h4>Blocked Driveway Notification Triggered</h4>
+                <p>Scanned on Vehicle: Toyota Camry (XYZ-3434) • Location: Sector 14 Parking</p>
+                <span class="log-time">Jul 24, 2026 at 11:20 AM</span>
+              </div>
+              <span class="status-badge status-resolved">Resolved</span>
+            </div>
+            <div class="log-item">
+              <div class="log-icon bg-blue"><i class="fa-solid fa-bell"></i></div>
+              <div class="log-details">
+                <h4>Headlights Left On Alert</h4>
+                <p>Scanned on Vehicle: Honda Civic (ABC-1234) • Location: North Garage Level 2</p>
+                <span class="log-time">Jul 22, 2026 at 08:45 PM</span>
+              </div>
+              <span class="status-badge status-resolved">Resolved</span>
+            </div>
+          </div>
+        </div>
     }
 
     <!-- Tab 5: Support Tickets -->
@@ -447,7 +497,7 @@
                         <h3 class="plan-card-title">{{ plan.name }}</h3>
                         <div class="up-price">
                           <span class="currency">$</span>{{ plan.price.toFixed(2) }}
-                          <span class="period">/ {{ plan.name.toLowerCase().includes('lifetime') ? 'one-time' : 'mo' }}</span>
+                          <span class="period">/ {{ plan.name.toLowerCase().includes('lifetime') ? 'one-time' : (plan.validityDays >= 365 ? 'year' : 'mo') }}</span>
                         </div>
                       </div>
                       
@@ -823,7 +873,7 @@
                     <h3 class="plan-card-title">{{ plan.name }}</h3>
                     <div class="up-price">
                       <span class="currency">$</span>{{ plan.price.toFixed(2) }}
-                      <span class="period">/ {{ plan.name.toLowerCase().includes('lifetime') ? 'one-time' : 'mo' }}</span>
+                      <span class="period">/ {{ plan.name.toLowerCase().includes('lifetime') ? 'one-time' : (plan.validityDays >= 365 ? 'year' : 'mo') }}</span>
                     </div>
                   </div>
                   
@@ -905,4 +955,6 @@
   }
 
 </div>
+
+
 

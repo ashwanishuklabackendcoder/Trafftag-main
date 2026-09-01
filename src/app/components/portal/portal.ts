@@ -47,7 +47,8 @@ interface QRNotification {
 }
 
 export type PortalTab = 
-  | 'dashboard' 
+  | 'dashboard'
+  | 'explore-more' 
   | 'vehicles' 
   | 'vehicle-reminders'
   | 'tags' 
@@ -143,6 +144,37 @@ export class Portal implements OnInit {
   remainingDays = computed(() => {
     return this.membershipType() === 'Free Plan' ? 0 : 30;
   });
+
+  // New Dashboard UI Properties
+  planStatus = signal('ACTIVE');
+  totalAlerts = signal(50);
+  alertsRemaining = signal(15);
+  planEndDate = signal('May 25, 2026'); // Updated to 2026 to make sense with current date
+  planDaysLeft = signal(7);
+
+  reminders = computed(() => {
+    const endStr = this.planEndDate();
+    let endDate = new Date(endStr);
+    if (isNaN(endDate.getTime())) {
+      endDate = new Date();
+      endDate.setDate(endDate.getDate() + 30);
+    }
+    
+    const formatDate = (date: Date) => date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    
+    const d7 = new Date(endDate); d7.setDate(d7.getDate() - 7);
+    const d3 = new Date(endDate); d3.setDate(d3.getDate() - 3);
+    const d1 = new Date(endDate); d1.setDate(d1.getDate() - 1);
+    
+    return [
+      { title: '7 days before', desc: `You will receive a reminder on ${formatDate(d7)}`, status: 'PENDING', iconClass: 'bg-yellow-light text-yellow-500', icon: 'fa-regular fa-calendar-days', disabled: false },
+      { title: '3 days before', desc: `You will receive a reminder on ${formatDate(d3)}`, status: 'PENDING', iconClass: 'bg-orange-light text-orange-500', icon: 'fa-regular fa-calendar-days', disabled: false },
+      { title: '1 day before', desc: `You will receive a reminder on ${formatDate(d1)}`, status: 'PENDING', iconClass: 'bg-red-light text-red-500', icon: 'fa-regular fa-calendar-days', disabled: false },
+      { title: 'Plan ends', desc: `You will receive a final notice on ${formatDate(endDate)}`, status: 'PENDING', iconClass: 'bg-red text-white', icon: 'fa-solid fa-circle-exclamation', disabled: false },
+      { title: 'Alerts expired', desc: 'You will be notified if your plan is not renewed', status: 'N/A', iconClass: 'bg-gray text-gray-500', icon: 'fa-regular fa-bell', disabled: true }
+    ];
+  });
+
 
   vehicles = signal<Vehicle[]>([]);
   rawUserMemberships = signal<any[]>([]);
@@ -454,7 +486,7 @@ export class Portal implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const sub = params.get('subpage');
-      const validTabs = ['dashboard', 'vehicles', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings'];
+      const validTabs = ['dashboard', 'explore-more', 'vehicles', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings'];
       
       if (sub && validTabs.includes(sub)) {
         this.activeTab.set(sub as any);
@@ -1008,6 +1040,29 @@ export class Portal implements OnInit {
               }
               if (active.remainingCredits !== undefined) {
                 this.remainingCredits.set(active.remainingCredits);
+              }
+              
+              // Dynamic dashboard fields
+              this.planStatus.set(active.status || (active.isActive ? 'ACTIVE' : 'INACTIVE') || 'ACTIVE');
+              
+              const planNameStr = planName || '';
+              const limit = active.membershipPlan?.alertLimit || active.plan?.alertLimit || active.alertLimit || 
+                            active.membershipPlan?.creditsAllowance || active.plan?.creditsAllowance || active.creditsAllowance ||
+                            (planNameStr.toLowerCase().includes('basic') ? 10 : 50);
+              this.totalAlerts.set(limit);
+              this.alertsRemaining.set(active.remainingCredits !== undefined ? active.remainingCredits : (active.remainingAlerts !== undefined ? active.remainingAlerts : limit));
+              
+              if (active.endDate) {
+                  const end = new Date(active.endDate);
+                  this.planEndDate.set(end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }));
+                  const diffTime = Math.max(0, end.getTime() - new Date().getTime());
+                  this.planDaysLeft.set(Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+              } else {
+                  // Fallback if no end date
+                  const mockEnd = new Date();
+                  mockEnd.setDate(mockEnd.getDate() + 30);
+                  this.planEndDate.set(mockEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }));
+                  this.planDaysLeft.set(30);
               }
             }
           }

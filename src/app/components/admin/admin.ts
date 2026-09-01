@@ -289,11 +289,11 @@ export class Admin implements OnInit {
   membershipTypes = signal<any[]>([]);
   showPlanModal = signal(false);
   isCreatingPlan = signal(false);
-  newPlan = signal({
+  newPlan = signal<any>({
     name: '',
-    price: null,
-    credits: null,
-    validityDays: null,
+    price: 0,
+    credits: 0,
+    validityDays: 30,
     membershipTypeId: 1
   });
 
@@ -334,6 +334,61 @@ export class Admin implements OnInit {
     });
   }
 
+  isEditingPlan = signal(false);
+
+  editPlan(plan: any) {
+    this.isEditingPlan.set(true);
+    this.newPlan.set({ ...plan });
+    this.showPlanModal.set(true);
+  }
+
+  savePlan() {
+    if (this.isEditingPlan()) {
+      this.updatePlan();
+    } else {
+      this.createPlan();
+    }
+  }
+
+  updatePlan() {
+    this.isCreatingPlan.set(true);
+    const headers = { Authorization: `Bearer ${localStorage.getItem('accessToken')}` };
+    const plan = this.newPlan();
+    this.http.put(`${API_BASE_URL}/api/v1/memberships/plans/${plan.planId}`, plan, { headers }).subscribe({
+      next: (res) => {
+        this.isCreatingPlan.set(false);
+        this.showPlanModal.set(false);
+        alert('Plan updated successfully!');
+        this.loadPlans();
+      },
+      error: (err) => {
+        this.isCreatingPlan.set(false);
+        console.error('Failed to update plan', err);
+        alert('Failed to update plan.');
+      }
+    });
+  }
+
+  deletePlan(planId: number) {
+    if (!confirm('Are you sure you want to permanently delete this plan?')) return;
+    const headers = { Authorization: `Bearer ${localStorage.getItem('accessToken')}` };
+    this.http.delete(`${API_BASE_URL}/api/v1/memberships/plans/${planId}`, { headers }).subscribe({
+      next: (res) => {
+        alert('Plan deleted successfully!');
+        this.loadPlans();
+      },
+      error: (err) => {
+        console.error('Failed to delete plan', err);
+        alert('Failed to delete plan. It might be in use.');
+      }
+    });
+  }
+
+  openCreateModal() {
+    this.isEditingPlan.set(false);
+    this.newPlan.set({ name: '', price: 0, credits: 0, membershipTypeId: 1, validityDays: 30 });
+    this.showPlanModal.set(true);
+  }
   createPlan() {
     this.isCreatingPlan.set(true);
     const headers = { Authorization: `Bearer ${localStorage.getItem('accessToken')}` };
@@ -352,6 +407,7 @@ export class Admin implements OnInit {
     });
   }
 }
+
 
 
 

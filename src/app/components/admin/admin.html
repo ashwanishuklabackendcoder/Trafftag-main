@@ -290,7 +290,7 @@
       <div class="tab-panel">
         <div class="panel-header">
           <p>Create and manage dynamic membership pricing and notification packages.</p>
-          <button class="btn btn-primary" (click)="showPlanModal.set(true)"><i class="fa-solid fa-plus"></i> Add New Plan</button>
+          <button class="btn btn-primary" (click)="openCreateModal()"><i class="fa-solid fa-plus"></i> Add New Plan</button>
         </div>
 
         <div class="table-container glass-card" style="margin-top: 20px;">
@@ -311,11 +311,17 @@
                   <td>${{ plan.price }}</td>
                   <td>{{ plan.validityDays }} Days</td>
                   <td>{{ plan.credits }} Credits</td>
-                  <td>
-                    <button class="btn btn-sm" [class.btn-danger-outline]="plan.status === 'Active'" [class.btn-success]="plan.status !== 'Active'" (click)="togglePlanStatus(plan.planId)">
-                      {{ plan.status === 'Active' ? 'Deactivate' : 'Activate' }}
-                    </button>
-                  </td>
+                    <td style="display: flex; gap: 8px;">
+                      <button class="btn btn-sm" [class.btn-danger-outline]="plan.status === 'Active'" [class.btn-success]="plan.status !== 'Active'" (click)="togglePlanStatus(plan.planId)">
+                        {{ plan.status === 'Active' ? 'Deactivate' : 'Activate' }}
+                      </button>
+                      <button type="button" class="btn btn-sm btn-primary-outline" (click)="editPlan(plan)">
+                        <i class="fa-solid fa-pen"></i> Edit
+                      </button>
+                      <button type="button" class="btn btn-sm btn-danger-outline" (click)="deletePlan(plan.planId)">
+                        <i class="fa-solid fa-trash"></i> Delete
+                      </button>
+                    </td>
                 </tr>
               }
               @if(activePlans().length === 0) {
@@ -585,11 +591,11 @@
     <div class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Create New Plan</h2>
+          <h2>{{ isEditingPlan() ? 'Edit Plan' : 'Create New Plan' }}</h2>
           <button class="modal-close" (click)="showPlanModal.set(false)"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="modal-body">
-          <form (submit)="$event.preventDefault(); createPlan()">
+          <form (submit)="$event.preventDefault(); savePlan()">
             <div class="form-group">
               <label for="pName">Plan Name</label>
               <input id="pName" type="text" [ngModel]="newPlan().name" (ngModelChange)="newPlan().name = $event" name="pName" placeholder="e.g. Basic Plan" required>
@@ -630,3 +636,5 @@
     </div>
   }
 </div>
+
+

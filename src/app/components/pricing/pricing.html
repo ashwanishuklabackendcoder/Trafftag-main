@@ -54,7 +54,7 @@
                     <span class="hostinger-price-tag">LIFETIME</span>
                   </div>
                   <div class="hostinger-monthly-sub">
-                    Members rate: <strong>{{ plan.monthlyPrice }}</strong>/month
+                    Members rate: <strong>{{ plan.monthlyPrice }}</strong>/{{ plan.validityDays >= 365 ? 'year' : 'month' }}
                   </div>
                 </div>
 
@@ -201,4 +201,5 @@
   <!-- Footer -->
   <app-footer></app-footer>
 </div>
+
 
