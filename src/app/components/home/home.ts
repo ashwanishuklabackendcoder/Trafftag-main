@@ -301,7 +301,7 @@ export class Home implements OnInit, OnDestroy {
       subtitle: 'Cars • SUVs • Trucks',
       subtitle2: 'Bikes & More',
       icon: 'fa-solid fa-car',
-      image: 'card_vehicle_new.jpg',
+      image: 'maybach-tag.png',
       buttonText: 'PROTECT YOUR RIDE',
       link: '/tags/vehicle',
       colorClass: 'color-vehicle'

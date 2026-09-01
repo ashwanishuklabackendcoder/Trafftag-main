@@ -469,7 +469,7 @@ export class Portal implements OnInit {
     return {
       id: (apiN.notificationId || apiN.id || Math.random().toString()).toString(),
       vehicleId: (apiN.vehicleId || '').toString(),
-      timestamp: (apiN.createdOn || apiN.createdAt) ? new Date(apiN.createdOn || apiN.createdAt).toLocaleString() : apiN.timestamp || 'Just now',
+      timestamp: (apiN.createdOn || apiN.createdAt) ? new Date(String(apiN.createdOn || apiN.createdAt).replace(' ', 'T')).toLocaleString() : apiN.timestamp || 'Just now',
       category: apiN.category || 'General Alert',
       icon: this.getCategoryIcon(apiN.category),
       message: apiN.message || '',
@@ -1053,7 +1053,7 @@ export class Portal implements OnInit {
               this.alertsRemaining.set(active.remainingCredits !== undefined ? active.remainingCredits : (active.remainingAlerts !== undefined ? active.remainingAlerts : limit));
               
               if (active.endDate) {
-                  const end = new Date(active.endDate);
+                  const end = new Date(String(active.endDate).replace(' ', 'T'));
                   this.planEndDate.set(end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }));
                   const diffTime = Math.max(0, end.getTime() - new Date().getTime());
                   this.planDaysLeft.set(Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
