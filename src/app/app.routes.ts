@@ -1,25 +1,6 @@
 import { Routes } from '@angular/router';
 import { Home } from './components/home/home';
 import { Login } from './components/login/login';
-import { Register } from './components/register/register';
-import { Portal } from './components/portal/portal';
-import { Admin } from './components/admin/admin';
-import { Scan } from './components/scan/scan';
-import { Features } from './components/features/features';
-import { Pricing } from './components/pricing/pricing';
-import { Faq } from './components/faq/faq';
-import { VerifyOtp } from './components/verify-otp/verify-otp';
-import { PrivacyPolicy } from './components/privacy-policy/privacy-policy';
-import { TermsOfService } from './components/terms-of-service/terms-of-service';
-import { About } from './components/about/about';
-import { Contact } from './components/contact/contact';
-import { HowItWorks } from './components/how-it-works/how-it-works';
-import { ComingSoon } from './components/coming-soon/coming-soon';
-import { TagType } from './components/tag-type/tag-type';
-import { RefundCancellation } from './components/refund-cancellation/refund-cancellation';
-import { ShippingReplacement } from './components/shipping-replacement/shipping-replacement';
-import { Disclaimers } from './components/disclaimers/disclaimers';
-import { ConsentTracking } from './components/consent-tracking/consent-tracking';
 
 import { inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
@@ -62,28 +43,28 @@ const adminGuard = (): boolean | UrlTree => {
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'TRAFFTAG | Protect Your Vehicle Anonymously with QR Decals' },
-  { path: 'how-it-works', component: HowItWorks, title: 'How It Works | TRAFFTAG System Workflow & Guide' },
-  { path: 'features', component: Features, title: 'Features & Benefits | TRAFFTAG QR Vehicle Protection' },
-  { path: 'pricing', component: Pricing, title: 'Pricing & Protection Plans | TRAFFTAG Safety Services' },
-  { path: 'faq', component: Faq, title: 'Frequently Asked Questions | TRAFFTAG Help Center' },
-  { path: 'about', component: About, title: 'About Us | TRAFFTAG Anonymous Safety Network' },
-  { path: 'contact', component: Contact, title: 'Contact Us & Support | TRAFFTAG' },
-  { path: 'privacy-policy', component: PrivacyPolicy, title: 'Privacy Policy | TRAFFTAG Safety Services' },
-  { path: 'terms-of-service', component: TermsOfService, title: 'Terms of Service | TRAFFTAG Legal' },
-  { path: 'refund-cancellation', component: RefundCancellation, title: 'Refund & Cancellation Policy | TRAFFTAG' },
-  { path: 'shipping-replacement', component: ShippingReplacement, title: 'Shipping & Replacement Policy | TRAFFTAG' },
-  { path: 'disclaimers', component: Disclaimers, title: 'Disclaimers | TRAFFTAG Legal' },
-  { path: 'consent-tracking', component: ConsentTracking, title: 'Consent & Tracking | TRAFFTAG Privacy' },
-  { path: 'tags/:type', component: TagType, title: 'Smart Tags | TRAFFTAG' },
+  { path: 'how-it-works', loadComponent: () => import('./components/how-it-works/how-it-works').then(c => c.HowItWorks), title: 'How It Works | TRAFFTAG System Workflow & Guide' },
+  { path: 'features', loadComponent: () => import('./components/features/features').then(c => c.Features), title: 'Features & Benefits | TRAFFTAG QR Vehicle Protection' },
+  { path: 'pricing', loadComponent: () => import('./components/pricing/pricing').then(c => c.Pricing), title: 'Pricing & Protection Plans | TRAFFTAG Safety Services' },
+  { path: 'faq', loadComponent: () => import('./components/faq/faq').then(c => c.Faq), title: 'Frequently Asked Questions | TRAFFTAG Help Center' },
+  { path: 'about', loadComponent: () => import('./components/about/about').then(c => c.About), title: 'About Us | TRAFFTAG Anonymous Safety Network' },
+  { path: 'contact', loadComponent: () => import('./components/contact/contact').then(c => c.Contact), title: 'Contact Us & Support | TRAFFTAG' },
+  { path: 'privacy-policy', loadComponent: () => import('./components/privacy-policy/privacy-policy').then(c => c.PrivacyPolicy), title: 'Privacy Policy | TRAFFTAG Safety Services' },
+  { path: 'terms-of-service', loadComponent: () => import('./components/terms-of-service/terms-of-service').then(c => c.TermsOfService), title: 'Terms of Service | TRAFFTAG Legal' },
+  { path: 'refund-cancellation', loadComponent: () => import('./components/refund-cancellation/refund-cancellation').then(c => c.RefundCancellation), title: 'Refund & Cancellation Policy | TRAFFTAG' },
+  { path: 'shipping-replacement', loadComponent: () => import('./components/shipping-replacement/shipping-replacement').then(c => c.ShippingReplacement), title: 'Shipping & Replacement Policy | TRAFFTAG' },
+  { path: 'disclaimers', loadComponent: () => import('./components/disclaimers/disclaimers').then(c => c.Disclaimers), title: 'Disclaimers | TRAFFTAG Legal' },
+  { path: 'consent-tracking', loadComponent: () => import('./components/consent-tracking/consent-tracking').then(c => c.ConsentTracking), title: 'Consent & Tracking | TRAFFTAG Privacy' },
+  { path: 'tags/:type', loadComponent: () => import('./components/tag-type/tag-type').then(c => c.TagType), title: 'Smart Tags | TRAFFTAG' },
   { path: 'login', component: Login, title: 'Sign In | TRAFFTAG Customer Portal' },
-  { path: 'register', component: Register, title: 'Create Account | TRAFFTAG Safety Registry' },
-  { path: 'verify-otp', component: VerifyOtp, title: 'Verify OTP Code | TRAFFTAG Security' },
+  { path: 'register', loadComponent: () => import('./components/register/register').then(c => c.Register), title: 'Create Account | TRAFFTAG Safety Registry' },
+  { path: 'verify-otp', loadComponent: () => import('./components/verify-otp/verify-otp').then(c => c.VerifyOtp), title: 'Verify OTP Code | TRAFFTAG Security' },
   { path: 'portal', redirectTo: 'portal/dashboard', pathMatch: 'full' },
-  { path: 'portal/:subpage', component: Portal, title: 'Customer Dashboard | TRAFFTAG Portal', canActivate: [authGuard] },
+  { path: 'portal/:subpage', loadComponent: () => import('./components/portal/portal').then(c => c.Portal), title: 'Customer Dashboard | TRAFFTAG Portal', canActivate: [authGuard] },
   { path: 'admin', redirectTo: 'admin/dashboard', pathMatch: 'full' },
-  { path: 'admin/:subpage', component: Admin, title: 'Administrator Control Panel | TRAFFTAG Console', canActivate: [adminGuard] },
-  { path: 'scan', component: Scan, title: 'Decal Scanning Gateway | TRAFFTAG Alert' },
-  { path: 'scan/:tagId', component: Scan, title: 'Scan Decal Tag | TRAFFTAG Anonymous Notification' },
+  { path: 'admin/:subpage', loadComponent: () => import('./components/admin/admin').then(c => c.Admin), title: 'Administrator Control Panel | TRAFFTAG Console', canActivate: [adminGuard] },
+  { path: 'scan', loadComponent: () => import('./components/scan/scan').then(c => c.Scan), title: 'Decal Scanning Gateway | TRAFFTAG Alert' },
+  { path: 'scan/:tagId', loadComponent: () => import('./components/scan/scan').then(c => c.Scan), title: 'Scan Decal Tag | TRAFFTAG Anonymous Notification' },
   { path: '**', redirectTo: '' }
 ];
 
