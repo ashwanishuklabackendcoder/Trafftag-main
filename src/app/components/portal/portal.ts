@@ -641,7 +641,7 @@ export class Portal implements OnInit {
 
   addVehicle() {
     if (this.isRegisteringVehicle()) return;
-    if (!this.selectedMakeId() || !this.selectedModelId() || !this.newPlate()) return;
+    if (!this.selectedMakeId() || !this.selectedModelId()) return;
     
     // Free membership plan vehicle limit check (SRS & Business Rule: Max 2 vehicles on Free Plan)
     const currentMembership = this.membershipType().toLowerCase();
@@ -668,12 +668,12 @@ export class Portal implements OnInit {
       make: makeStr,
       model: modelStr,
       year: this.newYear() || 2025,
-      vin: this.newVin() || null,
-      licensePlate: this.newPlate().toUpperCase(),
+      vin: '', // Hidden field
+      licensePlate: 'N/A', // Hidden field, default to N/A
       color: this.newColor() || 'Unknown',
-      state: this.newStateProvince() || 'CA',
-      city: this.newCity() || '',
-      driverName: this.newDriverName() || this.userName(),
+      state: 'N/A', // Hidden field
+      city: '', // Hidden field
+      driverName: this.userName(), // Hidden field, default to userName
       nickName: `${makeStr} ${modelStr}`.trim()
     };
 

@@ -54,54 +54,7 @@
               <input id="veh-color" type="text" placeholder="e.g. Solid Black" [ngModel]="newColor" (ngModelChange)="newColorChange.emit($event)" name="color">
             </div>
           </div>
-          <div class="form-grid-2">
-            <div class="form-group" style="position: relative;">
-              <label for="veh-state">State (US) *</label>
-              <input id="veh-state" type="text" placeholder="Search State..." 
-                     [ngModel]="stateSearchQuery" (ngModelChange)="stateSearchQuery = $event"
-                     (focus)="showStateDropdown = true" (blur)="showStateDropdown = false"
-                     name="state" autocomplete="off" required>
-              @if (showStateDropdown) {
-                <div class="custom-dropdown">
-                  @for (state of filteredStates; track state.isoCode) {
-                    <div class="dropdown-item" (mousedown)="$event.preventDefault(); selectState(state.isoCode, state.name)">
-                      {{ state.name }}
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-            <div class="form-group" style="position: relative;">
-              <label for="veh-city">City *</label>
-              <input id="veh-city" type="text" placeholder="Search City..." 
-                     [ngModel]="citySearchQuery" (ngModelChange)="citySearchQuery = $event"
-                     (focus)="showCityDropdown = true" (blur)="showCityDropdown = false"
-                     name="city" autocomplete="off" required [disabled]="!newStateProvince">
-              @if (showCityDropdown && newStateProvince) {
-                <div class="custom-dropdown">
-                  @for (city of filteredCities; track city.name) {
-                    <div class="dropdown-item" (mousedown)="$event.preventDefault(); selectCity(city.name)">
-                      {{ city.name }}
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-          </div>
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label for="veh-plate">License Plate Number *</label>
-              <input id="veh-plate" type="text" placeholder="e.g. XYZ-1234" [ngModel]="newPlate" (ngModelChange)="newPlateChange.emit($event)" name="plate" required>
-            </div>
-            <div class="form-group">
-              <label for="veh-driver">Driver Name</label>
-              <input id="veh-driver" type="text" placeholder="e.g. Sarah Jenkins" [ngModel]="newDriverName" (ngModelChange)="newDriverNameChange.emit($event)" name="driver">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="veh-vin">VIN (Vehicle Identification Number)</label>
-            <input id="veh-vin" type="text" placeholder="17-character VIN" [ngModel]="newVin" (ngModelChange)="newVinChange.emit($event)" name="vin">
-          </div>
+          <!-- Hidden fields removed from UI as per requirements -->
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="close.emit()" [disabled]="isLoading">Cancel</button>

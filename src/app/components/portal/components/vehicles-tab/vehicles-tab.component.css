@@ -216,6 +216,9 @@
   margin: 6px 0 6px 0;
   text-transform: uppercase;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 /* Bottom Section */

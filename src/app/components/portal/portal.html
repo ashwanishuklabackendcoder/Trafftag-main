@@ -41,21 +41,11 @@
         <button class="nav-item" [class.active]="activeTab() === 'explore-more'" (click)="selectTab('explore-more')">
           <span class="nav-label-group"><i class="fa-solid fa-compass nav-icon"></i> Explore More</span>
         </button>
-        <!-- My Vehicles & Sub-menu -->
-        <button class="nav-item" [class.active]="activeTab().startsWith('vehicle')" (click)="selectTab('vehicles')">
+        
+        <!-- My Vehicles -->
+        <button class="nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
           <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> My Vehicles</span>
         </button>
-        
-        @if (activeTab().startsWith('vehicle')) {
-          <div class="sub-nav-list">
-            <button class="sub-nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
-              Overview / Tags
-            </button>
-            <button class="sub-nav-item" [class.active]="activeTab() === 'vehicle-reminders'" (click)="selectTab('vehicle-reminders')">
-              Reminders & Expiration Dates
-            </button>
-          </div>
-        }
         
         <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
           <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> My Trafftag Qr</span>
@@ -65,34 +55,14 @@
           <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> Alerts</span>
         </button>
 
-        <button class="nav-item" [class.active]="activeTab() === 'rewards'" (click)="selectTab('rewards')">
-          <span class="nav-label-group"><i class="fa-solid fa-gift nav-icon"></i> Rewards</span>
+        <button class="nav-item" [class.active]="activeTab() === 'profile-membership'" (click)="selectTab('profile-membership')">
+          <span class="nav-label-group"><i class="fa-solid fa-crown nav-icon"></i> Membership Plan</span>
         </button>
         
-        <!-- My Profile & Sub-menu -->
-        <button class="nav-item" [class.active]="activeTab().startsWith('profile')" (click)="selectTab('profile')">
+        <!-- My Profile -->
+        <button class="nav-item" [class.active]="activeTab() === 'profile'" (click)="selectTab('profile')">
           <span class="nav-label-group"><i class="fa-solid fa-user nav-icon"></i> My Profile</span>
         </button>
-        
-        @if (activeTab().startsWith('profile')) {
-          <div class="sub-nav-list">
-            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-membership'" (click)="selectTab('profile-membership')">
-              Membership Plan
-            </button>
-            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-vehicle-reminders'" (click)="selectTab('profile-vehicle-reminders')">
-              Vehicle Reminders
-            </button>
-            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-notifications'" (click)="selectTab('profile-notifications')">
-              Notification Preferences
-            </button>
-            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-password'" (click)="selectTab('profile-password')">
-              Change Password
-            </button>
-            <button class="sub-nav-item" [class.active]="activeTab() === 'profile-settings'" (click)="selectTab('profile-settings')">
-              Settings
-            </button>
-          </div>
-        }
 
         <button class="nav-item" [class.active]="activeTab() === 'support'" (click)="selectTab('support')">
           <span class="nav-label-group"><i class="fa-solid fa-circle-question nav-icon"></i> Help & Support</span>

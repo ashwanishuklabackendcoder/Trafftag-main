@@ -64,7 +64,7 @@
               </div>
               
               <!-- Middle Section -->
-              <div class="plate-number">{{ veh.plate }}</div>
+              <div class="plate-number">{{ veh.color }}</div>
               
               <!-- Bottom Section -->
               <div class="plate-bottom">
@@ -86,19 +86,6 @@
 
           <!-- Card Body (Grid Details) -->
           <div class="veh-card-body">
-            <div class="veh-info-section">
-              <h4><i class="fa-solid fa-circle-info text-primary"></i> Specifications & Details</h4>
-              <div class="veh-info-grid">
-                <div class="info-item">
-                  <span class="label">VIN:</span>
-                  <span class="value vin-text">{{ veh.vin || 'N/A' }}</span>
-                </div>
-                <div class="info-item">
-                  <span class="label">Driver Name:</span>
-                  <span class="value">{{ veh.driverName || 'Primary Owner' }}</span>
-                </div>
-              </div>
-            </div>
 
             <div class="veh-info-section">
               <h4><i class="fa-solid fa-chart-simple text-indigo"></i> QR Sticker Analytics</h4>
