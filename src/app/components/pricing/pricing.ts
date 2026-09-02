@@ -5,6 +5,7 @@ import { NavbarComponent } from '../navbar/navbar';
 
 import { HttpClient } from '@angular/common/http';
 import { inject, OnInit } from '@angular/core';
+import { API_BASE_URL } from '../../config/api.config';
 
 @Component({
   selector: 'app-pricing',
@@ -15,10 +16,59 @@ import { inject, OnInit } from '@angular/core';
 export class Pricing implements OnInit {
   isMenuOpen = signal(false);
   http = inject(HttpClient);
-  dynamicPlans = signal<any[]>([]);
+  membershipPlans = signal<any[]>([
+    {
+      id: 1,
+      name: 'BASIC MONTHLY PLAN',
+      lifetimePrice: '$39.99',
+      monthlyPrice: '$39.99',
+      price: 39.99,
+      credits: 10,
+      validityDays: 30,
+      membershipTypeName: 'Email',
+      featured: false,
+      isDynamic: true
+    },
+    {
+      id: 2,
+      name: 'BASIC ANNUAL PLAN',
+      lifetimePrice: '$439.00',
+      monthlyPrice: '$439.00',
+      price: 439.00,
+      credits: 25,
+      validityDays: 365,
+      membershipTypeName: 'Email',
+      featured: false,
+      isDynamic: true
+    },
+    {
+      id: 3,
+      name: 'PREMIUM MONTHLY PLAN',
+      lifetimePrice: '$49.99',
+      monthlyPrice: '$49.99',
+      price: 49.99,
+      credits: 25,
+      validityDays: 30,
+      membershipTypeName: 'Email',
+      featured: true,
+      isDynamic: true
+    },
+    {
+      id: 4,
+      name: 'PREMIUM ANNUAL PLAN',
+      lifetimePrice: '$550.00',
+      monthlyPrice: '$550.00',
+      price: 550.00,
+      credits: 50,
+      validityDays: 365,
+      membershipTypeName: 'Email',
+      featured: false,
+      isDynamic: true
+    }
+  ]);
 
   ngOnInit() {
-    this.http.get<{success: boolean, data: any[]}>('http://localhost:5000/api/v1/memberships/plans')
+    this.http.get<{success: boolean, data: any[]}>(`${API_BASE_URL}/api/v1/memberships/plans`)
       .subscribe({
         next: (res) => {
           if(res.success && res.data && res.data.length > 0) {
@@ -52,56 +102,7 @@ export class Pricing implements OnInit {
     }
   }
 
-  membershipPlans = signal<any[]>([
-    {
-      name: 'BASIC PLAN',
-      lifetimePrice: '$99.99',
-      monthlyPrice: '$14.99',
-      included: '5 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: false
-    },
-    {
-      name: 'STARTER PLAN',
-      lifetimePrice: '$199.99',
-      monthlyPrice: '$19.99',
-      included: '10 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: false
-    },
-    {
-      name: 'POPULAR PLAN',
-      lifetimePrice: '$299.99',
-      monthlyPrice: '$29.99',
-      included: '30 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: true
-    },
-    {
-      name: 'PREMIUM PLAN',
-      lifetimePrice: '$499.00',
-      monthlyPrice: '$59.99',
-      included: '50 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: false
-    },
-    {
-      name: 'LUXURY PLAN',
-      lifetimePrice: '$999.99',
-      monthlyPrice: '$99.99',
-      included: '125 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: false
-    },
-    {
-      name: 'PLATINUM PLAN',
-      lifetimePrice: '$1,999.99',
-      monthlyPrice: '$199.99',
-      included: '250 SMS + 30 Email',
-      noPlanPrice: '$49.99 /month',
-      featured: false
-    }
-  ]);
+  
 
   notificationPackages = signal([
     {
@@ -124,5 +125,7 @@ export class Pricing implements OnInit {
     }
   ]);
 }
+
+
 
 

@@ -1,5 +1,7 @@
 import { FooterComponent } from '../footer/footer';
-import { Component, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { API_BASE_URL } from '../../config/api.config';
 import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar';
@@ -33,6 +35,7 @@ export interface HeroSlide {
 export class Home implements OnInit, OnDestroy {
   constructor(private router: Router) { }
 
+  http = inject(HttpClient);
   mobileMenuOpen = signal(false);
 
   // Hero Carousel State & Auto-play
@@ -139,6 +142,26 @@ export class Home implements OnInit, OnDestroy {
     }
   }
 
+  getPlanFeatures(plan: any): string[] {
+    const features: string[] = [];
+    if (plan.membershipTypeName) {
+      features.push(`${plan.membershipTypeName} Notifications`);
+    } else {
+      features.push('Standard Notifications');
+    }
+    if (plan.credits !== undefined && plan.credits !== null) {
+      features.push(`${plan.credits} Alerts per Month`);
+      features.push('1 Tag');
+    }
+    if (plan.validityDays !== undefined && plan.validityDays !== null) {
+      features.push(`${plan.validityDays} Days Validity Period`);
+    }
+    if (features.length === 0) {
+      return ['Active Vehicle Protection', 'Alert scan notification'];
+    }
+    return features;
+  }
+
   pauseAutoPlay() {
     this.isPaused.set(true);
   }
@@ -212,54 +235,54 @@ export class Home implements OnInit, OnDestroy {
     this.billingCycle.set(cycle);
   }
 
-  membershipPlans = signal([
+    membershipPlans = signal<any[]>([
     {
-      name: 'BASIC PLAN',
-      lifetimePrice: '$99.99',
-      monthlyPrice: '$14.99',
-      included: '5 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: false
+      id: 1,
+      name: 'BASIC MONTHLY PLAN',
+      lifetimePrice: '$39.99',
+      monthlyPrice: '$39.99',
+      price: 39.99,
+      credits: 10,
+      validityDays: 30,
+      membershipTypeName: 'Email',
+      featured: false,
+      isDynamic: true
     },
     {
-      name: 'STARTER PLAN',
-      lifetimePrice: '$199.99',
-      monthlyPrice: '$19.99',
-      included: '10 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: false
+      id: 2,
+      name: 'BASIC ANNUAL PLAN',
+      lifetimePrice: '$439.00',
+      monthlyPrice: '$439.00',
+      price: 439.00,
+      credits: 25,
+      validityDays: 365,
+      membershipTypeName: 'Email',
+      featured: false,
+      isDynamic: true
     },
     {
-      name: 'POPULAR PLAN',
-      lifetimePrice: '$299.99',
-      monthlyPrice: '$29.99',
-      included: '30 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: true
+      id: 3,
+      name: 'PREMIUM MONTHLY PLAN',
+      lifetimePrice: '$49.99',
+      monthlyPrice: '$49.99',
+      price: 49.99,
+      credits: 25,
+      validityDays: 30,
+      membershipTypeName: 'Email',
+      featured: true,
+      isDynamic: true
     },
     {
-      name: 'PREMIUM PLAN',
-      lifetimePrice: '$499.00',
-      monthlyPrice: '$59.99',
-      included: '50 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: false
-    },
-    {
-      name: 'LUXURY PLAN',
-      lifetimePrice: '$999.99',
-      monthlyPrice: '$99.99',
-      included: '125 SMS',
-      noPlanPrice: '$49.99 /month',
-      featured: false
-    },
-    {
-      name: 'PLATINUM PLAN',
-      lifetimePrice: '$1,999.99',
-      monthlyPrice: '$199.99',
-      included: '250 SMS + 30 Email',
-      noPlanPrice: '$49.99 /month',
-      featured: false
+      id: 4,
+      name: 'PREMIUM ANNUAL PLAN',
+      lifetimePrice: '$550.00',
+      monthlyPrice: '$550.00',
+      price: 550.00,
+      credits: 50,
+      validityDays: 365,
+      membershipTypeName: 'Email',
+      featured: false,
+      isDynamic: true
     }
   ]);
 
@@ -400,6 +423,9 @@ export class Home implements OnInit, OnDestroy {
     }
   }
 }
+
+
+
 
 
 

@@ -1101,7 +1101,8 @@ export class Portal implements OnInit {
     }
     
     if (plan.credits !== undefined && plan.credits !== null) {
-      features.push(`${plan.credits} Credits Allowance`);
+      features.push(`${plan.credits} Alerts per Month`);
+      features.push('1 Tag');
     }
 
     if (plan.validityDays !== undefined && plan.validityDays !== null) {
@@ -1375,6 +1376,8 @@ export class Portal implements OnInit {
     window.open('https://shop.trafftag.com', '_blank');
   }
 }
+
+
 
 
 
