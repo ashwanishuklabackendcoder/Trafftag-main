@@ -5,17 +5,28 @@
   <!-- Main Content -->
   <main class="page-content">
     <div class="page-hero">
-      <div class="badge"><i class="fa-solid fa-shield"></i> Privacy Shield Core Features</div>
-      <h1>State-of-the-Art <span class="text-gradient">Security Features</span></h1>
+      <div class="badge" style="background: rgba(255,184,0,0.15); color: #FFB800; border: 1px solid #FFB800; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-shield-halved"></i> PRIVACY FIRST
+      </div>
+      <h1>Privacy Shield. Real Protection.</h1>
       <p class="hero-subtitle">
-        Explore how TRAFFTAG bridges the gap between vehicle owner reachability and strict personal data privacy.
+        See how TRAFFTAG connects people securely — with masked contact, multi-channel alerts, and privacy-focused communication for every vehicle, pet, home, life, and item you protect.
       </p>
+      <div class="trust-indicators" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; color: #CBD5E1; font-weight: 600; font-size: 0.95rem;">
+        <span><i class="fa-solid fa-lock" style="color: #10B981; margin-right: 0.5rem;"></i> Private</span>
+        <span><i class="fa-solid fa-shield-check" style="color: #3B82F6; margin-right: 0.5rem;"></i> Secure</span>
+        <span><i class="fa-solid fa-server" style="color: #8B5CF6; margin-right: 0.5rem;"></i> Reliable</span>
+        <span><i class="fa-solid fa-user-shield" style="color: #F59E0B; margin-right: 0.5rem;"></i> Privacy-Focused</span>
+      </div>
     </div>
 
-    <!-- Features Grid -->
+    <!-- Feature Highlights -->
     <section class="features-section">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.2rem; color: #08162A; font-weight: 800;">Feature Highlights</h2>
+      </div>
       <div class="features-grid">
-        @for (feature of featuresList(); track feature.title; let idx = $index) {
+        @for (feature of featuresList(); track feature.title) {
           <div class="feature-card">
             <div class="feature-icon"><i [class]="feature.icon"></i></div>
             <h3>{{ feature.title }}</h3>
@@ -25,15 +36,113 @@
       </div>
     </section>
 
+    <!-- How TRAFFTAG Works Behind the Scenes -->
+    <section class="features-section" style="background-color: #F8FAFC; padding-top: 4rem; padding-bottom: 4rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.2rem; color: #08162A; font-weight: 800;">How TRAFFTAG Works Behind the Scenes</h2>
+      </div>
+      <div class="workflow-steps">
+        @for (step of workflowSteps(); track step.step; let idx = $index) {
+          <div class="workflow-step-card">
+            <div class="workflow-step-top">
+              <span class="workflow-step-badge">Step {{ idx + 1 }}</span>
+              <span class="workflow-step-num">0{{ idx + 1 }}</span>
+            </div>
+            <div class="workflow-step-icon">
+              <i [class]="step.icon"></i>
+            </div>
+            <h3 class="workflow-step-title">{{ step.step.substring(3) }}</h3>
+            <p class="workflow-step-desc">{{ step.desc }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Built for Every Tag You Own -->
+    <section class="features-section">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.2rem; color: #08162A; font-weight: 800;">Built for Every Tag You Own</h2>
+      </div>
+      <div class="categories-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto;">
+        @for (cat of tagCategories(); track cat.title) {
+          <div style="padding: 2rem 1rem; text-align: center; background: white; border: 1.5px solid #E2E8F0; border-radius: 16px; transition: all 0.3s ease;">
+            <div style="font-size: 2.5rem; color: #08162A; margin-bottom: 1rem;"><i [class]="cat.icon"></i></div>
+            <h3 style="font-size: 1.1rem; color: #08162A; font-weight: 700;">{{ cat.title }}</h3>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Additional Privacy & Reliability Features -->
+    <section class="features-section" style="background-color: #F8FAFC; padding-top: 4rem; padding-bottom: 4rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.2rem; color: #08162A; font-weight: 800;">Additional Privacy &amp; Reliability Features</h2>
+      </div>
+      <div class="features-grid">
+        @for (feature of additionalFeatures(); track feature.title) {
+          <div class="feature-card">
+            <div class="feature-icon"><i [class]="feature.icon"></i></div>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.desc }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Page FAQs -->
+    <section class="features-section">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.2rem; color: #08162A; font-weight: 800;">Page FAQs</h2>
+      </div>
+      <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+        @for (faq of pageFaqs; track faq.question; let i = $index) {
+          <div class="faq-card" style="background: white; border: 1px solid #E2E8F0; border-radius: 8px; padding: 1.5rem; cursor: pointer; transition: all 0.2s ease;" (click)="toggleFaq(i)">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #08162A;">
+              <span>{{ faq.question }}</span>
+              <i class="fa-solid" [ngClass]="faq.open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </div>
+            @if (faq.open) {
+              <p style="margin-top: 1rem; color: #475569; line-height: 1.6; font-size: 0.95rem;">{{ faq.answer }}</p>
+            }
+          </div>
+        }
+      </div>
+    </section>
+
     <!-- Call to Action Banner -->
     <section class="cta-banner-section">
       <div class="cta-banner">
-        <h2>Protect Your Vehicle and Privacy Today</h2>
-        <p>Join thousands of drivers using TRAFFTAG for zero-risk, anonymous communication.</p>
+        <h2>Protect What Matters, Privately.</h2>
+        <p>Get started with TRAFFTAG for private QR-based alerts.</p>
         <div class="cta-actions">
           <a [routerLink]="['/register']" class="btn-primary">Create Free Account</a>
           <a [routerLink]="['/faq']" class="btn-secondary">View FAQ Center</a>
         </div>
+      </div>
+    </section>
+
+    <!-- Trust Strip & Disclaimer -->
+    <section style="background-color: #08162A; color: white; padding: 4rem 5%; text-align: center;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem; max-width: 1000px; margin: 0 auto 3rem;">
+        <div style="display: flex; align-items: center; gap: 1rem; text-align: left;">
+          <i class="fa-solid fa-user-shield" style="font-size: 2rem; color: #FFB800;"></i>
+          <div><strong style="display: block; font-size: 1.1rem;">Private Alerts</strong> <span style="color: #CBD5E1; font-size: 0.9rem;">Contact Details Hidden<br>From Scanners</span></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem; text-align: left;">
+          <i class="fa-solid fa-clock" style="font-size: 2rem; color: #FFB800;"></i>
+          <div><strong style="display: block; font-size: 1.1rem;">24/7 Alerts</strong> <span style="color: #CBD5E1; font-size: 0.9rem;">Activated by Scan</span></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem; text-align: left;">
+          <i class="fa-solid fa-heart" style="font-size: 2rem; color: #FFB800;"></i>
+          <div><strong style="display: block; font-size: 1.1rem;">Designed for</strong> <span style="color: #CBD5E1; font-size: 0.9rem;">Convenience &amp;<br>Peace of Mind</span></div>
+        </div>
+      </div>
+      
+      <div style="max-width: 800px; margin: 0 auto; color: #64748B; font-size: 0.8rem; line-height: 1.6;">
+        <p style="margin-bottom: 1rem;">
+          <strong>DISCLAIMER:</strong> TRAFFTAG is a notification system and is not an emergency service. For emergencies, contact 911, law enforcement, medical services, or other appropriate emergency responders. Users remain responsible for complying with applicable laws, traffic rules, and parking regulations.
+        </p>
+        <p>TRAFFTAG works when scanned — no scan, no alert.</p>
       </div>
     </section>
   </main>

@@ -42,13 +42,13 @@ const adminGuard = (): boolean | UrlTree => {
 };
 
 export const routes: Routes = [
-  { path: '', component: Home, title: 'TRAFFTAG | Protect Your Vehicle Anonymously with QR Decals' },
-  { path: 'how-it-works', loadComponent: () => import('./components/how-it-works/how-it-works').then(c => c.HowItWorks), title: 'How It Works | TRAFFTAG System Workflow & Guide' },
-  { path: 'features', loadComponent: () => import('./components/features/features').then(c => c.Features), title: 'Features & Benefits | TRAFFTAG QR Vehicle Protection' },
+  { path: '', component: Home, title: 'TRAFFTAG – Anonymous QR Alerts for Vehicles, Pets, Homes & More' },
+  { path: 'how-it-works', loadComponent: () => import('./components/how-it-works/how-it-works').then(c => c.HowItWorks), title: 'How TRAFFTAG Works | Anonymous QR Alerts in 4 Steps' },
+  { path: 'features', loadComponent: () => import('./components/features/features').then(c => c.Features), title: 'TRAFFTAG Features | Anonymous Alerts, Multi-Channel Notifications' },
   { path: 'pricing', loadComponent: () => import('./components/pricing/pricing').then(c => c.Pricing), title: 'Pricing & Protection Plans | TRAFFTAG Safety Services' },
-  { path: 'faq', loadComponent: () => import('./components/faq/faq').then(c => c.Faq), title: 'Frequently Asked Questions | TRAFFTAG Help Center' },
-  { path: 'about', loadComponent: () => import('./components/about/about').then(c => c.About), title: 'About Us | TRAFFTAG Anonymous Safety Network' },
-  { path: 'contact', loadComponent: () => import('./components/contact/contact').then(c => c.Contact), title: 'Contact Us & Support | TRAFFTAG' },
+  { path: 'faq', loadComponent: () => import('./components/faq/faq').then(c => c.Faq), title: 'TRAFFTAG FAQ | Common Questions About QR Alerts & Privacy' },
+  { path: 'about', loadComponent: () => import('./components/about/about').then(c => c.About), title: 'About TRAFFTAG | Anonymous QR Alerts for Vehicles, Pets & Homes' },
+  { path: 'contact', loadComponent: () => import('./components/contact/contact').then(c => c.Contact), title: 'Contact Us | TRAFFTAG Anonymous QR Alerts' },
   { path: 'privacy-policy', loadComponent: () => import('./components/privacy-policy/privacy-policy').then(c => c.PrivacyPolicy), title: 'Privacy Policy | TRAFFTAG Safety Services' },
   { path: 'terms-of-service', loadComponent: () => import('./components/terms-of-service/terms-of-service').then(c => c.TermsOfService), title: 'Terms of Service | TRAFFTAG Legal' },
   { path: 'refund-cancellation', loadComponent: () => import('./components/refund-cancellation/refund-cancellation').then(c => c.RefundCancellation), title: 'Refund & Cancellation Policy | TRAFFTAG' },

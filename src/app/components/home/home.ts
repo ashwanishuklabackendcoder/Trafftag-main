@@ -46,15 +46,15 @@ export class Home implements OnInit, OnDestroy {
   heroSlides: HeroSlide[] = [
     {
       id: 1,
-      badge: 'COMMERCIAL GRADE DURABILITY',
-      title: 'Tamper-Proof Decals & Tags for Cabs',
-      highlightText: 'COMMERCIAL QR DECALS',
-      description: 'Engineered for intense heat, heavy monsoon rain, and daily wear. High-visibility metallic accent decals designed specifically for cab windshields, rear doors, and passenger headrests.',
-      tags: ['UV & Scratch Resistant', 'Tamper Evident Shield', 'Bulk Fleet Decals'],
-      ctaText: 'ORDER TAXI DECALS',
+      badge: 'Weatherproof - Tamper-Evident',
+      title: 'Cars, Bikes & Every Vehicle',
+      highlightText: 'Smart QR Tags for',
+      description: 'Waterproof QR decals let someone anonymously alert you about lights left on, a blocked driveway, or a vehicle that needs to be moved — without seeing your phone number.',
+      tags: ['Fits Cars, Motorcycles, Scooters, & RVs', 'UV & Scratch-Resistant', 'Tamper-Evident Shield'],
+      ctaText: 'Get Your Tag',
       ctaLink: '/register',
-      secondaryCtaText: 'SUPPORT & FAQ',
-      secondaryCtaLink: '#faq',
+      secondaryCtaText: 'See How It Works',
+      secondaryCtaLink: '#how-it-works',
       taxiType: 'AUTO-RICKSHAWS & TAXIS',
       statusBadge: 'PREMIUM REFLECTIVE DECAL',
       imageAlt: 'Weatherproof Taxi QR Decal',
@@ -64,15 +64,15 @@ export class Home implements OnInit, OnDestroy {
     },
     {
       id: 2,
-      badge: 'NEXT-GEN TAXI FLEET MANAGEMENT',
-      title: 'Smart QR Tags for Taxis & Rideshare Cabs',
-      highlightText: 'TRAFFTAG TAXI',
-      description: 'Equip your taxi fleet with tamper-proof QR tags. Passengers can instantly verify driver identity, check fare transparency, and trigger emergency SOS with a single smartphone scan.',
-      tags: ['24/7 Driver Verification', 'Instant Ride Security', 'Commercial Decals'],
-      ctaText: 'REGISTER TAXI FLEET',
+      badge: 'Help Bring Them Home Faster',
+      title: 'Help Bring Them Home Faster with a TRAFFTAG Pet Tag',
+      highlightText: 'Lost Pet?',
+      description: 'A scannable collar tag lets anyone who finds your pet send an instant, anonymous alert with the location — without seeing your personal phone number.',
+      tags: [],
+      ctaText: 'Get a Pet Tag',
       ctaLink: '/register',
-      secondaryCtaText: 'EXPLORE FEATURES',
-      secondaryCtaLink: '/features',
+      secondaryCtaText: 'How Pet Alerts Work',
+      secondaryCtaLink: '#how-it-works',
       taxiType: 'YELLOW CAB & RIDESHARE',
       statusBadge: 'LIVE TAXI QR ACTIVE',
       imageAlt: 'Smart QR Taxi Fleet Management',
@@ -82,15 +82,15 @@ export class Home implements OnInit, OnDestroy {
     },
     {
       id: 3,
-      badge: 'AUTOMATED FLEET COMPLIANCE',
-      title: 'Never Miss a Taxi Traffic Fine or E-Challan',
-      highlightText: 'INSTANT E-CHALLAN',
-      description: 'Automated real-time SMS & WhatsApp alerts for cab owners. Search pending traffic fines instantly by vehicle registration number and clear fines in seconds with bank-grade encryption.',
-      tags: ['Real-Time Fine Alerts', 'Instant Payment Receipt', 'Zero Fleet Downtime'],
-      ctaText: 'CHECK TAXI STATUS',
-      ctaLink: '/scan',
-      secondaryCtaText: 'VIEW PRICING PLANS',
-      secondaryCtaLink: '#pricing',
+      badge: 'Protect Your Property',
+      title: 'Your Home, Gate & Doorstep',
+      highlightText: 'Anonymous Alerts for',
+      description: 'A TRAFFTAG tag at your entrance lets delivery drivers, neighbors, or visitors reach you for packages, access issues, or safety concerns — without seeing your phone number.',
+      tags: [],
+      ctaText: 'Get a Home Tag',
+      ctaLink: '/register',
+      secondaryCtaText: 'Support & FAQ',
+      secondaryCtaLink: '#faq',
       taxiType: 'COMMERCIAL CAB FLEET',
       statusBadge: 'TRAFFIC PORTAL CONNECTED',
       imageAlt: 'Taxi E-Challan Compliance',
@@ -100,14 +100,14 @@ export class Home implements OnInit, OnDestroy {
     },
     {
       id: 4,
-      badge: '100% PRIVACY & PASSENGER SAFETY',
-      title: 'In-Cab SOS & Masked Emergency Contact',
-      highlightText: 'PASSENGER SOS',
-      description: 'Keep driver and passenger personal numbers completely private. Passengers scan the in-cab QR code to share live trip progress with family or alert emergency dispatch instantly.',
-      tags: ['Masked Phone Call', 'One-Tap SOS Trigger', 'End-to-End Encrypted'],
-      ctaText: 'GET TAXI SAFETY TAG',
-      ctaLink: '/register',
-      secondaryCtaText: 'HOW SOS WORKS',
+      badge: 'Privacy Comes First',
+      title: 'Is Never Shared',
+      highlightText: 'Your Phone Number',
+      description: 'Every scan routes through TRAFFTAG\'s private contact system. The person scanning your tag does not see your phone number, and you can receive an alert by Email, SMS, or WhatsApp.',
+      tags: [],
+      ctaText: 'See Our Privacy Promise',
+      ctaLink: '/privacy-policy',
+      secondaryCtaText: 'How It Works',
       secondaryCtaLink: '#how-it-works',
       taxiType: 'EXECUTIVE & CITY CABS',
       statusBadge: '24/7 SOS MONITORING',
@@ -192,34 +192,26 @@ export class Home implements OnInit, OnDestroy {
 
   faqs = signal([
     {
-      question: 'What is TRAFFTAG and how does it protect my vehicle?',
-      answer: 'TRAFFTAG is a unified traffic compliance and vehicle identification system. By attaching our tamper-proof QR tag to your vehicle, you can check challan status, pay fines instantly, receive real-time alerts, and easily communicate with traffic officials.',
+      question: 'What is TRAFFTAG?',
+      answer: 'TRAFFTAG is a scannable QR tag system that allows anyone to contact you anonymously regarding your vehicle, pet, home, or belongings without seeing your personal phone number.',
       open: true
     },
     {
-      question: 'How do I check if my vehicle has pending traffic fines?',
-      answer: 'Simply click on "Check Status" or "Pay Fine" on our homepage, enter your Vehicle Registration Number or Challan ID, and view instant live results.',
-      open: false
-    },
-    {
-      question: 'Are online payment transactions on TRAFFTAG safe?',
-      answer: 'Yes, all transactions are protected by bank-grade 256-bit SSL encryption and integrated directly with official payment gateways.',
-      open: false
-    },
-    {
       question: 'Is my personal contact information visible to public scanners?',
-      answer: 'No! Your privacy is protected. Public scans only display masked safety emergency options unless authorized by traffic enforcement credentials.',
+      answer: 'No! Your privacy is protected. Every scan routes through TRAFFTAG\'s secure system, keeping your phone number completely hidden.',
+      open: false
+    },
+    {
+      question: 'How do I get notified?',
+      answer: 'You can choose to receive instant alerts via Email, SMS, or WhatsApp whenever someone scans your tag.',
       open: false
     }
   ]);
 
   whyFeatures = [
-    { label: 'Fast & Secure Payments', icon: 'fa-solid fa-credit-card' },
-    { label: 'Real-time Updates', icon: 'fa-solid fa-clock-rotate-left' },
-    { label: 'All in One Solution', icon: 'fa-solid fa-layer-group' },
-    { label: 'User Friendly Interface', icon: 'fa-solid fa-desktop' },
-    { label: 'Secure Transactions', icon: 'fa-solid fa-user-shield' },
-    { label: '24/7 Support', icon: 'fa-solid fa-headset' }
+    { label: 'We Never Share Your Phone Number', icon: 'fa-solid fa-lock' },
+    { label: 'Anonymous • Secure • Trusted by Thousands', icon: 'fa-solid fa-shield-halved' },
+    { label: 'Made with ❤️ for Safety & Peace of Mind', icon: 'fa-solid fa-heart' }
   ];
 
   toggleFaq(index: number) {
@@ -351,8 +343,8 @@ export class Home implements OnInit, OnDestroy {
     },
     {
       category: 'MY HAPPY LIFE TAG',
-      subtitle: 'Adults • Seniors',
-      subtitle2: 'Students',
+      subtitle: 'Adults • College Students • Seniors',
+      subtitle2: '',
       icon: 'fa-solid fa-users',
       image: 'card_life_adults.jpg',
       buttonText: 'FOR EVERY PERSON',
@@ -374,44 +366,44 @@ export class Home implements OnInit, OnDestroy {
   // Real-Time Alert Benefits & Protection Scenarios
   keyAlertBenefits = signal([
     {
-      id: 'challan-prevention',
-      icon: 'fa-solid fa-shield-halved',
-      badge: 'SAVE UP TO â‚¹2,000+',
-      title: 'Avoid Traffic Fines & Towing (Challan Katne Se Bachein)',
-      desc: 'If your vehicle is blocking a driveway or parked in a restricted zone, nearby citizens scan your QR tag to send an instant SMS/WhatsApp alert so you can move your vehicle before police issue a fine or tow truck arrives.',
-      tag: 'CHALLAN PREVENTION',
+      id: 'parking-alerts',
+      icon: 'fa-solid fa-car',
+      badge: 'PARKING NOTIFICATIONS',
+      title: 'Parking & Access Alerts',
+      desc: 'If your vehicle is blocking a driveway or access point, nearby citizens can scan your QR tag to send an instant alert so you can move your vehicle.',
+      tag: 'COMMUNITY ALERTS',
       accentColor: '#F59E0B',
       image: 'card-vehicle.png'
     },
     {
-      id: 'road-cleaning',
-      icon: 'fa-solid fa-broom',
-      badge: 'CLEAN & DAMAGE FREE',
-      title: 'Road Sweeping & Debris Warning',
-      desc: 'Get notified immediately when municipal road cleaning, street painting, or tree trimming is happening on your road so you can move your vehicle before it gets dirty, scratched, or covered in dust.',
-      tag: 'DIRT & DUST ALERTS',
+      id: 'headlights-windows',
+      icon: 'fa-solid fa-lightbulb',
+      badge: 'VEHICLE NOTIFICATIONS',
+      title: 'Headlights & Windows',
+      desc: 'Passersby or neighbors can notify you instantly if your headlights were left ON, a car window is open, or if your vehicle needs attention.',
+      tag: 'HELPFUL ALERTS',
       accentColor: '#10B981',
       image: 'hero-car-bg-5.jpg'
     },
     {
-      id: 'damage-alert',
-      icon: 'fa-solid fa-triangle-exclamation',
-      badge: 'INSTANT CITIZEN ALERTS',
-      title: 'Vehicle Damage & Emergency Alerts (Kuch Nukshan Ho Gya H)',
-      desc: 'Passersby or neighbors can notify you instantly if your headlights were left ON, car window is open, tire is flat, or if your vehicle was accidentally bumped or damaged.',
-      tag: 'DAMAGE REPORTING',
+      id: 'lost-found',
+      icon: 'fa-solid fa-paw',
+      badge: 'LOST & FOUND',
+      title: 'Lost Pets & Belongings',
+      desc: 'If someone finds your lost pet or belongings, they can instantly contact you to arrange their return without seeing your phone number.',
+      tag: 'RECOVERY ALERTS',
       accentColor: '#EF4444',
-      image: 'hero-car-bg-1.jpg'
+      image: 'card-pet.png'
     },
     {
       id: 'privacy-shield',
       icon: 'fa-solid fa-lock',
       badge: '100% CONFIDENTIAL',
-      title: 'Masked Contact Privacy Guarantee',
-      desc: 'Anyone scanning your tag can call or send alerts through TRAFFTAGâ€™s secure gateway without seeing your personal phone number. Zero risk of spam, leaks, or harassment.',
+      title: 'Complete Privacy Protection',
+      desc: 'Anyone scanning your tag can send alerts through TRAFFTAG\'s secure system. Your personal phone number remains completely hidden.',
       tag: 'ZERO NUMBER DISCLOSURE',
       accentColor: '#0284C7',
-      image: 'card-pet.png'
+      image: 'card_home_new.jpg'
     }
   ]);
 

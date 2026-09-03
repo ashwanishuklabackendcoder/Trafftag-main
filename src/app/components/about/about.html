@@ -7,96 +7,122 @@
     <div class="hero-content">
       <span class="badge"><i class="fa-solid fa-circle-info"></i> Our Mission</span>
       <h1>About TRAFFTAG</h1>
-      <p>Pioneering privacy-first vehicle safety and instant QR notification ecosystems worldwide.</p>
+      <p>Privacy-first QR alerts for everything you own — vehicles, pets, homes and belongings.</p>
     </div>
   </div>
 
   <!-- Content Section -->
-  <main class="about-body">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>50,000+</h3>
-        <p>Vehicles Protected</p>
-      </div>
-      <div class="stat-card">
-        <h3>120,000+</h3>
-        <p>Anonymous Alerts Sent</p>
-      </div>
-      <div class="stat-card">
-        <h3>99.9%</h3>
-        <p>Uptime Reliability</p>
-      </div>
-      <div class="stat-card">
-        <h3>Zero</h3>
-        <p>Identity Disclosures</p>
-      </div>
-    </div>
-
+  <main class="about-body" style="margin-top: -2.5rem;">
+    
     <div class="about-card">
-      <section class="about-section">
+      <section id="who-we-are" class="about-section">
         <h2>Who We Are</h2>
-        <p>TRAFFTAG was founded with a singular purpose: to solve the urban vehicle parking and safety dilemma without sacrificing driver privacy. Traditional methods of displaying phone numbers on vehicle dashboards expose car owners to spam, harassment, and identity theft. TRAFFTAG replaces phone numbers with encrypted QR code decals.</p>
+        <p>TRAFFTAG was founded to solve a simple problem: people need a private way to reach an owner about an urgent issue — a blocked car, a lost pet, an unlocked gate — without exposing anyone's personal phone number.</p>
+        <p style="margin-top: 1rem;">Traditional methods, like handwritten notes or visible phone numbers, expose owners to spam, harassment, and identity theft. TRAFFTAG replaces all of that with a single, encrypted QR decal.</p>
       </section>
 
-      <section class="about-section">
+      <section id="how-it-works" class="about-section">
         <h2>How TRAFFTAG Works</h2>
-        <p>Every TRAFFTAG decal contains a unique, tamper-proof QR code linked securely to the vehicle owner's portal. Anyone who scans the tag using a smartphone camera can instantly send a pre-formatted or custom notification—such as an alert for blocked driveways, open windows, lights left on, or emergency situations—without ever seeing the owner's phone number or personal identity.</p>
+        <p>Every TRAFFTAG decal has a unique, tamper-evident QR code linked securely to the owner's account.</p>
+        <p style="margin-top: 1rem;">Anyone who scans it with a smartphone camera can send a pre-formatted or custom alert — a blocked driveway, a lost pet, a package at the door, lights left on — without ever seeing the owner's phone number or personal identity.</p>
       </section>
 
-      <section class="about-section">
+      <section id="core-values" class="about-section">
         <h2>Our Core Values</h2>
         <div class="values-grid">
-          <div class="value-item">
-            <i class="fa-solid fa-user-shield"></i>
-            <h4>Privacy First</h4>
-            <p>Your personal contact information remains strictly confidential at all times.</p>
-          </div>
-          <div class="value-item">
-            <i class="fa-solid fa-bolt"></i>
-            <h4>Instant Routing</h4>
-            <p>Real-time SMS and WhatsApp notification delivery in under 3 seconds.</p>
-          </div>
-          <div class="value-item">
-            <i class="fa-solid fa-award"></i>
-            <h4>Enterprise Quality</h4>
-            <p>Durable, weatherproof QR decal stickers engineered for harsh outdoor environments.</p>
-          </div>
+          @for (val of coreValues(); track val.title) {
+            <div class="value-item">
+              <i [class]="val.icon"></i>
+              <h4>{{ val.title }}</h4>
+              <p>{{ val.desc }}</p>
+            </div>
+          }
         </div>
       </section>
     </div>
 
-    <!-- Active Protection Gallery Showcase -->
-    <div class="about-card active-wildlife-gallery" style="margin-top: 1rem;">
-      <section class="about-section" style="width: 100%;">
-        <h2>Active Vehicle Protection in the Wild</h2>
-        <p style="margin-bottom: 2rem;">See how the TRAFFTAG system is deployed on active fleets and private cars in bustling metropolitan areas. The orange waterproof decal sits cleanly in the windshield area without obstructing the driver's view, enabling secure, anonymous alerts at any time.</p>
+    <!-- Everyday Use Section -->
+    <div class="about-card" style="margin-top: 1rem;">
+      <section id="everyday-use" class="about-section" style="width: 100%;">
+        <h2>TRAFFTAG in Everyday Use</h2>
+        <p style="margin-bottom: 2rem;">See how the TRAFFTAG system is used on personal vehicles, pets, and homes in everyday situations.</p>
         
-        <div class="wild-grid" style="margin-top: 1.5rem;">
-          
-          <div class="wild-card">
-            <div class="wild-img-container" style="height: 180px;">
-              <img src="hero-car-bg-3.jpg" alt="Active urban SUV protection" class="wild-img-crop" />
+        <div class="values-grid">
+          @for (use of everydayUse(); track use.title) {
+            <div class="value-item" style="align-items: center; text-align: center;">
+              <i [class]="use.icon" style="font-size: 2rem; margin-bottom: 0.5rem; background: #FFFBEB; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid #FCD34D;"></i>
+              <h4 style="margin-bottom: 0.25rem;">{{ use.title }}</h4>
+              <p>{{ use.desc }}</p>
             </div>
-            <div class="wild-card-content" style="padding: 1rem !important;">
-              <h3 class="wild-card-title" style="color: #FFB800 !important; font-size: 1rem !important; margin-bottom: 0.25rem !important;">Personal Vehicle Safety</h3>
-              <p class="wild-card-desc" style="font-size: 0.82rem !important; line-height: 1.4 !important;">Providing critical communication access while preserving owner privacy.</p>
-            </div>
-          </div>
-
-          <div class="wild-card">
-            <div class="wild-img-container" style="height: 180px;">
-              <img src="hero-car-bg-4.jpg" alt="Intersection vehicle alert check" class="wild-img-crop" />
-            </div>
-            <div class="wild-card-content" style="padding: 1rem !important;">
-              <h3 class="wild-card-title" style="color: #FFB800 !important; font-size: 1rem !important; margin-bottom: 0.25rem !important;">Intersection Security</h3>
-              <p class="wild-card-desc" style="font-size: 0.82rem !important; line-height: 1.4 !important;">Active dashboard tags ready for quick public alerts at busy street crossings.</p>
-            </div>
-          </div>
-
+          }
         </div>
       </section>
     </div>
+
+    <!-- Page FAQs -->
+    <div class="about-card" style="margin-top: 1rem;">
+      <section id="faqs" class="about-section" style="width: 100%;">
+        <h2>Frequently Asked Questions</h2>
+        
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
+          @for (faq of pageFaqs(); track faq.question) {
+            <div style="border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; background: #F8FAFC;">
+              <div (click)="toggleFaq(faq)" style="padding: 1.25rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                <h3 style="font-size: 1.05rem; margin: 0; color: #08162A; font-weight: 700;">{{ faq.question }}</h3>
+                <i class="fa-solid" [class.fa-minus]="faq.open" [class.fa-plus]="!faq.open" style="color: #64748B;"></i>
+              </div>
+              @if (faq.open) {
+                <div style="padding: 0 1.25rem 1.25rem; color: #475569; font-size: 0.95rem; line-height: 1.6;">
+                  <p>{{ faq.answer }}</p>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+
+    <!-- Support / Contact Panel -->
+    <section id="contact" class="support-contact-panel" style="margin-top: 2rem;">
+      <!-- Help & Support -->
+      <div class="support-panel-left">
+        <h2 style="font-size: 1.8rem; color: #08162A; margin-bottom: 1rem; font-weight: 800;">Need Help?</h2>
+        <p style="color: #64748B; font-size: 1rem; line-height: 1.6; margin-bottom: 0;">For help with tag setup, account questions, or general support, email us.</p>
+      </div>
+      <!-- Contact Us -->
+      <div class="support-panel-right">
+        <h2 style="font-size: 1.8rem; color: #08162A; margin-bottom: 1rem; font-weight: 800;">Contact Us</h2>
+        <a href="mailto:traffagofficial@gmail.com" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #08162A; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; text-decoration: none; margin-bottom: 1rem; transition: background 0.2s;"><i class="fa-solid fa-envelope"></i> traffagofficial@gmail.com</a>
+        <p style="color: #64748B; font-size: 0.95rem; margin: 0;">We'll respond as soon as possible.</p>
+      </div>
+    </section>
   </main>
+
+  <!-- Trust Strip -->
+  <section style="background-color: #08162A; color: white; padding: 4rem 5%; text-align: center;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; text-align: left; max-width: 250px;">
+        <i class="fa-solid fa-user-shield" style="font-size: 2rem; color: #FFB800;"></i>
+        <div><strong style="display: block; font-size: 1.1rem; line-height: 1.2; margin-bottom: 0.25rem;">Your Privacy.<br>Our Priority.</strong> <span style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.4; display: block;">Your personal contact information is never shown to scanners.</span></div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem; text-align: left; max-width: 250px;">
+        <i class="fa-solid fa-shield-halved" style="font-size: 2rem; color: #FFB800;"></i>
+        <div><strong style="display: block; font-size: 1.1rem; line-height: 1.2; margin-bottom: 0.25rem;">Secure.<br>Anonymous.<br>Private.</strong> <span style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.4; display: block;">TRAFFTAG keeps your contact information private from scanners.</span></div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem; text-align: left; max-width: 250px;">
+        <i class="fa-solid fa-bell" style="font-size: 2rem; color: #FFB800;"></i>
+        <div><strong style="display: block; font-size: 1.1rem; line-height: 1.2; margin-bottom: 0.25rem;">Scan-Activated<br>Alerts</strong> <span style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.4; display: block;">Alerts are sent only when your tag is scanned.</span></div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem; text-align: left; max-width: 250px;">
+        <i class="fa-solid fa-layer-group" style="font-size: 2rem; color: #FFB800;"></i>
+        <div><strong style="display: block; font-size: 1.1rem; line-height: 1.2; margin-bottom: 0.25rem;">One Account.<br>All Your Tags.</strong> <span style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.4; display: block;">Manage vehicle, pet, home, life &amp; item tags from one dashboard.</span></div>
+      </div>
+    </div>
+    
+    <div style="max-width: 800px; margin: 0 auto; color: #64748B; font-size: 0.85rem; line-height: 1.6; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;">
+      <p>TRAFFTAG works when scanned — no scan, no alert.</p>
+    </div>
+  </section>
 
   <!-- Footer -->
   <app-footer></app-footer>

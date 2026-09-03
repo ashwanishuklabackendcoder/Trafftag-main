@@ -6,20 +6,20 @@
   <section class="how-hero-section">
     <div class="how-hero-glow"></div>
     <div class="how-hero-content">
-      <span class="hero-badge"><i class="fa-solid fa-crown"></i> COMPLETE SYSTEM WORKFLOW</span>
-      <h1 class="hero-title">How TRAFFTAG QR Vehicle Protection Works</h1>
+      <span class="hero-badge"><i class="fa-solid fa-shield-halved"></i> SIMPLE. PRIVATE. EASY TO USE.</span>
+      <h1 class="hero-title">How TRAFFTAG Works</h1>
       <p class="hero-subtitle">
-        A seamless 4-step system bridging public safety, anonymous owner alerts, and instant traffic fine clearances without exposing personal data.
+        A simple 4-step system that lets someone scan your tag and send you an alert &mdash; without seeing your personal phone number.
       </p>
       
       <div class="hero-cta-group">
         <a [routerLink]="['/register']" class="btn-3d-gold hero-btn">
-          <span>ORDER YOUR DECAL</span>
+          <span>GET YOUR TAG</span>
           <i class="fa-solid fa-arrow-right"></i>
         </a>
         <a [routerLink]="['/scan']" class="btn-3d-secondary hero-btn">
           <i class="fa-solid fa-qrcode"></i>
-          <span>TEST SCAN DECAL</span>
+          <span>TRY A SAMPLE SCAN</span>
         </a>
       </div>
     </div>
@@ -28,9 +28,9 @@
   <!-- 4-Step Interactive Workflow Cards Grid -->
   <section class="how-steps-section">
     <div class="section-header">
-      <span class="sub-badge">STEP-BY-STEP PROCESS</span>
-      <h2>Four Simple Steps To Total Fleet Safety</h2>
-      <p>Designed for cab owners, private drivers, and commercial fleet managers.</p>
+      <span class="sub-badge">FOUR SIMPLE STEPS</span>
+      <h2>Four Simple Steps for Greater Peace of Mind</h2>
+      <p>No app or account is required for someone to scan your tag and send an alert.</p>
     </div>
 
     <div class="steps-grid">
@@ -51,88 +51,92 @@
         </div>
       }
     </div>
+
+    <div class="trust-icons-bar" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 3rem; text-align: center; color: #475569; font-size: 0.95rem; font-weight: 500;">
+      <div style="display: flex; align-items: center; gap: 0.75rem; text-align: left;"><i class="fa-solid fa-lock" style="color: #10B981; font-size: 1.5rem;"></i> <span>We Never Share<br>Your Phone Number</span></div>
+      <div style="display: flex; align-items: center; gap: 0.75rem; text-align: left;"><i class="fa-solid fa-shield-halved" style="color: #3B82F6; font-size: 1.5rem;"></i> <span>Anonymous &bull; Secure &bull;<br>Privacy-Focused</span></div>
+      <div style="display: flex; align-items: center; gap: 0.75rem; text-align: left;"><i class="fa-solid fa-clock" style="color: #F59E0B; font-size: 1.5rem;"></i> <span>24/7 Alerts<br>Activated by Scan</span></div>
+      <div style="display: flex; align-items: center; gap: 0.75rem; text-align: left;"><i class="fa-solid fa-heart" style="color: #EF4444; font-size: 1.5rem;"></i> <span>Made with &hearts; for Your<br>Safety &amp; Peace of Mind</span></div>
+    </div>
   </section>
 
   <!-- Interactive Simulation Preview Section -->
   <section class="how-demo-section">
     <div class="demo-card-wrapper">
       <div class="demo-header">
-        <h2>Interactive Decal Scanner Preview</h2>
-        <p>Click below to simulate what a scanner or traffic officer sees when scanning a TRAFFTAG Decal.</p>
+        <h2>See What a Scan Looks Like</h2>
+        <p>Try it yourself &mdash; see what someone experiences when they scan a TRAFFTAG QR tag or decal.</p>
         
         <div class="demo-tabs">
-          <button [class.active]="activeTab() === 'scan'" (click)="setActiveTab('scan')" class="tab-btn">
-            <i class="fa-solid fa-camera"></i> 1. Public Scanner View
+          <button [class.active]="activeTab() === 'public'" (click)="setActiveTab('public')" class="tab-btn">
+            1. Public Scanner View
           </button>
-          <button [class.active]="activeTab() === 'alert'" (click)="setActiveTab('alert')" class="tab-btn">
-            <i class="fa-solid fa-comment-sms"></i> 2. Owner SOS Notification
+          <button [class.active]="activeTab() === 'owner'" (click)="setActiveTab('owner')" class="tab-btn">
+            2. Owner Alert Notification
           </button>
-          <button [class.active]="activeTab() === 'challan'" (click)="setActiveTab('challan')" class="tab-btn">
-            <i class="fa-solid fa-receipt"></i> 3. E-Challan Portal Sync
+          <button [class.active]="activeTab() === 'sync'" (click)="setActiveTab('sync')" class="tab-btn">
+            3. Account Sync
           </button>
         </div>
       </div>
 
       <div class="demo-viewport">
-        @if (activeTab() === 'scan') {
+        @if (activeTab() === 'public') {
           <div class="preview-box">
             <div class="preview-tag-card">
-              <div class="preview-header">
-                <i class="fa-solid fa-shield-halved gold-icon"></i>
-                <div>
-                  <h4>VERIFIED VEHICLE REGISTRATION</h4>
-                  <span class="status-pill online">SYSTEM ACTIVE</span>
-                </div>
+              <div class="preview-header" style="border-bottom: 1px solid #E2E8F0; padding-bottom: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+                <i class="fa-solid fa-shield-halved" style="color: #10B981; font-size: 1.5rem;"></i>
+                <div style="font-weight: 600; font-size: 1.1rem;">Verified Registration — System Active</div>
               </div>
-              <div class="preview-body">
-                <div class="stat-item">
-                  <span class="val highlight">Securely Masked & Protected</span>
-                  <span class="lbl">Privacy Standard</span>
+              <div class="preview-body" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                  <i class="fa-solid fa-lock" style="color: #10B981;"></i>
+                  <span><strong>Line 1:</strong> Privacy Protected — Contact Information Hidden</span>
                 </div>
-                <div class="vehicle-info-row">
-                  <span class="label">Vehicle Category:</span>
-                  <span class="val">Commercial Taxi (Cab Fleet)</span>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                  <i class="fa-solid fa-car" style="color: #64748B;"></i>
+                  <span><strong>Line 2:</strong> Tag Category: Personal Vehicle — Sedan</span>
                 </div>
-                <div class="vehicle-info-row">
-                  <span class="label">Owner Privacy:</span>
-                  <span class="val highlight">100% Masked & Protected</span>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                  <i class="fa-solid fa-user-shield" style="color: #64748B;"></i>
+                  <span><strong>Line 3:</strong> Owner Privacy: Contact Information Protected</span>
                 </div>
 
-                <div class="action-buttons-stack">
-                  <button class="demo-action-btn emergency"><i class="fa-solid fa-triangle-exclamation"></i> SEND PARKING / OBSTRUCTION ALERT</button>
-                  <button class="demo-action-btn sos"><i class="fa-solid fa-phone"></i> DISPATCH ANONYMOUS CALL</button>
-                  <button class="demo-action-btn pay"><i class="fa-solid fa-credit-card"></i> CHECK & PAY E-CHALLAN FINE</button>
+                <div class="action-buttons-stack" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                  <button class="demo-action-btn" style="background: #3B82F6; color: white; padding: 0.75rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; text-align: left;"><i class="fa-solid fa-parking" style="margin-right: 0.5rem;"></i> Send Parking / Obstruction Alert</button>
+                  <button class="demo-action-btn" style="background: #3B82F6; color: white; padding: 0.75rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; text-align: left;"><i class="fa-solid fa-paper-plane" style="margin-right: 0.5rem;"></i> Send Alert to Owner</button>
+                  <button class="demo-action-btn" style="background: #10B981; color: white; padding: 0.75rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; text-align: left;"><i class="fa-solid fa-check" style="margin-right: 0.5rem;"></i> Mark Alert as Resolved</button>
                 </div>
               </div>
             </div>
           </div>
-        } @else if (activeTab() === 'alert') {
+        } @else if (activeTab() === 'owner') {
           <div class="preview-box">
             <div class="preview-sms-mock">
               <div class="sms-header">
-                <i class="fa-solid fa-comment-dots"></i>
-                <span>SMS ALERT RECEIVED BY DRIVER</span>
+                <i class="fa-solid fa-bell"></i>
+                <span>ALERT RECEIVED BY OWNER</span>
               </div>
               <div class="sms-bubble">
-                <p><strong>[TRAFFTAG ALERT]:</strong> Your vehicle DL01AB8899 has been reported for wrong parking on MG Road. Please relocate to avoid towing.</p>
-                <span class="time-stamp">Just now • Masked System Sender</span>
+                <p><strong>[TRAFFTAG ALERT]:</strong> Someone just scanned your Personal Vehicle Tag. They reported a Parking/Obstruction issue. Please check your vehicle.</p>
+                <span class="time-stamp">Just now &bull; Sent via TRAFFTAG Secure Gateway</span>
               </div>
             </div>
           </div>
-        } @else if (activeTab() === 'challan') {
+        } @else if (activeTab() === 'sync') {
           <div class="preview-box">
             <div class="preview-challan-mock">
-              <div class="challan-header">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-                <span>TRAFFIC E-CHALLAN CLEARANCE GATEWAY</span>
+              <div class="challan-header" style="background: #08162A; color: white; padding: 1rem; border-radius: 8px 8px 0 0;">
+                <i class="fa-solid fa-table-cells-large" style="margin-right: 0.5rem;"></i>
+                <span>TRAFFTAG ACCOUNT SYNC</span>
               </div>
-              <div class="challan-row">
-                <span>Challan #CH-884920</span>
-                <span class="amount">$25.00</span>
-                <span class="badge-status pending">PENDING</span>
+              <div class="challan-row" style="padding: 1.5rem; background: white; border: 1px solid #E2E8F0; border-top: none; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600;">Alert ID #AL-59210</span>
+                <span class="badge-status" style="background: #F59E0B; color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">ACTION REQUIRED</span>
               </div>
-              <p class="challan-text">Directly integrated with official traffic police backend. Settle fines with 256-bit SSL encrypted payment gateway.</p>
-              <button class="btn-3d-gold mock-pay-btn">INSTANT FINE CLEARANCE</button>
+              <div style="padding: 1.5rem; background: white; border: 1px solid #E2E8F0; border-top: none; border-radius: 0 0 8px 8px;">
+                <p class="challan-text" style="color: #475569; margin-bottom: 0;">Alert logged successfully in your dashboard. You can review the details, reply anonymously, or mark it as resolved.</p>
+              </div>
             </div>
           </div>
         }
@@ -140,16 +144,16 @@
     </div>
   </section>
 
-  <!-- Technology Pillars Section -->
+  <!-- Built with Privacy Section -->
   <section class="how-tech-section">
     <div class="section-header">
-      <span class="sub-badge">CORE ARCHITECTURE</span>
-      <h2>Enterprise-Grade Protection Features</h2>
-      <p>Built with bank-grade encryption and real-time municipal portal APIs.</p>
+      <span class="sub-badge">PRIVACY &amp; RELIABILITY</span>
+      <h2>Built with Privacy at the Core</h2>
+      <p>Built with modern security practices and secure alert delivery.</p>
     </div>
 
     <div class="tech-grid">
-      @for (pillar of techPillars; track pillar.title) {
+      @for (pillar of builtWithPrivacy; track pillar.title) {
         <div class="tech-card">
           <div class="tech-icon-bubble">
             <i [class]="pillar.icon"></i>
@@ -161,57 +165,61 @@
     </div>
   </section>
 
-  <!-- Real-World Decal Placements Gallery -->
+  <!-- Real TRAFFTAG Tags in Action -->
   <section class="how-tech-section" id="decal-gallery">
     <div class="section-header">
-      <span class="sub-badge">DECAL PLACEMENTS IN THE WILD</span>
-      <h2>Active Windshield Protection in Action</h2>
-      <p>Observe how the high-visibility orange TRAFFTAG decals are physically positioned on windshields in dense urban parking environments.</p>
+      <span class="sub-badge">USE CASES</span>
+      <h2>Real TRAFFTAG Tags in Action</h2>
     </div>
 
     <div class="wild-grid">
-      
-      <div class="wild-card">
-        <div class="wild-img-container">
-          <img src="hero-car-bg-1.jpg" alt="Rideshare taxi fleet" class="wild-img-crop" />
+      @for (tag of tagsInAction; track tag.title) {
+        <div class="wild-card">
+          <div class="wild-img-container">
+            <img [src]="tag.image" [alt]="tag.title" class="wild-img-crop" />
+          </div>
+          <div class="wild-card-content">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-weight: 600; color: #08162A;">
+              <i [class]="tag.icon" [ngClass]="tag.colorClass" style="font-size: 1.25rem;"></i>
+              <h3 class="wild-card-title" style="margin: 0; font-size: 1.1rem;">{{ tag.title }}</h3>
+            </div>
+            <p class="wild-card-desc">{{ tag.desc }}</p>
+          </div>
         </div>
-        <div class="wild-card-content">
-          <h3 class="wild-card-title">Taxi & Rideshare Verification</h3>
-          <p class="wild-card-desc">Applied securely to high-capacity vehicles for instant passenger SOS scans.</p>
-        </div>
-      </div>
+      }
+    </div>
+  </section>
 
-      <div class="wild-card">
-        <div class="wild-img-container">
-          <img src="hero-car-bg-2.jpg" alt="Fleet vehicles in queue" class="wild-img-crop" />
+  <!-- Page FAQs Section -->
+  <section class="how-tech-section" style="background-color: #F8FAFC;">
+    <div class="section-header">
+      <span class="sub-badge">SUPPORT</span>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+    
+    <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+      @for (faq of pageFaqs; track faq.question; let i = $index) {
+        <div class="faq-card" style="background: white; border: 1px solid #E2E8F0; border-radius: 8px; padding: 1.5rem; cursor: pointer;" (click)="toggleFaq(i)">
+          <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #08162A;">
+            <span>{{ faq.question }}</span>
+            <i class="fa-solid" [ngClass]="faq.open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          </div>
+          @if (faq.open) {
+            <p style="margin-top: 1rem; color: #475569; line-height: 1.6;">{{ faq.answer }}</p>
+          }
         </div>
-        <div class="wild-card-content">
-          <h3 class="wild-card-title">Queue Alert Dispatch</h3>
-          <p class="wild-card-desc">Maintains reliable network routing for instant driver alerts in active traffic.</p>
-        </div>
-      </div>
-
-      <div class="wild-card">
-        <div class="wild-img-container">
-          <img src="hero-car-bg-5.jpg" alt="Parallel parked cars" class="wild-img-crop" />
-        </div>
-        <div class="wild-card-content">
-          <h3 class="wild-card-title">Parallel Parking Guard</h3>
-          <p class="wild-card-desc">Alerts vehicle owners for headlights left on or blocked driveways on city streets.</p>
-        </div>
-      </div>
-
+      }
     </div>
   </section>
 
   <!-- CTA Banner Section -->
   <section class="how-cta-banner">
     <div class="cta-card">
-      <h2>Ready to Protect Your Vehicle & Cab Fleet?</h2>
-      <p>Join thousands of commercial drivers and private vehicle owners using TRAFFTAG.</p>
+      <h2>Ready to Protect What Matters?</h2>
+      <p>Get started with TRAFFTAG today.</p>
       <div class="cta-actions">
-        <a [routerLink]="['/register']" class="btn-3d-gold">ORDER DECAL NOW</a>
-        <a [routerLink]="['/pricing']" class="btn-3d-secondary">VIEW MEMBERSHIP PLANS</a>
+        <a [routerLink]="['/register']" class="btn-3d-gold">ORDER YOUR TAG NOW</a>
+        <a [routerLink]="['/pricing']" class="btn-3d-secondary">VIEW PLANS</a>
       </div>
     </div>
   </section>
