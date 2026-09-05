@@ -646,10 +646,18 @@ export class Portal implements OnInit {
     // Free membership plan vehicle limit check (SRS & Business Rule: Max 2 vehicles on Free Plan)
     const currentMembership = this.membershipType().toLowerCase();
     if (currentMembership.includes('free') && this.vehicles().length >= 2) {
-      this.modalService.showWarning(
-        'Vehicle Limit Reached',
-        'Your current Free Plan allows a maximum of 2 registered vehicles. Please upgrade your membership plan to add more vehicles.'
-      );
+      this.closeAddVehicle();
+      this.modalService.confirm({
+        title: 'Vehicle Limit Reached',
+        message: 'Your current Free Plan allows a maximum of 2 registered vehicles. Would you like to view our membership plans to add more vehicles?',
+        confirmText: 'View Plans',
+        cancelText: 'Cancel',
+        type: 'warning'
+      }).then(confirmed => {
+        if (confirmed) {
+          this.selectTab('profile-membership');
+        }
+      });
       return;
     }
 
@@ -690,7 +698,23 @@ export class Portal implements OnInit {
           this.isRegisteringVehicle.set(false);
           this.loadVehicles();
           const rawErr = err?.error?.message || err?.error?.Message || (typeof err?.error === 'string' ? err.error : '');
-          this.modalService.showError('Registration Failed', rawErr || 'Error occurred while registering vehicle.');
+          
+          if (rawErr.includes('VEH003') || rawErr.includes('Limit Reached')) {
+            this.closeAddVehicle();
+            this.modalService.confirm({
+              title: 'Vehicle Limit Reached',
+              message: 'You have reached the maximum number of vehicles allowed on your current plan. Would you like to view our membership plans to register more vehicles?',
+              confirmText: 'View Plans',
+              cancelText: 'Cancel',
+              type: 'warning'
+            }).then(confirmed => {
+              if (confirmed) {
+                this.selectTab('profile-membership');
+              }
+            });
+          } else {
+            this.modalService.showError('Registration Failed', rawErr || 'Error occurred while registering vehicle.');
+          }
         }
       });
   }

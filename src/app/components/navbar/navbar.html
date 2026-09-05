@@ -1,7 +1,11 @@
 <header class="app-global-navbar" [class.is-scrolled]="isScrolled()">
   <div class="gn-container">
-    <a [routerLink]="['/']" class="gn-brand" (click)="closeMobileMenu()" style="display: flex; align-items: center;">
-      <img src="trafftag-logo.png" alt="TraffTag Logo" style="height: 65px; width: auto; object-fit: contain; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1));" />
+    <a [routerLink]="['/']" class="gn-brand" (click)="closeMobileMenu()" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+      <img src="trafftag-logo.png" alt="TraffTag Logo" style="height: 55px; width: auto; object-fit: contain;" />
+      <div style="display: flex; flex-direction: column; justify-content: center;">
+        <span style="font-size: 1.5rem; font-weight: 900; color: white; line-height: 1;">TRAFF<span style="color: #F59E0B;">TAG</span>&trade;</span>
+        <span style="font-size: 0.85rem; font-weight: 800; color: #CBD5E1; font-family: 'Caveat', cursive; margin-top: 2px;">Bringing Smiles Back By Scan&trade;</span>
+      </div>
     </a>
 
     <!-- Desktop Navigation Menu (Title Case) -->

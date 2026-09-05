@@ -6,13 +6,20 @@
   <h1 class="sr-only">Anonymous QR Alerts for Everything You Own &ndash; Vehicles, Pets, Homes &amp; More</h1>
 
   <!-- Professional QR Taxi Hero Carousel Section -->
+  <!-- Professional QR Taxi Hero Carousel Section -->
   <section class="hero-carousel-section" (mouseenter)="pauseAutoPlay()" (mouseleave)="resumeAutoPlay()">
     
-    <!-- Full-Bleed Background Car Images for Active Slide -->
+    <!-- Full-Bleed Background Images for Active Slide -->
     @for (slide of heroSlides; track slide.id; let idx = $index) {
       <div class="hero-slide-bg-wrapper" [class.active]="currentSlide() === idx">
-        <img [src]="slide.bgImage" [alt]="slide.imageAlt" class="hero-slide-bg-img" />
-        <div class="hero-slide-bg-overlay"></div>
+        @if (idx === 1) {
+          <img src="assets/images/pets-bg.png" alt="Happy Pets" class="hero-slide-bg-img" style="object-position: right;" />
+        } @else if (idx === 2) {
+          <img src="assets/images/home-bg.png" alt="Happy Home" class="hero-slide-bg-img" style="object-position: right;" />
+        } @else {
+          <img [src]="slide.bgImage" [alt]="slide.imageAlt" class="hero-slide-bg-img" />
+        }
+        <div class="hero-slide-bg-overlay" [class.slide0-overlay]="idx === 0 || idx === 1 || idx === 2"></div>
       </div>
     }
 
@@ -34,66 +41,500 @@
       @for (slide of heroSlides; track slide.id; let idx = $index) {
         <div class="carousel-slide" [class.active]="currentSlide() === idx">
           
-          <!-- Slide Left Content -->
-          <div class="hero-content">
-            <div class="hero-badge">
-              <span class="badge-pulse"></span>
-              <span class="badge-text">{{ slide.badge }}</span>
-            </div>
-
-            <h2 class="hero-title">
-              <span class="title-highlight">{{ slide.highlightText }}</span><br>
-              {{ slide.title }}
-            </h2>
-
-            <p class="hero-description">
-              {{ slide.description }}
-            </p>
-
-            <div class="hero-tags">
-              @for (tag of slide.tags; track tag) {
-                <span class="tag-pill">
-                  <i class="fa-solid fa-circle-check tag-icon"></i>
-                  {{ tag }}
-                </span>
-              }
-            </div>
-
-            <div class="hero-cta-group">
-              <a [routerLink]="[slide.ctaLink]" class="btn-get-started">
-                <i class="fa-solid fa-qrcode btn-icon"></i>
-                <span>{{ slide.ctaText }}</span>
-              </a>
-
-              @if (slide.secondaryCtaLink.startsWith('#')) {
-                <a [href]="slide.secondaryCtaLink" class="btn-secondary">
-                  <span>{{ slide.secondaryCtaText }}</span>
-                </a>
-              } @else {
-                <a [routerLink]="[slide.secondaryCtaLink]" class="btn-secondary">
-                  <span>{{ slide.secondaryCtaText }}</span>
-                </a>
-              }
-            </div>
-          </div>
-
-          <!-- Slide Right: Professional High-Resolution QR Taxi Image Showcase (Only on First Banner Slide) -->
           @if (idx === 0) {
-            <div class="hero-media">
-              <div class="hero-image-showcase">
-                <div class="glass-status-chip">
-                  <span class="chip-dot gold"></span>
-                  <span class="chip-status">{{ slide.statusBadge }}</span>
-                  <span class="chip-tag">{{ slide.taxiType }}</span>
+            <!-- Custom Design for Slide 1 -->
+            <div class="hero-content hero-static-left" style="text-align: left !important; padding: 0;">
+              <div class="hero-static-badge">
+                <i class="fa-solid fa-car"></i>
+                <span>EVERY VEHICLE DESERVES TRAFFTAG</span>
+              </div>
+              
+              <h2 class="hero-static-title" style="margin-top: 10px; color: #08162A !important;">
+                <span class="highlight">Smart QR Tags for</span><br/>
+                Cars, Bikes & Every Vehicle
+              </h2>
+              <div class="hero-subtitle-smiles">
+                Bringing smiles Back by Scan&trade;
+              </div>
+              
+              <p class="hero-static-desc" style="color: #1E293B !important;">
+                One scan can alert you when your vehicle is in a No Parking zone, during street cleaning, blocking a driveway, double parked, near a fire hydrant (15 ft), has vehicle damage or a hit & run, or is being towed — while keeping your phone number private.
+              </p>
+              
+              <div class="hero-icons-row">
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-red"><i class="fa-solid fa-ban"></i></div>
+                  <span style="color: #08162A;">No<br/>Parking</span>
                 </div>
-                
-                <div class="card-img-wrapper">
-                  <img [src]="slide.cardImage" [alt]="slide.imageAlt" class="hero-card-img-clean" />
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-blue"><i class="fa-solid fa-broom"></i></div>
+                  <span style="color: #08162A;">Street<br/>Cleaning</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-green"><i class="fa-solid fa-house"></i></div>
+                  <span style="color: #08162A;">Blocking<br/>Driveway</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-yellow"><i class="fa-solid fa-car-side"></i></div>
+                  <span style="color: #08162A;">Double<br/>Parked</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-red"><i class="fa-solid fa-fire"></i></div>
+                  <span style="color: #08162A;">Near Fire<br/>Hydrant (15 ft)</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-purple"><i class="fa-solid fa-car-burst"></i></div>
+                  <span style="color: #08162A;">Vehicle Damage /<br/>Hit & Run</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-navy"><i class="fa-solid fa-truck-pickup"></i></div>
+                  <span style="color: #08162A;">Being Towed /<br/>Towed</span>
+                </div>
+              </div>
+
+              <div class="hero-pill-badge" style="color: #08162A !important;">
+                <i class="fa-solid fa-users" style="color: #08162A;"></i> Anyone can scan &nbsp;&bull;&nbsp; You get alerted &nbsp;&bull;&nbsp; Simple & Secure
+              </div>
+              
+              <div class="hero-check-text" style="color: #08162A !important;">
+                <i class="fa-solid fa-circle-check text-green"></i> Fits Cars, Motorcycles, Scooters, & RVs
+              </div>
+              
+              <div class="hero-actions" style="margin-top: 10px;">
+                <a [routerLink]="['/register']" class="btn-yellow">
+                  <i class="fa-solid fa-qrcode"></i> Get Your TRAFFTAG <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="#how-it-works" class="btn-navy">
+                  <i class="fa-solid fa-circle-play"></i> See How It Works
+                </a>
+              </div>
+            </div>
+
+            <!-- Slide 1 Right Side Custom -->
+            <div class="hero-media hero-static-right" style="position: absolute; top: 40%; right: 5%; transform: translateY(-50%); display: flex; justify-content: flex-end;">
+              <div class="floating-features-box" style="position: relative; z-index: 10;">
+                <ul>
+                  <li><i class="fa-solid fa-circle-check text-green"></i> Keep your number private</li>
+                  <li><i class="fa-solid fa-circle-check text-green"></i> Get scan-triggered alerts</li>
+                  <li><i class="fa-solid fa-circle-check text-green"></i> Affordable & easy to use</li>
+                  <li><i class="fa-solid fa-circle-check text-green"></i> Safer streets for everyone</li>
+                </ul>
+              </div>
+            </div>
+          } @else if (idx === 1) {
+            <!-- Custom Design for Slide 2 (Pets) -->
+            <div class="hero-content hero-static-left" style="text-align: left !important; padding: 0;">
+              
+              <div class="pet-lost-subtitle" style="font-family: 'Caveat', 'Dancing Script', cursive, sans-serif; font-size: 2.2rem; color: #08162A; font-weight: 700; margin-bottom: -10px;">
+                Lost Pet? <i class="fa-solid fa-heart" style="color: #EF4444;"></i>
+              </div>
+              
+              <h2 class="hero-static-title" style="margin-top: 0px; margin-bottom: 0px; line-height: 1;">
+                <span style="color: #EF4444; font-weight: 900;">MY</span><span style="color: #F59E0B; font-weight: 900;">HAP</span><i class="fa-solid fa-paw" style="color: #3B82F6; font-size: 0.8em; margin: 0 -5px;"></i><span style="color: #F59E0B; font-weight: 900;">PY</span><br/>
+                <span style="color: #08162A; font-size: 1.1em; line-height: 0.8;">PET TAG&trade;</span>
+              </h2>
+              
+              <div style="font-size: 1.1rem; font-weight: 800; color: #08162A; margin-bottom: 0px; margin-top: -5px;">
+                Powered by <span style="font-weight: 900;">TRAFFTAG&trade;</span>
+              </div>
+
+              <div class="hero-subtitle-smiles" style="margin-left: 0; font-size: 1.8rem; margin-bottom: 10px; margin-top: -10px;">
+                Bringing Smiles Back by Scan&trade; <i class="fa-solid fa-heart" style="color: #EF4444;"></i>
+              </div>
+              
+              <p class="hero-static-desc" style="color: #1E293B !important; margin-bottom: 15px; margin-top: -5px; line-height: 1.4;">
+                A scannable pet tag lets anyone who finds your pet send you an instant, anonymous alert with the location — without seeing your personal phone number.
+              </p>
+              
+              <div class="hero-icons-row">
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-red"><i class="fa-solid fa-location-dot"></i></div>
+                  <span style="color: #08162A;">Instant Alert<br/>with Location</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-green"><i class="fa-solid fa-shield-halved"></i></div>
+                  <span style="color: #08162A;">Your Number<br/>Stays Private</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-blue"><i class="fa-solid fa-paw"></i></div>
+                  <span style="color: #08162A;">Help Reunite<br/>Pets Faster</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-yellow"><i class="fa-solid fa-heart"></i></div>
+                  <span style="color: #08162A;">Peace of Mind<br/>for Pet Parents</span>
+                </div>
+              </div>
+
+              <div class="hero-pill-badge" style="color: #08162A !important; width: 100%; display: flex; justify-content: space-around; padding: 12px 20px;">
+                <span><i class="fa-solid fa-users" style="color: #08162A;"></i> Anyone can scan</span> 
+                <span>&bull;</span> 
+                <span>You get alerted</span> 
+                <span>&bull;</span> 
+                <span>Simple & Secure</span>
+              </div>
+              
+              <div class="hero-check-text" style="color: #08162A !important;">
+                <i class="fa-solid fa-circle-check text-green"></i> Fits Dogs, Cats, Birds, Puppies & Kittens
+              </div>
+              
+              <div class="hero-actions" style="margin-top: 10px;">
+                <a [routerLink]="['/register']" class="btn-yellow">
+                  <i class="fa-solid fa-qrcode"></i> Get a Pet Tag <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="#how-it-works" class="btn-navy">
+                  How It Works
+                </a>
+              </div>
+            </div>
+
+            <!-- Slide 2 Right Side Custom -->
+            <div class="hero-media hero-static-right" style="position: absolute; top: 50%; right: 5%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; width: 180px;">
+              <!-- Right Side Pills -->
+              <div class="pet-pill"><i class="fa-solid fa-paw" style="color: #08162A;"></i> Dogs</div>
+              <div class="pet-pill" style="background-color: #FFE4E6;"><i class="fa-solid fa-cat" style="color: #EF4444;"></i> Cats</div>
+              <div class="pet-pill" style="background-color: #DCFCE7;"><i class="fa-solid fa-crow" style="color: #10B981;"></i> Birds</div>
+              <div class="pet-pill" style="background-color: #FEF3C7;"><i class="fa-solid fa-dog" style="color: #F59E0B;"></i> Puppies</div>
+              <div class="pet-pill" style="background-color: #F3E8FF;"><i class="fa-solid fa-cat" style="color: #8B5CF6;"></i> Kittens</div>
+              <div class="pet-pill"><i class="fa-solid fa-paw" style="color: #08162A;"></i> All Pets</div>
+              <div class="pet-pill-yellow">
+                <i class="fa-solid fa-paw"></i> Pets are Family <i class="fa-solid fa-heart" style="color: #EF4444;"></i>
+              </div>
+            </div>
+          } @else if (idx === 2) {
+            <!-- Custom Design for Slide 3 (Home) -->
+            <div class="hero-content hero-static-left" style="text-align: left !important; padding: 0;">
+              
+              <div class="home-top-links" style="font-size: 0.8rem; font-weight: 800; color: #F59E0B; margin-bottom: 10px; display: flex; gap: 8px;">
+                <span>SCAN</span> <span style="color: #94A3B8;">|</span>
+                <span style="color: #10B981;">NOTIFY</span> <span style="color: #94A3B8;">|</span>
+                <span style="color: #3B82F6;">CONNECT</span> <span style="color: #94A3B8;">|</span>
+                <span style="color: #F59E0B;">PROTECT</span> <span style="color: #94A3B8;">|</span>
+                <span style="color: #EF4444;">SMILE</span>
+              </div>
+              
+              <div class="pet-lost-subtitle" style="display: inline-flex; align-items: center; gap: 8px; border: 2px solid #E2E8F0; padding: 4px 16px; border-radius: 30px; font-weight: 800; color: #3B82F6; font-size: 0.85rem; margin-bottom: 15px;">
+                <i class="fa-solid fa-house"></i> PROTECT WHAT MATTERS MOST
+              </div>
+              
+              <h2 class="hero-static-title" style="margin-top: 0px; margin-bottom: 5px; line-height: 1;">
+                <span style="color: #08162A; font-weight: 900;">MY HAPPY</span><br/>
+                <span style="color: #EF4444; font-weight: 900;">H</span><i class="fa-solid fa-face-smile" style="color: #F59E0B; font-size: 0.85em; margin: 0 -2px;"></i><span style="color: #10B981; font-weight: 900;">M</span><span style="color: #3B82F6; font-weight: 900;">E</span> <span style="color: #F59E0B; font-weight: 900;">TAG&trade;</span>
+              </h2>
+              
+              <div style="font-size: 1.6rem; font-weight: 800; color: #3B82F6; margin-bottom: 10px; line-height: 1.2;">
+                Anonymous Alerts for<br/>Your Home, Gate & Doorstep
+              </div>
+              
+              <p class="hero-static-desc" style="color: #1E293B !important; margin-bottom: 15px; font-size: 1rem; line-height: 1.5; font-weight: 600;">
+                A MY HAPPY HOME TAG at your entrance lets delivery drivers, neighbors, or visitors reach you for packages, access issues, or safety concerns — without seeing your phone number.
+              </p>
+              
+              <div class="hero-icons-row" style="margin-bottom: 15px;">
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-yellow" style="width: 45px; height: 45px; font-size: 1.2rem;"><i class="fa-solid fa-box-open"></i></div>
+                  <span style="color: #08162A; font-size: 0.7rem;">Deliveries</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-green" style="width: 45px; height: 45px; font-size: 1.2rem;"><i class="fa-solid fa-users"></i></div>
+                  <span style="color: #08162A; font-size: 0.7rem;">Neighbors</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-blue" style="width: 45px; height: 45px; font-size: 1.2rem;"><i class="fa-solid fa-wrench"></i></div>
+                  <span style="color: #08162A; font-size: 0.7rem;">Access Issues</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-purple" style="width: 45px; height: 45px; font-size: 1.2rem;"><i class="fa-solid fa-shield-halved"></i></div>
+                  <span style="color: #08162A; font-size: 0.7rem;">Safety Alerts</span>
+                </div>
+                <div class="hero-icon-item">
+                  <div class="icon-circle bg-red" style="width: 45px; height: 45px; font-size: 1.2rem;"><i class="fa-solid fa-circle-exclamation"></i></div>
+                  <span style="color: #08162A; font-size: 0.7rem;">Report Concerns</span>
+                </div>
+              </div>
+
+              <div class="hero-actions" style="margin-bottom: 20px;">
+                <a [routerLink]="['/register']" class="btn-yellow" style="border-radius: 30px; font-size: 1.1rem; padding: 10px 30px;">
+                  <i class="fa-solid fa-qrcode"></i> Get a Home Tag <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="#how-it-works" class="btn-navy" style="background-color: white; color: #3B82F6; border: 2px solid #3B82F6; border-radius: 30px; font-size: 1.1rem; padding: 10px 30px;">
+                  <i class="fa-solid fa-circle-play"></i> How It Works
+                </a>
+              </div>
+              
+              <div style="display: flex; gap: 20px; align-items: center; border-top: 1px solid #E2E8F0; padding-top: 15px;">
+                <div style="text-align: center; color: #08162A; font-size: 0.8rem; font-weight: 700;">
+                  <i class="fa-solid fa-lock" style="color: #F59E0B; font-size: 1.5rem; display: block; margin-bottom: 5px;"></i>
+                  Your Privacy<br/>Protected
+                </div>
+                <div style="text-align: center; color: #08162A; font-size: 0.8rem; font-weight: 700;">
+                  <i class="fa-solid fa-headset" style="color: #10B981; font-size: 1.5rem; display: block; margin-bottom: 5px;"></i>
+                  24/7<br/>Anonymous Alerts
+                </div>
+                <div style="text-align: center; color: #08162A; font-size: 0.8rem; font-weight: 700;">
+                  <i class="fa-solid fa-users" style="color: #3B82F6; font-size: 1.5rem; display: block; margin-bottom: 5px;"></i>
+                  Help from<br/>Neighbors & Community
+                </div>
+                <div style="text-align: center; color: #08162A; font-size: 0.8rem; font-weight: 700;">
+                  <i class="fa-regular fa-face-smile" style="color: #EF4444; font-size: 1.5rem; display: block; margin-bottom: 5px;"></i>
+                  Bringing smiles<br/>back by scan&trade;
                 </div>
               </div>
             </div>
-          }
 
+            <!-- Slide 3 Right Side Custom -->
+            <div class="hero-media hero-static-right" style="position: absolute; top: 50%; right: 2%; transform: translateY(-50%); display: flex; justify-content: flex-end; width: 45%;">
+              <div style="background-color: #F97316; padding: 4px; border-radius: 8px; width: 100%; max-width: 580px; box-shadow: 0 15px 40px rgba(0,0,0,0.3);">
+                <div style="background-color: white; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column;">
+                  
+                  <!-- Header Row -->
+                  <div style="display: flex; align-items: stretch; background-color: white;">
+                    <div style="flex: 1; padding: 8px 10px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                      <div style="font-weight: 900; font-size: 1.5rem; line-height: 1;">
+                        <span style="color: #08162A;">MY HAPPY </span><span style="color: #EF4444;">H<i class="fa-solid fa-face-smile" style="color: #F59E0B;"></i></span><span style="color: #10B981;">M</span><span style="color: #3B82F6;">E</span> <span style="color: #F59E0B;">TAG&trade;</span>
+                      </div>
+                      <div style="font-size: 0.7rem; font-weight: 800; color: #3B82F6; margin-top: 2px;">
+                        Powered by <span style="font-weight: 900;">TRAFFTAG&trade;</span>
+                      </div>
+                    </div>
+                    <div style="background-color: #FF5722; color: white; padding: 6px 12px; display: flex; align-items: center; text-align: left; font-weight: 800; font-size: 0.8rem; line-height: 1.1; width: 35%;">
+                      ONE TAG<br/>MANY REASONS<br/>FOR A SAFER HOME
+                    </div>
+                  </div>
+
+                  <!-- Black Bar 1 -->
+                  <div style="background-color: black; color: #FACC15; text-align: center; font-weight: 800; padding: 4px; font-size: 0.9rem;">
+                    WHAT WE CAN ALERT YOU ABOUT
+                  </div>
+
+                  <!-- Grid 1 (5x2) -->
+                  <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background-color: #D1D5DB; border-bottom: 1px solid #D1D5DB;">
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-solid fa-box" style="color: #B45309; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Package /<br/>Delivery Issue</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-solid fa-door-open" style="color: #8B4513; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Door or Gate<br/>Left Open</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-solid fa-fire" style="color: #EF4444; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Smoke or<br/>Fire Concern</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-solid fa-droplet" style="color: #3B82F6; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Water Leak /<br/>Flooding</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-solid fa-house-crack" style="color: #475569; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Broken Window<br/>or Damage</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-solid fa-inbox" style="color: #EF4444; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Mailbox<br/>Issue</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-solid fa-users" style="color: #10B981; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Neighbor / Visitor<br/>Notification</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-solid fa-user-ninja" style="color: #111827; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Suspicious<br/>Activity</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-regular fa-lightbulb" style="color: #F59E0B; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Lights / Equipment<br/>Left On</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 12px 4px; text-align: center;">
+                      <i class="fa-solid fa-triangle-exclamation" style="color: #EF4444; font-size: 1.6rem; margin-bottom: 5px;"></i>
+                      <div style="font-size: 0.6rem; font-weight: 700; color: #08162A; line-height: 1.1;">Other Urgent<br/>Property Issues</div>
+                    </div>
+                  </div>
+
+                  <!-- Black Bar 2 -->
+                  <div style="background-color: black; color: #FACC15; text-align: center; font-weight: 800; padding: 4px; font-size: 0.9rem;">
+                    DESIGNED FOR HOMES, PROPERTIES & PLACES
+                  </div>
+
+                  <!-- Grid 2 (6x3) -->
+                  <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background-color: #D1D5DB;">
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-house" style="color: #EF4444; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Home /<br/>House</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-regular fa-building" style="color: #3B82F6; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Apartment /<br/>Condo</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-house-chimney" style="color: #F59E0B; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Townhouse /<br/>Duplex</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-tree-city" style="color: #10B981; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Vacation<br/>Home</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-suitcase-rolling" style="color: #8B4513; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Vacation<br/>Trip</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-store" style="color: #EF4444; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Store /<br/>Retail Shop</div>
+                    </div>
+                    <!-- Row 2 -->
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-church" style="color: #475569; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Church</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-vihara" style="color: #B45309; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Temple</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-synagogue" style="color: #3B82F6; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Synagogue</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-mosque" style="color: #F59E0B; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Gurdwara</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-industry" style="color: #EF4444; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Factory</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-gear" style="color: #475569; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Industry /<br/>Plant</div>
+                    </div>
+                    <!-- Row 3 -->
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-city" style="color: #3B82F6; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Office /<br/>Building</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-warehouse" style="color: #475569; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Warehouse /<br/>Storage</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-square-parking" style="color: #3B82F6; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Parking Area</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-person-digging" style="color: #F59E0B; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Construction<br/>Site</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-tractor" style="color: #10B981; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Farm /<br/>Agriculture</div>
+                    </div>
+                    <div style="background-color: #FEF3C7; padding: 10px 2px; text-align: center;">
+                      <i class="fa-solid fa-hotel" style="color: #EC4899; font-size: 1.4rem; margin-bottom: 4px;"></i>
+                      <div style="font-size: 0.55rem; font-weight: 700; color: #08162A; line-height: 1.1;">Hotel /<br/>Motel</div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom White Block 1 -->
+                  <div style="background-color: white; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #D1D5DB;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <i class="fa-solid fa-shield-halved" style="color: #10B981; font-size: 2rem;"></i>
+                      <div style="font-weight: 800; color: #08162A; font-size: 0.65rem; line-height: 1.2;">
+                        <span style="font-size: 0.8rem;">A SCAN CAN INSTANTLY</span><br/>NOTIFY THE PROPERTY OWNER.<br/>
+                        <span style="color: #EF4444;">Your phone number stays private.</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-bell" style="color: #EF4444; font-size: 2rem;"></i>
+                    <div style="text-align: right; font-weight: 800; color: #08162A; font-size: 0.8rem; line-height: 1.1;">
+                      <span style="color: #1E3A8A;">For Emergencies,</span><br/>
+                      <span style="color: #1E3A8A;">Please Call </span><span style="color: #EF4444; font-size: 1.3rem;">911</span>
+                    </div>
+                  </div>
+                  
+                  <!-- Bottom Contact Strip -->
+                  <div style="background-color: white; border-top: 1px solid #E5E7EB; padding: 8px 12px; display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 700; color: #08162A;">
+                    <div><i class="fa-solid fa-globe" style="color: #3B82F6;"></i> WWW.TRAFFTAG.COM</div>
+                    <div><i class="fa-regular fa-envelope" style="color: #EF4444;"></i> trafftagofficial@gmail.com</div>
+                    <div><i class="fa-regular fa-envelope" style="color: #EF4444;"></i> mytrafftag@gmail.com</div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          } @else {
+            <!-- Standard Slide Layout for other slides -->
+            <div class="hero-content">
+              <div class="hero-badge">
+                <span class="badge-pulse"></span>
+                <span class="badge-text">{{ slide.badge }}</span>
+              </div>
+  
+              <h2 class="hero-title">
+                <span class="title-highlight">{{ slide.highlightText }}</span><br>
+                {{ slide.title }}
+              </h2>
+  
+              <p class="hero-description">
+                {{ slide.description }}
+              </p>
+  
+              <div class="hero-tags">
+                @for (tag of slide.tags; track tag) {
+                  <span class="tag-pill">
+                    <i class="fa-solid fa-circle-check tag-icon"></i>
+                    {{ tag }}
+                  </span>
+                }
+              </div>
+  
+              <div class="hero-cta-group">
+                <a [routerLink]="[slide.ctaLink]" class="btn-get-started">
+                  <i class="fa-solid fa-qrcode btn-icon"></i>
+                  <span>{{ slide.ctaText }}</span>
+                </a>
+  
+                @if (slide.secondaryCtaLink.startsWith('#')) {
+                  <a [href]="slide.secondaryCtaLink" class="btn-secondary">
+                    <span>{{ slide.secondaryCtaText }}</span>
+                  </a>
+                } @else {
+                  <a [routerLink]="[slide.secondaryCtaLink]" class="btn-secondary">
+                    <span>{{ slide.secondaryCtaText }}</span>
+                  </a>
+                }
+              </div>
+            </div>
+  
+            <!-- Standard Slide Right Media -->
+            <div class="hero-media">
+              @if (slide.visualType === 'qr-taxi-fleet' || slide.visualType === 'weatherproof-decal') {
+                <div class="floating-qr-card card-style-1">
+                  <div class="card-glow"></div>
+                  <div class="card-inner">
+                    <div class="card-header-chips">
+                      <span class="chip-status">{{ slide.statusBadge }}</span>
+                      <span class="chip-tag">{{ slide.taxiType }}</span>
+                    </div>
+                    
+                    <div class="card-img-wrapper">
+                      <img [src]="slide.cardImage" [alt]="slide.imageAlt" class="hero-card-img-clean" />
+                    </div>
+                  </div>
+                </div>
+              }
+  
+              @if (slide.visualType === 'echallan-speed') {
+                <div class="floating-qr-card card-style-2">
+                  <div class="card-glow"></div>
+                  <div class="card-inner echallan-inner">
+                    <div class="echallan-header">
+                      <i class="fa-solid fa-shield-halved"></i>
+                      <span>{{ slide.statusBadge }}</span>
+                    </div>
+                    <img [src]="slide.cardImage" [alt]="slide.imageAlt" class="hero-card-img-full" />
+                  </div>
+                </div>
+              }
+            </div>
+          }
         </div>
       }
     </div>
@@ -127,7 +568,40 @@
         <span class="status-text">{{ isPaused() ? 'PAUSED' : 'AUTO-SLIDE ON' }}</span>
       </div>
     </div>
+  </section>
 
+  <!-- Trust Strip -->
+  <section class="trust-strip-section" style="margin-bottom: 2rem;">
+    <div class="trust-strip-container">
+      <div class="trust-item">
+        <i class="fa-solid fa-users text-navy"></i>
+        <div class="trust-text">
+          <strong>Safer Streets</strong>
+          <span>Stronger Communities</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <i class="fa-solid fa-shield-halved text-navy"></i>
+        <div class="trust-text">
+          <strong>Privacy First</strong>
+          <span>Your Number Stays Hidden</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <i class="fa-solid fa-clock text-navy"></i>
+        <div class="trust-text">
+          <strong>Alerts When It Matters Most</strong>
+          <span>Triggered by a Scan</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <i class="fa-solid fa-heart text-navy"></i>
+        <div class="trust-text">
+          <strong>A Smarter</strong>
+          <span>Safer Tomorrow</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Universal Ecosystem Showcase Section (Vehicles, Pets, Home, Kids, Senior Citizens) -->
@@ -302,79 +776,87 @@
     <div class="mockup-card-container">
       <h2 class="mockup-section-title">HOW TRAFFTAG WORKS</h2>
 
-      <div class="mockup-steps-flex">
+      <div class="mockup-steps-visual-flex">
+        
         <!-- Step 1 -->
-        <div class="mockup-step-item">
-          <div class="mockup-step-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 7V5c0-1.1.9-2 2-2h2"/>
-              <path d="M17 3h2c1.1 0 2 .9 2 2v2"/>
-              <path d="M21 17v2c0 1.1-.9 2-2 2h-2"/>
-              <path d="M7 21H5c-1.1 0-2-.9-2-2v-2"/>
-              <rect x="7" y="7" width="10" height="10" rx="2"/>
-            </svg>
+        <div class="step-visual-card step-orange">
+          <div class="step-visual-number bg-orange">1</div>
+          <div class="step-visual-header bg-orange">SCAN</div>
+          <div class="step-visual-body">
+            <div class="step-visual-desc">
+              <p><strong>Someone scans your<br/>TRAFFTAG&trade; QR code.</strong></p>
+              <p class="sub">It's quick, easy and free to scan.</p>
+            </div>
+            <div class="step-visual-img-container">
+              <img src="assets/images/step1_scan.jpg" alt="Scan QR Code" />
+            </div>
           </div>
-          <div class="mockup-step-badge">1</div>
-          <h4 class="mockup-step-name">SCAN</h4>
-          <p class="mockup-step-desc">Someone scans your TRAFFTAG QR code.</p>
         </div>
 
-        <div class="mockup-arrow">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
+        <div class="mockup-arrow color-orange">
+          <i class="fa-solid fa-arrow-right"></i>
         </div>
 
         <!-- Step 2 -->
-        <div class="mockup-step-item">
-          <div class="mockup-step-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
+        <div class="step-visual-card step-green">
+          <div class="step-visual-number bg-green">2</div>
+          <div class="step-visual-header bg-green">NOTIFY</div>
+          <div class="step-visual-body">
+            <div class="step-visual-desc">
+              <p><strong>They select the issue and<br/>send an alert anonymously.</strong></p>
+            </div>
+            <div class="step-visual-img-container">
+              <img src="assets/images/step2_notify.jpg" alt="Notify UI" />
+            </div>
+            <div class="step-visual-footer footer-green">
+              <i class="fa-solid fa-lock"></i>
+              <span>Your personal contact<br/>information stays private.</span>
+            </div>
           </div>
-          <div class="mockup-step-badge">2</div>
-          <h4 class="mockup-step-name">NOTIFY</h4>
-          <p class="mockup-step-desc">They send an alert anonymously.</p>
         </div>
 
-        <div class="mockup-arrow">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
+        <div class="mockup-arrow color-green">
+          <i class="fa-solid fa-arrow-right"></i>
         </div>
 
         <!-- Step 3 -->
-        <div class="mockup-step-item">
-          <div class="mockup-step-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <path d="M2 6l10 7 10-7"/>
-            </svg>
+        <div class="step-visual-card step-blue">
+          <div class="step-visual-number bg-blue">3</div>
+          <div class="step-visual-header bg-blue">YOU GET AN ALERT</div>
+          <div class="step-visual-body">
+            <div class="step-visual-desc">
+              <p><strong>You receive it instantly<br/>via Email, SMS, or WhatsApp.</strong></p>
+            </div>
+            <div class="step-visual-img-container">
+              <img src="assets/images/step3_alert.jpg" alt="Alert Notification" />
+            </div>
+            <div class="step-visual-footer footer-blue">
+              <span>With location and details<br/>so you can act fast.</span>
+            </div>
           </div>
-          <div class="mockup-step-badge">3</div>
-          <h4 class="mockup-step-name">YOU GET ALERT</h4>
-          <p class="mockup-step-desc">You receive it instantly via Email, SMS, or WhatsApp.</p>
         </div>
 
-        <div class="mockup-arrow">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
+        <div class="mockup-arrow color-blue">
+          <i class="fa-solid fa-arrow-right"></i>
         </div>
 
         <!-- Step 4 -->
-        <div class="mockup-step-item">
-          <div class="mockup-step-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFB800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
-            </svg>
+        <div class="step-visual-card step-purple">
+          <div class="step-visual-number bg-purple">4</div>
+          <div class="step-visual-header bg-purple">YOU TAKE ACTION</div>
+          <div class="step-visual-body">
+            <div class="step-visual-desc">
+              <p><strong>Stay informed and<br/>take action when needed.</strong></p>
+            </div>
+            <div class="step-visual-img-container">
+              <img src="assets/images/step4_action.jpg" alt="Take Action" />
+            </div>
+            <div class="step-visual-footer footer-purple">
+              <span>A safer, kinder and<br/>better community for everyone.</span>
+            </div>
           </div>
-          <div class="mockup-step-badge">4</div>
-          <h4 class="mockup-step-name">YOU TAKE ACTION</h4>
-          <p class="mockup-step-desc">Stay informed and take action when needed.</p>
         </div>
+
       </div>
     </div>
   </section>

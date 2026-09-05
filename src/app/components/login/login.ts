@@ -3,10 +3,14 @@ import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_URL } from '../../config/api.config';
+import { NavbarComponent } from '../navbar/navbar';
+import { FooterComponent } from '../footer/footer';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, RouterLink],
+  standalone: true,
+  imports: [FormsModule, RouterLink, CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

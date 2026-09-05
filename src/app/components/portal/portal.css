@@ -4224,3 +4224,8 @@ input:checked + .slider:before {
     text-overflow: ellipsis;
   }
 }
+
+.bg-red-soft { background: #fef2f2; }
+.bg-red-primary { background: #dc2626; }
+.text-red-primary { color: #dc2626; }
+

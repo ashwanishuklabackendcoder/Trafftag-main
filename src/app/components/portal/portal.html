@@ -4,13 +4,8 @@
     <button class="mobile-menu-toggle" (click)="toggleMobileSidebar()" aria-label="Toggle Navigation Menu">
       <i class="fa-solid fa-bars"></i>
     </button>
-    <div class="sidebar-brand mobile-brand" [routerLink]="['/']">
-      <div class="brand-logo-badge">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <div class="brand-text-wrapper">
-        <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
-      </div>
+    <div class="sidebar-brand mobile-brand" [routerLink]="['/']" style="display: flex; align-items: center; justify-content: center; width: 100%; background: transparent;">
+      <img src="trafftag-shield.png" alt="TraffTag Logo" class="custom-logo-img" style="height: 48px; width: auto; object-fit: contain; mix-blend-mode: multiply; background: transparent;" />
     </div>
     <div class="user-avatar-small">{{ userInitials() }}</div>
   </header>
@@ -30,7 +25,7 @@
       <div class="sidebar-brand custom-logo-block" [routerLink]="['/']">
         <img src="trafftag-logo.png" alt="TraffTag Logo" class="custom-logo-img" />
         <div class="logo-tagline">
-          <div class="tag-cursive">Bringing Smiles Back</div>
+          <div class="tag-cursive">Bringing Smiles Back By Scan&trade;</div>
         </div>
       </div>
 
@@ -208,13 +203,14 @@
         </div>
       </div>
     }
-
     <!-- Tab 1.1: Explore More (Old Dashboard) -->
     @if (activeTab() === 'explore-more') {
       <div class="tab-panel dashboard-panel">
         
         <!-- Middle Grid Cards -->
         <div class="dash-cards-grid">
+          
+          <!-- 1. Vehicle tag -->
           <div class="dash-category-card bg-blue-soft" (click)="selectTab('vehicles')">
             <div class="dash-card-img-wrapper"><img src="/maybach-tag.png" alt="My Happy Vehicle Tag" class="dash-card-img img-vehicle"></div>
             <div class="dash-card-content">
@@ -224,24 +220,7 @@
             <div class="dash-card-arrow bg-blue-primary"><i class="fa-solid fa-arrow-right"></i></div>
           </div>
           
-          <div class="dash-category-card bg-green-soft">
-            <div class="dash-card-img-wrapper"><img src="/illust-family.png" alt="My Happy Life Tag" class="dash-card-img img-family"></div>
-            <div class="dash-card-content">
-              <h3 class="text-green-primary">My Happy Life Tag</h3>
-              <p>Adults & Seniors</p>
-            </div>
-            <div class="dash-card-arrow bg-green-primary"><i class="fa-solid fa-arrow-right"></i></div>
-          </div>
-          
-          <div class="dash-category-card bg-orange-soft">
-            <div class="dash-card-img-wrapper"><img src="/pet-tag.png" alt="My Happy Pet Tag" class="dash-card-img img-pet"></div>
-            <div class="dash-card-content">
-              <h3 class="text-orange-primary">My Happy Pet Tag</h3>
-              <p>Dogs, Cats, Birds & More</p>
-            </div>
-            <div class="dash-card-arrow bg-orange-primary"><i class="fa-solid fa-arrow-right"></i></div>
-          </div>
-          
+          <!-- 2. Home tag -->
           <div class="dash-category-card bg-purple-soft">
             <div class="dash-card-img-wrapper"><img src="/illust-home.png" alt="My Happy Home Tag" class="dash-card-img img-home"></div>
             <div class="dash-card-content">
@@ -250,20 +229,30 @@
             </div>
             <div class="dash-card-arrow bg-purple-primary"><i class="fa-solid fa-arrow-right"></i></div>
           </div>
+          
+          <!-- 3. Pet tag -->
+          <div class="dash-category-card bg-orange-soft">
+            <div class="dash-card-img-wrapper"><img src="/pet-tag.png" alt="My Happy Pet Tag" class="dash-card-img img-pet"></div>
+            <div class="dash-card-content">
+              <h3 class="text-orange-primary">My Happy Pet Tag</h3>
+              <p>Dogs, Cats, Birds & More</p>
+            </div>
+            <div class="dash-card-arrow bg-orange-primary"><i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+
+          <!-- 4. Life tag -->
+          <div class="dash-category-card bg-green-soft">
+            <div class="dash-card-img-wrapper"><img src="/life-tag-custom.jpg" alt="My Happy Life Tag" class="dash-card-img img-family"></div>
+            <div class="dash-card-content">
+              <h3 class="text-green-primary">My Happy Life Tag</h3>
+              <p>Adults & Seniors</p>
+            </div>
+            <div class="dash-card-arrow bg-green-primary"><i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+          
+          
         </div>
 
-        <!-- Shop Banner -->
-        <div class="dash-shop-banner" (click)="redirectToShop()">
-          <div class="dash-shop-icon">
-            <i class="fa-solid fa-bag-shopping"></i>
-          </div>
-          <div class="dash-shop-text">
-            <h3>Shop Products</h3>
-            <p>Tags, Wristbands, Keychains, Stickers & More</p>
-          </div>
-          <div class="dash-shop-arrow text-yellow-500"><i class="fa-solid fa-arrow-right"></i></div>
-        </div>
-        
         <!-- Bottom Toolbar -->
         <div class="dash-bottom-toolbar">
           <div class="toolbar-item" (click)="openScanner()">

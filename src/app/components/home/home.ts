@@ -46,12 +46,12 @@ export class Home implements OnInit, OnDestroy {
   heroSlides: HeroSlide[] = [
     {
       id: 1,
-      badge: 'Weatherproof - Tamper-Evident',
+      badge: 'Every Vehicle Deserves Trafftag',
       title: 'Cars, Bikes & Every Vehicle',
       highlightText: 'Smart QR Tags for',
-      description: 'Waterproof QR decals let someone anonymously alert you about lights left on, a blocked driveway, or a vehicle that needs to be moved — without seeing your phone number.',
-      tags: ['Fits Cars, Motorcycles, Scooters, & RVs', 'UV & Scratch-Resistant', 'Tamper-Evident Shield'],
-      ctaText: 'Get Your Tag',
+      description: 'QR decals let someone safely alert you about lights left on, a blocked driveway, or a vehicle that needs to be moved — without seeing your phone number.',
+      tags: ['Fits Cars, Motorcycles, Scooters, & RVs'],
+      ctaText: 'Get Your Happy Trafftag',
       ctaLink: '/register',
       secondaryCtaText: 'See How It Works',
       secondaryCtaLink: '#how-it-works',
@@ -59,7 +59,7 @@ export class Home implements OnInit, OnDestroy {
       statusBadge: 'PREMIUM REFLECTIVE DECAL',
       imageAlt: 'Weatherproof Taxi QR Decal',
       bgImage: 'hero-car-bg-1.png',
-      cardImage: 'slider1.png',
+      cardImage: 'card-vehicle-transparent.png',
       visualType: 'weatherproof-decal'
     },
     {
@@ -97,33 +97,71 @@ export class Home implements OnInit, OnDestroy {
       bgImage: 'hero-car-bg-3.png',
       cardImage: 'echallan-transparent.png',
       visualType: 'echallan-speed'
-    },
-    {
-      id: 4,
-      badge: 'Privacy Comes First',
-      title: 'Is Never Shared',
-      highlightText: 'Your Phone Number',
-      description: 'Every scan routes through TRAFFTAG\'s private contact system. The person scanning your tag does not see your phone number, and you can receive an alert by Email, SMS, or WhatsApp.',
-      tags: [],
-      ctaText: 'See Our Privacy Promise',
-      ctaLink: '/privacy-policy',
-      secondaryCtaText: 'How It Works',
-      secondaryCtaLink: '#how-it-works',
-      taxiType: 'EXECUTIVE & CITY CABS',
-      statusBadge: '24/7 SOS MONITORING',
-      imageAlt: 'In-Cab Passenger Safety SOS',
-      bgImage: 'hero-car-bg-4.png',
-      cardImage: 'sos-transparent.png',
-      visualType: 'sos-privacy'
     }
   ];
 
   ngOnInit() {
     this.startAutoPlay();
+    this.loadMembershipPlans();
   }
 
   ngOnDestroy() {
     this.stopAutoPlay();
+  }
+
+  loadMembershipPlans() {
+    this.http.get<any>(`${API_BASE_URL}/api/v1/memberships/plans`)
+      .subscribe({
+        next: (res) => {
+          if (res?.success && Array.isArray(res.data)) {
+            // Map the data to include UI-specific properties
+            const plans = res.data.map((plan: any, index: number) => ({
+              ...plan,
+              isDynamic: true,
+              featured: plan.name.toLowerCase().includes('premium monthly') || plan.planId === 2 || plan.planId === 3,
+              lifetimePrice: `$${plan.price.toFixed(2)}`,
+              monthlyPrice: `$${plan.price.toFixed(2)}`
+            }));
+            this.membershipPlans.set(plans);
+          } else if (Array.isArray(res)) {
+            const plans = res.map((plan: any, index: number) => ({
+              ...plan,
+              isDynamic: true,
+              featured: plan.name.toLowerCase().includes('premium monthly') || plan.planId === 2 || plan.planId === 3,
+              lifetimePrice: `$${plan.price.toFixed(2)}`,
+              monthlyPrice: `$${plan.price.toFixed(2)}`
+            }));
+            this.membershipPlans.set(plans);
+          }
+        },
+        error: (err) => {
+          console.error('Error loading membership plans:', err);
+        }
+      });
+  }
+
+  getPlanFeatures(plan: any): string[] {
+    const features: string[] = [];
+    
+    if (plan.membershipTypeName) {
+      features.push(`${plan.membershipTypeName} Notifications`);
+    } else {
+      features.push(`Standard Notifications`);
+    }
+    
+    if (plan.credits !== undefined && plan.credits !== null) {
+      features.push(`${plan.credits} Alerts per Month`);
+      features.push('1 Tag');
+    }
+
+    if (plan.validityDays !== undefined && plan.validityDays !== null) {
+      features.push(`${plan.validityDays} Days Validity Period`);
+    }
+
+    if (features.length === 0) {
+      return ['Active Vehicle Protection', 'Alert scan notification'];
+    }
+    return features;
   }
 
   startAutoPlay() {
@@ -140,26 +178,6 @@ export class Home implements OnInit, OnDestroy {
       clearInterval(this.autoPlayInterval);
       this.autoPlayInterval = null;
     }
-  }
-
-  getPlanFeatures(plan: any): string[] {
-    const features: string[] = [];
-    if (plan.membershipTypeName) {
-      features.push(`${plan.membershipTypeName} Notifications`);
-    } else {
-      features.push('Standard Notifications');
-    }
-    if (plan.credits !== undefined && plan.credits !== null) {
-      features.push(`${plan.credits} Alerts per Month`);
-      features.push('1 Tag');
-    }
-    if (plan.validityDays !== undefined && plan.validityDays !== null) {
-      features.push(`${plan.validityDays} Days Validity Period`);
-    }
-    if (features.length === 0) {
-      return ['Active Vehicle Protection', 'Alert scan notification'];
-    }
-    return features;
   }
 
   pauseAutoPlay() {
@@ -227,56 +245,7 @@ export class Home implements OnInit, OnDestroy {
     this.billingCycle.set(cycle);
   }
 
-    membershipPlans = signal<any[]>([
-    {
-      id: 1,
-      name: 'BASIC MONTHLY PLAN',
-      lifetimePrice: '$39.99',
-      monthlyPrice: '$39.99',
-      price: 39.99,
-      credits: 10,
-      validityDays: 30,
-      membershipTypeName: 'Email',
-      featured: false,
-      isDynamic: true
-    },
-    {
-      id: 2,
-      name: 'BASIC ANNUAL PLAN',
-      lifetimePrice: '$439.00',
-      monthlyPrice: '$439.00',
-      price: 439.00,
-      credits: 25,
-      validityDays: 365,
-      membershipTypeName: 'Email',
-      featured: false,
-      isDynamic: true
-    },
-    {
-      id: 3,
-      name: 'PREMIUM MONTHLY PLAN',
-      lifetimePrice: '$49.99',
-      monthlyPrice: '$49.99',
-      price: 49.99,
-      credits: 25,
-      validityDays: 30,
-      membershipTypeName: 'Email',
-      featured: true,
-      isDynamic: true
-    },
-    {
-      id: 4,
-      name: 'PREMIUM ANNUAL PLAN',
-      lifetimePrice: '$550.00',
-      monthlyPrice: '$550.00',
-      price: 550.00,
-      credits: 50,
-      validityDays: 365,
-      membershipTypeName: 'Email',
-      featured: false,
-      isDynamic: true
-    }
-  ]);
+    membershipPlans = signal<any[]>([]);
 
   notificationPackages = signal([
     {

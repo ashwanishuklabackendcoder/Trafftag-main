@@ -1,17 +1,11 @@
+<app-navbar></app-navbar>
+
 <div class="auth-container">
   <!-- Background Glows -->
   <div class="bg-glow-gold" style="top: -10%; left: -10%;"></div>
   <div class="bg-glow-gold" style="bottom: -10%; right: -10%;"></div>
 
-  <header class="auth-header">
-    <div class="logo" [routerLink]="['/']">
-      <span class="logo-icon"><i class="fa-solid fa-taxi"></i></span>
-      <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
-    </div>
-    <a [routerLink]="['/']" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
-  </header>
-
-  <main class="auth-card-wrapper">
+  <main class="auth-card-wrapper" style="padding-top: 100px;">
     <div class="glass-card auth-card animate-fade-in-up">
       <div class="form-header animate-fade-in-up delay-100">
         <h2>Welcome Back</h2>
@@ -95,8 +89,6 @@
       </div>
     </div>
   </main>
-
-  <footer class="auth-footer-note">
-    <p>&copy; 2026 TRAFFTAG. Secure Access Console.</p>
-  </footer>
 </div>
+
+<app-footer></app-footer>
