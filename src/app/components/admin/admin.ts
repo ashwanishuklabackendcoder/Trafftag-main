@@ -197,6 +197,63 @@ export class Admin implements OnInit {
   }
 
   downloadingTagId = signal<string | null>(null);
+  selectedTags = signal<Set<string>>(new Set());
+  isBulkDownloading = signal<boolean>(false);
+
+  toggleTagSelection(serial: string) {
+    const current = new Set(this.selectedTags());
+    if (current.has(serial)) {
+      current.delete(serial);
+    } else {
+      current.add(serial);
+    }
+    this.selectedTags.set(current);
+  }
+
+  toggleAllSelection(event: any) {
+    if (event.target.checked) {
+      const allSerials = new Set(this.filteredTags().map(t => t.serial));
+      this.selectedTags.set(allSerials);
+    } else {
+      this.selectedTags.set(new Set());
+    }
+  }
+
+  async bulkDownloadSelectedPdfs() {
+    const tagsToDownload = this.filteredTags().filter(t => this.selectedTags().has(t.serial));
+    if (tagsToDownload.length === 0) return;
+
+    this.isBulkDownloading.set(true);
+    const downloadedBlobs: {tag: AdminTag, blob: Blob}[] = [];
+
+    // Fetch images sequentially to avoid overloading the server
+    for (const tag of tagsToDownload) {
+      try {
+        const blob = await new Promise<Blob>((resolve, reject) => {
+          this.http.get(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(tag.serial)}/image`, {
+            responseType: 'blob'
+          }).subscribe({
+            next: (b: Blob) => resolve(b),
+            error: (err) => reject(err)
+          });
+        });
+        
+        if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
+          downloadedBlobs.push({tag, blob});
+        }
+      } catch (err) {
+        console.error(`Failed to fetch image for tag ${tag.serial}`, err);
+      }
+    }
+
+    if (downloadedBlobs.length > 0) {
+      const tags = downloadedBlobs.map(b => b.tag);
+      const blobs = downloadedBlobs.map(b => b.blob);
+      await this.qrDecalService.generateBulkPdfWithFrame(tags, blobs);
+    }
+
+    this.isBulkDownloading.set(false);
+  }
 
   downloadQrPdf(tag: AdminTag) {
     this.downloadingTagId.set(tag.serial);

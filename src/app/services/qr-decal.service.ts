@@ -238,4 +238,77 @@ export class QrDecalService {
       qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(scanUrl)}`;
     });
   }
+
+  async generateBulkPdfWithFrame(tags: any[], imageBlobs: Blob[]): Promise<void> {
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const margin = 10;
+    
+    const maxWidth = pageWidth - (margin * 2);
+    const maxHeight = (pageHeight / 2) - (margin * 1.5);
+
+    let currentIndex = 0;
+
+    for (let i = 0; i < imageBlobs.length; i++) {
+      const { data, width, height } = await this.blobToJpegDataUrl(imageBlobs[i]);
+
+      const imgRatio = width / height;
+      let targetWidth = maxWidth;
+      let targetHeight = targetWidth / imgRatio;
+
+      if (targetHeight > maxHeight) {
+        targetHeight = maxHeight;
+        targetWidth = targetHeight * imgRatio;
+      }
+
+      const xPos = margin + (maxWidth - targetWidth) / 2;
+      
+      const isTopHalf = currentIndex % 2 === 0;
+      let yPos = margin;
+      if (!isTopHalf) {
+        yPos = (pageHeight / 2) + (margin * 0.5);
+      }
+
+      if (currentIndex > 0 && isTopHalf) {
+        pdf.addPage();
+      }
+
+      pdf.addImage(data, 'JPEG', xPos, yPos, targetWidth, targetHeight);
+      currentIndex++;
+    }
+
+    if (imageBlobs.length > 0) {
+      pdf.save(`TraffTag_Bulk_Decals_${new Date().toISOString().substring(0, 10)}.pdf`);
+    }
+  }
+
+  private blobToJpegDataUrl(blob: Blob): Promise<{data: string, width: number, height: number}> {
+    return new Promise((resolve, reject) => {
+      const imgUrl = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          resolve({
+            data: canvas.toDataURL('image/jpeg', 0.95),
+            width: img.width,
+            height: img.height
+          });
+        } else {
+          reject('No canvas context');
+        }
+        URL.revokeObjectURL(imgUrl);
+      };
+      img.onerror = (e) => {
+        URL.revokeObjectURL(imgUrl);
+        reject(e);
+      };
+      img.src = imgUrl;
+    });
+  }
 }
