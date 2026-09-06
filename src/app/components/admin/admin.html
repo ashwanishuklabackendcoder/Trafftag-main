@@ -362,7 +362,14 @@
           </div>
         </div>
 
-        <div style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="number" class="form-input" style="width: 100px; padding: 6px 12px; font-size: 0.85rem;" min="1" [ngModel]="quickSelectCount()" (ngModelChange)="quickSelectCount.set($event)" placeholder="Count">
+            <button class="btn btn-secondary" style="font-size: 0.85rem; padding: 6px 12px;" (click)="quickSelectTags()">
+              <i class="fa-solid fa-check-double"></i> Quick Select
+            </button>
+          </div>
+
           <button class="btn btn-primary" style="font-size: 0.85rem;" (click)="bulkDownloadSelectedPdfs()" [disabled]="selectedTags().size === 0 || isBulkDownloading()">
             @if (isBulkDownloading()) {
               <i class="fa-solid fa-spinner fa-spin"></i> Processing...
@@ -372,9 +379,9 @@
           </button>
         </div>
 
-        <div class="table-container glass-card">
+        <div class="table-container glass-card" style="max-height: 600px; overflow-y: auto;">
           <table class="admin-table">
-            <thead>
+            <thead style="position: sticky; top: 0; background-color: var(--bg-card); z-index: 10;">
               <tr>
                 <th style="width: 40px; text-align: center;">
                   <input type="checkbox" (change)="toggleAllSelection($event)" [checked]="selectedTags().size > 0 && selectedTags().size === filteredTags().length">
@@ -416,6 +423,11 @@
                         <i class="fa-solid fa-file-pdf"></i> Download PDF
                       }
                     </button>
+                    @if (tag.ownerEmail === 'Unassigned' && tag.status !== 'PrePaid') {
+                      <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.8rem; background: #10b981; color: white; border: none; margin-left: 8px;" (click)="openPreActivateModal(tag.serial)">
+                        <i class="fa-solid fa-gift"></i> Pre-Activate
+                      </button>
+                    }
                   </td>
                 </tr>
               }
@@ -647,6 +659,39 @@
               </button>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Pre-Activate Modal -->
+  @if (showPreActivateModal()) {
+    <div class="modal-overlay">
+      <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+          <h2>Pre-Activate Tag</h2>
+          <button class="modal-close" (click)="showPreActivateModal.set(false)"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <p style="margin-bottom: 12px;">Select a membership plan to attach to Tag <strong>{{ tagToPreActivate() }}</strong>.</p>
+          <div class="form-group">
+            <label for="preActivatePlan">Membership Plan</label>
+            <select id="preActivatePlan" [ngModel]="selectedPlanIdToPreActivate()" (ngModelChange)="selectedPlanIdToPreActivate.set($event)" class="form-input">
+              @for (plan of activePlans(); track plan.planId) {
+                <option [value]="plan.planId">{{ plan.name }} - ${{ plan.price }}</option>
+              }
+            </select>
+          </div>
+          <div class="modal-footer" style="margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" (click)="showPreActivateModal.set(false)">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="submitPreActivate()" [disabled]="isPreActivating()">
+              @if (isPreActivating()) {
+                <i class="fa-solid fa-spinner fa-spin"></i> Activating...
+              } @else {
+                Activate Tag
+              }
+            </button>
+          </div>
         </div>
       </div>
     </div>

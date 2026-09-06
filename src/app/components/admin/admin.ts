@@ -128,7 +128,8 @@ export class Admin implements OnInit {
       const matchesSearch = !query || 
         t.serial.toLowerCase().includes(query) || 
         t.ownerEmail.toLowerCase().includes(query) || 
-        t.plate.toLowerCase().includes(query);
+        t.plate.toLowerCase().includes(query) ||
+        (t.uniqueCode && t.uniqueCode.toLowerCase().includes(query));
 
       const matchesStatus = status === 'all' || t.status.toLowerCase() === status.toLowerCase();
 
@@ -196,6 +197,40 @@ export class Admin implements OnInit {
     this.isMobileSidebarOpen.update(v => !v);
   }
 
+  showPreActivateModal = signal(false);
+  isPreActivating = signal(false);
+  tagToPreActivate = signal<string | null>(null);
+  selectedPlanIdToPreActivate = signal<number>(1);
+
+  openPreActivateModal(serial: string) {
+    this.tagToPreActivate.set(serial);
+    if (this.activePlans().length > 0) {
+      this.selectedPlanIdToPreActivate.set(this.activePlans()[0].planId);
+    }
+    this.showPreActivateModal.set(true);
+  }
+
+  submitPreActivate() {
+    const serial = this.tagToPreActivate();
+    if (!serial) return;
+    this.isPreActivating.set(true);
+    const headers = { Authorization: `Bearer ${localStorage.getItem('accessToken')}` };
+    this.http.post(`${API_BASE_URL}/api/Admin/qr/${encodeURIComponent(serial)}/pre-activate`, { planId: this.selectedPlanIdToPreActivate() }, { headers }).subscribe({
+      next: (res: any) => {
+        this.isPreActivating.set(false);
+        this.showPreActivateModal.set(false);
+        if (res.success || res.message) {
+          alert(res.message || 'Tag pre-activated successfully!');
+          this.loadStats();
+        }
+      },
+      error: (err) => {
+        this.isPreActivating.set(false);
+        alert('Failed to pre-activate tag. Is it already assigned?');
+      }
+    });
+  }
+
   downloadingTagId = signal<string | null>(null);
   selectedTags = signal<Set<string>>(new Set());
   isBulkDownloading = signal<boolean>(false);
@@ -217,6 +252,17 @@ export class Admin implements OnInit {
     } else {
       this.selectedTags.set(new Set());
     }
+  }
+
+  quickSelectCount = signal<number>(100);
+
+  quickSelectTags() {
+    const count = this.quickSelectCount();
+    if (count <= 0) return;
+    
+    const tagsToSelect = this.filteredTags().slice(0, count);
+    const newSelection = new Set(tagsToSelect.map(t => t.serial));
+    this.selectedTags.set(newSelection);
   }
 
   async bulkDownloadSelectedPdfs() {
