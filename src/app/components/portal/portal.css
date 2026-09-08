@@ -4229,3 +4229,21 @@ input:checked + .slider:before {
 .bg-red-primary { background: #dc2626; }
 .text-red-primary { color: #dc2626; }
 
+/* Dynamic Multi-Tag Dashboard Switcher Styles */
+.active-pill {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+}
+
+.tag-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.tag-card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  border-color: #3b82f6 !important;
+}
+

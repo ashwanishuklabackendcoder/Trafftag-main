@@ -46,6 +46,21 @@ interface QRNotification {
   status: 'Unresolved' | 'Resolved';
 }
 
+export interface TagMembershipSummary {
+  id: string;
+  tagId: string;
+  entityName: string;
+  entityType: 'vehicle' | 'unassigned' | 'all';
+  planName: string;
+  planStatus: string;
+  totalAlerts: number;
+  alertsRemaining: number;
+  planEndDate: string;
+  planDaysLeft: number;
+  vehicleId?: string;
+  rawMembership?: any;
+}
+
 export type PortalTab = 
   | 'dashboard'
   | 'explore-more' 
@@ -146,14 +161,249 @@ export class Portal implements OnInit {
   });
 
   // New Dashboard UI Properties
+  // New Dashboard UI Properties
   planStatus = signal('ACTIVE');
   totalAlerts = signal(50);
   alertsRemaining = signal(15);
   planEndDate = signal('May 25, 2026'); // Updated to 2026 to make sense with current date
   planDaysLeft = signal(7);
 
+  vehicles = signal<Vehicle[]>([]);
+  rawUserMemberships = signal<any[]>([]);
+  
+  myQrs = signal<any[]>([]);
+
+  unassignedTags = computed(() => {
+    const vehiclesList = this.vehicles();
+    // QRs that belong to the user but are not yet assigned to any vehicle
+    return this.myQrs()
+      .filter((q: any) => !vehiclesList.some(v => v.tagId === q.serialNumber))
+      .map((q: any) => ({
+        id: q.qrTagId,
+        tagId: q.serialNumber,
+        status: q.status || 'Active',
+        planName: 'Purchased Tag'
+      }));
+  });
+
+  // Tag membership context switching
+  selectedTagId = signal<string>('ALL');
+
+  tagMembershipList = computed<TagMembershipSummary[]>(() => {
+    const vehs = this.vehicles();
+    const unassigned = this.unassignedTags();
+    const memberships = this.rawUserMemberships();
+    const defaultPlanName = this.membershipType();
+    const defaultCredits = this.remainingCredits();
+    const defaultTotal = this.totalAlerts();
+    const defaultEndDate = this.planEndDate();
+    const defaultDaysLeft = this.planDaysLeft();
+    const defaultStatus = this.planStatus();
+
+    const list: TagMembershipSummary[] = [];
+
+    // Helper to safely extract total alert limit
+    const getAlertLimit = (m: any): number => {
+      if (!m) return defaultTotal || 50;
+      const limit = m?.membershipPlan?.alertLimit ?? m?.plan?.alertLimit ?? m?.alertLimit ?? m?.creditsAllowance ?? m?.membershipPlan?.creditsAllowance ?? m?.plan?.creditsAllowance ?? m?.credits;
+      if (typeof limit === 'number' && limit > 0) return limit;
+      const pName = String(m?.planName || m?.membershipPlan?.name || m?.plan?.name || '').toLowerCase();
+      if (pName.includes('yearly') || pName.includes('annual') || pName.includes('pro') || pName.includes('premium')) return 50;
+      return defaultTotal || 50;
+    };
+
+    // Helper to find best matching membership for a tag/vehicle
+    const findBestMembership = (tagId?: string, vehicleId?: string, fallbackIndex?: number): any => {
+      if (!memberships || memberships.length === 0) return null;
+
+      // 1. Try exact match by tagId or serialNumber
+      if (tagId && tagId !== 'Not Assigned') {
+        const exactTagMatch = memberships.find((m: any) => 
+          (m.qrTagId && String(m.qrTagId) === String(tagId)) || 
+          (m.serialNumber && String(m.serialNumber) === String(tagId))
+        );
+        if (exactTagMatch) return exactTagMatch;
+      }
+
+      // 2. Try exact match by vehicleId
+      if (vehicleId) {
+        const exactVehMatch = memberships.find((m: any) => 
+          m.vehicleId && String(m.vehicleId) === String(vehicleId)
+        );
+        if (exactVehMatch) return exactVehMatch;
+      }
+
+      // 3. Match any active paid/yearly membership
+      const activePaid = memberships.find((m: any) => 
+        (m.status === 'Active' || m.isActive) && 
+        (m.planName || m.name || '').toString().toLowerCase().includes('year') ||
+        (m.planName || m.name || '').toString().toLowerCase().includes('pro') ||
+        (m.planName || m.name || '').toString().toLowerCase().includes('prem')
+      );
+      if (activePaid) return activePaid;
+
+      // 4. Fallback to any active membership or indexed item
+      const activeAny = memberships.find((m: any) => m.status === 'Active' || m.isActive);
+      if (activeAny) return activeAny;
+
+      return (fallbackIndex !== undefined && memberships[fallbackIndex]) ? memberships[fallbackIndex] : memberships[0];
+    };
+
+    // Helper to safely extract remaining alert credits
+    const getRemainingAlerts = (m: any, isTagAssigned: boolean, totalLimit: number): number => {
+      const explicitRem = m?.remainingCredits ?? m?.remainingAlerts ?? m?.availableCredits;
+      if (typeof explicitRem === 'number' && explicitRem > 0) {
+        return explicitRem;
+      }
+
+      const isActive = m?.status === 'Active' || m?.isActive || (m?.planName && !m?.planName.toLowerCase().includes('free'));
+      if (isActive) {
+        return totalLimit || (defaultCredits > 0 ? defaultCredits : 50);
+      }
+
+      if (isTagAssigned) {
+        return defaultCredits > 0 ? defaultCredits : (this.alertsRemaining() > 0 ? this.alertsRemaining() : totalLimit);
+      }
+
+      if (defaultCredits > 0) return defaultCredits;
+      if (this.alertsRemaining() > 0) return this.alertsRemaining();
+
+      return totalLimit || 15;
+    };
+
+    // Match vehicles with assigned tags or memberships
+    vehs.forEach((v, index) => {
+      const isAssigned = v.tagId && v.tagId !== 'Not Assigned';
+      const m = isAssigned ? findBestMembership(v.tagId, v.id, index) : null;
+      const planName = m?.planName || m?.membershipPlan?.name || m?.plan?.name || (isAssigned ? defaultPlanName : 'No Tag Linked');
+      const total = isAssigned ? getAlertLimit(m) : 0;
+      const remaining = isAssigned ? getRemainingAlerts(m, true, total) : 0;
+      const endDate = m?.endDate ? new Date(String(m.endDate).replace(' ', 'T')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : defaultEndDate;
+      const status = isAssigned ? (m?.status || (m?.isActive ? 'ACTIVE' : 'ACTIVE')) : 'UNLINKED';
+
+      list.push({
+        id: isAssigned ? v.tagId : `veh-${v.id}`,
+        tagId: v.tagId || 'Not Assigned',
+        entityName: `${v.make} ${v.model} (${v.plate})`,
+        entityType: 'vehicle',
+        planName: planName,
+        planStatus: status,
+        totalAlerts: total,
+        alertsRemaining: remaining,
+        planEndDate: endDate,
+        planDaysLeft: defaultDaysLeft,
+        vehicleId: v.id,
+        rawMembership: m
+      });
+    });
+
+    // Add unassigned tags
+    unassigned.forEach((u, index) => {
+      const m = findBestMembership(u.tagId, undefined, index);
+      const planName = m?.planName || m?.membershipPlan?.name || u.planName || 'Purchased Tag (Yearly)';
+      const total = getAlertLimit(m);
+      const remaining = getRemainingAlerts(m, true, total);
+
+      list.push({
+        id: u.tagId,
+        tagId: u.tagId,
+        entityName: `Unassigned Tag (${u.tagId})`,
+        entityType: 'unassigned',
+        planName: planName,
+        planStatus: u.status?.toUpperCase() || 'ACTIVE',
+        totalAlerts: total,
+        alertsRemaining: remaining,
+        planEndDate: defaultEndDate,
+        planDaysLeft: defaultDaysLeft,
+        rawMembership: m
+      });
+    });
+
+
+    // Add standalone active user memberships that are not yet linked to a vehicle or tag in list
+    memberships.forEach((m: any, idx: number) => {
+      const alreadyLinked = list.some(item => 
+        item.rawMembership === m || 
+        (m.qrTagId && item.tagId === m.qrTagId) || 
+        (m.serialNumber && item.tagId === m.serialNumber) || 
+        (m.vehicleId && item.vehicleId === String(m.vehicleId))
+      );
+      if (!alreadyLinked && (m.status === 'Active' || m.isActive || m.planName)) {
+        const pName = m?.planName || m?.membershipPlan?.name || m?.plan?.name || 'Active Membership Plan';
+        const total = getAlertLimit(m);
+        const remaining = getRemainingAlerts(m, true, total);
+        const endDate = m?.endDate ? new Date(String(m.endDate).replace(' ', 'T')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : defaultEndDate;
+
+        list.push({
+          id: `membership-${m.userMembershipId || m.id || idx}`,
+          tagId: m.qrTagId || m.serialNumber || 'Unlinked Plan',
+          entityName: `${pName} (${m.status || 'ACTIVE'})`,
+          entityType: 'unassigned',
+          planName: pName,
+          planStatus: (m.status || 'ACTIVE').toUpperCase(),
+          totalAlerts: total,
+          alertsRemaining: remaining,
+          planEndDate: endDate,
+          planDaysLeft: defaultDaysLeft,
+          rawMembership: m
+        });
+      }
+    });
+
+    // Fallback if no tags/vehicles found
+    if (list.length === 0) {
+      list.push({
+        id: 'default-tag',
+        tagId: 'TT-718204',
+        entityName: 'Primary Vehicle Tag',
+        entityType: 'vehicle',
+        planName: defaultPlanName,
+        planStatus: defaultStatus,
+        totalAlerts: defaultTotal,
+        alertsRemaining: defaultCredits > 0 ? defaultCredits : 50,
+        planEndDate: defaultEndDate,
+        planDaysLeft: defaultDaysLeft
+      });
+    }
+
+    return list;
+  });
+
+
+  allTagsSummary = computed<TagMembershipSummary>(() => {
+    const tags = this.tagMembershipList();
+    const totalRem = tags.reduce((acc, t) => acc + (t.alertsRemaining || 0), 0);
+    const totalLimit = tags.reduce((acc, t) => acc + (t.totalAlerts || 0), 0);
+    
+    return {
+      id: 'ALL',
+      tagId: 'ALL',
+      entityName: 'All Tags Combined',
+      entityType: 'all',
+      planName: `${tags.length} Active Tag${tags.length > 1 ? 's' : ''}`,
+      planStatus: 'ACTIVE',
+      totalAlerts: totalLimit || 50,
+      alertsRemaining: totalRem || this.remainingCredits(),
+      planEndDate: this.planEndDate(),
+      planDaysLeft: this.planDaysLeft()
+    };
+  });
+
+  activeDashboardScope = computed<TagMembershipSummary>(() => {
+    const selectedId = this.selectedTagId();
+    if (selectedId === 'ALL') {
+      return this.allTagsSummary();
+    }
+    const found = this.tagMembershipList().find(t => t.id === selectedId);
+    return found || this.allTagsSummary();
+  });
+
+  selectDashboardTag(tagId: string) {
+    this.selectedTagId.set(tagId);
+  }
+
   reminders = computed(() => {
-    const endStr = this.planEndDate();
+    const endStr = this.activeDashboardScope().planEndDate || this.planEndDate();
     let endDate = new Date(endStr);
     if (isNaN(endDate.getTime())) {
       endDate = new Date();
@@ -173,25 +423,6 @@ export class Portal implements OnInit {
       { title: 'Plan ends', desc: `You will receive a final notice on ${formatDate(endDate)}`, status: 'PENDING', iconClass: 'bg-red text-white', icon: 'fa-solid fa-circle-exclamation', disabled: false },
       { title: 'Alerts expired', desc: 'You will be notified if your plan is not renewed', status: 'N/A', iconClass: 'bg-gray text-gray-500', icon: 'fa-regular fa-bell', disabled: true }
     ];
-  });
-
-
-  vehicles = signal<Vehicle[]>([]);
-  rawUserMemberships = signal<any[]>([]);
-  
-  myQrs = signal<any[]>([]);
-
-  unassignedTags = computed(() => {
-    const vehiclesList = this.vehicles();
-    // QRs that belong to the user but are not yet assigned to any vehicle
-    return this.myQrs()
-      .filter((q: any) => !vehiclesList.some(v => v.tagId === q.serialNumber))
-      .map((q: any) => ({
-        id: q.qrTagId,
-        tagId: q.serialNumber,
-        status: q.status || 'Active',
-        planName: 'Purchased Tag'
-      }));
   });
 
   // Tag counters
@@ -639,13 +870,26 @@ export class Portal implements OnInit {
     }, 1200);
   }
 
+  hasActivePaidMembership = computed<boolean>(() => {
+    const mType = this.membershipType().toLowerCase();
+    if (mType && !mType.includes('free') && !mType.includes('n/a')) return true;
+    
+    const memberships = this.rawUserMemberships();
+    return memberships.some((m: any) => {
+      const status = (m.status || '').toString().toLowerCase();
+      const isActive = status === 'active' || m.isActive === true;
+      const pName = (m.planName || m.membershipPlan?.name || m.plan?.name || m.name || '').toString().toLowerCase();
+      return isActive && (pName.includes('year') || pName.includes('pro') || pName.includes('prem') || pName.includes('annual') || (!pName.includes('free') && pName.length > 0));
+    });
+  });
+
   addVehicle() {
     if (this.isRegisteringVehicle()) return;
     if (!this.selectedMakeId() || !this.selectedModelId()) return;
     
-    // Free membership plan vehicle limit check (SRS & Business Rule: Max 2 vehicles on Free Plan)
-    const currentMembership = this.membershipType().toLowerCase();
-    if (currentMembership.includes('free') && this.vehicles().length >= 2) {
+    // Free membership plan vehicle limit check (Enforce max 2 vehicles ONLY IF user has no active paid/yearly membership)
+    const isPaidUser = this.hasActivePaidMembership();
+    if (!isPaidUser && this.vehicles().length >= 2) {
       this.closeAddVehicle();
       this.modalService.confirm({
         title: 'Vehicle Limit Reached',
@@ -1052,8 +1296,11 @@ export class Portal implements OnInit {
           const list = Array.isArray(res) ? res : (res?.data || res?.data?.data || (res?.success && res?.data ? res.data : []));
           const items = Array.isArray(list) ? list : (res?.data ? [res.data] : []);
           if (items.length > 0) {
-            // Prioritize an active membership that hasn't generated a QR tag yet
-            const active = items.find((m: any) => (m.status === 'Active' || m.isActive) && !m.qrTagId) 
+            // Prioritize an active paid/yearly membership over Free Plan
+            const activePaid = items.find((m: any) => (m.status === 'Active' || m.isActive) && (m.planName || m.name || '').toString().toLowerCase().includes('year')) 
+                        || items.find((m: any) => (m.status === 'Active' || m.isActive) && !(m.planName || m.name || '').toString().toLowerCase().includes('free'));
+            const active = activePaid 
+                        || items.find((m: any) => (m.status === 'Active' || m.isActive) && !m.qrTagId) 
                         || items.find((m: any) => (m.status === 'Active' || m.isActive)) 
                         || items[0];
             if (active) {
@@ -1376,7 +1623,7 @@ export class Portal implements OnInit {
       next: (blob: Blob) => {
         if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
           // Generate PDF with the backend image instead of direct PNG download
-          this.qrDecalService.generateAndDownloadPdfWithFrame(veh, blob)
+          this.qrDecalService.generateAndDownloadPdfWithFrame(veh, blob, tagId)
             .then(() => this.downloadingVehicleId.set(null))
             .catch(() => this.downloadingVehicleId.set(null));
         } else {

@@ -29,7 +29,7 @@ export class QrDecalService {
     window.URL.revokeObjectURL(url);
   }
 
-  generateAndDownloadPdfWithFrame(veh: VehicleDecalInfo, qrImageBlob: Blob): Promise<void> {
+  generateAndDownloadPdfWithFrame(veh: VehicleDecalInfo, qrImageBlob: Blob, tagId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const imgUrl = URL.createObjectURL(qrImageBlob);
       const img = new Image();
@@ -46,6 +46,24 @@ export class QrDecalService {
         }
 
         ctx.drawImage(img, 0, 0);
+
+        // Clear out the dummy text with a white rectangle
+        if (tagId) {
+          ctx.fillStyle = 'white';
+          const textX = img.width * 0.615; // roughly 61.5% from left
+          const textY = img.height * 0.887; // roughly 88.7% from top
+          const textW = img.width * 0.351; // roughly 35.1% width
+          const textH = img.height * 0.066; // roughly 6.6% height
+          ctx.fillRect(textX, textY, textW, textH);
+
+          // Draw the actual serial number centered in the white box
+          ctx.fillStyle = 'black';
+          ctx.font = `bold ${Math.floor(img.height * 0.045)}px Arial, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(tagId, textX + (textW / 2), textY + (textH / 2));
+        }
+
         const imgData = canvas.toDataURL('image/jpeg', 0.95);
 
         // Create PDF matching the exact dimensions of the image
@@ -251,7 +269,7 @@ export class QrDecalService {
     let currentIndex = 0;
 
     for (let i = 0; i < imageBlobs.length; i++) {
-      const { data, width, height } = await this.blobToJpegDataUrl(imageBlobs[i]);
+      const { data, width, height } = await this.blobToJpegDataUrl(imageBlobs[i], tags[i].serial);
 
       const imgRatio = width / height;
       let targetWidth = maxWidth;
@@ -283,7 +301,7 @@ export class QrDecalService {
     }
   }
 
-  private blobToJpegDataUrl(blob: Blob): Promise<{data: string, width: number, height: number}> {
+  private blobToJpegDataUrl(blob: Blob, tagId: string): Promise<{data: string, width: number, height: number}> {
     return new Promise((resolve, reject) => {
       const imgUrl = URL.createObjectURL(blob);
       const img = new Image();
@@ -294,6 +312,24 @@ export class QrDecalService {
         const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(img, 0, 0);
+
+          // Clear out the dummy text with a white rectangle
+          if (tagId) {
+            ctx.fillStyle = 'white';
+            const textX = img.width * 0.615; // roughly 61.5% from left
+            const textY = img.height * 0.887; // roughly 88.7% from top
+            const textW = img.width * 0.351; // roughly 35.1% width
+            const textH = img.height * 0.066; // roughly 6.6% height
+            ctx.fillRect(textX, textY, textW, textH);
+
+            // Draw the actual serial number centered in the white box
+            ctx.fillStyle = 'black';
+            ctx.font = `bold ${Math.floor(img.height * 0.045)}px Arial, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(tagId, textX + (textW / 2), textY + (textH / 2));
+          }
+
           resolve({
             data: canvas.toDataURL('image/jpeg', 0.95),
             width: img.width,

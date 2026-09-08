@@ -320,7 +320,7 @@ export class Admin implements OnInit {
     }).subscribe({
       next: (blob: Blob) => {
         if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
-          this.qrDecalService.generateAndDownloadPdfWithFrame(dummyVehicle, blob)
+          this.qrDecalService.generateAndDownloadPdfWithFrame(dummyVehicle, blob, tag.serial)
             .then(() => this.downloadingTagId.set(null))
             .catch(() => this.downloadingTagId.set(null));
         } else {

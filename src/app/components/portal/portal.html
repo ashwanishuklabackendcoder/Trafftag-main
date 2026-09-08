@@ -131,28 +131,84 @@
       </header>
 
     <!-- Tab 1: Dashboard (New Design) -->
+
     @if (activeTab() === 'dashboard') {
       <div class="tab-panel dashboard-panel">
+        
+        <!-- Tag Context Switcher Header -->
+        <div class="dashboard-tag-selector-bar" style="background: white; border: 1px solid #E2E8F0; border-radius: 16px; padding: 18px 20px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem;">
+                <i class="fa-solid fa-layer-group"></i>
+              </div>
+              <div>
+                <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #0f172a;">Tag & Membership Dashboard Context</h4>
+                <p style="margin: 2px 0 0 0; font-size: 0.8rem; color: #64748b;">Select a tag to dynamically inspect remaining credits & membership status</p>
+              </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 0.82rem; font-weight: 600; color: #64748b;">Active Scope:</span>
+              <select [ngModel]="selectedTagId()" (ngModelChange)="selectDashboardTag($event)" style="padding: 8px 14px; border-radius: 10px; border: 1px solid #CBD5E1; background: #F8FAFC; font-weight: 600; color: #0f172a; font-size: 0.85rem; cursor: pointer; outline: none;">
+                <option value="ALL">🌐 All Tags Combined ({{ tagMembershipList().length }} Active Tags)</option>
+                @for (t of tagMembershipList(); track t.id) {
+                  <option [value]="t.id">
+                    {{ t.entityType === 'vehicle' ? '🚗' : '🏷️' }} {{ t.entityName }} — {{ t.alertsRemaining }} Alerts Left
+                  </option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <!-- Quick Selector Pills -->
+          <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin;">
+            <button (click)="selectDashboardTag('ALL')" [class.active-pill]="selectedTagId() === 'ALL'" style="display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; border: 1px solid #E2E8F0; background: #F8FAFC; color: #475569; cursor: pointer; white-space: nowrap; transition: all 0.2s;">
+              <i class="fa-solid fa-globe" style="color: #3b82f6;"></i>
+              All Tags Combined
+              <span style="background: #3b82f6; color: white; border-radius: 12px; padding: 2px 8px; font-size: 0.72rem; font-weight: 700;">{{ allTagsSummary().alertsRemaining }} Credits</span>
+            </button>
+            @for (t of tagMembershipList(); track t.id) {
+              <button (click)="selectDashboardTag(t.id)" [class.active-pill]="selectedTagId() === t.id" style="display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; border: 1px solid #E2E8F0; background: #F8FAFC; color: #475569; cursor: pointer; white-space: nowrap; transition: all 0.2s;">
+                <i [class]="t.entityType === 'vehicle' ? 'fa-solid fa-car text-blue-500' : 'fa-solid fa-qrcode text-amber-500'"></i>
+                {{ t.entityName }}
+                <span [style.background]="t.alertsRemaining < 5 ? '#ef4444' : (t.alertsRemaining < 15 ? '#f59e0b' : '#10b981')" style="color: white; border-radius: 12px; padding: 2px 7px; font-size: 0.72rem; font-weight: 700;">{{ t.alertsRemaining }} Left</span>
+              </button>
+            }
+          </div>
+        </div>
+
         <div class="dashboard-new-grid">
           
           <!-- Left Column -->
           <div class="dash-col-left">
-            <h3>Plan & Alerts Overview</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h3 style="margin: 0;">Plan & Alerts Overview</h3>
+              <span style="font-size: 0.78rem; font-weight: 700; color: #f59e0b; background: rgba(245,158,11,0.12); padding: 4px 10px; border-radius: 12px;">
+                Scope: {{ activeDashboardScope().entityName }}
+              </span>
+            </div>
+
             <div class="card-navy plan-overview-card">
               <div class="plan-info">
-                <div class="plan-name">Plan<br><span class="highlight-text">{{ membershipType() }} - {{ totalAlerts() }} Alerts</span></div>
-                <div class="plan-status">Status <span class="badge-active">{{ planStatus() }}</span></div>
-                <div class="plan-end">Plan Ends <span class="highlight-text">{{ planEndDate() }} ({{ planDaysLeft() }} days left)</span></div>
+                <div class="plan-name">Plan<br><span class="highlight-text">{{ activeDashboardScope().planName }} - {{ activeDashboardScope().totalAlerts }} Alerts</span></div>
+                <div class="plan-status">Status <span class="badge-active">{{ activeDashboardScope().planStatus }}</span></div>
+                <div class="plan-end">Plan Ends <span class="highlight-text">{{ activeDashboardScope().planEndDate }} ({{ activeDashboardScope().planDaysLeft }} days left)</span></div>
                 
                 <div class="plan-note">
-                  <i class="fa-solid fa-circle-info"></i> You will continue to receive scan alerts until your plan ends.
+                  <i class="fa-solid fa-circle-info"></i> 
+                  @if (activeDashboardScope().entityType === 'all') {
+                    Combined alert balance across {{ tagMembershipList().length }} active registered tag(s).
+                  } @else {
+                    Scan alerts for {{ activeDashboardScope().entityName }} (Tag ID: {{ activeDashboardScope().tagId }}).
+                  }
                 </div>
               </div>
               <div class="plan-circle">
                 <div class="progress-ring">
                   <div class="progress-ring-text">
-                    <span class="count">{{ alertsRemaining() }}</span>
-                    <span class="desc">Alerts Left<br>/{{ totalAlerts() }}</span>
+                    <span class="count">{{ activeDashboardScope().alertsRemaining }}</span>
+                    <span class="desc">Alerts Left<br>/{{ activeDashboardScope().totalAlerts }}</span>
                   </div>
                 </div>
               </div>
@@ -178,7 +234,7 @@
               <div class="golden-header">
                 <i class="fa-solid fa-bell"></i> ALERTS ENDING SOON
               </div>
-              <h2>Your TRAFFTAG alerts will end in {{ planDaysLeft() }} days!</h2>
+              <h2>Your TRAFFTAG alerts for {{ activeDashboardScope().entityName }} will end in {{ activeDashboardScope().planDaysLeft }} days!</h2>
               <p>Renew your plan to keep receiving scan alerts without interruption.</p>
               <button class="btn-renew" (click)="selectTab('profile-membership')">RENEW NOW</button>
             </div>
@@ -201,6 +257,47 @@
           </div>
 
         </div>
+
+        <!-- Per-Tag Breakdown Cards Grid (Shows when All Tags is selected or for quick overview) -->
+        @if (selectedTagId() === 'ALL' && tagMembershipList().length > 0) {
+          <div style="margin-top: 28px;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-tags" style="color: #3b82f6;"></i>
+              Per-Tag Credit & Membership Breakdown
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+              @for (t of tagMembershipList(); track t.id) {
+                <div (click)="selectDashboardTag(t.id)" style="background: white; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px; cursor: pointer; transition: all 0.2s; position: relative;" class="tag-card-hover">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.95rem; color: #0f172a;">{{ t.entityName }}</div>
+                      <div style="font-size: 0.75rem; color: #64748b;">Tag ID: {{ t.tagId }}</div>
+                    </div>
+                    <span [style.background]="t.planStatus === 'ACTIVE' ? '#dcfce7' : '#fef3c7'" [style.color]="t.planStatus === 'ACTIVE' ? '#166534' : '#92400e'" style="padding: 3px 9px; border-radius: 12px; font-size: 0.72rem; font-weight: 700;">
+                      {{ t.planStatus }}
+                    </span>
+                  </div>
+
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; margin-bottom: 6px; font-size: 0.82rem;">
+                    <span style="color: #64748b;">Plan: <strong style="color: #0f172a;">{{ t.planName }}</strong></span>
+                    <span style="font-weight: 700; color: #0f172a;">{{ t.alertsRemaining }} / {{ t.totalAlerts }} Alerts</span>
+                  </div>
+
+                  <!-- Progress Bar -->
+                  <div style="width: 100%; height: 8px; background: #F1F5F9; border-radius: 4px; overflow: hidden; margin-bottom: 12px;">
+                    <div [style.width.%]="(t.alertsRemaining / (t.totalAlerts || 1)) * 100" [style.background]="t.alertsRemaining < 5 ? '#ef4444' : (t.alertsRemaining < 15 ? '#f59e0b' : '#3b82f6')" style="height: 100%; border-radius: 4px; transition: width 0.3s ease;"></div>
+                  </div>
+
+                  <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #64748b; border-top: 1px solid #F1F5F9; padding-top: 10px; margin-top: 6px;">
+                    <span>Ends: {{ t.planEndDate }}</span>
+                    <span style="color: #3b82f6; font-weight: 700;">Inspect Scope →</span>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
       </div>
     }
     <!-- Tab 1.1: Explore More (Old Dashboard) -->
