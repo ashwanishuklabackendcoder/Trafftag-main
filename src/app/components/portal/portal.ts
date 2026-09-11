@@ -986,6 +986,33 @@ export class Portal implements OnInit {
     }
   }
 
+  async deleteQrTag(identifier: string) {
+    if (!identifier || identifier === 'Not Assigned') return;
+
+    const confirmed = await this.modalService.confirm({
+      title: 'Delete & Deactivate QR Tag',
+      message: `Are you sure you want to delete QR Tag (${identifier})? Deleting it will deactivate the tag, unlink it from any vehicle, and remove it permanently from your dashboard.`,
+      confirmText: 'Yes, Delete QR',
+      cancelText: 'Cancel',
+      type: 'danger'
+    });
+
+    if (confirmed) {
+      this.http.delete<any>(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(identifier)}`)
+        .subscribe({
+          next: () => {
+            this.loadVehicles();
+            this.loadMyQrs();
+            this.loadUserMemberships();
+            this.modalService.showSuccess('QR Tag Deactivated', `QR Tag (${identifier}) has been deactivated and removed from your dashboard.`);
+          },
+          error: (err) => {
+            this.modalService.showError('Deletion Failed', err?.error?.message || 'Error occurred while deleting QR tag.');
+          }
+        });
+    }
+  }
+
   toggleVehicleActive(id: string) {
     const v = this.vehicles().find(item => item.id === id);
     if (!v) return;

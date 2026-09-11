@@ -104,6 +104,9 @@
                     <i class="fa-solid fa-download"></i> Trafftag Qr Download
                   }
                 </button>
+                <button class="footer-btn btn-action-delete" (click)="deleteQr.emit(veh.tagId)" title="Delete & Deactivate QR Tag">
+                  <i class="fa-solid fa-trash-can"></i> Delete QR
+                </button>
               } @else {
                 <button class="footer-btn btn-action-scan" (click)="generateNewQr.emit()">
                   <i class="fa-solid fa-wand-magic-sparkles"></i> Get Your Qr tag
@@ -165,6 +168,9 @@
               </a>
               <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit(undefined)">
                 <i class="fa-solid fa-link"></i> Link to Vehicle
+              </button>
+              <button class="footer-btn btn-action-delete" (click)="deleteQr.emit(tag.tagId || tag.id.toString())" title="Delete & Deactivate QR Tag">
+                <i class="fa-solid fa-trash-can"></i> Delete QR
               </button>
             </div>
           </div>

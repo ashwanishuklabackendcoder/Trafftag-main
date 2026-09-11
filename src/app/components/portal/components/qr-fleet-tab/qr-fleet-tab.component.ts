@@ -20,6 +20,7 @@ export class QrFleetTabComponent {
   @Output() generateNewQr = new EventEmitter<void>();
   @Output() openLinkTag = new EventEmitter<string | undefined>();
   @Output() downloadQr = new EventEmitter<any>();
+  @Output() deleteQr = new EventEmitter<string>();
 
   getScanUrl(tagId: string): string {
     return this.scanUrlFn ? this.scanUrlFn(tagId) : '';

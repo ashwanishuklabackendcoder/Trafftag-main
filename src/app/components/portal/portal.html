@@ -412,7 +412,8 @@
         [scanUrlFn]="getScanUrl.bind(this)"
         (generateNewQr)="generateNewQrTag()"
         (openLinkTag)="openLinkTag($event)"
-        (downloadQr)="downloadQrCode($event)">
+        (downloadQr)="downloadQrCode($event)"
+        (deleteQr)="deleteQrTag($event)">
       </app-qr-fleet-tab>
     }
 
@@ -436,37 +437,6 @@
         (clearFilters)="clearNotificationFilters()"
         (simulateTestNotification)="simulateTestNotification()">
       </app-alerts-tab>
-
-<div class="enterprise-white-card margin-top-20">
-          <div class="panel-header-row">
-            <div>
-              <h2>Vehicle Decal Scan & Activity Log</h2>
-              <p class="panel-subtext">Historical analytics of anonymous QR scans, alert triggers, and emergency notifications.</p>
-            </div>
-            <button class="btn btn-secondary"><i class="fa-solid fa-file-pdf"></i> Export PDF Report</button>
-          </div>
-
-          <div class="activity-log-list">
-            <div class="log-item">
-              <div class="log-icon bg-yellow"><i class="fa-solid fa-triangle-exclamation"></i></div>
-              <div class="log-details">
-                <h4>Blocked Driveway Notification Triggered</h4>
-                <p>Scanned on Vehicle: Toyota Camry (XYZ-3434) • Location: Sector 14 Parking</p>
-                <span class="log-time">Jul 24, 2026 at 11:20 AM</span>
-              </div>
-              <span class="status-badge status-resolved">Resolved</span>
-            </div>
-            <div class="log-item">
-              <div class="log-icon bg-blue"><i class="fa-solid fa-bell"></i></div>
-              <div class="log-details">
-                <h4>Headlights Left On Alert</h4>
-                <p>Scanned on Vehicle: Honda Civic (ABC-1234) • Location: North Garage Level 2</p>
-                <span class="log-time">Jul 22, 2026 at 08:45 PM</span>
-              </div>
-              <span class="status-badge status-resolved">Resolved</span>
-            </div>
-          </div>
-        </div>
     }
 
     <!-- Tab 5: Support Tickets -->
@@ -476,12 +446,11 @@
         (openSubmitTicket)="openSubmitTicket()"
         (rateTicket)="rateTicket($event.ticketId, $event.stars)">
       </app-support-tab>
-    } @else if (activeTab() === 'rules') {
-        <div class="tab-panel"><div class="mockup-navy-card" style="padding:40px;text-align:center;"><h2>Traffic Regulations</h2><p>This module is under development.</p></div></div>
-      } @else if (activeTab() === 'support') {
-        <app-support-tab></app-support-tab>
-      } @else if (activeTab() === 'profile') {
-        <app-profile-tab
+    }
+
+    <!-- Tab 6: Profile -->
+    @if (activeTab() === 'profile') {
+      <app-profile-tab
         [userName]="userName()"
         [userEmail]="userEmail()"
         [membershipType]="membershipType()"
@@ -517,79 +486,86 @@
         (redirectToBillingPortal)="redirectToBillingPortal()"
         (confirmDeleteAccount)="openDeleteAccountModal()">
       </app-profile-tab>
-      } @else if (activeTab() === 'profile-membership') {
-        <div class="tab-panel">
-          <div class="enterprise-white-card">
-            <div class="panel-header-row">
-              <div>
-                <h2>Membership Plan</h2>
-                <p class="panel-subtext">View your current active plan and explore available upgrades</p>
-              </div>
-              <span class="badge"><i class="fa-solid fa-crown"></i> {{ membershipType() }}</span>
-            </div>
-            
-            <div style="margin-top: 30px;">
-              @if (membershipPlans().length === 0) {
-                <div style="display: flex; flex-direction: column; align-items: center; padding: 40px 20px;">
-                  <div class="spinner" style="width: 36px; height: 36px; border-width: 3px; margin-bottom: 12px;"></div>
-                  <p style="font-size: 0.9rem; color: #64748B;">Loading available subscription plans...</p>
-                </div>
-              } @else {
-                <div class="upgrade-plans-row">
-                  @for (plan of membershipPlans(); track plan.planId) {
-                    <div class="upgrade-plan-box" 
-                         [class.recommended]="plan.planId === 2 || plan.planId === 3" 
-                         [class.current]="membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()">
-                      
-                      @if (plan.planId === 2) {
-                        <span class="rec-badge badge-popular">Best Seller</span>
-                      } @else if (plan.planId === 3) {
-                        <span class="rec-badge badge-value">Best Value</span>
-                      } @else if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
-                        <span class="rec-badge badge-active">Active</span>
-                      }
+    }
 
-                      <div class="plan-card-header">
-                        <h3 class="plan-card-title">{{ plan.name }}</h3>
-                        <div class="up-price">
-                          <span class="currency">$</span>{{ plan.price.toFixed(2) }}
-                          <span class="period">/ {{ plan.name.toLowerCase().includes('lifetime') ? 'one-time' : (plan.validityDays >= 365 ? 'year' : 'mo') }}</span>
-                        </div>
-                      </div>
-                      
-                      <ul class="plan-features-list">
-                        @for (feat of getPlanFeatures(plan); track feat) {
-                          <li>
-                            <i class="fa-solid fa-circle-check check-icon"></i>
-                            <span>{{ feat }}</span>
-                          </li>
-                        }
-                      </ul>
-                      
-                      <p style="font-size: 0.75rem; color: #D0021B; font-weight: 600; margin-bottom: 15px; text-align: center; background-color: #FEF2F2; padding: 8px; border-radius: 6px; border: 1px dashed #FCA5A5; line-height: 1.4;">
-Unused alerts will not be Roll Over for the next month...Must have active plan to keep getting Alerts..
-</p>
-<div class="plan-card-footer">
-                        @if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
-                          <button class="plan-btn btn-current" disabled><i class="fa-solid fa-check"></i> Current Plan</button>
-                        } @else if (plan.planId === 1) {
-                          <button class="plan-btn btn-disabled" disabled>Default Plan</button>
-                        } @else {
-                          <button class="plan-btn btn-upgrade" (click)="upgradePlan(plan.planId)">
-                            Select Plan <i class="fa-solid fa-arrow-right"></i>
-                          </button>
-                        }
+    <!-- Tab 6.1: Profile Membership -->
+    @if (activeTab() === 'profile-membership') {
+      <div class="tab-panel">
+        <div class="enterprise-white-card">
+          <div class="panel-header-row">
+            <div>
+              <h2>Membership Plan</h2>
+              <p class="panel-subtext">View your current active plan and explore available upgrades</p>
+            </div>
+            <span class="badge"><i class="fa-solid fa-crown"></i> {{ membershipType() }}</span>
+          </div>
+          
+          <div style="margin-top: 30px;">
+            @if (membershipPlans().length === 0) {
+              <div style="display: flex; flex-direction: column; align-items: center; padding: 40px 20px;">
+                <div class="spinner" style="width: 36px; height: 36px; border-width: 3px; margin-bottom: 12px;"></div>
+                <p style="font-size: 0.9rem; color: #64748B;">Loading available subscription plans...</p>
+              </div>
+            } @else {
+              <div class="upgrade-plans-row">
+                @for (plan of membershipPlans(); track plan.planId) {
+                  <div class="upgrade-plan-box" 
+                       [class.recommended]="plan.planId === 2 || plan.planId === 3" 
+                       [class.current]="membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()">
+                    
+                    @if (plan.planId === 2) {
+                      <span class="rec-badge badge-popular">Best Seller</span>
+                    } @else if (plan.planId === 3) {
+                      <span class="rec-badge badge-value">Best Value</span>
+                    } @else if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
+                      <span class="rec-badge badge-active">Active</span>
+                    }
+
+                    <div class="plan-card-header">
+                      <h3 class="plan-card-title">{{ plan.name }}</h3>
+                      <div class="up-price">
+                        <span class="currency">$</span>{{ plan.price.toFixed(2) }}
+                        <span class="period">/ {{ plan.name.toLowerCase().includes('lifetime') ? 'one-time' : (plan.validityDays >= 365 ? 'year' : 'mo') }}</span>
                       </div>
                     </div>
-                  }
-                </div>
-              }
-            </div>
+                    
+                    <ul class="plan-features-list">
+                      @for (feat of getPlanFeatures(plan); track feat) {
+                        <li>
+                          <i class="fa-solid fa-circle-check check-icon"></i>
+                          <span>{{ feat }}</span>
+                        </li>
+                      }
+                    </ul>
+                    
+                    <p style="font-size: 0.75rem; color: #D0021B; font-weight: 600; margin-bottom: 15px; text-align: center; background-color: #FEF2F2; padding: 8px; border-radius: 6px; border: 1px dashed #FCA5A5; line-height: 1.4;">
+                      Unused alerts will not be Roll Over for the next month...Must have active plan to keep getting Alerts..
+                    </p>
+
+                    <div class="plan-card-footer">
+                      @if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
+                        <button class="plan-btn btn-current" disabled><i class="fa-solid fa-check"></i> Current Plan</button>
+                      } @else if (plan.planId === 1) {
+                        <button class="plan-btn btn-disabled" disabled>Default Plan</button>
+                      } @else {
+                        <button class="plan-btn btn-upgrade" (click)="upgradePlan(plan.planId)">
+                          Select Plan <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
           </div>
         </div>
-      } @else if (activeTab() === 'profile-vehicle-reminders') {
-        <app-vehicle-reminders-tab></app-vehicle-reminders-tab>
-      }
+      </div>
+    }
+
+    <!-- Tab 6.2: Profile Vehicle Reminders -->
+    @if (activeTab() === 'profile-vehicle-reminders') {
+      <app-vehicle-reminders-tab></app-vehicle-reminders-tab>
+    }
 
     <!-- Tab 7: Pay Fine / E-Challan Gateway -->
     @if (activeTab() === 'pay-fine') {
