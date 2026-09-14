@@ -192,12 +192,14 @@
             <div class="card-navy plan-overview-card">
               <div class="plan-info">
                 <div class="plan-name">Plan<br><span class="highlight-text">{{ activeDashboardScope().planName }} - {{ activeDashboardScope().totalAlerts }} Alerts</span></div>
-                <div class="plan-status">Status <span class="badge-active">{{ activeDashboardScope().planStatus }}</span></div>
-                <div class="plan-end">Plan Ends <span class="highlight-text">{{ activeDashboardScope().planEndDate }} ({{ activeDashboardScope().planDaysLeft }} days left)</span></div>
+                <div class="plan-status">Status <span [style.background]="activeDashboardScope().planStatus === 'ACTIVE' ? '#10b981' : '#64748b'" style="color: white; border-radius: 6px; padding: 2px 8px; font-size: 0.75rem; font-weight: 700;">{{ activeDashboardScope().planStatus }}</span></div>
+                <div class="plan-end">Plan Ends <span class="highlight-text">{{ activeDashboardScope().planEndDate }} {{ activeDashboardScope().planDaysLeft > 0 ? '(' + activeDashboardScope().planDaysLeft + ' days left)' : '' }}</span></div>
                 
                 <div class="plan-note">
                   <i class="fa-solid fa-circle-info"></i> 
-                  @if (activeDashboardScope().entityType === 'all') {
+                  @if (tagMembershipList().length === 0) {
+                    No active tag or vehicle registered to this account.
+                  } @else if (activeDashboardScope().entityType === 'all') {
                     Combined alert balance across {{ tagMembershipList().length }} active registered tag(s).
                   } @else {
                     Scan alerts for {{ activeDashboardScope().entityName }} (Tag ID: {{ activeDashboardScope().tagId }}).
@@ -232,11 +234,17 @@
             <h3 style="visibility: hidden">Spacing</h3>
             <div class="card-golden alerts-ending-card">
               <div class="golden-header">
-                <i class="fa-solid fa-bell"></i> ALERTS ENDING SOON
+                <i class="fa-solid fa-bell"></i> {{ tagMembershipList().length > 0 ? 'ALERTS ENDING SOON' : 'GET STARTED WITH TRAFFTAG' }}
               </div>
-              <h2>Your TRAFFTAG alerts for {{ activeDashboardScope().entityName }} will end in {{ activeDashboardScope().planDaysLeft }} days!</h2>
-              <p>Renew your plan to keep receiving scan alerts without interruption.</p>
-              <button class="btn-renew" (click)="selectTab('profile-membership')">RENEW NOW</button>
+              @if (tagMembershipList().length > 0) {
+                <h2>Your TRAFFTAG alerts for {{ activeDashboardScope().entityName }} will end in {{ activeDashboardScope().planDaysLeft }} days!</h2>
+                <p>Renew your plan to keep receiving scan alerts without interruption.</p>
+                <button class="btn-renew" (click)="selectTab('profile-membership')">RENEW NOW</button>
+              } @else {
+                <h2>Welcome to TRAFFTAG!</h2>
+                <p>Add a vehicle or link a QR tag to start protecting your vehicle and receiving real-time scan alerts.</p>
+                <button class="btn-renew" (click)="selectTab('vehicles')">ADD YOUR VEHICLE</button>
+              }
             </div>
 
             <div class="card-light-blue why-renew-card">

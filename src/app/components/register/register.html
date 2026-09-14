@@ -1,15 +1,9 @@
+<app-navbar></app-navbar>
+
 <div class="auth-container">
   <!-- Background Glows -->
   <div class="bg-glow-gold" style="top: -10%; left: -10%;"></div>
   <div class="bg-glow-gold" style="bottom: -10%; right: -10%;"></div>
-
-  <header class="auth-header">
-    <div class="logo" [routerLink]="['/']">
-      <span class="logo-icon"><i class="fa-solid fa-taxi"></i></span>
-      <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
-    </div>
-    <a [routerLink]="['/']" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
-  </header>
 
   <main class="auth-card-wrapper">
     <div class="glass-card auth-card animate-fade-in-up">
@@ -19,7 +13,39 @@
       </div>
 
       <form (ngSubmit)="submitRegister()" #registerForm="ngForm" class="auth-form">
-        
+                <!-- Nickname Field -->
+        <div class="form-group animate-fade-in-up delay-200">
+          <label class="form-label">Nickname <span class="required">*</span></label>
+          <div class="input-wrapper-inner">
+            <span class="input-icon-left"><i class="fa-solid fa-user"></i></span>
+            <input 
+              type="text" 
+              name="nickname" 
+              [ngModel]="nickname()" 
+              (ngModelChange)="nickname.set($event)"
+              class="form-input form-input-with-icon" 
+              placeholder="Nickname" 
+              required
+            />
+          </div>
+        </div>
+        <!-- Mobile Number Field -->
+        <div class="form-group animate-fade-in-up delay-200">
+          <label class="form-label">Mobile Number <span class="required">*</span></label>
+          <div class="input-wrapper-inner">
+            <span class="input-icon-left"><i class="fa-solid fa-phone"></i></span>
+            <input 
+              type="tel" 
+              name="phoneNumber" 
+              [ngModel]="phoneNumber()" 
+              (ngModelChange)="phoneNumber.set($event)"
+              class="form-input form-input-with-icon" 
+              placeholder="+1234567890" 
+              required
+            />
+          </div>
+        </div>
+
         <!-- Email Field -->
         <div class="form-row animate-fade-in-up delay-150">
           <div class="form-group flex-1">
@@ -38,6 +64,8 @@
             </div>
           </div>
         </div>
+
+
 
         <!-- 9. Password Input -->
         <div class="form-group animate-fade-in-up delay-250">
@@ -89,10 +117,6 @@
           </div>
         </div>
 
-
-
-
-
         <!-- 12. Age Verification & Consents -->
         <div class="form-checkbox-group animate-fade-in-up delay-350" style="display: flex; flex-direction: column; gap: 10px;">
           <!-- 18+ Checkbox -->
@@ -140,7 +164,20 @@
             </span>
           </label>
 
-
+          <!-- SMS Consent Checkbox -->
+          <label class="checkbox-container">
+            <input 
+              type="checkbox" 
+              name="smsConsent" 
+              [ngModel]="smsConsent()" 
+              (ngModelChange)="smsConsent.set($event)"
+              required
+            />
+            <span class="checkmark"></span>
+            <span class="checkbox-label">
+              I agree to receive automated SMS message from Trafftag include QR scan alerts and account/service notifications. messages frequency varies. message and data rate may apply. reply STOP to opt out and HELP for help <span class="required">*</span>
+            </span>
+          </label>
         </div>
 
         <!-- Error Alert -->
@@ -171,10 +208,8 @@
       </div>
     </div>
   </main>
-
-  <footer class="auth-footer-note">
-    <p>&copy; 2026 TRAFFTAG. Secure Access Console.</p>
-  </footer>
 </div>
+
+<app-footer></app-footer>
 
 

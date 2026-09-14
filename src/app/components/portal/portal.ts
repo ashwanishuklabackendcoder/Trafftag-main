@@ -161,12 +161,11 @@ export class Portal implements OnInit {
   });
 
   // New Dashboard UI Properties
-  // New Dashboard UI Properties
-  planStatus = signal('ACTIVE');
-  totalAlerts = signal(50);
-  alertsRemaining = signal(15);
-  planEndDate = signal('May 25, 2026'); // Updated to 2026 to make sense with current date
-  planDaysLeft = signal(7);
+  planStatus = signal('NO PLAN');
+  totalAlerts = signal(0);
+  alertsRemaining = signal(0);
+  planEndDate = signal('N/A');
+  planDaysLeft = signal(0);
 
   vehicles = signal<Vehicle[]>([]);
   rawUserMemberships = signal<any[]>([]);
@@ -350,22 +349,6 @@ export class Portal implements OnInit {
       }
     });
 
-    // Fallback if no tags/vehicles found
-    if (list.length === 0) {
-      list.push({
-        id: 'default-tag',
-        tagId: 'TT-718204',
-        entityName: 'Primary Vehicle Tag',
-        entityType: 'vehicle',
-        planName: defaultPlanName,
-        planStatus: defaultStatus,
-        totalAlerts: defaultTotal,
-        alertsRemaining: defaultCredits > 0 ? defaultCredits : 50,
-        planEndDate: defaultEndDate,
-        planDaysLeft: defaultDaysLeft
-      });
-    }
-
     return list;
   });
 
@@ -374,18 +357,19 @@ export class Portal implements OnInit {
     const tags = this.tagMembershipList();
     const totalRem = tags.reduce((acc, t) => acc + (t.alertsRemaining || 0), 0);
     const totalLimit = tags.reduce((acc, t) => acc + (t.totalAlerts || 0), 0);
+    const hasTags = tags.length > 0;
     
     return {
       id: 'ALL',
-      tagId: 'ALL',
-      entityName: 'All Tags Combined',
+      tagId: hasTags ? 'ALL' : 'N/A',
+      entityName: hasTags ? 'All Tags Combined' : 'No Vehicle or Tag Linked',
       entityType: 'all',
-      planName: `${tags.length} Active Tag${tags.length > 1 ? 's' : ''}`,
-      planStatus: 'ACTIVE',
-      totalAlerts: totalLimit || 50,
-      alertsRemaining: totalRem || this.remainingCredits(),
-      planEndDate: this.planEndDate(),
-      planDaysLeft: this.planDaysLeft()
+      planName: hasTags ? `${tags.length} Active Tag${tags.length > 1 ? 's' : ''}` : (this.membershipType() && this.membershipType() !== 'Free Plan' ? this.membershipType() : 'No Active Plan'),
+      planStatus: hasTags ? 'ACTIVE' : (this.remainingCredits() > 0 ? 'ACTIVE' : 'NO PLAN'),
+      totalAlerts: hasTags ? (totalLimit || 50) : (this.totalAlerts() > 0 ? this.totalAlerts() : 0),
+      alertsRemaining: hasTags ? totalRem : this.remainingCredits(),
+      planEndDate: hasTags ? this.planEndDate() : (this.remainingCredits() > 0 ? this.planEndDate() : 'N/A'),
+      planDaysLeft: hasTags ? this.planDaysLeft() : (this.remainingCredits() > 0 ? this.planDaysLeft() : 0)
     };
   });
 

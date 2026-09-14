@@ -8,7 +8,7 @@
   justify-content: space-between;
   padding: 0 24px;
   position: relative;
-  background: #FFFFFF !important;
+  background: url('/assets/images/login-bg.jpg') no-repeat center center / cover !important;
   color: #08162A !important;
 }
 
@@ -91,9 +91,10 @@
 
 .auth-card {
   width: 100%;
-  max-width: 900px;
+  max-width: 550px;
   padding: 40px;
-  background: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(10px);
   border: 1.5px solid #CBD5E1 !important;
   border-radius: 24px !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
@@ -199,10 +200,10 @@
   background: #F8FAFC !important;
   border: 1.5px solid #CBD5E1 !important;
   border-radius: 12px !important;
-  padding-top: 12px !important;
-  padding-bottom: 12px !important;
-  padding-right: 16px !important;
-  padding-left: 16px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  padding-right: 12px !important;
+  padding-left: 12px !important;
   color: #08162A !important;
   font-family: var(--font-primary) !important;
   font-size: 0.95rem !important;
