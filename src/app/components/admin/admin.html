@@ -601,6 +601,14 @@
               <input id="prefix" type="text" [ngModel]="prefix()" (ngModelChange)="prefix.set($event)" name="prefix" placeholder="e.g. TT">
             </div>
             <div class="form-group">
+              <label for="tagType">Tag Type</label>
+              <select id="tagType" [ngModel]="tagType()" (ngModelChange)="tagType.set($event)" name="tagType" class="form-control">
+                <option value="Vehicle">Vehicle</option>
+                <option value="Home">Home</option>
+                <option value="Pet">Pet</option>
+              </select>
+            </div>
+            <div class="form-group">
               <label for="quantity">Quantity to Generate *</label>
               <input id="quantity" type="number" [ngModel]="bulkQuantity()" (ngModelChange)="bulkQuantity.set($event)" name="quantity" min="1" max="100" required>
             </div>

@@ -20,6 +20,8 @@ interface AdminTag {
   serial: string;
   uniqueCode: string;
   qrValue?: string;
+  batchNumber?: string;
+  tagType?: string;
   ownerEmail: string;
   plate: string;
   status: string;
@@ -88,6 +90,7 @@ export class Admin implements OnInit {
   showGenerateModal = signal(false);
   bulkQuantity = signal(10);
   prefix = signal('TT');
+  tagType = signal('Vehicle');
 
   // Search & Filter state
   userSearchQuery = signal('');
@@ -339,10 +342,11 @@ export class Admin implements OnInit {
     const qty = Number(this.bulkQuantity());
     const payload = {
       Count: qty,
-      BaseUrl: window.location.origin + '/scan/'
+      BaseUrl: window.location.origin + '/scan/',
+      TagType: this.tagType()
     };
 
-    this.http.post<any>(`${API_BASE_URL}/api/Admin/qr/bulk-generate`, payload).subscribe({
+    this.http.post<any>(`${API_BASE_URL}/api/Admin/qr/generate`, payload).subscribe({
       next: (res) => {
         // Update total tags count
         this.totalTagsCount.update(val => val + qty);

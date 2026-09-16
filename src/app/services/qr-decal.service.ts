@@ -47,7 +47,7 @@ export class QrDecalService {
 
         ctx.drawImage(img, 0, 0);
 
-        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const imgData = canvas.toDataURL('image/png');
 
         // Create PDF matching the exact dimensions of the image
         const orientation = img.width > img.height ? 'l' : 'p';
@@ -57,7 +57,7 @@ export class QrDecalService {
           format: [img.width, img.height]
         });
 
-        pdf.addImage(imgData, 'JPEG', 0, 0, img.width, img.height);
+        pdf.addImage(imgData, 'PNG', 0, 0, img.width, img.height);
         pdf.save(`${veh.make}_${veh.model}_${veh.plate}_QR_Decal.pdf`);
         
         URL.revokeObjectURL(imgUrl);
@@ -246,13 +246,18 @@ export class QrDecalService {
     const pageHeight = 297;
     const margin = 10;
     
-    const maxWidth = pageWidth - (margin * 2);
-    const maxHeight = (pageHeight / 2) - (margin * 1.5);
-
-    let currentIndex = 0;
+    let isFirstPage = true;
+    let itemsOnCurrentPage = 0;
 
     for (let i = 0; i < imageBlobs.length; i++) {
-      const { data, width, height } = await this.blobToJpegDataUrl(imageBlobs[i], tags[i].serial);
+      const tag = tags[i];
+      const isHome = tag.tagType === 'Home';
+      
+      const { data, width, height } = await this.blobToJpegDataUrl(imageBlobs[i], tag.serial, tag.tagType);
+
+      const itemsPerPage = isHome ? 1 : 2;
+      const maxWidth = pageWidth - (margin * 2);
+      const maxHeight = isHome ? pageHeight - (margin * 2) : (pageHeight / 2) - (margin * 1.5);
 
       const imgRatio = width / height;
       let targetWidth = maxWidth;
@@ -263,20 +268,25 @@ export class QrDecalService {
         targetWidth = targetHeight * imgRatio;
       }
 
-      const xPos = margin + (maxWidth - targetWidth) / 2;
-      
-      const isTopHalf = currentIndex % 2 === 0;
+      const xPos = (pageWidth - targetWidth) / 2;
       let yPos = margin;
-      if (!isTopHalf) {
-        yPos = (pageHeight / 2) + (margin * 0.5);
+      
+      if (!isHome && itemsOnCurrentPage === 1) {
+        yPos = (pageHeight / 2) + (margin / 2);
       }
 
-      if (currentIndex > 0 && isTopHalf) {
+      if (!isFirstPage && itemsOnCurrentPage === 0) {
         pdf.addPage();
       }
 
-      pdf.addImage(data, 'JPEG', xPos, yPos, targetWidth, targetHeight);
-      currentIndex++;
+      pdf.addImage(data, 'PNG', xPos, yPos, targetWidth, targetHeight);
+      
+      itemsOnCurrentPage++;
+      isFirstPage = false;
+      
+      if (itemsOnCurrentPage >= itemsPerPage) {
+        itemsOnCurrentPage = 0;
+      }
     }
 
     if (imageBlobs.length > 0) {
@@ -284,7 +294,7 @@ export class QrDecalService {
     }
   }
 
-  private blobToJpegDataUrl(blob: Blob, tagId: string): Promise<{data: string, width: number, height: number}> {
+  private blobToJpegDataUrl(blob: Blob, tagId: string, tagType: string = 'Vehicle'): Promise<{data: string, width: number, height: number}> {
     return new Promise((resolve, reject) => {
       const imgUrl = URL.createObjectURL(blob);
       const img = new Image();
@@ -297,7 +307,7 @@ export class QrDecalService {
           ctx.drawImage(img, 0, 0);
 
           resolve({
-            data: canvas.toDataURL('image/jpeg', 0.95),
+            data: canvas.toDataURL('image/png'),
             width: img.width,
             height: img.height
           });
