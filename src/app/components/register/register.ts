@@ -28,6 +28,8 @@ export class Register {
   is18Plus = signal(false);
   privacyAccepted = signal(false);
   smsConsent = signal(false);
+  marketingConsent = signal(false);
+  transactionalConsent = signal(false);
 
   isSubmitting = signal(false);
   errorMessage = signal('');
@@ -66,8 +68,8 @@ export class Register {
       return;
     }
 
-    if (!this.smsConsent()) {
-      this.errorMessage.set('You must agree to receive automated SMS messages.');
+    if (!this.transactionalConsent()) {
+      this.errorMessage.set('You must consent to receive Transactional Messages (Vehicle Alerts).');
       return;
     }
 
@@ -82,7 +84,8 @@ export class Register {
       is18Plus: this.is18Plus(),
       termsAccepted: this.agreeTerms(),
       privacyAccepted: this.privacyAccepted(),
-      smsConsent: this.smsConsent()
+      smsConsent: this.transactionalConsent(),
+      marketingConsent: this.marketingConsent()
     };
 
     this.http.post<any>(`${API_BASE_URL}/api/v1/auth/register`, body)

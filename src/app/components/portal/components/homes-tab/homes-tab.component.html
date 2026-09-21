@@ -1,0 +1,101 @@
+<div class="tab-panel">
+  <div class="panel-header glass-card">
+    <div class="panel-header-info">
+      <div class="panel-header-icon">
+        <i class="fa-solid fa-house"></i>
+      </div>
+      <div>
+        <h2>Register & Activate Your My Happy Home</h2>
+        <p>Register all your properties to link them with protective TRAFFTAG QR decals.</p>
+      </div>
+    </div>
+    <button class="btn btn-primary register-btn" (click)="addHomeClick.emit()">
+      <i class="fa-solid fa-plus"></i> Register Home
+    </button>
+  </div>
+
+  @if (homes.length === 0) {
+    <div class="empty-card-container">
+      <div class="empty-card glass-card">
+        <div class="empty-icon-wrapper">
+          <i class="fa-solid fa-house empty-icon"></i>
+        </div>
+        <h3>No Homes Registered</h3>
+        <p>Register your properties to link them with protective QR labels and start receiving anonymous alerts.</p>
+        <button class="btn btn-primary" (click)="addHomeClick.emit()"><i class="fa-solid fa-plus"></i> Register Your First Home</button>
+      </div>
+    </div>
+  } @else {
+    <div class="vehicles-grid">
+      @for (home of homes; track home.id) {
+        <div class="vehicle-card glass-card">
+          <!-- Card Header -->
+          <div class="veh-card-header">
+            <div class="veh-title-block">
+              <span class="car-brand-icon" style="background: rgba(16, 185, 129, 0.15); color: #10B981;"><i class="fa-solid fa-house"></i></span>
+              <div>
+                <h3>{{ home.name }}</h3>
+                <span class="veh-subtitle">{{ home.address }}</span>
+              </div>
+            </div>
+            <div class="status-badge-container">
+              @if (!home.qrTagId) {
+                <span class="status-pill-badge tag-missing"><i class="fa-solid fa-triangle-exclamation"></i> Unassigned</span>
+              } @else if (home.isActive) {
+                <span class="status-pill-badge tag-active"><i class="fa-solid fa-circle-check"></i> Active Tag</span>
+              } @else {
+                <span class="status-pill-badge tag-paused"><i class="fa-solid fa-circle-pause"></i> Tag Paused</span>
+              }
+            </div>
+          </div>
+          
+          <!-- Card Body -->
+          <div class="veh-card-body" style="padding-top: 16px;">
+            <div class="veh-info-section">
+              <h4><i class="fa-solid fa-house-chimney text-indigo"></i> Property Details</h4>
+              <div class="veh-info-grid">
+                <div class="info-item">
+                  <span class="label">Tag Serial:</span>
+                  <span class="value font-mono">{{ home.serialNumber || 'Not Linked' }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Location:</span>
+                  <span class="value">{{ home.address }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Footer Controls -->
+          <div class="veh-card-footer">
+            <div class="toggle-control-group">
+              <span class="toggle-desc-label">Protect State</span>
+              <label class="switch">
+                <input type="checkbox" [checked]="home.isActive" (change)="toggleActive.emit({id: home.id, active: $any($event.target).checked})">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            
+            <div class="footer-actions-group">
+              @if (home.qrTagId) {
+                <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit('home-' + home.id)" title="Reassign Tag">
+                  <i class="fa-solid fa-arrows-rotate"></i> Reassign
+                </button>
+                <button class="footer-btn btn-action-delete" (click)="deleteHome.emit(home.id)" title="Delete Home">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              } @else {
+                <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit('home-' + home.id)" title="Link QR Tag">
+                  <i class="fa-solid fa-link"></i> Link Tag
+                </button>
+                <button class="footer-btn btn-action-delete" (click)="deleteHome.emit(home.id)" title="Delete Home">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

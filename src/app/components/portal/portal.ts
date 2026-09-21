@@ -13,7 +13,18 @@ import { ProfileTabComponent } from './components/profile-tab/profile-tab.compon
 import { VehicleRemindersTabComponent } from './components/vehicle-reminders-tab/vehicle-reminders-tab.component';
 import { AddVehicleModalComponent } from './components/add-vehicle-modal/add-vehicle-modal.component';
 import { LinkTagModalComponent } from './components/link-tag-modal/link-tag-modal.component';
+import { HomesTabComponent } from './components/homes-tab/homes-tab.component';
+import { AddHomeModalComponent } from './components/add-home-modal/add-home-modal.component';
+import { LinkHomeTagModalComponent } from './components/link-home-tag-modal/link-home-tag-modal.component';
 import { State, City } from 'country-state-city';
+interface Home {
+  id: string;
+  name: string;
+  address: string;
+  qrTagId: string | null;
+  serialNumber: string | null;
+  isActive: boolean;
+}
 
 interface Vehicle {
   id: string;
@@ -50,7 +61,7 @@ export interface TagMembershipSummary {
   id: string;
   tagId: string;
   entityName: string;
-  entityType: 'vehicle' | 'unassigned' | 'all';
+  entityType: 'vehicle' | 'home' | 'unassigned' | 'all';
   planName: string;
   planStatus: string;
   totalAlerts: number;
@@ -65,6 +76,7 @@ export type PortalTab =
   | 'dashboard'
   | 'explore-more' 
   | 'vehicles' 
+  | 'homes'
   | 'vehicle-reminders'
   | 'tags' 
   | 'notifications' 
@@ -96,7 +108,10 @@ export type PortalTab =
       ProfileTabComponent,
       VehicleRemindersTabComponent,
       AddVehicleModalComponent,
-      LinkTagModalComponent
+      LinkTagModalComponent,
+      HomesTabComponent,
+      AddHomeModalComponent,
+      LinkHomeTagModalComponent
     ],
   templateUrl: './portal.html',
   styleUrl: './portal.css',
@@ -168,15 +183,17 @@ export class Portal implements OnInit {
   planDaysLeft = signal(0);
 
   vehicles = signal<Vehicle[]>([]);
+  homes = signal<Home[]>([]);
   rawUserMemberships = signal<any[]>([]);
   
   myQrs = signal<any[]>([]);
 
   unassignedTags = computed(() => {
     const vehiclesList = this.vehicles();
-    // QRs that belong to the user but are not yet assigned to any vehicle
+    const homesList = this.homes();
+    // QRs that belong to the user but are not yet assigned to any vehicle or home
     return this.myQrs()
-      .filter((q: any) => !vehiclesList.some(v => v.tagId === q.serialNumber))
+      .filter((q: any) => !vehiclesList.some(v => v.tagId === q.serialNumber) && !homesList.some(h => h.serialNumber === q.serialNumber))
       .map((q: any) => ({
         id: q.qrTagId,
         tagId: q.serialNumber,
@@ -190,6 +207,7 @@ export class Portal implements OnInit {
 
   tagMembershipList = computed<TagMembershipSummary[]>(() => {
     const vehs = this.vehicles();
+      const homes = this.homes();
     const unassigned = this.unassignedTags();
     const memberships = this.rawUserMemberships();
     const defaultPlanName = this.membershipType();
@@ -204,7 +222,7 @@ export class Portal implements OnInit {
     // Helper to safely extract total alert limit
     const getAlertLimit = (m: any): number => {
       if (!m) return defaultTotal || 50;
-      const limit = m?.membershipPlan?.alertLimit ?? m?.plan?.alertLimit ?? m?.alertLimit ?? m?.creditsAllowance ?? m?.membershipPlan?.creditsAllowance ?? m?.plan?.creditsAllowance ?? m?.credits;
+      const limit = m?.membershipPlan?.alertLimit ?? m?.plan?.alertLimit ?? m?.alertLimit ?? m?.creditsAllowance ?? m?.membershipPlan?.creditsAllowance ?? m?.plan?.creditsAllowance ?? m?.credits ?? m?.totalCredits;
       if (typeof limit === 'number' && limit > 0) return limit;
       const pName = String(m?.planName || m?.membershipPlan?.name || m?.plan?.name || '').toLowerCase();
       if (pName.includes('yearly') || pName.includes('annual') || pName.includes('pro') || pName.includes('premium')) return 50;
@@ -219,7 +237,7 @@ export class Portal implements OnInit {
       if (tagId && tagId !== 'Not Assigned') {
         const exactTagMatch = memberships.find((m: any) => 
           (m.qrTagId && String(m.qrTagId) === String(tagId)) || 
-          (m.serialNumber && String(m.serialNumber) === String(tagId))
+          (m.qrTagSerialNumber && String(m.qrTagSerialNumber) === String(tagId))
         );
         if (exactTagMatch) return exactTagMatch;
       }
@@ -292,6 +310,30 @@ export class Portal implements OnInit {
         planEndDate: endDate,
         planDaysLeft: defaultDaysLeft,
         vehicleId: v.id,
+        rawMembership: m
+      });
+    });
+
+        homes.forEach((h, index) => {
+      const isAssigned = h.qrTagId && h.qrTagId !== 'Not Assigned';
+      const m = isAssigned ? findBestMembership(String(h.qrTagId), undefined, index) : null;
+      const planName = m?.planName || m?.membershipPlan?.name || m?.plan?.name || (isAssigned ? defaultPlanName : 'No Tag Linked');
+      const total = isAssigned ? getAlertLimit(m) : 0;
+      const remaining = isAssigned ? getRemainingAlerts(m, true, total) : 0;
+      const endDate = m?.endDate ? new Date(String(m.endDate).replace(' ', 'T')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : defaultEndDate;
+      const status = isAssigned ? (m?.status || (m?.isActive ? 'ACTIVE' : 'ACTIVE')) : 'UNLINKED';
+
+      list.push({
+        id: isAssigned ? String(h.qrTagId) : "home-",
+        tagId: isAssigned ? String(h.qrTagId) : 'Not Assigned',
+        entityName: h.name || 'Home',
+        entityType: 'home',
+        planName: planName,
+        planStatus: status,
+        totalAlerts: total,
+        alertsRemaining: remaining,
+        planEndDate: endDate,
+        planDaysLeft: defaultDaysLeft,
         rawMembership: m
       });
     });
@@ -464,7 +506,10 @@ export class Portal implements OnInit {
   // Modals
   showAddVehicleModal = signal(false);
   isRegisteringVehicle = signal(false);
+  showAddHomeModal = signal(false);
+  isRegisteringHome = signal(false);
   showLinkTagModal = signal(false);
+  showLinkHomeTagModal = signal(false);
   showUpgradeModal = signal(false);
   showDeleteAccountModal = signal(false);
   isDeletingAccount = signal(false);
@@ -480,9 +525,13 @@ export class Portal implements OnInit {
   newCity = signal('');
   newVin = signal('');
   newDriverName = signal('');
+  
+  newHomeName = signal('');
+  newHomeAddress = signal('');
 
   linkSerial = signal('');
   linkVehicleId = signal('');
+  linkHomeId = signal('');
   isLinkingTag = signal(false);
   
   userMembershipId = signal<number | null>(null);
@@ -609,6 +658,28 @@ export class Portal implements OnInit {
       });
   }
 
+  loadHomes() {
+    this.http.get<any>(`${API_BASE_URL}/api/v1/homes`)
+      .subscribe({
+        next: (res) => {
+          if (res?.success && res?.data) {
+            const list = res.data.map((item: any) => ({
+              id: item.homeId.toString(),
+              name: item.name,
+              address: item.address,
+              qrTagId: item.qrTagId ? item.qrTagId.toString() : null,
+              serialNumber: item.serialNumber,
+              isActive: item.isActive
+            }));
+            this.homes.set(list);
+          }
+        },
+        error: (err) => {
+          console.error('Error loading homes:', err);
+        }
+      });
+  }
+
   mapApiVehicle(apiV: any): Vehicle {
     const vehId = apiV.vehicleId.toString();
     
@@ -701,7 +772,7 @@ export class Portal implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const sub = params.get('subpage');
-      const validTabs = ['dashboard', 'explore-more', 'vehicles', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings'];
+      const validTabs = ['dashboard', 'explore-more', 'vehicles', 'homes', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings'];
       
       if (sub && validTabs.includes(sub)) {
         this.activeTab.set(sub as any);
@@ -802,6 +873,7 @@ export class Portal implements OnInit {
       }
       this.loadMakes();
       this.loadVehicles();
+      this.loadHomes();
       this.loadProfile();
       this.loadUserMemberships();
       this.loadNotifications();
@@ -836,6 +908,10 @@ export class Portal implements OnInit {
         }, 1000);
       }
     }
+  }
+
+  hasActivePlan(planId: number): boolean {
+    return this.rawUserMemberships().some((m: any) => m.planId === planId && (m.status === 'Active' || m.isActive));
   }
 
   selectTab(tab: PortalTab) {
@@ -944,6 +1020,112 @@ export class Portal implements OnInit {
             this.modalService.showError('Registration Failed', rawErr || 'Error occurred while registering vehicle.');
           }
         }
+      });
+  }
+
+  openAddHome() {
+    this.newHomeName.set('');
+    this.newHomeAddress.set('');
+    this.showAddHomeModal.set(true);
+  }
+
+  closeAddHome() {
+    this.showAddHomeModal.set(false);
+  }
+
+  addHome() {
+    if (!this.newHomeName() || !this.newHomeAddress()) return;
+    
+    this.isRegisteringHome.set(true);
+    this.http.post<any>(`${API_BASE_URL}/api/v1/homes`, {
+      name: this.newHomeName(),
+      address: this.newHomeAddress()
+    }).subscribe({
+      next: (res) => {
+        this.isRegisteringHome.set(false);
+        this.loadHomes();
+        this.closeAddHome();
+        this.modalService.showSuccess('Home Added', 'Your home has been successfully added.');
+      },
+      error: (err) => {
+        this.isRegisteringHome.set(false);
+        console.error(err);
+          const rawErr = err?.error?.message || err?.message;
+          this.modalService.showError('Registration Failed', rawErr || 'Error occurred while adding home.');
+      }
+    });
+  }
+
+  openLinkHomeTag(homeId: string) {
+    this.linkHomeId.set(homeId);
+    this.linkSerial.set('');
+    this.showLinkHomeTagModal.set(true);
+  }
+
+  closeLinkHomeTag() {
+    this.showLinkHomeTagModal.set(false);
+  }
+
+  linkHomeTagSubmit() {
+    if (!this.linkSerial() || !this.linkHomeId()) {
+      this.modalService.showWarning('Validation', 'Please enter a Sticker Serial / QR Code and select a home.');
+      return;
+    }
+
+    const tagObj = this.myQrs().find(q => q.serialNumber === this.linkSerial());
+    if (!tagObj) {
+      this.modalService.showError('Invalid Tag', 'Could not find a valid tag with this serial number.');
+      return;
+    }
+    const tagId = tagObj.qrTagId;
+
+    this.isLinkingTag.set(true);
+    this.http.post<any>(`${API_BASE_URL}/api/v1/homes/assign-tag`, {
+      homeId: parseInt(this.linkHomeId(), 10),
+      qrTagId: parseInt(tagId, 10)
+    }).subscribe({
+      next: () => {
+        this.isLinkingTag.set(false);
+        this.loadHomes();
+        this.loadMyQrs();
+        this.closeLinkHomeTag();
+        this.modalService.showSuccess('Tag Linked', 'QR Tag successfully assigned to your home.');
+      },
+      error: (err) => {
+        this.isLinkingTag.set(false);
+        this.modalService.showError('Linking Failed', 'Failed to link QR Tag. It may already be linked.');
+      }
+    });
+  }
+
+  async deleteHome(id: string) {
+    const confirmed = await this.modalService.confirm({
+      title: 'Remove Home',
+      message: 'Are you sure you want to remove this home?',
+      confirmText: 'Delete Home',
+      cancelText: 'Cancel',
+      type: 'danger'
+    });
+
+    if (confirmed) {
+      this.http.delete<any>(`${API_BASE_URL}/api/v1/homes/${id}`)
+        .subscribe({
+          next: () => {
+            this.loadHomes();
+            this.modalService.showSuccess('Home Removed', 'The home has been successfully deleted.');
+          },
+          error: () => this.modalService.showError('Deletion Failed', 'Failed to remove home.')
+        });
+    }
+  }
+
+  toggleHomeActive(event: {id: string, active: boolean}) {
+    this.http.put<any>(`${API_BASE_URL}/api/v1/homes/${event.id}/toggle-active`, { active: event.active })
+      .subscribe({
+        next: () => {
+          this.loadHomes();
+        },
+        error: () => this.modalService.showError('Update Failed', 'Failed to update active status.')
       });
   }
 
@@ -1357,8 +1539,8 @@ export class Portal implements OnInit {
       });
   }
 
-  loadMembershipPlans() {
-    this.http.get<any>(`${API_BASE_URL}/api/v1/memberships/plans`)
+  loadMembershipPlans(planType?: string) {
+    this.http.get<any>(`/api/v1/memberships/plans`)
       .subscribe({
         next: (res) => {
           if (res?.success && Array.isArray(res.data)) {
@@ -1650,6 +1832,68 @@ export class Portal implements OnInit {
     });
   }
 
+    getPlanNameForTag(tagId?: string, vehicleId?: string): string {
+    const memberships = this.rawUserMemberships();
+    if (!memberships || memberships.length === 0) return this.membershipType();
+    let m = null;
+    if (tagId && tagId !== 'Not Assigned') {
+      m = memberships.find((m: any) => 
+        (m.qrTagId && String(m.qrTagId) === String(tagId)) || 
+        (m.qrTagSerialNumber && String(m.qrTagSerialNumber) === String(tagId))
+      );
+    }
+    if (!m && vehicleId) {
+      m = memberships.find((m: any) => m.vehicleId && String(m.vehicleId) === String(vehicleId));
+    }
+    if (!m) {
+      m = memberships.find((m: any) => m.status === 'Active' && (m.planName?.toLowerCase().includes('yearly') || m.planName?.toLowerCase().includes('annual') || m.planName?.toLowerCase().includes('paid')));
+    }
+    if (!m) m = memberships.find((m: any) => m.status === 'Active');
+    
+    return m?.planName || m?.membershipPlan?.name || m?.plan?.name || this.membershipType();
+  }
+
+  downloadHomeQrCode(home: any) {
+    if (!home.serialNumber || home.serialNumber === 'Not Assigned') {
+      this.modalService.showWarning(
+        'Tag Assignment Required',
+        `Home "${home.name}" does not have an assigned QR Tag yet. Please assign a QR Tag first before downloading.`
+      );
+      return;
+    }
+
+    const tagId = home.serialNumber || home.qrTagId;
+    const scanUrl = this.getScanUrl(tagId);
+    this.downloadingVehicleId.set("home-" + home.id);
+
+    const pseudoVeh: any = {
+      id: home.id,
+      make: home.name,
+      model: "Home",
+      plate: "N/A"
+    };
+
+    // Fetch image from API endpoint
+    this.http.get(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(tagId)}/image`, {
+      responseType: 'blob'
+    }).subscribe({
+      next: (blob: Blob) => {
+        if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
+          this.qrDecalService.generateAndDownloadPdfWithFrame(pseudoVeh, blob, tagId)
+            .then(() => this.downloadingVehicleId.set(null))
+            .catch(() => this.downloadingVehicleId.set(null));
+        } else {
+          this.qrDecalService.generateAndDownloadCanvasQr(pseudoVeh, tagId, scanUrl)
+            .then(() => this.downloadingVehicleId.set(null));
+        }
+      },
+      error: () => {
+        this.qrDecalService.generateAndDownloadCanvasQr(pseudoVeh, tagId, scanUrl)
+          .then(() => this.downloadingVehicleId.set(null));
+      }
+    });
+  }
+
   openScanner() {
     this.modalService.showWarning('Scanner', 'QR Code Scanner is not available on desktop. Please use the mobile app.');
   }
@@ -1658,6 +1902,20 @@ export class Portal implements OnInit {
     window.open('https://shop.trafftag.com', '_blank');
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

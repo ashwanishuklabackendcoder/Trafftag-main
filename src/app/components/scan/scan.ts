@@ -36,6 +36,10 @@ export class Scan implements OnInit {
   // Location signals
   incidentLocation = signal('');
 
+  tagType = signal('Vehicle');
+  assetName = signal('Vehicle');
+  assetDetails = signal('');
+
   vehicleId = signal<number>(0);
   ownerUsername = signal<string>('Vehicle Owner');
   vehicleInfo = signal<string>('');
@@ -100,7 +104,20 @@ export class Scan implements OnInit {
           this.http.get<any>(`${API_BASE_URL}/api/v1/notifications/scan/${encodeURIComponent(tagIdStr)}`).subscribe({
             next: (notifyRes) => {
               const data = notifyRes.data || notifyRes;
-              this.vehicleInfo.set('Registered Vehicle');
+              
+              // Set the dynamic tag type (Vehicle, Home, Pet)
+              if (data.tagType || data.TagType) {
+                this.tagType.set(data.tagType || data.TagType);
+              }
+
+              // Set dynamic asset info
+              const assetNameVal = data.assetName || data.AssetName || (this.tagType() === 'Home' ? 'Home' : 'Vehicle');
+              this.assetName.set(assetNameVal);
+              if (data.assetDetails || data.AssetDetails) {
+                this.assetDetails.set(data.assetDetails || data.AssetDetails);
+              }
+              this.vehicleInfo.set('Registered ' + assetNameVal);
+
               const cats = data.categories || data.Categories;
               if (cats && Array.isArray(cats)) {
                 const dynamicCategories = cats.map((c: string) => ({ value: c, label: c }));
@@ -109,14 +126,14 @@ export class Scan implements OnInit {
             },
             error: (err) => {
               console.warn('Failed to fetch categories:', err);
-              this.vehicleInfo.set('Registered Vehicle');
+              this.vehicleInfo.set('Registered ' + this.tagType());
             }
           });
         }
       },
       error: (err) => {
         console.warn('Failed to resolve scan details:', err);
-        this.vehicleInfo.set('Registered Vehicle');
+        this.vehicleInfo.set('Registered ' + this.tagType());
       }
     });
   }

@@ -41,6 +41,11 @@
         <button class="nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
           <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> My Vehicles</span>
         </button>
+
+        <!-- My Happy Home -->
+        <button class="nav-item" [class.active]="activeTab() === 'homes'" (click)="selectTab('homes')">
+          <span class="nav-label-group"><i class="fa-solid fa-house-chimney nav-icon"></i> My Happy Home</span>
+        </button>
         
         <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
           <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> My Trafftag Qr</span>
@@ -170,7 +175,7 @@
             </button>
             @for (t of tagMembershipList(); track t.id) {
               <button (click)="selectDashboardTag(t.id)" [class.active-pill]="selectedTagId() === t.id" style="display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; border: 1px solid #E2E8F0; background: #F8FAFC; color: #475569; cursor: pointer; white-space: nowrap; transition: all 0.2s;">
-                <i [class]="t.entityType === 'vehicle' ? 'fa-solid fa-car text-blue-500' : 'fa-solid fa-qrcode text-amber-500'"></i>
+                <i [class]="t.entityType === 'vehicle' ? 'fa-solid fa-car text-blue-500' : (t.entityType === 'home' ? 'fa-solid fa-house text-blue-500' : 'fa-solid fa-qrcode text-amber-500')"></i>
                 {{ t.entityName }}
                 <span [style.background]="t.alertsRemaining < 5 ? '#ef4444' : (t.alertsRemaining < 15 ? '#f59e0b' : '#10b981')" style="color: white; border-radius: 12px; padding: 2px 7px; font-size: 0.72rem; font-weight: 700;">{{ t.alertsRemaining }} Left</span>
               </button>
@@ -396,11 +401,24 @@
         [membershipType]="membershipType()"
         (addVehicleClick)="openAddVehicle()"
         (downloadQr)="downloadQrCode($event)"
+          (downloadHomeQr)="downloadHomeQrCode($event)"
         (generateQr)="generateNewQrTag($event)"
         (openLinkTag)="openLinkTag($event)"
         (deleteVehicle)="deleteVehicle($event)"
         (toggleActive)="toggleVehicleActive($event)">
       </app-vehicles-tab>
+    }
+
+    <!-- Tab 2.2: My Happy Home -->
+    @if (activeTab() === 'homes') {
+      <app-homes-tab
+        
+        [homes]="homes()" [unassignedTags]="unassignedTags()"
+        (addHomeClick)="openAddHome()"
+        (openLinkTag)="openLinkHomeTag($event)"
+        (deleteHome)="deleteHome($event)"
+        (toggleActive)="toggleHomeActive($event)">
+      </app-homes-tab>
     }
 
     <!-- Tab 2.1: Vehicle Reminders -->
@@ -413,14 +431,17 @@
     <!-- Tab 3: Active QR Tags -->
     @if (activeTab() === 'tags') {
       <app-qr-fleet-tab
-        [vehicles]="vehicles()"
+        
+        [homes]="homes()" [vehicles]="vehicles()"
         [unassignedTags]="unassignedTags()"
         [downloadingVehicleId]="downloadingVehicleId()"
         [membershipType]="membershipType()"
         [scanUrlFn]="getScanUrl.bind(this)"
+          [planNameFn]="getPlanNameForTag.bind(this)"
         (generateNewQr)="generateNewQrTag()"
         (openLinkTag)="openLinkTag($event)"
         (downloadQr)="downloadQrCode($event)"
+          (downloadHomeQr)="downloadHomeQrCode($event)"
         (deleteQr)="deleteQrTag($event)">
       </app-qr-fleet-tab>
     }
@@ -551,8 +572,8 @@
                     </p>
 
                     <div class="plan-card-footer">
-                      @if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
-                        <button class="plan-btn btn-current" disabled><i class="fa-solid fa-check"></i> Current Plan</button>
+                      @if (hasActivePlan(plan.planId)) {
+                        <button class="plan-btn btn-upgrade" (click)="upgradePlan(plan.planId)"><i class="fa-solid fa-cart-plus"></i> Purchase Another</button>
                       } @else if (plan.planId === 1) {
                         <button class="plan-btn btn-disabled" disabled>Default Plan</button>
                       } @else {
@@ -854,6 +875,32 @@
     (submit)="linkTag()">
   </app-link-tag-modal>
 
+  <!-- Add Home Modal -->
+  <app-add-home-modal
+    [show]="showAddHomeModal()"
+    [isRegistering]="isRegisteringHome()"
+    [newName]="newHomeName()"
+    (newNameChange)="newHomeName.set($event)"
+    [newAddress]="newHomeAddress()"
+    (newAddressChange)="newHomeAddress.set($event)"
+    (close)="closeAddHome()"
+    (submit)="addHome()">
+  </app-add-home-modal>
+
+  <!-- Link Home Tag Modal -->
+  <app-link-home-tag-modal
+    
+      [homes]="homes()" [show]="showLinkHomeTagModal()"
+    [linkSerial]="linkSerial()"
+    (linkSerialChange)="linkSerial.set($event)"
+    [linkHomeId]="linkHomeId()"
+    (linkHomeIdChange)="linkHomeId.set($event)"
+    [unassignedTags]="unassignedTags()"
+    [isLinkingTag]="isLinkingTag()"
+    (close)="closeLinkHomeTag()"
+    (submit)="linkHomeTagSubmit()">
+  </app-link-home-tag-modal>
+
   <!-- Delete Account Modal -->
   @if (showDeleteAccountModal()) {
     <div class="modal-overlay animate-fade-in" (click)="closeDeleteAccountModal()">
@@ -933,8 +980,8 @@
 Unused alerts will not be Roll Over for the next month...Must have active plan to keep getting Alerts..
 </p>
 <div class="plan-card-footer">
-                    @if (membershipType().toLowerCase().trim() === plan.name.toLowerCase().trim()) {
-                      <button class="plan-btn btn-current" disabled><i class="fa-solid fa-check"></i> Current Plan</button>
+                    @if (hasActivePlan(plan.planId)) {
+                      <button class="plan-btn btn-upgrade" (click)="upgradePlan(plan.planId)"><i class="fa-solid fa-cart-plus"></i> Purchase Another</button>
                     } @else if (plan.planId === 1) {
                       <button class="plan-btn btn-disabled" disabled>Default Plan</button>
                     } @else {
@@ -1001,6 +1048,19 @@ Unused alerts will not be Roll Over for the next month...Must have active plan t
   }
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

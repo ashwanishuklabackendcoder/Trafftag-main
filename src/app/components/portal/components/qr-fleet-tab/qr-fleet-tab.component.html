@@ -36,6 +36,9 @@
           </button>
         </div>
       </div>
+
+
+
     </div>
   } @else {
     <div class="tags-grid-layout">
@@ -77,7 +80,7 @@
               </div>
               <div class="decal-meta-item">
                 <span class="lbl"><i class="fa-solid fa-shield-halved text-primary"></i> Protection Plan:</span>
-                <span class="val">{{ membershipType }}</span>
+                <span class="val">{{ getPlanName(veh.tagId, veh.id) }}</span>
               </div>
               <div class="decal-meta-item">
                 <span class="lbl"><i class="fa-solid fa-barcode text-muted"></i> Hardware Type:</span>
@@ -105,7 +108,7 @@
                   }
                 </button>
                 <button class="footer-btn btn-action-delete" (click)="deleteQr.emit(veh.tagId)" title="Delete & Deactivate QR Tag">
-                  <i class="fa-solid fa-trash-can"></i> Delete QR
+                  <i class="fa-solid fa-trash-can"></i>
                 </button>
               } @else {
                 <button class="footer-btn btn-action-scan" (click)="generateNewQr.emit()">
@@ -170,12 +173,101 @@
                 <i class="fa-solid fa-link"></i> Link to Vehicle
               </button>
               <button class="footer-btn btn-action-delete" (click)="deleteQr.emit(tag.tagId || tag.id.toString())" title="Delete & Deactivate QR Tag">
-                <i class="fa-solid fa-trash-can"></i> Delete QR
+                <i class="fa-solid fa-trash-can"></i>
               </button>
+            </div>
+          </div>
+        </div>
+      }
+
+
+
+
+      @for (home of homes; track home.id) {
+        <div class="decal-card">
+          <!-- Physical Decal Preview Column -->
+          <div class="decal-preview-wrapper">
+            <div class="decal-sticker-mock" style="border-color: #3b82f6;">
+              <div class="sticker-header">TRAFFTAG &bull; HOME PROTECT</div>
+              <div class="sticker-qr-container">
+                <div class="qr-target-corner top-left"></div>
+                <div class="qr-target-corner top-right"></div>
+                <div class="qr-target-corner bottom-left"></div>
+                <div class="qr-target-corner bottom-right"></div>
+                @if (home.qrTagId && home.qrTagId !== 'Not Assigned') {
+                  <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' + getScanUrl(home.serialNumber)" alt="QR Code" class="decal-qr-image" />
+                } @else {
+                  <i class="fa-solid fa-qrcode decal-qr-icon"></i>
+                }
+              </div>
+              <div class="sticker-serial-footer">{{ (home.serialNumber) ? home.serialNumber : 'UNASSIGNED' }}</div>
+            </div>
+          </div>
+
+          <!-- Metadata & Actions Column -->
+          <div class="decal-details-wrapper">
+            <div class="decal-header-row">
+              <span class="decal-badge-id">Serial: <strong>{{ (home.serialNumber) ? home.serialNumber : 'Not Assigned' }}</strong></span>
+              <span class="status-pill-badge" [class.tag-active]="home.isActive && home.qrTagId && home.qrTagId !== 'Not Assigned'" [class.tag-paused]="!home.isActive && home.qrTagId && home.qrTagId !== 'Not Assigned'" [class.tag-missing]="!home.qrTagId || home.qrTagId === 'Not Assigned'">
+                <i class="fa-solid" [class.fa-circle-check]="home.isActive && home.qrTagId && home.qrTagId !== 'Not Assigned'" [class.fa-circle-pause]="!home.isActive && home.qrTagId && home.qrTagId !== 'Not Assigned'" [class.fa-triangle-exclamation]="!home.qrTagId || home.qrTagId === 'Not Assigned'"></i>
+                {{ (home.qrTagId && home.qrTagId !== 'Not Assigned') ? (home.isActive ? 'Active Decal' : 'Paused') : 'Unassigned Tag' }}
+              </span>
+            </div>
+
+            <div class="decal-meta-grid">
+              <div class="decal-meta-item">
+                <span class="lbl"><i class="fa-solid fa-house text-indigo"></i> Linked Home:</span>
+                <span class="val">{{ home.name }}</span>
+              </div>
+              <div class="decal-meta-item">
+                <span class="lbl"><i class="fa-solid fa-shield-halved text-primary"></i> Protection Plan:</span>
+                <span class="val">{{ getPlanName(home.serialNumber, undefined) }}</span>
+              </div>
+              <div class="decal-meta-item">
+                <span class="lbl"><i class="fa-solid fa-barcode text-muted"></i> Hardware Type:</span>
+                <span class="val">Premium Matte Vinyl Decal</span>
+              </div>
+            </div>
+
+            <div class="decal-actions-footer">
+              @if (home.qrTagId && home.qrTagId !== 'Not Assigned') {
+                <a [routerLink]="['/scan', home.serialNumber]" target="_blank" class="footer-btn btn-action-scan">
+                  <i class="fa-solid fa-up-right-from-square"></i> Test Scan
+                </a>
+                <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit('home-' + home.id)">
+                  <i class="fa-solid fa-arrows-rotate"></i> Reassign
+                </button>
+                <button class="footer-btn btn-action-pdf" (click)="downloadHomeQr.emit(home)" [disabled]="downloadingVehicleId === 'home-' + home.id" title="Download Printable QR Decal">
+                  @if (downloadingVehicleId === 'home-' + home.id) {
+                    <span class="spinner-sm"></span> Downloading...
+                  } @else {
+                    <i class="fa-solid fa-download"></i> Trafftag Qr Download
+                  }
+                </button>
+                <button class="footer-btn btn-action-delete" (click)="deleteQr.emit(home.serialNumber)" title="Delete & Deactivate QR Tag">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              } @else {
+                <button class="footer-btn btn-action-scan" (click)="generateNewQr.emit()">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Get Your Qr tag
+                </button>
+                <button class="footer-btn btn-action-pdf" (click)="openLinkTag.emit('home-' + home.id)">
+                  <i class="fa-solid fa-link"></i> Link and Activate Trafftag
+                </button>
+              }
             </div>
           </div>
         </div>
       }
     </div>
   }
-</div>
+
+
+
+
+
+
+
+
+
+

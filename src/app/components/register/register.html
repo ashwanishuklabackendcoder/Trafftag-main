@@ -117,10 +117,58 @@
           </div>
         </div>
 
-        <!-- 12. Age Verification & Consents -->
-        <div class="form-checkbox-group animate-fade-in-up delay-350" style="display: flex; flex-direction: column; gap: 10px;">
-          <!-- 18+ Checkbox -->
-          <label class="checkbox-container">
+        <!-- 12. A2P 10DLC Compliant Messaging & Legal Consents -->
+        <div class="form-checkbox-group animate-fade-in-up delay-350" style="display: flex; flex-direction: column; gap: 12px;">
+          
+          <!-- Marketing Messages Checkbox (Unchecked by default) -->
+          <div class="consent-box">
+            <input 
+              type="checkbox" 
+              id="marketingConsent"
+              name="marketingConsent" 
+              [ngModel]="marketingConsent()" 
+              (ngModelChange)="marketingConsent.set($event)"
+            />
+            <div class="consent-content">
+              <label for="marketingConsent" class="consent-title">Marketing Messages</label>
+              <span class="consent-desc">Promotions, sales, new product announcements, and special offers from TRAFFTAG LLC. Frequency may vary (approx. 2–4 msgs/month).</span>
+            </div>
+          </div>
+
+          <!-- Transactional Messages Checkbox (Unchecked by default) -->
+          <div class="consent-box">
+            <input 
+              type="checkbox" 
+              id="transactionalConsent"
+              name="transactionalConsent" 
+              [ngModel]="transactionalConsent()" 
+              (ngModelChange)="transactionalConsent.set($event)"
+              required
+            />
+            <div class="consent-content">
+              <label for="transactionalConsent" class="consent-title">Transactional Messages <span class="required">*</span></label>
+              <span class="consent-desc">Vehicle QR scan alerts, emergency notifications, order updates, and account security alerts from TRAFFTAG LLC. Frequency depends on user activity.</span>
+            </div>
+          </div>
+
+          <!-- Legal Terms & Privacy Policy Checkbox (Separate, unchecked by default) -->
+          <div class="consent-box">
+            <input 
+              type="checkbox" 
+              id="agreeTerms"
+              name="agreeTerms" 
+              [ngModel]="agreeTerms() && privacyAccepted()" 
+              (ngModelChange)="agreeTerms.set($event); privacyAccepted.set($event)"
+              required
+            />
+            <div class="consent-content">
+              <label for="agreeTerms" class="consent-title">Terms & Privacy Consent <span class="required">*</span></label>
+              <span class="consent-desc">I have read and agree to the <a href="/terms-of-service" target="_blank" class="inline-link">Terms of Service</a> and <a href="/privacy-policy" target="_blank" class="inline-link">Privacy Policy</a>.</span>
+            </div>
+          </div>
+
+          <!-- 18+ Verification Checkbox -->
+          <label class="checkbox-container" style="margin-top: 4px;">
             <input 
               type="checkbox" 
               name="is18Plus" 
@@ -133,51 +181,6 @@
               I confirm that I am 18 years or older <span class="required">*</span>
             </span>
           </label>
-          
-          <!-- Terms Checkbox -->
-          <label class="checkbox-container">
-            <input 
-              type="checkbox" 
-              name="agreeTerms" 
-              [ngModel]="agreeTerms()" 
-              (ngModelChange)="agreeTerms.set($event)"
-              required
-            />
-            <span class="checkmark"></span>
-            <span class="checkbox-label">
-              I agree to the <a href="/terms" target="_blank" class="inline-link">Terms of Service</a> <span class="required">*</span>
-            </span>
-          </label>
-
-          <!-- Privacy Policy Checkbox -->
-          <label class="checkbox-container">
-            <input 
-              type="checkbox" 
-              name="privacyAccepted" 
-              [ngModel]="privacyAccepted()" 
-              (ngModelChange)="privacyAccepted.set($event)"
-              required
-            />
-            <span class="checkmark"></span>
-            <span class="checkbox-label">
-              I agree to the <a href="/privacy" target="_blank" class="inline-link">Privacy Policy</a> <span class="required">*</span>
-            </span>
-          </label>
-
-          <!-- SMS Consent Checkbox -->
-          <label class="checkbox-container">
-            <input 
-              type="checkbox" 
-              name="smsConsent" 
-              [ngModel]="smsConsent()" 
-              (ngModelChange)="smsConsent.set($event)"
-              required
-            />
-            <span class="checkmark"></span>
-            <span class="checkbox-label">
-              I agree to receive automated SMS message from Trafftag include QR scan alerts and account/service notifications. messages frequency varies. message and data rate may apply. reply STOP to opt out and HELP for help <span class="required">*</span>
-            </span>
-          </label>
         </div>
 
         <!-- Error Alert -->
@@ -188,7 +191,7 @@
           </div>
         }
 
-        <!-- Submit Button -->
+        <!-- Submit Button with Clear Language -->
         <button 
           type="submit" 
           class="btn btn-primary btn-submit animate-fade-in-up delay-400" 
@@ -197,9 +200,16 @@
           @if (isSubmitting()) {
             <span class="spinner"></span> Creating Account...
           } @else {
-            Create Account & Get Started
+            Yes, Sign Me Up!
           }
         </button>
+
+        <!-- Mandatory A2P 10DLC Disclosure Box -->
+        <div class="a2p-disclosure-card">
+          <p><strong>Msg & data rates may apply.</strong> Message frequency varies by subscription and vehicle scan activity. You are not required to consent as a condition of purchase.</p>
+          <p>Reply <strong>STOP</strong> to opt out of any or all messages at any time. Reply <strong>HELP</strong> for help or contact us at <a href="mailto:support@trafftag.com" class="inline-link">support@trafftag.com</a>.</p>
+          <p>For more information, see our <a href="/terms-of-service" target="_blank" class="inline-link">Terms of Service</a> and <a href="/privacy-policy" target="_blank" class="inline-link">Privacy Policy</a>.</p>
+        </div>
 
       </form>
 

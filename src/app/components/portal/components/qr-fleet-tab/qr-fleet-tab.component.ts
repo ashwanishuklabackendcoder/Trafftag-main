@@ -13,14 +13,21 @@ import { RouterLink } from '@angular/router';
 export class QrFleetTabComponent {
   @Input() vehicles: any[] = [];
   @Input() unassignedTags: any[] = [];
+  @Input() homes: any[] = [];
   @Input() downloadingVehicleId: string | null = null;
   @Input() membershipType = 'Free Plan';
   @Input() scanUrlFn!: (tagId: string) => string;
+  @Input() planNameFn!: (tagId?: string, vehicleId?: string) => string;
 
   @Output() generateNewQr = new EventEmitter<void>();
   @Output() openLinkTag = new EventEmitter<string | undefined>();
+  @Output() downloadHomeQr = new EventEmitter<any>();
   @Output() downloadQr = new EventEmitter<any>();
   @Output() deleteQr = new EventEmitter<string>();
+
+  getPlanName(tagId?: string, vehicleId?: string): string {
+    return this.planNameFn ? this.planNameFn(tagId, vehicleId) : this.membershipType;
+  }
 
   getScanUrl(tagId: string): string {
     return this.scanUrlFn ? this.scanUrlFn(tagId) : '';
@@ -30,3 +37,6 @@ export class QrFleetTabComponent {
     return (this.vehicles && this.vehicles.length > 0) || (this.unassignedTags && this.unassignedTags.length > 0);
   }
 }
+
+
+
