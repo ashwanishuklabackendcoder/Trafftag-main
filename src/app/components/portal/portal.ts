@@ -269,8 +269,8 @@ export class Portal implements OnInit {
     // Helper to safely extract remaining alert credits
     const getRemainingAlerts = (m: any, isTagAssigned: boolean, totalLimit: number): number => {
       const explicitRem = m?.remainingCredits ?? m?.remainingAlerts ?? m?.availableCredits;
-      if (typeof explicitRem === 'number' && explicitRem > 0) {
-        return explicitRem;
+      if (typeof explicitRem === 'number' && !isNaN(explicitRem)) {
+        return Math.max(0, explicitRem);
       }
 
       const isActive = m?.status === 'Active' || m?.isActive || (m?.planName && !m?.planName.toLowerCase().includes('free'));
