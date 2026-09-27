@@ -36,7 +36,7 @@ export class HowItWorks {
       stepNumber: '03',
       title: 'You Get Notified',
       subtitle: 'Your Contact Information Stays Private',
-      description: 'You receive an alert by Email, SMS, or WhatsApp, depending on your plan and settings, while your phone number remains hidden from the scanner.',
+      description: 'You receive an alert by Email or SMS, depending on your plan and settings, while your phone number remains hidden from the scanner.',
       icon: 'fa-solid fa-bell',
       badge: 'Step 3'
     },
@@ -58,7 +58,7 @@ export class HowItWorks {
     },
     {
       title: 'Multi-Channel Alert Delivery',
-      desc: 'Depending on your plan and notification settings, alerts can be delivered by Email, SMS, or WhatsApp without requiring you to manually check the website.',
+      desc: 'Depending on your plan and notification settings, alerts can be delivered by Email or SMS without requiring you to manually check the website.',
       icon: 'fa-solid fa-envelope-open-text'
     },
     {
@@ -71,7 +71,7 @@ export class HowItWorks {
   tagsInAction = [
     {
       title: 'Personal Vehicle Alerts',
-      desc: 'Place a weather-resistant TRAFFTAG decal on your vehicle so someone can quickly scan it and send you an alert.',
+      desc: 'Place a premium TRAFFTAG decal on your vehicle so someone can quickly scan it and send you an alert.',
       icon: 'fa-solid fa-car',
       colorClass: 'color-vehicle',
       image: 'hero-car-bg-1.jpg'
@@ -100,7 +100,7 @@ export class HowItWorks {
     },
     {
       question: 'How fast do I get notified after someone scans my tag?',
-      answer: 'Alerts are generally sent shortly after the scanner submits an alert. Delivery time can vary by network and service provider. Depending on your plan and settings, notifications may be delivered by Email, SMS, or WhatsApp.',
+      answer: 'Alerts are generally sent shortly after the scanner submits an alert. Delivery time can vary by network and service provider. Depending on your plan and settings, notifications may be delivered by Email or SMS.',
       open: false
     },
     {
@@ -118,5 +118,7 @@ export class HowItWorks {
     this.pageFaqs[index].open = !this.pageFaqs[index].open;
   }
 }
+
+
 
 

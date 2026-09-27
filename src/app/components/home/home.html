@@ -80,7 +80,7 @@
                 </div>
                 <div class="hero-icon-item">
                   <div class="icon-circle bg-red"><i class="fa-solid fa-fire"></i></div>
-                  <span style="color: #08162A;">Near Fire<br/>Hydrant (15 ft)</span>
+                  <span style="color: #08162A;">Near Fire<br/>Hydrant</span>
                 </div>
                 <div class="hero-icon-item">
                   <div class="icon-circle bg-purple"><i class="fa-solid fa-car-burst"></i></div>
@@ -143,13 +143,13 @@
               </div>
               
               <p class="hero-static-desc" style="color: #1E293B !important; margin-bottom: 15px; margin-top: -5px; line-height: 1.4;">
-                A scannable pet tag lets anyone who finds your pet send you an instant, anonymous alert with the location — without seeing your personal phone number.
+                A scannable pet tag lets anyone who finds your pet send you an instant, anonymous alert  — without seeing your personal phone number.
               </p>
               
               <div class="hero-icons-row">
                 <div class="hero-icon-item">
                   <div class="icon-circle bg-red"><i class="fa-solid fa-location-dot"></i></div>
-                  <span style="color: #08162A;">Instant Alert<br/>with Location</span>
+                  <span style="color: #08162A;">Instant Alert</span>
                 </div>
                 <div class="hero-icon-item">
                   <div class="icon-circle bg-green"><i class="fa-solid fa-shield-halved"></i></div>
@@ -444,7 +444,7 @@
                     </div>
                     <i class="fa-solid fa-bell" style="color: #EF4444; font-size: 2rem;"></i>
                     <div style="text-align: right; font-weight: 800; color: #08162A; font-size: 0.8rem; line-height: 1.1;">
-                      <span style="color: #1E3A8A;">For Emergencies,</span><br/>
+                      <span style="color: #1E3A8A;">For urgent situations,</span><br/>
                       <span style="color: #1E3A8A;">Please Call </span><span style="color: #EF4444; font-size: 1.3rem;">911</span>
                     </div>
                   </div>
@@ -611,7 +611,7 @@
         <span class="sub-badge"><i class="fa-solid fa-layer-group"></i> UNIVERSAL SMART QR TAGS</span>
         <h2 class="mockup-section-title" style="margin-top: 0.5rem;">Smart Tags Available For Everyone & Everything</h2>
         <p style="color: #475569; max-width: 720px; margin: 0.5rem auto 0; font-size: 0.98rem; line-height: 1.6;">
-          Whether it's your vehicle, beloved pet, home entrance gate, child's school bag, or elderly family members — TRAFFTAG offers smart QR protection for everyone with enhanced phone privacy.
+          Whether it's your vehicle, beloved pet, home entrance gate, student's school bag, or elderly family members — TRAFFTAG offers smart QR protection for everyone with enhanced phone privacy.
         </p>
       </div>
 
@@ -825,13 +825,13 @@
           <div class="step-visual-header bg-blue">YOU GET AN ALERT</div>
           <div class="step-visual-body">
             <div class="step-visual-desc">
-              <p><strong>You receive it instantly<br/>via Email, SMS, or WhatsApp.</strong></p>
+              <p><strong>You receive it instantly<br/>via Email, SMS.</strong></p>
             </div>
             <div class="step-visual-img-container">
               <img src="assets/images/step3_alert.jpg" alt="Alert Notification" />
             </div>
             <div class="step-visual-footer footer-blue">
-              <span>With location and details<br/>so you can act fast.</span>
+              <span>With details<br/>so you can act fast.</span>
             </div>
           </div>
         </div>
@@ -871,8 +871,8 @@
         <div class="hostinger-pricing-top">
           <div class="hostinger-title-block">
             <span class="hostinger-section-badge"><i class="fa-solid fa-crown"></i> FLEET MEMBERSHIP PLANS</span>
-            <h2 class="hostinger-main-title">Choose The Perfect Plan For Your Cab Fleet</h2>
-            <p class="hostinger-sub-title">Save big with lifetime membership plans. Instant E-Challan alerts, QR safety decals, and zero downtime.</p>
+            <h2 class="hostinger-main-title">Choose The Perfect Plan For Your Fleet</h2>
+            <p class="hostinger-sub-title">Instant alerts, QR safety, and zero downtime.</p>
           </div>
 
           <div class="hostinger-slider-nav">
@@ -901,7 +901,7 @@
                 <div class="hostinger-price-row">
                   <span class="hostinger-price-val">{{ plan.lifetimePrice }}</span>
                   @if (!plan.isDynamic || plan.name.toLowerCase().includes('lifetime')) {
-                    <span class="hostinger-price-tag">LIFETIME</span>
+                    <span class="hostinger-price-tag"></span>
                   } @else {
                     <span class="hostinger-price-tag" style="background: transparent; color: #64748B; border: 1px solid #CBD5E1;">{{ plan.validityDays >= 365 ? 'YEARLY' : 'MONTHLY' }}</span>
                   }
@@ -942,12 +942,12 @@
         <div class="home-packages-header">
           <span class="pkg-header-badge"><i class="fa-solid fa-bell"></i> MEMBER EXCLUSIVES</span>
           <h2>NOTIFICATION PACKAGES (ONLY FOR MEMBERS)</h2>
-          <p class="pkg-header-sub">Instant alert credits for SMS, Email, and WhatsApp notifications.</p>
+          <p class="pkg-header-sub">Instant alert credits for SMS, Email</p>
         </div>
 
         <div class="home-packages-grid">
           @for (pkg of notificationPackages(); track pkg.title) {
-            <div class="home-pkg-card" [class.pkg-sms]="pkg.type === 'sms'" [class.pkg-email]="pkg.type === 'email'" [class.pkg-whatsapp]="pkg.type === 'whatsapp'">
+            <div class="home-pkg-card" [class.pkg-sms]="pkg.type === 'sms'" [class.pkg-email]="pkg.type === 'email'">
               <div class="home-pkg-icon">
                 @if (pkg.type === 'sms') {
                   <div class="icon-bubble bg-emerald">
@@ -957,17 +957,17 @@
                   <div class="icon-bubble bg-indigo">
                     <i class="fa-solid fa-envelope-open-text"></i>
                   </div>
-                } @else if (pkg.type === 'whatsapp') {
+                <!-- } @else if (pkg.type === 'whatsapp') {
                   <div class="icon-bubble bg-whatsapp">
                     <i class="fa-brands fa-whatsapp"></i>
-                  </div>
+                  </div> -->
                 }
               </div>
 
               <div class="home-pkg-type-badge">
                 @if (pkg.type === 'sms') { SMS ALERT }
                 @else if (pkg.type === 'email') { EMAIL ALERT }
-                @else if (pkg.type === 'whatsapp') { WHATSAPP API }
+                <!-- -->
               </div>
 
               <h3 class="home-pkg-title">{{ pkg.title }}</h3>
@@ -1053,5 +1053,9 @@
   <!-- Footer -->
   <app-footer></app-footer>
 </div>
+
+
+
+
 
 

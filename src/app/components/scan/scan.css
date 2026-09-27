@@ -2,10 +2,10 @@
    SCAN PAGE - ENTERPRISE CLEAN WHITE & GOLD THEME
    ========================================================================== */
 .scan-container {
-  min-height: 100vh;
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 16px;
   position: relative;
   background-color: #FFFFFF;

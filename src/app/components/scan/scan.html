@@ -1,15 +1,9 @@
+<app-navbar></app-navbar>
+
 <div class="scan-container">
   <!-- Background Glows -->
   <div class="bg-glow-gold" style="top: -10%; left: -10%;"></div>
   <div class="bg-glow-gold" style="bottom: -10%; right: -10%;"></div>
-
-  <header class="scan-header">
-    <div class="logo" [routerLink]="['/']">
-      <span class="logo-icon"><i class="fa-solid fa-taxi"></i></span>
-      <span class="logo-text">TRAFF<span class="logo-highlight">TAG</span></span>
-    </div>
-    <a [routerLink]="['/']" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
-  </header>
 
   <main class="scan-card-wrapper">
     <div class="glass-card scan-card">
@@ -199,9 +193,7 @@
       }
     </div>
   </main>
-
-  <footer class="scan-footer-note">
-    <p>Powered by TRAFFTAG Safety Infrastructure. All alerts are encrypted in transit.</p>
-  </footer>
 </div>
+
+<app-footer></app-footer>
 

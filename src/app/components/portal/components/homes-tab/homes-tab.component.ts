@@ -12,9 +12,12 @@ import { CommonModule } from '@angular/common';
 export class HomesTabComponent {
   @Input() homes: any[] = [];
   @Input() unassignedTags: any[] = [];
+  @Input() downloadingVehicleId: string | null = null;
+  @Output() downloadQr = new EventEmitter<any>();
   
   @Output() addHomeClick = new EventEmitter<void>();
   @Output() openLinkTag = new EventEmitter<string>();
   @Output() deleteHome = new EventEmitter<string>();
   @Output() toggleActive = new EventEmitter<any>();
 }
+

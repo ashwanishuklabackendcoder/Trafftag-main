@@ -57,7 +57,7 @@ export class Home implements OnInit, OnDestroy {
       secondaryCtaLink: '#how-it-works',
       taxiType: 'AUTO-RICKSHAWS & TAXIS',
       statusBadge: 'PREMIUM REFLECTIVE DECAL',
-      imageAlt: 'Weatherproof Taxi QR Decal',
+      imageAlt: 'Taxi QR Decal',
       bgImage: 'hero-car-bg-1.png',
       cardImage: 'card-vehicle-transparent.png',
       visualType: 'weatherproof-decal'
@@ -93,7 +93,7 @@ export class Home implements OnInit, OnDestroy {
       secondaryCtaLink: '#faq',
       taxiType: 'COMMERCIAL CAB FLEET',
       statusBadge: 'TRAFFIC PORTAL CONNECTED',
-      imageAlt: 'Taxi E-Challan Compliance',
+      imageAlt: 'Taxi e-alert Compliance',
       bgImage: 'hero-car-bg-3.png',
       cardImage: 'echallan-transparent.png',
       visualType: 'echallan-speed'
@@ -221,7 +221,7 @@ export class Home implements OnInit, OnDestroy {
     },
     {
       question: 'How do I get notified?',
-      answer: 'You can choose to receive instant alerts via Email, SMS, or WhatsApp whenever someone scans your tag.',
+      answer: 'You can choose to receive instant alerts via Email or SMS whenever someone scans your tag.',
       open: false
     }
   ]);
@@ -250,21 +250,15 @@ export class Home implements OnInit, OnDestroy {
   notificationPackages = signal([
     {
       title: 'SMS NOTIFICATION PACKAGE',
-      price: '$49.99',
-      details: '(5 SMS ONLY)',
+        price: '$39.99',
+        details: '(30 SMS ONLY)',
       type: 'sms'
     },
     {
       title: 'EMAIL ALERT NOTIFICATION PACKAGE',
-      price: '$49.99',
-      details: '(5 EMAIL ALERT NOTIFICATION ONLY)',
+        price: '$29.99',
+        details: '(30 MAILS ONLY)',
       type: 'email'
-    },
-    {
-      title: 'WHATSAPP NOTIFICATIONS',
-      price: '$99.99',
-      details: '(15 NOTIFICATIONS ON GIVEN NUMBER)',
-      type: 'whatsapp'
     }
   ]);
 
@@ -315,7 +309,7 @@ export class Home implements OnInit, OnDestroy {
       subtitle: 'Adults • College Students • Seniors',
       subtitle2: '',
       icon: 'fa-solid fa-users',
-      image: 'card_life_adults.jpg',
+      image: 'life-tag-custom.jpg',
       buttonText: 'FOR EVERY PERSON',
       link: '/tags/life',
       colorClass: 'color-life'
@@ -342,7 +336,7 @@ export class Home implements OnInit, OnDestroy {
       desc: 'If your vehicle is blocking a driveway or access point, nearby citizens can scan your QR tag to send an instant alert so you can move your vehicle.',
       tag: 'COMMUNITY ALERTS',
       accentColor: '#F59E0B',
-      image: 'card-vehicle.png'
+      image: 'card_vehicle_new.jpg'
     },
     {
       id: 'headlights-windows',
@@ -384,6 +378,12 @@ export class Home implements OnInit, OnDestroy {
     }
   }
 }
+
+
+
+
+
+
 
 
 

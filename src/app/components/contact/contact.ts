@@ -28,28 +28,23 @@ export class Contact {
 
   faqs = signal([
     {
-      question: 'How can I inquire about Tag or investment opportunities?',
-      answer: 'Please email us at mytrafftag@gmail.com.',
+      question: 'Which email should I use to get help with my Tag?',
+      answer: 'Please use the specific email for your tag category: Myhappyvehicletag@gmail.com (Vehicles), Myhappyhometag@gmail.com (Home/Business), Myhappypettag@gmail.com (Pets), myhappylifetag@gmail.com (Life Tag), or Myhappyitemtag@gmail.com (Item Tag).',
       open: false
     },
     {
-      question: 'How can I ask general questions about TraffTag?',
-      answer: 'Please email us at trafftag@gmail.com.',
+      question: 'What information should I include in my email or text?',
+      answer: 'For faster service, please provide your email address, describe your issue, and specify which tag category you are having an issue with.',
       open: false
     },
     {
-      question: 'How can I reach an additional contact for other matters?',
-      answer: 'Please email us at trafftagofficial@gmail.com.',
+      question: 'How can I contact you by phone or text?',
+      answer: 'You can text or call us at 1 (201) 206-4869 for all other inquiries regarding tags.',
       open: false
     },
     {
       question: 'How long does it take to get a response?',
-      answer: 'We aim to respond to all inquiries within 24–72 hours.',
-      open: false
-    },
-    {
-      question: 'What information should I include in my email?',
-      answer: 'Please include your name, a clear subject, and a detailed message so we can assist you better.',
+      answer: 'We will get back with you within 24 to 72 hours.',
       open: false
     }
   ]);
@@ -82,3 +77,5 @@ export class Contact {
     }, 1000);
   }
 }
+
+

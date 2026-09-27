@@ -40,13 +40,12 @@ export class VehicleRemindersTabComponent {
 
   notifySms = true;
   notifyEmail = false;
-  notifyWhatsapp = false;
   notifyAll = false;
 
   selectMethod(method: string) {
     this.notifySms = method === 'sms';
     this.notifyEmail = method === 'email';
-    this.notifyWhatsapp = method === 'whatsapp';
     this.notifyAll = method === 'all';
   }
 }
+

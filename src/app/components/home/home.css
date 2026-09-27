@@ -1680,13 +1680,16 @@
 }
 
 .home-packages-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 1.5rem;
   padding: 2rem;
 }
 
 .home-pkg-card {
+  flex: 1 1 300px;
+  max-width: 380px;
   background: #F8FAFC;
   border: 1.5px solid #E2E8F0;
   border-radius: 20px;
@@ -3092,3 +3095,4 @@
     min-width: 100%;
   }
 }
+

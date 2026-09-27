@@ -30,9 +30,9 @@ export class TagType implements OnInit {
       bannerImage: '/banner-vehical.png',
       description: 'Our Vehicle Protection Tag offers unmatched security. Whether parked in a busy city or at home, passersby can alert you of open windows, parking issues, or damage—without ever seeing your phone number.',
       features: [
-        'Instant SMS & WhatsApp Alerts',
+        'Instant SMS & Email Alerts',
         '100% Number Masking Privacy',
-        'Weatherproof & Durable Decal',
+        'QR Decal',
         'Easy Setup & Activation'
       ]
     },
@@ -42,9 +42,9 @@ export class TagType implements OnInit {
       bannerImage: '/banner-vehical.png',
       description: 'Our Vehicle Protection Tag offers unmatched security. Whether parked in a busy city or at home, passersby can alert you of open windows, parking issues, or damage—without ever seeing your phone number.',
       features: [
-        'Instant SMS & WhatsApp Alerts',
+        'Instant SMS & Email Alerts',
         '100% Number Masking Privacy',
-        'Weatherproof & Durable Decal',
+        'QR Decal',
         'Easy Setup & Activation'
       ]
     },
@@ -54,9 +54,9 @@ export class TagType implements OnInit {
       bannerImage: '/banner-pet.jpg',
       description: 'Our Pet Protection Tag ensures anyone who finds your lost pet can instantly notify you while keeping your phone number completely private.',
       features: [
-        'Instant Location Scan Alerts',
+        'Instant Scan Alerts',
         '100% Number Masking Privacy',
-        'Waterproof Collar Tag',
+        'Collar Tag',
         'No Batteries Required'
       ]
     },
@@ -68,19 +68,17 @@ export class TagType implements OnInit {
       features: [
         'Instant Delivery & Visitor Alerts',
         'Total Privacy & Security',
-        'Weather-Resistant Decal',
+        'QR Decal',
         'Quick Setup'
       ]
     },
     'life': {
       title: 'Life Protection Tag',
-      subtitle: 'Safety for kids, students, and seniors.',
+      subtitle: 'Safety for students and seniors.',
       bannerImage: '/banner-life.jpg',
-      description: 'The Life Protection Tag gives your loved ones an easy way to carry emergency contact info. In an emergency, first responders or helpful strangers can instantly alert you.',
+      description: 'The Life Protection Tag gives your loved ones an easy way to carry contact info. Helpful strangers can instantly alert you.',
       features: [
-        'Emergency SOS Contact',
-        'Medical Info Access',
-        'Durable ID Cards',
+        'Alert Messaging Service',
         'Peace of Mind'
       ]
     },
@@ -123,3 +121,8 @@ export class TagType implements OnInit {
     }
   }
 }
+
+
+
+
+

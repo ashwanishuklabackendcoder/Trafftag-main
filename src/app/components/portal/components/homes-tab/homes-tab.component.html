@@ -78,7 +78,14 @@
             
             <div class="footer-actions-group">
               @if (home.qrTagId) {
-                <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit('home-' + home.id)" title="Reassign Tag">
+                                <button class="footer-btn btn-action-scan" (click)="downloadQr.emit(home)" [disabled]="downloadingVehicleId === ('home-' + home.id)" title="Download Home Tag">
+                  @if (downloadingVehicleId === ('home-' + home.id)) {
+                    <span class="spinner-sm"></span>
+                  } @else {
+                    <i class="fa-solid fa-download"></i>
+                  }
+                </button>
+                  <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit('home-' + home.id)" title="Reassign Tag">
                   <i class="fa-solid fa-arrows-rotate"></i> Reassign
                 </button>
                 <button class="footer-btn btn-action-delete" (click)="deleteHome.emit(home.id)" title="Delete Home">
@@ -99,3 +106,4 @@
     </div>
   }
 </div>
+

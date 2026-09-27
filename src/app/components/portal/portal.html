@@ -31,41 +31,41 @@
 
       <nav class="sidebar-nav">
         <button class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
-          <span class="nav-label-group"><i class="fa-solid fa-house nav-icon"></i> Dashboard</span>
+          <span class="nav-label-group"><i class="fa-solid fa-house nav-icon"></i> DASHBOARD</span>
         </button>
         <button class="nav-item" [class.active]="activeTab() === 'explore-more'" (click)="selectTab('explore-more')">
-          <span class="nav-label-group"><i class="fa-solid fa-compass nav-icon"></i> Explore More</span>
+          <span class="nav-label-group"><i class="fa-solid fa-compass nav-icon"></i> EXPLORE MORE</span>
         </button>
         
         <!-- My Vehicles -->
         <button class="nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
-          <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> My Vehicles</span>
+          <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> MY VEHICLES</span>
         </button>
 
         <!-- My Happy Home -->
         <button class="nav-item" [class.active]="activeTab() === 'homes'" (click)="selectTab('homes')">
-          <span class="nav-label-group"><i class="fa-solid fa-house-chimney nav-icon"></i> My Happy Home</span>
+          <span class="nav-label-group"><i class="fa-solid fa-house-chimney nav-icon"></i> MY HAPPY HOME</span>
         </button>
         
         <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
-          <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> My Trafftag Qr</span>
+          <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> DOWNLOAD QR TAGS</span>
         </button>
         
         <button class="nav-item" [class.active]="activeTab() === 'alerts'" (click)="selectTab('alerts')">
-          <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> Alerts</span>
+          <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> ALERTS</span>
         </button>
 
         <button class="nav-item" [class.active]="activeTab() === 'profile-membership'" (click)="selectTab('profile-membership')">
-          <span class="nav-label-group"><i class="fa-solid fa-crown nav-icon"></i> Membership Plan</span>
+          <span class="nav-label-group"><i class="fa-solid fa-crown nav-icon"></i> MEMBERSHIP PLAN</span>
         </button>
         
         <!-- My Profile -->
         <button class="nav-item" [class.active]="activeTab() === 'profile'" (click)="selectTab('profile')">
-          <span class="nav-label-group"><i class="fa-solid fa-user nav-icon"></i> My Profile</span>
+          <span class="nav-label-group"><i class="fa-solid fa-user nav-icon"></i> MY PROFILE</span>
         </button>
 
         <button class="nav-item" [class.active]="activeTab() === 'support'" (click)="selectTab('support')">
-          <span class="nav-label-group"><i class="fa-solid fa-circle-question nav-icon"></i> Help & Support</span>
+          <span class="nav-label-group"><i class="fa-solid fa-circle-question nav-icon"></i> HELP & SUPPORT</span>
         </button>
       </nav>
         <div class="sidebar-promo-banner">
@@ -417,7 +417,9 @@
         (addHomeClick)="openAddHome()"
         (openLinkTag)="openLinkHomeTag($event)"
         (deleteHome)="deleteHome($event)"
-        (toggleActive)="toggleHomeActive($event)">
+        (toggleActive)="toggleHomeActive($event)"
+        [downloadingVehicleId]="downloadingVehicleId()"
+        (downloadQr)="downloadHomeQrCode($event)">
       </app-homes-tab>
     }
 
@@ -596,13 +598,13 @@
       <app-vehicle-reminders-tab></app-vehicle-reminders-tab>
     }
 
-    <!-- Tab 7: Pay Fine / E-Challan Gateway -->
+    <!-- Tab 7: Pay Fine / e-alert Gateway -->
     @if (activeTab() === 'pay-fine') {
       <div class="tab-panel pay-fine-panel">
         <div class="enterprise-white-card">
           <div class="panel-header-row">
             <div>
-              <h2>E-Challan & Penalty Payment Gateway</h2>
+              <h2>e-alert & Penalty Payment Gateway</h2>
               <p class="panel-subtext">Search and clear traffic fines, parking penalties, or towing charges associated with your vehicles.</p>
             </div>
             <span class="badge"><i class="fa-solid fa-shield-check"></i> Instant Clearance</span>
@@ -750,7 +752,7 @@
           <div class="panel-header-row">
             <div>
               <h2>Vehicle Decal Scan & Activity Log</h2>
-              <p class="panel-subtext">Historical analytics of anonymous QR scans, alert triggers, and emergency notifications.</p>
+              <p class="panel-subtext">Historical analytics of anonymous QR scans, alert triggers, and urgent notifications.</p>
             </div>
             <button class="btn btn-secondary"><i class="fa-solid fa-file-pdf"></i> Export PDF Report</button>
           </div>
@@ -786,7 +788,7 @@
           <div class="panel-header-row">
             <div>
               <h2>Traffic Regulations & Vehicle Safety Handbook</h2>
-              <p class="panel-subtext">Official guidelines, parking etiquette, emergency rules, and fine structure.</p>
+              <p class="panel-subtext">Official guidelines, parking etiquette, urgent rules, and fine structure.</p>
             </div>
             <span class="badge"><i class="fa-solid fa-book-bookmark"></i> Updated 2026</span>
           </div>
@@ -797,7 +799,7 @@
                 <i class="fa-solid fa-ban-smoking rule-icon"></i>
                 <h3>No Parking Zones & Towing Policies</h3>
               </div>
-              <p>Vehicles parked within 15ft of fire hydrants, hospital gates, or designated emergency lanes are subject to immediate towing and a minimum penalty fine of $75.00.</p>
+              <p>Vehicles parked within 15ft of fire hydrants, hospital gates, or designated urgent lanes are subject to immediate towing and a minimum penalty fine of $75.00.</p>
             </div>
 
             <div class="rule-card">
@@ -819,9 +821,9 @@
             <div class="rule-card">
               <div class="rule-header">
                 <i class="fa-solid fa-phone-volume rule-icon"></i>
-                <h3>24/7 Emergency Dispatch Helpline</h3>
+                <h3>24/7 urgent Dispatch Helpline</h3>
               </div>
-              <p>In case of vehicle accidents, dangerous obstruction, or immediate security threats, contact emergency dispatch at <strong>+1 (800) 555-TAGS</strong>.</p>
+              <p>In case of vehicle accidents, dangerous obstruction, or immediate security threats, contact urgent dispatch at <strong>+1 (800) 555-TAGS</strong>.</p>
             </div>
           </div>
         </div>
@@ -1048,6 +1050,11 @@ Unused alerts will not be Roll Over for the next month...Must have active plan t
   }
 
 </div>
+
+
+
+
+
 
 
 

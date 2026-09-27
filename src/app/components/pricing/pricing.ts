@@ -107,24 +107,25 @@ export class Pricing implements OnInit {
   notificationPackages = signal([
     {
       title: 'SMS NOTIFICATION PACKAGE',
-      price: '$49.99',
-      details: '(5 SMS ONLY)',
+        price: '$39.99',
+      details: '(30 SMS ONLY)',
       type: 'sms'
     },
     {
       title: 'EMAIL ALERT NOTIFICATION PACKAGE',
-      price: '$49.99',
-      details: '(5 EMAIL ALERT NOTIFICATION ONLY)',
+        price: '$29.99',
+      details: '(30 MAILS ONLY)',
       type: 'email'
-    },
-    {
-      title: 'WHATSAPP NOTIFICATIONS',
-      price: '$99.99',
-      details: '(15 NOTIFICATIONS ON GIVEN NUMBER)',
-      type: 'whatsapp'
     }
   ]);
 }
+
+
+
+
+
+
+
 
 
 

@@ -29,7 +29,7 @@
       <div class="fb-icon"><i class="fa-solid fa-bell" style="color: #8b5cf6;"></i></div>
       <div class="fb-text">
         <strong>Multi-Channel Alerts</strong>
-        <span>SMS, Email or WhatsApp - you choose</span>
+        <span>SMS or Email - you choose</span>
       </div>
     </div>
     <div class="feature-badge">
@@ -264,12 +264,8 @@
         <i class="fa-regular fa-envelope"></i> Email
         <div class="radio-circle"><div class="dot" *ngIf="notifyEmail"></div></div>
       </div>
-      <div class="method-card" [class.active]="notifyWhatsapp" (click)="selectMethod('whatsapp')">
-        <i class="fa-brands fa-whatsapp" style="color: #22c55e;"></i> WhatsApp
-        <div class="radio-circle"><div class="dot" *ngIf="notifyWhatsapp"></div></div>
-      </div>
       <div class="method-card" [class.active]="notifyAll" (click)="selectMethod('all')">
-        <i class="fa-regular fa-bell"></i> All (SMS, Email & WhatsApp)
+        <i class="fa-regular fa-bell"></i> All (SMS & Email)
         <div class="radio-circle"><div class="dot" *ngIf="notifyAll"></div></div>
       </div>
     </div>
@@ -295,3 +291,4 @@
   </div>
 
 </div>
+

@@ -15,7 +15,7 @@ export class Features {
   isMenuOpen = signal(false);
 
   constructor(private meta: Meta) {
-    this.meta.updateTag({ name: 'description', content: 'Discover TRAFFTAG\'s privacy features — masked contact, multi-channel alerts, and privacy-focused communication with custom messages and durable QR tags for vehicles, pets, homes, and items.' });
+    this.meta.updateTag({ name: 'description', content: 'Discover TRAFFTAG\'s privacy features — masked contact, multi-channel alerts, and privacy-focused communication with custom messages and high-quality QR tags for vehicles, pets, homes, and items.' });
   }
 
   toggleMenu() {
@@ -26,12 +26,12 @@ export class Features {
     {
       icon: 'fa-solid fa-lock',
       title: 'Private Contact Protection',
-      desc: 'Your contact information is not displayed to someone who scans your tag. All communication is handled through secure Email, SMS, or WhatsApp alerts.'
+      desc: 'Your contact information is not displayed to someone who scans your tag. All communication is handled through secure Email or SMS alerts.'
     },
     {
       icon: 'fa-solid fa-paper-plane',
       title: 'Multi-Channel Alerts',
-      desc: 'When someone scans your TRAFFTAG QR code and submits an alert, you will be notified by Email, SMS, or WhatsApp based on your settings.'
+      desc: 'When someone scans your TRAFFTAG QR code and submits an alert, you will be notified by Email or SMS based on your settings.'
     },
     {
       icon: 'fa-solid fa-table-cells-large',
@@ -50,7 +50,7 @@ export class Features {
     },
     {
       icon: 'fa-solid fa-qrcode',
-      title: 'Durable QR Stickers',
+      title: 'high-quality QR Stickers',
       desc: 'Our matte-laminated stickers are made to last and designed for daily use in normal weather conditions.'
     }
   ]);
@@ -68,7 +68,7 @@ export class Features {
     },
     {
       step: '3. You Get Notified',
-      desc: 'You receive the alert by Email, SMS, or WhatsApp.',
+      desc: 'You receive the alert by Email or SMS.',
       icon: 'fa-solid fa-bell'
     },
     {
@@ -94,7 +94,7 @@ export class Features {
     },
     {
       title: 'Multi-Channel Alert Delivery',
-      desc: 'Depending on your plan and notification settings, alerts can be delivered by Email, SMS, or WhatsApp without requiring you to manually check the website.',
+      desc: 'Depending on your plan and notification settings, alerts can be delivered by Email or SMS without requiring you to manually check the website.',
       icon: 'fa-solid fa-envelope-open-text'
     },
     {
@@ -112,7 +112,7 @@ export class Features {
   pageFaqs = [
     {
       question: 'How does TRAFFTAG keep my contact information private?',
-      answer: 'Your contact information is not displayed to someone who scans your tag. All communication is routed through secure Email, SMS, or WhatsApp alerts.',
+      answer: 'Your contact information is not displayed to someone who scans your tag. All communication is routed through secure Email or SMS alerts.',
       open: true
     },
     {
@@ -146,5 +146,7 @@ export class Features {
     this.pageFaqs[index].open = !this.pageFaqs[index].open;
   }
 }
+
+
 
 

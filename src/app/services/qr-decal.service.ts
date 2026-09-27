@@ -29,6 +29,49 @@ export class QrDecalService {
     window.URL.revokeObjectURL(url);
   }
 
+    generateAndDownloadGenericPdf(filename: string, qrImageBlob: Blob): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const imgUrl = URL.createObjectURL(qrImageBlob);
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          URL.revokeObjectURL(imgUrl);
+          resolve();
+          return;
+        }
+
+        ctx.drawImage(img, 0, 0);
+
+        const imgData = canvas.toDataURL('image/png');
+        const orientation = img.width > img.height ? 'l' : 'p';
+        // @ts-ignore
+        const pdf = new jsPDF({
+          orientation: orientation,
+          unit: 'px',
+          format: [img.width, img.height]
+        });
+
+        pdf.addImage(imgData, 'PNG', 0, 0, img.width, img.height);
+        pdf.save(filename + '.pdf');
+        
+        URL.revokeObjectURL(imgUrl);
+        resolve();
+      };
+      
+      img.onerror = () => {
+        console.error("Failed to load backend QR Image Blob");
+        URL.revokeObjectURL(imgUrl);
+        resolve();
+      };
+      
+      img.src = imgUrl;
+    });
+  }
+
   generateAndDownloadPdfWithFrame(veh: VehicleDecalInfo, qrImageBlob: Blob, tagId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const imgUrl = URL.createObjectURL(qrImageBlob);
@@ -139,7 +182,7 @@ export class QrDecalService {
       ctx.fillStyle = textMuted;
       ctx.font = 'bold 15px Arial, sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText('OFFICIAL EMERGENCY & RECOVERY TAG', rx + rw - 40, ry + 70);
+      ctx.fillText('OFFICIAL urgent & RECOVERY TAG', rx + rw - 40, ry + 70);
 
       // QR Code Block
       const qrBoxX = rx + 50;
@@ -324,3 +367,5 @@ export class QrDecalService {
     });
   }
 }
+
+

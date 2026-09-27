@@ -55,8 +55,8 @@ export class Faq {
       open: false
     },
     {
-      question: 'Is TRAFFTAG a replacement for 911 or emergency services?',
-      answer: 'No. TRAFFTAG is an anonymous notification system, not an emergency service. It does not replace 911 or any official emergency response, and it does not guarantee prevention of damage, loss, or towing. Always contact emergency services directly for urgent situations.',
+      question: 'Is TRAFFTAG a replacement for 911 or Urgent services?',
+      answer: 'No. TRAFFTAG is an anonymous notification system, not an urgent service. It does not replace 911 or any official urgent response, and it does not guarantee prevention of damage, loss, or towing. Always contact Urgent services directly for urgent situations.',
       category: 'privacy',
       open: false
     },
@@ -86,5 +86,6 @@ export class Faq {
     );
   }
 }
+
 
 

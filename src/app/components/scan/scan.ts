@@ -3,10 +3,12 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_URL } from '../../config/api.config';
+import { NavbarComponent } from '../navbar/navbar';
+import { FooterComponent } from '../footer/footer';
 
 @Component({
   selector: 'app-scan',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, NavbarComponent, FooterComponent],
   templateUrl: './scan.html',
   styleUrl: './scan.css',
 })

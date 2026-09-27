@@ -30,7 +30,7 @@ export class About {
     },
     {
       title: 'Built to Last',
-      desc: 'Durable, weather-resistant QR decals designed for outdoor conditions — rain, sun, and daily wear.',
+      desc: 'high-quality, premium QR decals designed for outdoor conditions — rain, sun, and daily wear.',
       icon: 'fa-solid fa-shield-halved'
     }
   ]);
@@ -43,7 +43,7 @@ export class About {
     },
     {
       title: 'Pet ID Tags',
-      desc: 'A durable, scannable ID that helps a lost pet get home faster.',
+      desc: 'A high-quality, scannable ID that helps a lost pet get home faster.',
       icon: 'fa-solid fa-paw'
     },
     {
@@ -65,8 +65,8 @@ export class About {
       open: false
     },
     {
-      question: 'Is TRAFFTAG a security company or an emergency service?',
-      answer: 'No. TRAFFTAG is an anonymous notification system, not a security company or emergency service. It does not replace 911 or official emergency response.',
+      question: 'Is TRAFFTAG a security company or an urgent service?',
+      answer: 'No. TRAFFTAG is an anonymous notification system, not a security company or urgent service. It does not replace 911 or official urgent response.',
       open: false
     }
   ]);
@@ -82,3 +82,5 @@ export class About {
     );
   }
 }
+
+
