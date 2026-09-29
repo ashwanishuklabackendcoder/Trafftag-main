@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { jsPDF } from 'jspdf';
+
 
 export interface VehicleDecalInfo {
   id: string;
@@ -33,7 +33,7 @@ export class QrDecalService {
     return new Promise((resolve, reject) => {
       const imgUrl = URL.createObjectURL(qrImageBlob);
       const img = new Image();
-      img.onload = () => {
+      img.onload = async () => {
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
@@ -48,6 +48,8 @@ export class QrDecalService {
 
         const imgData = canvas.toDataURL('image/png');
         const orientation = img.width > img.height ? 'l' : 'p';
+        
+        const { jsPDF } = await import('jspdf');
         // @ts-ignore
         const pdf = new jsPDF({
           orientation: orientation,
@@ -76,7 +78,7 @@ export class QrDecalService {
     return new Promise((resolve, reject) => {
       const imgUrl = URL.createObjectURL(qrImageBlob);
       const img = new Image();
-      img.onload = () => {
+      img.onload = async () => {
         // Use an invisible canvas to convert the loaded image to a JPEG data URL
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
@@ -94,6 +96,7 @@ export class QrDecalService {
 
         // Create PDF matching the exact dimensions of the image
         const orientation = img.width > img.height ? 'l' : 'p';
+        const { jsPDF } = await import('jspdf');
         const pdf = new jsPDF({
           orientation: orientation,
           unit: 'px',
@@ -284,6 +287,7 @@ export class QrDecalService {
   }
 
   async generateBulkPdfWithFrame(tags: any[], imageBlobs: Blob[]): Promise<void> {
+    const { jsPDF } = await import('jspdf');
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pageWidth = 210;
     const pageHeight = 297;

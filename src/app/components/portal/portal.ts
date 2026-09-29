@@ -16,7 +16,7 @@ import { LinkTagModalComponent } from './components/link-tag-modal/link-tag-moda
 import { HomesTabComponent } from './components/homes-tab/homes-tab.component';
 import { AddHomeModalComponent } from './components/add-home-modal/add-home-modal.component';
 import { LinkHomeTagModalComponent } from './components/link-home-tag-modal/link-home-tag-modal.component';
-import { State, City } from 'country-state-city';
+
 interface Home {
   id: string;
   name: string;
@@ -627,13 +627,21 @@ export class Portal implements OnInit {
   }
 
   // Location Database Dropdowns (US only)
-  usStates = State.getStatesOfCountry('US');
+  usStates: any[] = [];
   usCities = signal<any[]>([]);
 
-  onStateChange(stateCode: string) {
+  async loadStates() {
+    if (this.usStates.length === 0) {
+      const { State } = await import('country-state-city');
+      this.usStates = State.getStatesOfCountry('US');
+    }
+  }
+
+  async onStateChange(stateCode: string) {
     this.newStateProvince.set(stateCode);
     this.newCity.set('');
     if (stateCode) {
+      const { City } = await import('country-state-city');
       this.usCities.set(City.getCitiesOfState('US', stateCode));
     } else {
       this.usCities.set([]);
@@ -1027,6 +1035,7 @@ export class Portal implements OnInit {
     this.newHomeName.set('');
     this.newHomeAddress.set('');
     this.showAddHomeModal.set(true);
+    this.loadStates();
   }
 
   closeAddHome() {
@@ -1397,7 +1406,10 @@ export class Portal implements OnInit {
   }
 
   // Modals operations
-  openAddVehicle() { this.showAddVehicleModal.set(true); }
+  openAddVehicle() { 
+    this.showAddVehicleModal.set(true); 
+    this.loadStates();
+  }
   closeAddVehicle() {
     this.showAddVehicleModal.set(false);
     this.selectedMakeId.set('');
