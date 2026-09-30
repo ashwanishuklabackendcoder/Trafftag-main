@@ -85,7 +85,7 @@ export class TagType implements OnInit {
     'items': {
       title: 'Items Protection Tag',
       subtitle: 'Never lose your keys, laptop, or luggage.',
-      bannerImage: '/banner-vehical.png',
+      bannerImage: '/banner-items.jpg',
       description: 'Attach this tag to your valuable belongings. If lost, the finder can scan it to coordinate a safe return, all while your personal identity remains protected.',
       features: [
         'Lost & Found Tracking',

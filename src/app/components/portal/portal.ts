@@ -75,6 +75,7 @@ export interface TagMembershipSummary {
 export type PortalTab = 
   | 'dashboard'
   | 'explore-more' 
+  | 'coming-soon'
   | 'vehicles' 
   | 'homes'
   | 'vehicle-reminders'
@@ -780,7 +781,7 @@ export class Portal implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const sub = params.get('subpage');
-      const validTabs = ['dashboard', 'explore-more', 'vehicles', 'homes', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings'];
+      const validTabs = ['dashboard', 'explore-more', 'coming-soon', 'vehicles', 'homes', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings'];
       
       if (sub && validTabs.includes(sub)) {
         this.activeTab.set(sub as any);

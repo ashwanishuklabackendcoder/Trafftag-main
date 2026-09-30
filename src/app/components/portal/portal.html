@@ -331,7 +331,7 @@
           </div>
           
           <!-- 2. Home tag -->
-          <div class="dash-category-card bg-purple-soft">
+          <div class="dash-category-card bg-purple-soft" (click)="selectTab('homes')">
             <div class="dash-card-img-wrapper"><img src="/illust-home.png" alt="My Happy Home Tag" class="dash-card-img img-home"></div>
             <div class="dash-card-content">
               <h3 class="text-purple-primary">My Happy Home Tag</h3>
@@ -341,7 +341,7 @@
           </div>
           
           <!-- 3. Pet tag -->
-          <div class="dash-category-card bg-orange-soft">
+          <div class="dash-category-card bg-orange-soft" (click)="selectTab('coming-soon')">
             <div class="dash-card-img-wrapper"><img src="/pet-tag.png" alt="My Happy Pet Tag" class="dash-card-img img-pet"></div>
             <div class="dash-card-content">
               <h3 class="text-orange-primary">My Happy Pet Tag</h3>
@@ -351,7 +351,7 @@
           </div>
 
           <!-- 4. Life tag -->
-          <div class="dash-category-card bg-green-soft">
+          <div class="dash-category-card bg-green-soft" (click)="selectTab('coming-soon')">
             <div class="dash-card-img-wrapper"><img src="/life-tag-custom.jpg" alt="My Happy Life Tag" class="dash-card-img img-family"></div>
             <div class="dash-card-content">
               <h3 class="text-green-primary">My Happy Life Tag</h3>
@@ -389,6 +389,18 @@
           </div>
         </div>
 
+      </div>
+    }
+
+    <!-- Tab 1.2: Coming Soon -->
+    @if (activeTab() === 'coming-soon') {
+      <div class="tab-panel coming-soon-panel" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; text-align: center; background: white; border-radius: 16px; border: 1px solid #E2E8F0; padding: 40px; margin-top: 20px;">
+        <i class="fa-solid fa-clock-rotate-left fa-4x" style="color: #3b82f6; margin-bottom: 24px;"></i>
+        <h2 style="font-size: 2.2rem; font-weight: 700; color: #0f172a; margin-bottom: 12px; margin-top: 0;">Coming Soon!</h2>
+        <p style="font-size: 1.1rem; color: #475569; max-width: 500px; line-height: 1.6; margin-bottom: 30px;">We are working hard to bring this feature to you. Stay tuned for exciting updates!</p>
+        <button class="btn btn-primary" style="padding: 12px 24px; font-size: 1rem; border-radius: 8px; font-weight: 600;" (click)="selectTab('explore-more')">
+          <i class="fa-solid fa-arrow-left" style="margin-right: 8px;"></i> Go Back
+        </button>
       </div>
     }
 
