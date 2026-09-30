@@ -15,10 +15,8 @@ export class AddHomeModalComponent {
   @Input() isRegistering = false;
   
   @Input() newName = '';
-  @Input() newAddress = '';
 
   @Output() newNameChange = new EventEmitter<string>();
-  @Output() newAddressChange = new EventEmitter<string>();
 
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<void>();

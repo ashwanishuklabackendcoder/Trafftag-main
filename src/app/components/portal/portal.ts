@@ -528,7 +528,6 @@ export class Portal implements OnInit {
   newDriverName = signal('');
   
   newHomeName = signal('');
-  newHomeAddress = signal('');
 
   linkSerial = signal('');
   linkVehicleId = signal('');
@@ -1034,7 +1033,6 @@ export class Portal implements OnInit {
 
   openAddHome() {
     this.newHomeName.set('');
-    this.newHomeAddress.set('');
     this.showAddHomeModal.set(true);
     this.loadStates();
   }
@@ -1044,12 +1042,12 @@ export class Portal implements OnInit {
   }
 
   addHome() {
-    if (!this.newHomeName() || !this.newHomeAddress()) return;
+    if (!this.newHomeName() || this.isRegisteringHome()) return;
     
     this.isRegisteringHome.set(true);
     this.http.post<any>(`${API_BASE_URL}/api/v1/homes`, {
       name: this.newHomeName(),
-      address: this.newHomeAddress()
+      address: ""
     }).subscribe({
       next: (res) => {
         this.isRegisteringHome.set(false);

@@ -895,8 +895,6 @@
     [isRegistering]="isRegisteringHome()"
     [newName]="newHomeName()"
     (newNameChange)="newHomeName.set($event)"
-    [newAddress]="newHomeAddress()"
-    (newAddressChange)="newHomeAddress.set($event)"
     (close)="closeAddHome()"
     (submit)="addHome()">
   </app-add-home-modal>
