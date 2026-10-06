@@ -1,0 +1,103 @@
+.billing-container {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.panel-header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 10px;
+}
+
+.header-text h2 {
+  margin: 0 0 5px;
+  color: #1a202c;
+}
+
+.header-text p {
+  margin: 0;
+  color: #718096;
+}
+
+.billing-content {
+  min-height: 200px;
+}
+
+.loading, .error-msg, .empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: #718096;
+}
+
+.error-msg {
+  color: #e53e3e;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  color: #cbd5e0;
+  margin-bottom: 15px;
+}
+
+.billing-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.billing-table th, .billing-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.billing-table th {
+  background-color: #f7fafc;
+  color: #4a5568;
+  font-weight: 600;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-badge.succeeded {
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.status-badge.pending {
+  background-color: #feebc8;
+  color: #7b341e;
+}
+
+.status-badge.failed {
+  background-color: #fed7d7;
+  color: #742a2a;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  background-color: #edf2f7;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #2d3748;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.btn-sm:hover:not([disabled]) {
+  background-color: #e2e8f0;
+}
+
+.btn-sm[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

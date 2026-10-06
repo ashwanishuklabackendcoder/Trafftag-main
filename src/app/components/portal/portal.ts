@@ -16,6 +16,7 @@ import { LinkTagModalComponent } from './components/link-tag-modal/link-tag-moda
 import { HomesTabComponent } from './components/homes-tab/homes-tab.component';
 import { AddHomeModalComponent } from './components/add-home-modal/add-home-modal.component';
 import { LinkHomeTagModalComponent } from './components/link-home-tag-modal/link-home-tag-modal.component';
+import { BillingTabComponent } from './components/billing-tab/billing-tab.component';
 
 interface Home {
   id: string;
@@ -94,7 +95,8 @@ export type PortalTab =
   | 'profile-vehicle-reminders'
   | 'profile-notifications' 
   | 'profile-password' 
-  | 'profile-settings';
+  | 'profile-settings'
+  | 'billing';
 
 @Component({
   selector: 'app-portal',
@@ -112,7 +114,8 @@ export type PortalTab =
       LinkTagModalComponent,
       HomesTabComponent,
       AddHomeModalComponent,
-      LinkHomeTagModalComponent
+      LinkHomeTagModalComponent,
+      BillingTabComponent
     ],
   templateUrl: './portal.html',
   styleUrl: './portal.css',
@@ -251,20 +254,8 @@ export class Portal implements OnInit {
         if (exactVehMatch) return exactVehMatch;
       }
 
-      // 3. Match any active paid/yearly membership
-      const activePaid = memberships.find((m: any) => 
-        (m.status === 'Active' || m.isActive) && 
-        (m.planName || m.name || '').toString().toLowerCase().includes('year') ||
-        (m.planName || m.name || '').toString().toLowerCase().includes('pro') ||
-        (m.planName || m.name || '').toString().toLowerCase().includes('prem')
-      );
-      if (activePaid) return activePaid;
-
-      // 4. Fallback to any active membership or indexed item
-      const activeAny = memberships.find((m: any) => m.status === 'Active' || m.isActive);
-      if (activeAny) return activeAny;
-
-      return (fallbackIndex !== undefined && memberships[fallbackIndex]) ? memberships[fallbackIndex] : memberships[0];
+      // 3. No exact match found, do NOT fallback to other memberships
+      return null;
     };
 
     // Helper to safely extract remaining alert credits
@@ -293,11 +284,12 @@ export class Portal implements OnInit {
     vehs.forEach((v, index) => {
       const isAssigned = v.tagId && v.tagId !== 'Not Assigned';
       const m = isAssigned ? findBestMembership(v.tagId, v.id, index) : null;
-      const planName = m?.planName || m?.membershipPlan?.name || m?.plan?.name || (isAssigned ? defaultPlanName : 'No Tag Linked');
-      const total = isAssigned ? getAlertLimit(m) : 0;
-      const remaining = isAssigned ? getRemainingAlerts(m, true, total) : 0;
-      const endDate = m?.endDate ? new Date(String(m.endDate).replace(' ', 'T')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : defaultEndDate;
-      const status = isAssigned ? (m?.status || (m?.isActive ? 'ACTIVE' : 'ACTIVE')) : 'UNLINKED';
+      
+      const planName = m?.planName || m?.membershipPlan?.name || m?.plan?.name || (isAssigned ? 'No Active Plan' : 'No Tag Linked');
+      const total = m ? getAlertLimit(m) : 0;
+      const remaining = m ? getRemainingAlerts(m, true, total) : 0;
+      const endDate = m?.endDate ? new Date(String(m.endDate).replace(' ', 'T')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A';
+      const status = m ? (m.status || (m.isActive ? 'ACTIVE' : 'ACTIVE')) : (isAssigned ? 'INACTIVE' : 'UNLINKED');
 
       list.push({
         id: isAssigned ? v.tagId : `veh-${v.id}`,
@@ -309,7 +301,7 @@ export class Portal implements OnInit {
         totalAlerts: total,
         alertsRemaining: remaining,
         planEndDate: endDate,
-        planDaysLeft: defaultDaysLeft,
+        planDaysLeft: m ? defaultDaysLeft : 0,
         vehicleId: v.id,
         rawMembership: m
       });
@@ -318,11 +310,11 @@ export class Portal implements OnInit {
         homes.forEach((h, index) => {
       const isAssigned = h.qrTagId && h.qrTagId !== 'Not Assigned';
       const m = isAssigned ? findBestMembership(String(h.qrTagId), undefined, index) : null;
-      const planName = m?.planName || m?.membershipPlan?.name || m?.plan?.name || (isAssigned ? defaultPlanName : 'No Tag Linked');
-      const total = isAssigned ? getAlertLimit(m) : 0;
-      const remaining = isAssigned ? getRemainingAlerts(m, true, total) : 0;
-      const endDate = m?.endDate ? new Date(String(m.endDate).replace(' ', 'T')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : defaultEndDate;
-      const status = isAssigned ? (m?.status || (m?.isActive ? 'ACTIVE' : 'ACTIVE')) : 'UNLINKED';
+      const planName = m?.planName || m?.membershipPlan?.name || m?.plan?.name || (isAssigned ? 'No Active Plan' : 'No Tag Linked');
+      const total = m ? getAlertLimit(m) : 0;
+      const remaining = m ? getRemainingAlerts(m, true, total) : 0;
+      const endDate = m?.endDate ? new Date(String(m.endDate).replace(' ', 'T')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A';
+      const status = m ? (m.status || (m.isActive ? 'ACTIVE' : 'ACTIVE')) : (isAssigned ? 'INACTIVE' : 'UNLINKED');
 
       list.push({
         id: isAssigned ? String(h.qrTagId) : "home-",
@@ -334,7 +326,7 @@ export class Portal implements OnInit {
         totalAlerts: total,
         alertsRemaining: remaining,
         planEndDate: endDate,
-        planDaysLeft: defaultDaysLeft,
+        planDaysLeft: m ? defaultDaysLeft : 0,
         rawMembership: m
       });
     });
@@ -741,7 +733,8 @@ export class Portal implements OnInit {
       .subscribe({
         next: (res) => {
           if (res?.success && Array.isArray(res?.data)) {
-            this.myQrs.set(res.data);
+            const activeQrs = res.data.filter((q: any) => q.status !== 'Deactivated' && q.status !== 'Inactive' && q.status !== 'Canceled');
+            this.myQrs.set(activeQrs);
           }
         },
         error: (err) => console.error('Error loading My QRs:', err)
@@ -780,7 +773,7 @@ export class Portal implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const sub = params.get('subpage');
-      const validTabs = ['dashboard', 'explore-more', 'coming-soon', 'vehicles', 'homes', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings'];
+      const validTabs = ['dashboard', 'explore-more', 'coming-soon', 'vehicles', 'homes', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings', 'billing'];
       
       if (sub && validTabs.includes(sub)) {
         this.activeTab.set(sub as any);
@@ -1498,7 +1491,11 @@ export class Portal implements OnInit {
       .subscribe({
         next: (res) => {
           const list = Array.isArray(res) ? res : (res?.data || res?.data?.data || (res?.success && res?.data ? res.data : []));
-          const items = Array.isArray(list) ? list : (res?.data ? [res.data] : []);
+          let items = Array.isArray(list) ? list : (res?.data ? [res.data] : []);
+          
+          // Filter out explicitly inactive/deactivated memberships
+          items = items.filter((m: any) => m.status !== 'Inactive' && m.status !== 'Deactivated' && m.status !== 'Canceled');
+
           if (items.length > 0) {
             // Prioritize an active paid/yearly membership over Free Plan
             const activePaid = items.find((m: any) => (m.status === 'Active' || m.isActive) && (m.planName || m.name || '').toString().toLowerCase().includes('year')) 
@@ -1845,23 +1842,24 @@ export class Portal implements OnInit {
 
     getPlanNameForTag(tagId?: string, vehicleId?: string): string {
     const memberships = this.rawUserMemberships();
-    if (!memberships || memberships.length === 0) return this.membershipType();
+    if (!memberships || memberships.length === 0) return 'No Active Plan';
+    
     let m = null;
+    
     if (tagId && tagId !== 'Not Assigned') {
       m = memberships.find((m: any) => 
         (m.qrTagId && String(m.qrTagId) === String(tagId)) || 
         (m.qrTagSerialNumber && String(m.qrTagSerialNumber) === String(tagId))
       );
     }
+    
     if (!m && vehicleId) {
       m = memberships.find((m: any) => m.vehicleId && String(m.vehicleId) === String(vehicleId));
     }
-    if (!m) {
-      m = memberships.find((m: any) => m.status === 'Active' && (m.planName?.toLowerCase().includes('yearly') || m.planName?.toLowerCase().includes('annual') || m.planName?.toLowerCase().includes('paid')));
-    }
-    if (!m) m = memberships.find((m: any) => m.status === 'Active');
     
-    return m?.planName || m?.membershipPlan?.name || m?.plan?.name || this.membershipType();
+    if (!m) return 'No Active Plan';
+    
+    return m?.planName || m?.membershipPlan?.name || m?.plan?.name || 'No Active Plan';
   }
 
   downloadHomeQrCode(home: any) {

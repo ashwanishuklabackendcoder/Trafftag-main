@@ -1,0 +1,53 @@
+<div class="billing-container">
+  <div class="panel-header">
+    <div class="header-text">
+      <h2>Billing & Payments</h2>
+      <p>View your past transactions and download invoices.</p>
+    </div>
+  </div>
+
+  <div class="billing-content">
+    <div *ngIf="isLoading()" class="loading">
+      <i class="fa-solid fa-spinner fa-spin"></i> Loading...
+    </div>
+    
+    <div *ngIf="error()" class="error-msg">
+      <i class="fa-solid fa-circle-exclamation"></i> {{ error() }}
+    </div>
+
+    <div *ngIf="!isLoading() && payments().length === 0 && !error()" class="empty-state">
+      <i class="fa-solid fa-file-invoice-dollar"></i>
+      <h3>No Payment History</h3>
+      <p>You haven't made any payments yet.</p>
+    </div>
+
+    <table *ngIf="!isLoading() && payments().length > 0" class="billing-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Invoice</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of payments()">
+          <td>{{ p.date }}</td>
+          <td>{{ p.description }}</td>
+          <td>{{ p.amount | currency:p.currency.toUpperCase() }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="p.status.toLowerCase()">
+              {{ p.status }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm" (click)="downloadInvoice(p.invoiceUrl)" [disabled]="!p.invoiceUrl">
+              <i class="fa-solid fa-download"></i> Download
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
