@@ -30,9 +30,28 @@ export class Register {
   smsConsent = signal(false);
   marketingConsent = signal(false);
   transactionalConsent = signal(false);
+  serviceDisclaimersAccepted = signal(false);
+  hasReadDisclaimers = signal(false);
+  showDisclaimersModal = signal(false);
 
   isSubmitting = signal(false);
   errorMessage = signal('');
+  openDisclaimers() {
+    this.showDisclaimersModal.set(true);
+    this.hasReadDisclaimers.set(true);
+  }
+
+  closeDisclaimers() {
+    this.showDisclaimersModal.set(false);
+  }
+
+  onDisclaimerCheckboxClick(event: Event) {
+    if (!this.hasReadDisclaimers()) {
+      event.preventDefault();
+      alert("Please read the full disclaimers by clicking 'Read More' before accepting.");
+    }
+  }
+
   togglePasswordVisibility() {
     this.showPassword.update(show => !show);
   }

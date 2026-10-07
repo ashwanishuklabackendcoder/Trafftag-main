@@ -167,6 +167,23 @@
             </div>
           </div>
 
+          <!-- Service Disclaimers Checkbox -->
+          <div class="consent-box">
+            <input 
+              type="checkbox" 
+              id="serviceDisclaimers"
+              name="serviceDisclaimers" 
+              [ngModel]="serviceDisclaimersAccepted()" 
+              (ngModelChange)="serviceDisclaimersAccepted.set($event)"
+              (click)="onDisclaimerCheckboxClick($event)"
+              required
+            />
+            <div class="consent-content">
+              <label for="serviceDisclaimers" class="consent-title">Service Disclaimers & Limitations <span class="required">*</span></label>
+              <span class="consent-desc">I acknowledge and agree to the TRAFFTAG alert service disclaimers and limitations of liability. <a href="javascript:void(0)" (click)="openDisclaimers()" class="inline-link">Read More</a></span>
+            </div>
+          </div>
+
           <!-- 18+ Verification Checkbox -->
           <label class="checkbox-container" style="margin-top: 4px;">
             <input 
@@ -218,6 +235,23 @@
       </div>
     </div>
   </main>
+
+    @if (showDisclaimersModal()) {
+      <div class="modal-overlay" (click)="closeDisclaimers()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <button type="button" class="modal-close" (click)="closeDisclaimers()"><i class="fa-solid fa-xmark"></i></button>
+          <h2 class="modal-title">Service Disclaimers & Limitations</h2>
+          <ul class="disclaimer-list">
+            <li>I have read and agree to the TRAFFTAG Terms of Service and Privacy Policy, including the Alert Service Disclaimer and Limitation of Liability.</li>
+            <li>I understand that TRAFFTAG is an alert and notification service only. TRAFFTAG does not guarantee that QR scans, email alerts, SMS alerts, or other notifications will always be sent, delivered, received, or received on time.</li>
+            <li>I understand that TRAFFTAG does not guarantee the prevention of parking tickets, citations, fines, towing, booting, emergencies, theft, damage, injury, property loss, or other losses.</li>
+            <li>I understand that I remain responsible for following all applicable laws, parking signs, rules, regulations, and restrictions. TRAFFTAG is not an emergency service and should not be relied upon in an emergency. In an emergency, call 911 or the appropriate emergency authority.</li>
+            <li>By checking this box, I acknowledge and agree to these terms and the applicable limitations of liability, to the fullest extent permitted by law.</li>
+          </ul>
+          <button type="button" class="btn btn-primary btn-full" (click)="closeDisclaimers()">I Understand</button>
+        </div>
+      </div>
+    }
 </div>
 
 <app-footer></app-footer>
