@@ -31,6 +31,7 @@ export class Register {
   marketingConsent = signal(false);
   transactionalConsent = signal(false);
   serviceDisclaimersAccepted = signal(false);
+  productDisclaimersAccepted = signal(false);
   hasReadDisclaimers = signal(false);
   showDisclaimersModal = signal(false);
 

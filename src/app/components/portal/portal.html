@@ -30,47 +30,11 @@
       </div>
 
       <nav class="sidebar-nav">
-        <button class="nav-item" [class.active]="activeTab() === 'dashboard'" (click)="selectTab('dashboard')">
-          <span class="nav-label-group"><i class="fa-solid fa-house nav-icon"></i> DASHBOARD</span>
-        </button>
-        <button class="nav-item" [class.active]="activeTab() === 'explore-more'" (click)="selectTab('explore-more')">
-          <span class="nav-label-group"><i class="fa-solid fa-compass nav-icon"></i> EXPLORE MORE</span>
-        </button>
-        
-        <!-- My Vehicles -->
-        <button class="nav-item" [class.active]="activeTab() === 'vehicles'" (click)="selectTab('vehicles')">
-          <span class="nav-label-group"><i class="fa-solid fa-car nav-icon"></i> MY VEHICLES</span>
-        </button>
-
-        <!-- My Happy Home -->
-        <button class="nav-item" [class.active]="activeTab() === 'homes'" (click)="selectTab('homes')">
-          <span class="nav-label-group"><i class="fa-solid fa-house-chimney nav-icon"></i> MY HAPPY HOME</span>
-        </button>
-        
-        <button class="nav-item" [class.active]="activeTab() === 'tags'" (click)="selectTab('tags')">
-          <span class="nav-label-group"><i class="fa-solid fa-qrcode nav-icon"></i> DOWNLOAD QR TAGS</span>
-        </button>
-        
-        <button class="nav-item" [class.active]="activeTab() === 'alerts'" (click)="selectTab('alerts')">
-          <span class="nav-label-group"><i class="fa-solid fa-bell nav-icon"></i> ALERTS</span>
-        </button>
-
-        <button class="nav-item" [class.active]="activeTab() === 'billing'" (click)="selectTab('billing')">
-          <span class="nav-label-group"><i class="fa-solid fa-file-invoice-dollar nav-icon"></i> BILLING</span>
-        </button>
-
-        <button class="nav-item" [class.active]="activeTab() === 'profile-membership'" (click)="selectTab('profile-membership')">
-          <span class="nav-label-group"><i class="fa-solid fa-crown nav-icon"></i> MEMBERSHIP PLAN</span>
-        </button>
-        
-        <!-- My Profile -->
-        <button class="nav-item" [class.active]="activeTab() === 'profile'" (click)="selectTab('profile')">
-          <span class="nav-label-group"><i class="fa-solid fa-user nav-icon"></i> MY PROFILE</span>
-        </button>
-
-        <button class="nav-item" [class.active]="activeTab() === 'support'" (click)="selectTab('support')">
-          <span class="nav-label-group"><i class="fa-solid fa-circle-question nav-icon"></i> HELP & SUPPORT</span>
-        </button>
+        @for (menu of visibleMenus(); track menu.menuKey) {
+          <button class="nav-item" [class.active]="activeTab() === menu.menuKey" (click)="selectTab(menu.menuKey)">
+            <span class="nav-label-group"><i [class]="'fa-solid ' + menu.icon + ' nav-icon'"></i> {{ menu.displayName }}</span>
+          </button>
+        }
       </nav>
         <div class="sidebar-promo-banner">
         <div class="promo-text">
@@ -851,7 +815,41 @@
         </div>
       </div>
     }
-  </main>
+    <!-- Plan Disclaimer Modal -->
+  @if (showPlanDisclaimerModal()) {
+    <div class="modal-overlay" (click)="closePlanDisclaimer()">
+      <div class="modal-content modal-large upgrade-modal-compact" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Service Disclaimers & Limitations</h2>
+          <button class="modal-close" (click)="closePlanDisclaimer()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <ul class="disclaimer-list" style="padding-left: 20px; margin-bottom: 25px; list-style-type: disc;">
+            <li style="margin-bottom: 10px;">I have read and agree to the TRAFFTAG Terms of Service and Privacy Policy, including the Alert Service Disclaimer and Limitation of Liability.</li>
+            <li style="margin-bottom: 10px;">I understand that TRAFFTAG is an alert and notification service only. TRAFFTAG does not guarantee that QR scans, email alerts, SMS alerts, or other notifications will always be sent, delivered, received, or received on time.</li>
+            <li style="margin-bottom: 10px;">I understand that TRAFFTAG does not guarantee the prevention of parking tickets, citations, fines, towing, booting, emergencies, theft, damage, injury, property loss, or other losses.</li>
+            <li style="margin-bottom: 10px;">I understand that I remain responsible for following all applicable laws, parking signs, rules, regulations, and restrictions. TRAFFTAG is not an emergency service and should not be relied upon in an emergency. In an emergency, call 911 or the appropriate emergency authority.</li>
+            <li style="margin-bottom: 10px;">By checking this box, I acknowledge and agree to these terms and the applicable limitations of liability, to the fullest extent permitted by law.</li>
+          </ul>
+          
+          <label class="checkbox-container" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; cursor: pointer; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <input 
+              type="checkbox" 
+              [ngModel]="planDisclaimerAccepted()" 
+              (ngModelChange)="planDisclaimerAccepted.set($event)" 
+              style="width: 20px; height: 20px; cursor: pointer;"
+            />
+            <span style="font-weight: 600; color: #0f172a;">I confirm and agree to all terms stated above.</span>
+          </label>
+
+          <button class="btn btn-primary btn-full" (click)="proceedWithUpgrade()" [disabled]="!planDisclaimerAccepted()">
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</main>
 
   <!-- Add Vehicle Modal -->
   <app-add-vehicle-modal

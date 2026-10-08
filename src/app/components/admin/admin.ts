@@ -41,8 +41,11 @@ export class Admin implements OnInit {
   private http = inject(HttpClient);
   private qrDecalService = inject(QrDecalService);
 
-  activeTab = signal<'dashboard' | 'users' | 'memberships' | 'tags' | 'enquiries' | 'gateways' | 'profile'>('dashboard');
+  activeTab = signal<'dashboard' | 'users' | 'memberships' | 'tags' | 'enquiries' | 'gateways' | 'profile' | 'menus'>('dashboard');
   isMobileSidebarOpen = signal(false);
+
+  // Menus Management
+  adminMenus = signal<any[]>([]);
 
   // Resend OTP variables
   otpResendLoading = signal(false);
@@ -143,7 +146,7 @@ export class Admin implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const sub = params.get('subpage');
-      if (sub && ['dashboard', 'users', 'memberships', 'tags', 'enquiries', 'gateways', 'profile'].includes(sub)) {
+      if (sub && ['dashboard', 'users', 'memberships', 'tags', 'enquiries', 'gateways', 'profile', 'menus'].includes(sub)) {
         this.activeTab.set(sub as any);
       } else {
         this.router.navigate(['/admin', 'dashboard'], { replaceUrl: true });
@@ -152,6 +155,23 @@ export class Admin implements OnInit {
 
     this.loadStats();
     this.loadPlans();
+    this.loadMenus();
+  }
+
+  loadMenus() {
+    this.http.get<any[]>(`${API_BASE_URL}/api/admin/menus`).subscribe({
+      next: (res) => {
+        if (res) this.adminMenus.set(res);
+      }
+    });
+  }
+
+  toggleMenuVisibility(menuKey: string, currentVis: boolean) {
+    this.http.put<any>(`${API_BASE_URL}/api/admin/menus/${menuKey}/visibility`, { isVisible: !currentVis }).subscribe({
+      next: () => {
+        this.loadMenus();
+      }
+    });
   }
 
   loadStats() {
@@ -180,7 +200,7 @@ export class Admin implements OnInit {
     });
   }
 
-  selectTab(tab: 'dashboard' | 'users' | 'memberships' | 'tags' | 'enquiries' | 'gateways' | 'profile') {
+  selectTab(tab: 'dashboard' | 'users' | 'memberships' | 'tags' | 'enquiries' | 'gateways' | 'profile' | 'menus') {
     this.activeTab.set(tab);
     this.isMobileSidebarOpen.set(false);
     this.router.navigate(['/admin', tab]);

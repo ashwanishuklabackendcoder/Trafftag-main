@@ -184,6 +184,22 @@
             </div>
           </div>
 
+          <!-- Product Disclaimers Checkbox -->
+          <div class="consent-box">
+            <input 
+              type="checkbox" 
+              id="productDisclaimers"
+              name="productDisclaimers" 
+              [ngModel]="productDisclaimersAccepted()" 
+              (ngModelChange)="productDisclaimersAccepted.set($event)"
+              required
+            />
+            <div class="consent-content">
+              <label for="productDisclaimers" class="consent-title">Product Disclaimers <span class="required">*</span></label>
+              <span class="consent-desc">I have read and agree to the <a href="/product-disclaimers" target="_blank" class="inline-link">Product-Specific Service Disclaimers</a>.</span>
+            </div>
+          </div>
+
           <!-- 18+ Verification Checkbox -->
           <label class="checkbox-container" style="margin-top: 4px;">
             <input 

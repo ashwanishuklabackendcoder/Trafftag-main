@@ -131,6 +131,18 @@ export class Portal implements OnInit {
   // Navigation
   activeTab = signal<PortalTab>('dashboard');
   isMobileSidebarOpen = signal(false);
+  visibleMenus = signal<any[]>([
+    { menuKey: 'dashboard', displayName: 'DASHBOARD', icon: 'fa-house' },
+    { menuKey: 'explore-more', displayName: 'BUY MORE & EXPLORE', icon: 'fa-compass' },
+    { menuKey: 'vehicles', displayName: 'MY VEHICLES', icon: 'fa-car' },
+    { menuKey: 'homes', displayName: 'MY HAPPY HOME', icon: 'fa-house-chimney' },
+    { menuKey: 'tags', displayName: 'DOWNLOAD QR TAGS', icon: 'fa-qrcode' },
+    { menuKey: 'alerts', displayName: 'ALERTS', icon: 'fa-bell' },
+    { menuKey: 'billing', displayName: 'BILLING', icon: 'fa-file-invoice-dollar' },
+    { menuKey: 'profile-membership', displayName: 'MEMBERSHIP PLAN', icon: 'fa-crown' },
+    { menuKey: 'profile', displayName: 'MY PROFILE', icon: 'fa-user' },
+    { menuKey: 'support', displayName: 'HELP & SUPPORT', icon: 'fa-circle-question' }
+  ]);
 
   // Resend OTP variables
   otpResendLoading = signal(false);
@@ -504,6 +516,9 @@ export class Portal implements OnInit {
   showLinkTagModal = signal(false);
   showLinkHomeTagModal = signal(false);
   showUpgradeModal = signal(false);
+  pendingPlanId = signal<number | null>(null);
+  showPlanDisclaimerModal = signal(false);
+  planDisclaimerAccepted = signal(false);
   showDeleteAccountModal = signal(false);
   isDeletingAccount = signal(false);
 
@@ -770,7 +785,19 @@ export class Portal implements OnInit {
     return `${window.location.origin}/scan/${tagId}`;
   }
 
+  fetchMenus() {
+    this.http.get<any[]>(`${API_BASE_URL}/api/Menu`).subscribe({
+      next: (menus) => {
+        if (menus && menus.length > 0) {
+          this.visibleMenus.set(menus);
+        }
+      },
+      error: (err) => console.error('Failed to load menus', err)
+    });
+  }
+
   ngOnInit() {
+    this.fetchMenus();
     this.route.paramMap.subscribe(params => {
       const sub = params.get('subpage');
       const validTabs = ['dashboard', 'explore-more', 'coming-soon', 'vehicles', 'homes', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings', 'billing'];
@@ -1371,10 +1398,30 @@ export class Portal implements OnInit {
     );
   }
 
-  upgradePlan(planId: number) {
+    upgradePlan(planId: number) {
+    this.pendingPlanId.set(planId);
+    this.showPlanDisclaimerModal.set(true);
+  }
+
+  closePlanDisclaimer() {
+    this.showPlanDisclaimerModal.set(false);
+    this.planDisclaimerAccepted.set(false);
+    this.pendingPlanId.set(null);
+  }
+
+  proceedWithUpgrade() {
+    if (!this.planDisclaimerAccepted()) {
+      this.modalService.showError('Required', 'You must agree to the Service Disclaimers to proceed.');
+      return;
+    }
+
+    const planId = this.pendingPlanId();
+    if (!planId) return;
+
     const payload = {
       checkoutType: 'Membership',
       planId: planId,
+      serviceDisclaimersAccepted: this.planDisclaimerAccepted(),
       successUrl: `${window.location.origin}/portal/dashboard?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       cancelUrl: `${window.location.origin}/portal/dashboard?payment=cancelled`
     };
@@ -1383,6 +1430,7 @@ export class Portal implements OnInit {
       .subscribe({
         next: (res) => {
           this.showUpgradeModal.set(false);
+          this.closePlanDisclaimer();
           const checkoutUrl = typeof res === 'string' ? res : (res?.url || res?.data?.url || res?.data);
           if (checkoutUrl) {
             window.location.href = checkoutUrl;
@@ -1432,7 +1480,8 @@ export class Portal implements OnInit {
   }
 
   openUpgrade() { this.showUpgradeModal.set(true); }
-  closeUpgrade() { this.showUpgradeModal.set(false); }
+  closeUpgrade() { this.showUpgradeModal.set(false);
+          this.closePlanDisclaimer(); }
 
   openSubmitTicket() { this.showSubmitTicketModal.set(true); }
   closeSubmitTicket() {

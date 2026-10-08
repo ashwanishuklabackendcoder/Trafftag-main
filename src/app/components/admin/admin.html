@@ -53,6 +53,9 @@
       <button class="nav-item" [class.active]="activeTab() === 'gateways'" (click)="selectTab('gateways')">
         <span class="nav-label-group"><i class="fa-solid fa-server nav-icon"></i> System Gateways</span>
       </button>
+      <button class="nav-item" [class.active]="activeTab() === 'menus'" (click)="selectTab('menus')">
+        <span class="nav-label-group"><i class="fa-solid fa-list nav-icon"></i> Portal Menus</span>
+      </button>
       <button class="nav-item" [class.active]="activeTab() === 'profile'" (click)="selectTab('profile')">
         <span class="nav-label-group"><i class="fa-solid fa-user-gear nav-icon"></i> My Profile</span>
       </button>
@@ -81,6 +84,8 @@
           <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">Inbound Help Inquiries</h1>
         } @else if (activeTab() === 'gateways') {
           <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">Gateway Services Health</h1>
+        } @else if (activeTab() === 'menus') {
+          <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">Portal Menu Management</h1>
         } @else if (activeTab() === 'profile') {
           <h1 style="font-size: 1.5rem; margin: 0; color: #0f172a; font-weight: 800;">My Profile Settings</h1>
         }
@@ -499,6 +504,45 @@
               </div>
             </div>
           }
+        </div>
+      </div>
+    }
+
+    <!-- Tab 5.5: Menus -->
+    @if (activeTab() === 'menus') {
+      <div class="tab-panel">
+        <p>Control which menus are visible to users on the customer portal.</p>
+        <div class="table-container glass-card" style="margin-top: 20px;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Menu Name</th>
+                <th>Icon</th>
+                <th>Identifier</th>
+                <th>Visibility</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (menu of adminMenus(); track menu.menuKey) {
+                <tr>
+                  <td><strong>{{ menu.displayName }}</strong></td>
+                  <td><i [class]="'fa-solid ' + menu.icon"></i></td>
+                  <td><span class="font-mono">{{ menu.menuKey }}</span></td>
+                  <td>
+                    <span class="status-indicator" [class.active]="menu.isVisible" [class.suspended]="!menu.isVisible">
+                      {{ menu.isVisible ? 'Visible' : 'Hidden' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm" [class.btn-danger-outline]="menu.isVisible" [class.btn-success]="!menu.isVisible" (click)="toggleMenuVisibility(menu.menuKey, menu.isVisible)">
+                      {{ menu.isVisible ? 'Hide Menu' : 'Show Menu' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
       </div>
     }
