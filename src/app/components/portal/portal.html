@@ -818,7 +818,7 @@
     <!-- Plan Disclaimer Modal -->
   @if (showPlanDisclaimerModal()) {
     <div class="modal-overlay" (click)="closePlanDisclaimer()">
-      <div class="modal-content modal-large upgrade-modal-compact" (click)="$event.stopPropagation()">
+      <div class="modal-content modal-large upgrade-modal-compact disclaimer-modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <h2>Service Disclaimers & Limitations</h2>
           <button class="modal-close" (click)="closePlanDisclaimer()"><i class="fa-solid fa-xmark"></i></button>
@@ -841,9 +841,18 @@
             />
             <span style="font-weight: 600; color: #0f172a;">I confirm and agree to all terms stated above.</span>
           </label>
+          <label class="checkbox-container" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; cursor: pointer; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <input 
+              type="checkbox" 
+              [ngModel]="legalConsentsAccepted()" 
+              (ngModelChange)="legalConsentsAccepted.set($event)" 
+              style="width: 20px; height: 20px; cursor: pointer;"
+            />
+            <span style="font-weight: 600; color: #0f172a;">I have read and agree to the <a href="/terms-of-service" target="_blank" style="color: #2563eb; text-decoration: underline;">Terms & Conditions</a>, <a href="/privacy-policy" target="_blank" style="color: #2563eb; text-decoration: underline;">Privacy Policy</a>, and <a href="/product-disclaimers" target="_blank" style="color: #2563eb; text-decoration: underline;">Product Disclaimers</a>.</span>
+          </label>
 
-          <button class="btn btn-primary btn-full" (click)="proceedWithUpgrade()" [disabled]="!planDisclaimerAccepted()">
-            Proceed to Checkout
+          <button class="btn btn-primary btn-full" (click)="proceedWithUpgrade()" [disabled]="!planDisclaimerAccepted() || !legalConsentsAccepted()">
+            Continue to checkout
           </button>
         </div>
       </div>

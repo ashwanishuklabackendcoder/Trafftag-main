@@ -4247,3 +4247,16 @@ input:checked + .slider:before {
   border-color: #3b82f6 !important;
 }
 
+
+/* Disclaimer Modal Scroll Fix */
+.disclaimer-modal-content {
+  max-height: 85vh !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+/* Fix for scrolling inside the modal body specifically */
+.disclaimer-modal-content .modal-body {
+  overflow-y: auto !important;
+  max-height: 60vh !important;
+  padding-right: 10px;
+}

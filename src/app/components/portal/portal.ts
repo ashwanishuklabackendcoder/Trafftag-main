@@ -519,6 +519,7 @@ export class Portal implements OnInit {
   pendingPlanId = signal<number | null>(null);
   showPlanDisclaimerModal = signal(false);
   planDisclaimerAccepted = signal(false);
+  legalConsentsAccepted = signal(false);
   showDeleteAccountModal = signal(false);
   isDeletingAccount = signal(false);
 
@@ -1406,11 +1407,12 @@ export class Portal implements OnInit {
   closePlanDisclaimer() {
     this.showPlanDisclaimerModal.set(false);
     this.planDisclaimerAccepted.set(false);
+    this.legalConsentsAccepted.set(false);
     this.pendingPlanId.set(null);
   }
 
   proceedWithUpgrade() {
-    if (!this.planDisclaimerAccepted()) {
+    if (!this.planDisclaimerAccepted() || !this.legalConsentsAccepted()) {
       this.modalService.showError('Required', 'You must agree to the Service Disclaimers to proceed.');
       return;
     }
@@ -1422,6 +1424,7 @@ export class Portal implements OnInit {
       checkoutType: 'Membership',
       planId: planId,
       serviceDisclaimersAccepted: this.planDisclaimerAccepted(),
+      legalConsentsAccepted: this.legalConsentsAccepted(),
       successUrl: `${window.location.origin}/portal/dashboard?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       cancelUrl: `${window.location.origin}/portal/dashboard?payment=cancelled`
     };
