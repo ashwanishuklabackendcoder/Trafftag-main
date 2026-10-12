@@ -291,48 +291,66 @@ export class QrDecalService {
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pageWidth = 210;
     const pageHeight = 297;
-    const margin = 10;
     
     let isFirstPage = true;
     let itemsOnCurrentPage = 0;
 
     for (let i = 0; i < imageBlobs.length; i++) {
       const tag = tags[i];
-      const isHome = tag.tagType === 'Home';
+      const isHome = tag?.tagType === 'Home';
       
-      const { data, width, height } = await this.blobToJpegDataUrl(imageBlobs[i], tag.serial, tag.tagType);
+      if (isHome) {
+        // Home tag logic: 1 per page in standard portrait
+        const margin = 10;
+        const { data, width, height } = await this.blobToJpegDataUrl(imageBlobs[i], tag?.serial, tag?.tagType, false);
+        const maxWidth = pageWidth - (margin * 2);
+        const maxHeight = pageHeight - (margin * 2);
+        const imgRatio = width / height;
+        let targetWidth = maxWidth;
+        let targetHeight = targetWidth / imgRatio;
+        if (targetHeight > maxHeight) {
+          targetHeight = maxHeight;
+          targetWidth = targetHeight * imgRatio;
+        }
+        const xPos = (pageWidth - targetWidth) / 2;
+        const yPos = margin;
 
-      const itemsPerPage = isHome ? 1 : 2;
-      const maxWidth = pageWidth - (margin * 2);
-      const maxHeight = isHome ? pageHeight - (margin * 2) : (pageHeight / 2) - (margin * 1.5);
-
-      const imgRatio = width / height;
-      let targetWidth = maxWidth;
-      let targetHeight = targetWidth / imgRatio;
-
-      if (targetHeight > maxHeight) {
-        targetHeight = maxHeight;
-        targetWidth = targetHeight * imgRatio;
-      }
-
-      const xPos = (pageWidth - targetWidth) / 2;
-      let yPos = margin;
-      
-      if (!isHome && itemsOnCurrentPage === 1) {
-        yPos = (pageHeight / 2) + (margin / 2);
-      }
-
-      if (!isFirstPage && itemsOnCurrentPage === 0) {
-        pdf.addPage();
-      }
-
-      pdf.addImage(data, 'PNG', xPos, yPos, targetWidth, targetHeight);
-      
-      itemsOnCurrentPage++;
-      isFirstPage = false;
-      
-      if (itemsOnCurrentPage >= itemsPerPage) {
+        if (!isFirstPage) {
+          pdf.addPage();
+        }
+        pdf.addImage(data, 'PNG', xPos, yPos, targetWidth, targetHeight);
+        isFirstPage = false;
         itemsOnCurrentPage = 0;
+      } else {
+        // Vehicle stickers: 4 stickers per page (2 columns x 2 rows, rotated 90° clockwise)
+        const { data } = await this.blobToJpegDataUrl(imageBlobs[i], tag?.serial, tag?.tagType, true);
+
+        // 2x2 grid layout on A4 (210mm x 297mm)
+        const targetWidth = 98;
+        const targetHeight = 130.67; // 98 * (1024 / 768)
+        const marginX = 5;
+        const gapX = 4;
+        const marginY = 15;
+        const gapY = 5.66;
+
+        const col = itemsOnCurrentPage % 2;
+        const row = Math.floor(itemsOnCurrentPage / 2);
+
+        const xPos = marginX + col * (targetWidth + gapX);
+        const yPos = marginY + row * (targetHeight + gapY);
+
+        if (!isFirstPage && itemsOnCurrentPage === 0) {
+          pdf.addPage();
+        }
+
+        pdf.addImage(data, 'PNG', xPos, yPos, targetWidth, targetHeight);
+
+        itemsOnCurrentPage++;
+        isFirstPage = false;
+
+        if (itemsOnCurrentPage >= 4) {
+          itemsOnCurrentPage = 0;
+        }
       }
     }
 
@@ -341,25 +359,42 @@ export class QrDecalService {
     }
   }
 
-  private blobToJpegDataUrl(blob: Blob, tagId: string, tagType: string = 'Vehicle'): Promise<{data: string, width: number, height: number}> {
+  private blobToJpegDataUrl(blob: Blob, tagId: string, tagType: string = 'Vehicle', rotate90Cw: boolean = false): Promise<{data: string, width: number, height: number}> {
     return new Promise((resolve, reject) => {
       const imgUrl = URL.createObjectURL(blob);
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(img, 0, 0);
-
-          resolve({
-            data: canvas.toDataURL('image/png'),
-            width: img.width,
-            height: img.height
-          });
+        if (rotate90Cw) {
+          canvas.width = img.height;
+          canvas.height = img.width;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.translate(canvas.width, 0);
+            ctx.rotate(90 * Math.PI / 180);
+            ctx.drawImage(img, 0, 0);
+            resolve({
+              data: canvas.toDataURL('image/png'),
+              width: canvas.width,
+              height: canvas.height
+            });
+          } else {
+            reject('No canvas context');
+          }
         } else {
-          reject('No canvas context');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0);
+            resolve({
+              data: canvas.toDataURL('image/png'),
+              width: img.width,
+              height: img.height
+            });
+          } else {
+            reject('No canvas context');
+          }
         }
         URL.revokeObjectURL(imgUrl);
       };
