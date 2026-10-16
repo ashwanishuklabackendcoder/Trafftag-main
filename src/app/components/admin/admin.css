@@ -1,4 +1,4 @@
-﻿.admin-container {
+.admin-container {
   display: flex;
   min-height: 100vh;
   background-color: var(--bg-primary);
@@ -327,6 +327,34 @@
 .status-badge-admin.lost {
   background: rgba(245, 158, 11, 0.1);
   color: var(--accent);
+}
+
+.badge-downloaded {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-not-downloaded {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .table-actions-row {

@@ -54,6 +54,7 @@ export const routes: Routes = [
   { path: 'refund-cancellation', loadComponent: () => import('./components/refund-cancellation/refund-cancellation').then(c => c.RefundCancellation), title: 'Refund & Cancellation Policy | TRAFFTAG' },
   { path: 'shipping-replacement', loadComponent: () => import('./components/shipping-replacement/shipping-replacement').then(c => c.ShippingReplacement), title: 'Shipping & Replacement Policy | TRAFFTAG' },
   { path: 'product-disclaimers', loadComponent: () => import('./components/product-disclaimers/product-disclaimers').then(c => c.ProductDisclaimers), title: 'Product-Specific Disclaimers | TRAFFTAG Legal' },
+  { path: 'vehicle-tag-disclaimer', loadComponent: () => import('./components/vehicle-tag-disclaimer/vehicle-tag-disclaimer').then(c => c.VehicleTagDisclaimer), title: 'Vehicle Tag Disclaimer | TRAFFTAG Legal' },
   { path: 'disclaimers', loadComponent: () => import('./components/disclaimers/disclaimers').then(c => c.Disclaimers), title: 'Disclaimers | TRAFFTAG Legal' },
   { path: 'consent-tracking', loadComponent: () => import('./components/consent-tracking/consent-tracking').then(c => c.ConsentTracking), title: 'Consent & Tracking | TRAFFTAG Privacy' },
   { path: 'tags/:type', loadComponent: () => import('./components/tag-type/tag-type').then(c => c.TagType), title: 'Smart Tags | TRAFFTAG' },

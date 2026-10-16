@@ -69,3 +69,38 @@
 .feature-list i {
   flex-shrink: 0;
 }
+
+/* Violation Scenarios Styles */
+.banner-violations-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.banner-violations-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  color: #FFFFFF;
+}
+
+.violations-section {
+  position: relative;
+  scroll-margin-top: 80px;
+}
+
+.scenario-image-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+}
+
+.scenario-image-card:hover {
+  transform: translateY(-6px);
+}
+
+.disclaimer-callout-card {
+  background: radial-gradient(circle at top right, #1E293B 0%, #0F172A 100%);
+}
+

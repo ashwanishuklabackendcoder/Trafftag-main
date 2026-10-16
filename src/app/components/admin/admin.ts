@@ -2,6 +2,7 @@ import { Component, OnInit, signal, inject, computed } from '@angular/core';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { API_BASE_URL } from '../../config/api.config';
 import { QrDecalService } from '../../services/qr-decal.service';
 
@@ -26,12 +27,14 @@ interface AdminTag {
   plate: string;
   status: string;
   scansCount: number;
+  isDownloaded?: boolean;
+  downloadedAt?: string;
 }
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, DatePipe],
   templateUrl: './admin.html',
   styleUrls: ['./admin.css']
 })
@@ -103,6 +106,7 @@ export class Admin implements OnInit {
 
   tagSearchQuery = signal('');
   tagStatusFilter = signal('all');
+  tagDownloadFilter = signal<'not_downloaded' | 'downloaded' | 'all'>('not_downloaded');
 
   // Computed filtered users
   filteredUsers = computed(() => {
@@ -129,6 +133,7 @@ export class Admin implements OnInit {
   filteredTags = computed(() => {
     const query = this.tagSearchQuery().toLowerCase();
     const status = this.tagStatusFilter();
+    const downloadFilter = this.tagDownloadFilter();
 
     return this.tags().filter(t => {
       const matchesSearch = !query || 
@@ -139,7 +144,12 @@ export class Admin implements OnInit {
 
       const matchesStatus = status === 'all' || t.status.toLowerCase() === status.toLowerCase();
 
-      return matchesSearch && matchesStatus;
+      const matchesDownload = 
+        downloadFilter === 'all' ||
+        (downloadFilter === 'downloaded' && !!t.isDownloaded) ||
+        (downloadFilter === 'not_downloaded' && !t.isDownloaded);
+
+      return matchesSearch && matchesStatus && matchesDownload;
     });
   });
 
@@ -288,6 +298,33 @@ export class Admin implements OnInit {
     this.selectedTags.set(newSelection);
   }
 
+  markTagsDownloadStatus(serials: string[], isDownloaded: boolean = true) {
+    if (!serials || serials.length === 0) return;
+    const token = localStorage.getItem('accessToken');
+    const headers: any = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    this.http.post<any>(`${API_BASE_URL}/api/Admin/qr/mark-download-status`, { serials, isDownloaded }, { headers }).subscribe({
+      next: () => {
+        const now = new Date().toISOString();
+        this.tags.update(list => list.map(t => {
+          if (serials.includes(t.serial)) {
+            return {
+              ...t,
+              isDownloaded,
+              downloadedAt: isDownloaded ? now : undefined
+            };
+          }
+          return t;
+        }));
+      },
+      error: (err) => {
+        console.error('Failed to update download status on backend', err);
+        alert('Warning: Could not save download status to database. Please make sure the backend is running.');
+      }
+    });
+  }
+
   async bulkDownloadSelectedPdfs() {
     const tagsToDownload = this.filteredTags().filter(t => this.selectedTags().has(t.serial));
     if (tagsToDownload.length === 0) return;
@@ -319,6 +356,16 @@ export class Admin implements OnInit {
       const tags = downloadedBlobs.map(b => b.tag);
       const blobs = downloadedBlobs.map(b => b.blob);
       await this.qrDecalService.generateBulkPdfWithFrame(tags, blobs);
+      const serials = tags.map(t => t.serial);
+      const now = new Date().toISOString();
+      this.tags.update(list => list.map(t => {
+        if (serials.includes(t.serial)) {
+          return { ...t, isDownloaded: true, downloadedAt: now };
+        }
+        return t;
+      }));
+      this.markTagsDownloadStatus(serials, true);
+      this.selectedTags.set(new Set());
     }
 
     this.isBulkDownloading.set(false);
@@ -338,22 +385,44 @@ export class Admin implements OnInit {
       image: ''
     };
 
+    const markAsDownloaded = () => {
+      const now = new Date().toISOString();
+      this.tags.update(list => list.map(t => {
+        if (t.serial === tag.serial) {
+          return { ...t, isDownloaded: true, downloadedAt: now };
+        }
+        return t;
+      }));
+      this.markTagsDownloadStatus([tag.serial], true);
+    };
+
     this.http.get(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(tag.serial)}/image`, {
       responseType: 'blob'
     }).subscribe({
       next: (blob: Blob) => {
         if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
           this.qrDecalService.generateAndDownloadPdfWithFrame(dummyVehicle, blob, tag.serial)
-            .then(() => this.downloadingTagId.set(null))
+            .then(() => {
+              this.downloadingTagId.set(null);
+              markAsDownloaded();
+            })
             .catch(() => this.downloadingTagId.set(null));
         } else {
           this.qrDecalService.generateAndDownloadCanvasQr(dummyVehicle, tag.serial, scanUrl)
-            .then(() => this.downloadingTagId.set(null));
+            .then(() => {
+              this.downloadingTagId.set(null);
+              markAsDownloaded();
+            })
+            .catch(() => this.downloadingTagId.set(null));
         }
       },
       error: () => {
         this.qrDecalService.generateAndDownloadCanvasQr(dummyVehicle, tag.serial, scanUrl)
-          .then(() => this.downloadingTagId.set(null));
+          .then(() => {
+            this.downloadingTagId.set(null);
+            markAsDownloaded();
+          })
+          .catch(() => this.downloadingTagId.set(null));
       }
     });
   }

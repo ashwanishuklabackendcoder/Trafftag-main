@@ -7,19 +7,27 @@
     <div class="banner-content">
       <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">{{ tagData.title }}</h1>
       <p class="text-xl text-white/90 mb-8 max-w-2xl">{{ tagData.subtitle }}</p>
-      <a routerLink="/register" class="cta-button primary-btn">Get Your Tag Now</a>
+      <div class="banner-actions flex flex-wrap gap-4 justify-center">
+        <a routerLink="/register" class="cta-button primary-btn">Get Your Tag Now</a>
+        <a href="#violations-section" *ngIf="isVehicleTag()" class="cta-button secondary-btn banner-violations-btn">See Where It Helps</a>
+      </div>
     </div>
   </section>
 
   <!-- Details Section -->
-  <section class="tag-details-section py-16 px-4 md:px-8 max-w-7xl mx-auto" *ngIf="tagData">
+  <section class="tag-details-section py-16 px-4 md:px-8 max-w-7xl mx-auto" *ngIf="tagData" id="vehicle-details">
     <div class="grid md:grid-cols-2 gap-12 items-center">
       <div class="tag-text">
         <h2 class="text-3xl font-bold mb-6">Why Choose the {{ tagData.title }}?</h2>
         <p class="text-lg text-gray-700 mb-6 leading-relaxed">
           {{ tagData.description }}
         </p>
-        <a routerLink="/pricing" class="cta-button secondary-btn inline-block">View Pricing Plans</a>
+        <div class="flex flex-wrap gap-4 items-center">
+          <a routerLink="/pricing" class="cta-button secondary-btn inline-block">View Pricing Plans</a>
+          <a routerLink="/vehicle-tag-disclaimer" *ngIf="isVehicleTag()" class="text-amber-600 font-semibold hover:underline inline-flex items-center gap-2">
+            <i class="fa-solid fa-file-contract"></i> Read Vehicle Tag Disclaimer
+          </a>
+        </div>
       </div>
       
       <div class="tag-features bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100">
@@ -31,6 +39,76 @@
           </li>
         </ul>
       </div>
+    </div>
+  </section>
+
+  <!-- Violation Scenarios Section (Only for Vehicle Tag) -->
+  <section class="violations-section py-16 px-4 md:px-8 bg-slate-50 border-t border-slate-200" *ngIf="isVehicleTag()" id="violations-section">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase bg-amber-100 text-amber-800 border border-amber-300 mb-4 shadow-sm">
+          <i class="fa-solid fa-shield-halved"></i> Real-World Parking Scenarios
+        </span>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-5">
+          Where TRAFFTAG Vehicle Alerts <span class="text-amber-500">Save The Day</span>
+        </h2>
+        <p class="text-lg text-slate-600 leading-relaxed">
+          In congested cities, innocent parking oversights quickly turn into painful $65–$250 tickets, towing charges, and neighborhood conflicts. See how a quick QR scan from a friendly neighbor or passerby sends you an immediate courteous alert before enforcement strikes.
+        </p>
+        
+        <!-- Disclaimer notice pill -->
+        <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-slate-200 text-sm text-slate-700 shadow-sm">
+          <i class="fa-solid fa-circle-info text-amber-500"></i>
+          <span>TRAFFTAG is a notification service only.</span>
+          <a routerLink="/vehicle-tag-disclaimer" class="text-amber-600 font-bold hover:underline">
+            Read Full Vehicle Tag Disclaimer &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Scenarios Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+        @for (scenario of violationScenarios; track scenario.id) {
+          <div class="scenario-image-card bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300">
+            <img 
+              [src]="scenario.image" 
+              [alt]="scenario.title"
+              class="w-full h-auto object-contain block rounded-2xl transition-transform duration-300 hover:scale-[1.02]"
+              loading="lazy"
+            />
+          </div>
+        }
+      </div>
+
+      <!-- Comprehensive Disclaimer & Protection Box -->
+      <div class="disclaimer-callout-card bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl p-8 md:p-12 shadow-xl border border-slate-700 relative overflow-hidden">
+        <div class="relative z-10 max-w-4xl">
+          <div class="flex items-center gap-3 text-amber-400 font-bold uppercase tracking-wider text-xs mb-3">
+            <i class="fa-solid fa-triangle-exclamation text-base"></i>
+            <span>TRAFFTAG™ Vehicle Notification Disclaimer</span>
+          </div>
+          
+          <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-4">
+            A Courtesy Notification Service — Not Ticket Insurance
+          </h3>
+
+          <p class="text-slate-300 text-base leading-relaxed mb-6">
+            TRAFFTAG is a QR-code-based notification service only. It allows individuals to notify vehicle owners about potential parking violations, blocked driveways, street cleaning restrictions, towing concerns, and other vehicle-related situations. TRAFFTAG does not guarantee that a vehicle owner will receive, read, or respond to any notification, nor does it guarantee prevention of parking tickets, towing, fines, accidents, or property damage. Vehicle owners remain solely responsible for complying with all applicable parking and traffic laws.
+          </p>
+
+          <div class="flex flex-wrap gap-4 items-center">
+            <a routerLink="/vehicle-tag-disclaimer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm transition-all shadow-md">
+              <i class="fa-solid fa-file-contract"></i> Read Full Vehicle Tag Disclaimer
+            </a>
+            <a routerLink="/register" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-700/80 hover:bg-slate-700 text-white font-semibold text-sm transition-all border border-slate-600">
+              <i class="fa-solid fa-shield-cat"></i> Protect Your Vehicle Today
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 </main>

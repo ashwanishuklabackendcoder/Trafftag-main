@@ -357,6 +357,12 @@
           </div>
 
           <div class="filter-controls">
+            <select [ngModel]="tagDownloadFilter()" (ngModelChange)="tagDownloadFilter.set($event)">
+              <option value="not_downloaded">Download: Not Downloaded</option>
+              <option value="downloaded">Download: Already Downloaded</option>
+              <option value="all">Download: All</option>
+            </select>
+
             <select [ngModel]="tagStatusFilter()" (ngModelChange)="tagStatusFilter.set($event)">
               <option value="all">Status: All</option>
               <option value="active">Active</option>
@@ -396,6 +402,7 @@
                 <th>Assigned Plate</th>
                 <th>Scan Logs</th>
                 <th>Status State</th>
+                <th>Download Flag</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -413,6 +420,17 @@
                     <span class="status-indicator" [class.active]="tag.status === 'Active'" [class.paused]="tag.status === 'Inactive'" [class.danger]="tag.status === 'Lost/Stolen'">
                       {{ tag.status }}
                     </span>
+                  </td>
+                  <td>
+                    @if (tag.isDownloaded) {
+                      <span class="badge-downloaded" [title]="tag.downloadedAt ? ('Downloaded on ' + (tag.downloadedAt | date:'medium')) : 'Downloaded'">
+                        <i class="fa-solid fa-circle-check"></i> Downloaded
+                      </span>
+                    } @else {
+                      <span class="badge-not-downloaded">
+                        <i class="fa-solid fa-clock"></i> Not Downloaded
+                      </span>
+                    }
                   </td>
                   <td style="display: flex; gap: 8px; align-items: center;">
                     <select class="action-select" [value]="tag.status" (change)="updateTagStatus(tag.serial, $any($event.target).value)">
