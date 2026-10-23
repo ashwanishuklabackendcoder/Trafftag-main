@@ -1600,14 +1600,21 @@ export class Portal implements OnInit {
   }
 
   loadMembershipPlans(planType?: string) {
-    this.http.get<any>(`/api/v1/memberships/plans`)
+    const url = planType
+      ? `${API_BASE_URL}/api/v1/memberships/plans?planType=${encodeURIComponent(planType)}`
+      : `${API_BASE_URL}/api/v1/memberships/plans`;
+    this.http.get<any>(url)
       .subscribe({
         next: (res) => {
+          let plans: any[] = [];
           if (res?.success && Array.isArray(res.data)) {
-            this.membershipPlans.set(res.data);
+            plans = res.data;
           } else if (Array.isArray(res)) {
-            this.membershipPlans.set(res);
+            plans = res;
           }
+          // Sort plans in ascending order based on price (lower amount first)
+          plans.sort((a: any, b: any) => (Number(a.price) || 0) - (Number(b.price) || 0));
+          this.membershipPlans.set(plans);
         },
         error: (err) => {
           console.error('Error loading membership plans:', err);

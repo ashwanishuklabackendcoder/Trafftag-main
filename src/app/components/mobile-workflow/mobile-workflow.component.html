@@ -1,0 +1,647 @@
+<section class="guide-section-container" id="step-by-step-guide">
+  <div class="guide-inner-wrapper">
+    
+    <!-- Top Guide Controls Bar: Mode Switcher & Download Poster Button -->
+    <div class="guide-top-bar">
+      <div class="guide-mode-tabs">
+        <button 
+          type="button" 
+          class="mode-tab-btn online-mode-btn"
+          [class.active]="activeGuideMode() === 'online'"
+          (click)="setMode('online')"
+        >
+          <span class="tab-icon"><i class="fa-solid fa-desktop"></i></span>
+          <span class="tab-text">
+            <strong>ONLINE TRAFFTAG</strong>
+            <small>Download &bull; Print &bull; Place on Vehicle</small>
+          </span>
+          <span class="mode-badge">12 STEPS</span>
+        </button>
+
+        <button 
+          type="button" 
+          class="mode-tab-btn physical-mode-btn"
+          [class.active]="activeGuideMode() === 'physical'"
+          (click)="setMode('physical')"
+        >
+          <span class="tab-icon"><i class="fa-solid fa-tag"></i></span>
+          <span class="tab-text">
+            <strong>PHYSICAL TRAFFTAG</strong>
+            <small>Activate Preprinted Sticker</small>
+          </span>
+          <span class="mode-badge">12 STEPS</span>
+        </button>
+
+        <button 
+          type="button" 
+          class="mode-tab-btn both-mode-btn"
+          [class.active]="activeGuideMode() === 'both'"
+          (click)="setMode('both')"
+        >
+          <span class="tab-icon"><i class="fa-solid fa-layer-group"></i></span>
+          <span class="tab-text">
+            <strong>VIEW BOTH GUIDES</strong>
+            <small>Side-by-Side Comparison</small>
+          </span>
+        </button>
+      </div>
+
+      <div class="guide-actions-bar">
+        <button type="button" class="btn-poster-preview" (click)="openPosterModal()">
+          <i class="fa-solid fa-image"></i> View Full Poster
+        </button>
+        <a href="assets/images/trafftag-complete-user-guide.jpg" download="trafftag-step-by-step-guide.jpg" class="btn-poster-download">
+          <i class="fa-solid fa-download"></i> Download Guide (JPG)
+        </a>
+      </div>
+    </div>
+
+
+    <!-- ==================================================================== -->
+    <!-- SECTION 1: ONLINE TRAFFTAG GUIDE (GOLD / YELLOW THEME)                -->
+    <!-- ==================================================================== -->
+    @if (activeGuideMode() === 'online' || activeGuideMode() === 'both') {
+      <div class="guide-poster-panel online-panel animate-fade-in">
+        
+        <!-- Guide Header Banner (Matching the top of the image) -->
+        <div class="poster-header-banner banner-online">
+          <div class="poster-brand-col">
+            <div class="poster-logo-row">
+              <img src="assets/images/trafftag-logo.png" alt="TRAFFTAG Logo" class="poster-shield-logo" />
+              <div class="poster-brand-text">
+                <span class="brand-name">TRAFF<span class="text-gold">TAG</span><span class="trade-tm">&trade;</span></span>
+                <span class="brand-tagline">Bringing Smiles Back By Scan&trade;</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="poster-badge-col">
+            <div class="poster-title-card bg-gold-card">
+              <div class="title-top-row">
+                <i class="fa-solid fa-desktop title-icon"></i>
+                <div class="title-text-group">
+                  <h3 class="main-guide-title">ONLINE TRAFFTAG</h3>
+                  <p class="sub-guide-title">DOWNLOAD, PRINT AND PLACE ON YOUR VEHICLE</p>
+                </div>
+                <span class="step-guide-chip">STEP-BY-STEP GUIDE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12-Step Grid Layout (Row 1: Steps 1 to 6, Row 2: Steps 7 to 12) -->
+        <div class="steps-flow-grid">
+          @for (step of onlineSteps; track step.id; let idx = $index) {
+            <div class="step-column-wrapper">
+              
+              <div class="step-phone-card">
+                <!-- Step Header Bar -->
+                <div class="card-step-header bg-navy-bar">
+                  <span class="step-num-circle circle-red">{{ step.stepNum }}</span>
+                  <span class="step-title-text">{{ step.title }}</span>
+                </div>
+
+                <!-- Phone Mockup Screen -->
+                <div class="card-screen-body">
+                  @switch (step.type) {
+                    
+                    <!-- STEP 1: CREATE ACCOUNT -->
+                    @case ('register') {
+                      <div class="mini-screen screen-register">
+                        <div class="mini-brand-bar">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="mini-form-title">Create Account</div>
+                        <div class="mini-form-inputs">
+                          <div class="mini-field"><label>Nickname *</label><div class="mini-box">JohnDoe</div></div>
+                          <div class="mini-field"><label>Mobile Number *</label><div class="mini-box">+1 555-0192</div></div>
+                          <div class="mini-field"><label>Email Address *</label><div class="mini-box">user@email.com</div></div>
+                          <div class="mini-field"><label>Password *</label><div class="mini-box">&bull;&bull;&bull;&bull;&bull;&bull;</div></div>
+                        </div>
+                        <div class="mini-checkboxes">
+                          <i class="fa-solid fa-square-check text-blue"></i>
+                          <span>Marketing &bull; Transactional &bull; Terms</span>
+                        </div>
+                        <div class="mini-btn bg-gold">Yes, Sign Me Up!</div>
+                      </div>
+                    }
+
+                    <!-- STEP 2: VERIFY EMAIL OTP -->
+                    @case ('otp') {
+                      <div class="mini-screen screen-otp">
+                        <div class="otp-envelope-circle">
+                          <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div class="mini-screen-heading">
+                          <strong>Verify Your Email</strong>
+                          <p>We have sent a 6-digit code to your email address.</p>
+                        </div>
+                        <div class="mini-otp-boxes">
+                          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+                        </div>
+                        <div class="mini-btn bg-gold">Verify OTP</div>
+                        <div class="otp-footnote">OTP will come ONLY to your email.</div>
+                      </div>
+                    }
+
+                    <!-- STEP 3: SIGN IN AGAIN -->
+                    @case ('login') {
+                      <div class="mini-screen screen-login">
+                        <div class="mini-brand-bar">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="mini-form-title">Welcome Back</div>
+                        <div class="mini-form-inputs">
+                          <div class="mini-field"><label>Email Address</label><div class="mini-box">user@example.com</div></div>
+                          <div class="mini-field"><label>Password</label><div class="mini-box">&bull;&bull;&bull;&bull;&bull;&bull;</div></div>
+                        </div>
+                        <div class="mini-btn bg-gold" style="margin-top: 12px;">Sign In</div>
+                        <div class="mini-sublink">Don't have an account? <span class="text-gold">Create one free</span></div>
+                      </div>
+                    }
+
+                    <!-- STEP 4: DASHBOARD FIRST SCREEN -->
+                    @case ('dashboard') {
+                      <div class="mini-screen screen-dashboard">
+                        <div class="mini-dash-top">
+                          <i class="fa-solid fa-bars"></i>
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span class="user-badge">U6</span>
+                        </div>
+                        <div class="dash-credits-row">
+                          <span><i class="fa-solid fa-coins text-gold"></i> Credits <strong>0</strong></span>
+                          <span><i class="fa-solid fa-bell text-red"></i></span>
+                          <span><i class="fa-solid fa-circle-question text-gray"></i></span>
+                        </div>
+                        <div class="dash-scope-pill">Tag &amp; Membership Dashboard</div>
+                        <div class="dash-overview-card">
+                          <div class="card-status-title">Plan &amp; Alerts Overview</div>
+                          <div class="status-box-empty">
+                            <strong>No Active Plan</strong>
+                            <p>Purchase a plan to start receiving alerts.</p>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 5: OPEN MENU -->
+                    @case ('menu-open') {
+                      <div class="mini-screen screen-menu">
+                        <div class="menu-header">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                          <i class="fa-solid fa-xmark"></i>
+                        </div>
+                        <div class="menu-list">
+                          <div class="menu-item"><i class="fa-solid fa-house"></i> DASHBOARD</div>
+                          <div class="menu-item"><i class="fa-solid fa-compass"></i> BUY MORE &amp; EXPLORE</div>
+                          <div class="menu-item"><i class="fa-solid fa-car"></i> MY VEHICLES</div>
+                          <div class="menu-item"><i class="fa-solid fa-house-chimney"></i> MY HAPPY HOME</div>
+                          <div class="menu-item"><i class="fa-solid fa-qrcode"></i> DOWNLOAD QR TAGS</div>
+                          <div class="menu-item"><i class="fa-solid fa-bell"></i> ALERTS</div>
+                          <div class="menu-item"><i class="fa-solid fa-crown"></i> MEMBERSHIP PLAN</div>
+                          <div class="menu-item"><i class="fa-solid fa-user"></i> MY PROFILE</div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 6: CHOOSE PLAN & PAY -->
+                    @case ('choose-plan') {
+                      <div class="mini-screen screen-plans">
+                        <div class="plans-title">Choose Your Plan</div>
+                        <div class="plans-stack">
+                          <div class="plan-mini-card">
+                            <span>20 Alerts</span>
+                            <strong>$24.99</strong>
+                          </div>
+                          <div class="plan-mini-card selected">
+                            <span class="badge-pop">POPULAR</span>
+                            <span>40 Alerts</span>
+                            <strong>$49.99</strong>
+                          </div>
+                          <div class="plan-mini-card">
+                            <span>100 Alerts</span>
+                            <strong>$99.99</strong>
+                          </div>
+                        </div>
+                        <div class="mini-btn bg-gold" style="margin-top: 6px;">Continue to Payment</div>
+                        <div class="stripe-badge-row">
+                          <span>Pay Securely with <strong>Stripe</strong></span>
+                          <div class="card-icons"><i class="fa-brands fa-cc-visa"></i> <i class="fa-brands fa-cc-mastercard"></i> <i class="fa-brands fa-cc-apple-pay"></i></div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 7: GO TO MY VEHICLES -->
+                    @case ('menu-vehicles') {
+                      <div class="mini-screen screen-menu">
+                        <div class="menu-header">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="menu-list">
+                          <div class="menu-item"><i class="fa-solid fa-house"></i> DASHBOARD</div>
+                          <div class="menu-item"><i class="fa-solid fa-compass"></i> BUY MORE &amp; EXPLORE</div>
+                          <div class="menu-item highlighted-red"><i class="fa-solid fa-car"></i> MY VEHICLES</div>
+                          <div class="menu-item"><i class="fa-solid fa-house-chimney"></i> MY HAPPY HOME</div>
+                          <div class="menu-item"><i class="fa-solid fa-qrcode"></i> DOWNLOAD QR TAGS</div>
+                          <div class="menu-item"><i class="fa-solid fa-bell"></i> ALERTS</div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 8: REGISTER VEHICLE -->
+                    @case ('register-vehicle') {
+                      <div class="mini-screen screen-vehicle-modal">
+                        <div class="modal-mini-title">Register Your Vehicle</div>
+                        <div class="mini-form-inputs">
+                          <div class="mini-field"><label>Vehicle Nickname</label><div class="mini-box">My Car</div></div>
+                          <div class="mini-field"><label>Make *</label><div class="mini-box">Toyota</div></div>
+                          <div class="mini-field"><label>Model *</label><div class="mini-box">Camry</div></div>
+                          <div class="mini-field"><label>Year</label><div class="mini-box">2023</div></div>
+                          <div class="mini-field"><label>License Plate</label><div class="mini-box">ABC1234</div></div>
+                        </div>
+                        <div class="mini-btn bg-gold" style="margin-top: 8px;">Save Vehicle</div>
+                      </div>
+                    }
+
+                    <!-- STEP 9: GO TO DOWNLOAD QR TAGS -->
+                    @case ('menu-download-tag') {
+                      <div class="mini-screen screen-menu">
+                        <div class="menu-header">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="menu-list">
+                          <div class="menu-item"><i class="fa-solid fa-house"></i> DASHBOARD</div>
+                          <div class="menu-item"><i class="fa-solid fa-compass"></i> BUY MORE &amp; EXPLORE</div>
+                          <div class="menu-item"><i class="fa-solid fa-car"></i> MY VEHICLES</div>
+                          <div class="menu-item highlighted-red"><i class="fa-solid fa-qrcode"></i> DOWNLOAD QR TAGS</div>
+                          <div class="menu-item"><i class="fa-solid fa-bell"></i> ALERTS</div>
+                          <div class="menu-item"><i class="fa-solid fa-crown"></i> MEMBERSHIP PLAN</div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 10: DOWNLOAD YOUR TAG -->
+                    @case ('download-tag') {
+                      <div class="mini-screen screen-download">
+                        <div class="download-badge-icon">
+                          <i class="fa-solid fa-qrcode"></i>
+                        </div>
+                        <div class="mini-screen-heading">
+                          <strong>Download QR Tags</strong>
+                          <p>Active QR Decal Fleet</p>
+                          <small>Generate and download your TRAFFTAG QR sticker.</small>
+                        </div>
+                        <div class="download-big-btn bg-gold">
+                          <i class="fa-solid fa-download"></i>
+                          <div>
+                            <strong>TRAFFTAG</strong>
+                            <span>Download</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 11: DOWNLOADED TAG (EXAMPLE) -->
+                    @case ('decal-card') {
+                      <div class="mini-screen screen-decal">
+                        <div class="printable-tag-card">
+                          <div class="tag-card-header">
+                            <img src="assets/images/trafftag-logo.png" alt="" />
+                            <span>TRAFFTAG&trade;</span>
+                          </div>
+                          <div class="tag-qr-center">
+                            <i class="fa-solid fa-qrcode"></i>
+                          </div>
+                          <div class="tag-serial-footer">
+                            <span>TT123456</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 12: PRINT & PLACE ON VEHICLE -->
+                    @case ('place-on-vehicle') {
+                      <div class="mini-screen screen-windshield">
+                        <div class="windshield-visual">
+                          <div class="car-cockpit-view">
+                            <div class="windshield-decal-sticker">
+                              <i class="fa-solid fa-qrcode"></i>
+                              <span>TT123456</span>
+                            </div>
+                            <span class="sticker-arrow-pointer"><i class="fa-solid fa-arrow-turn-up"></i> Inside Windshield</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                  }
+                </div>
+
+                <!-- Step Caption / Subtext (Matching the Image) -->
+                <div class="card-step-caption">
+                  <p>{{ step.subtext }}</p>
+                </div>
+              </div>
+
+              <!-- Connecting Flow Arrow (Between Steps) -->
+              @if (idx !== 5 && idx !== 11) {
+                <div class="flow-step-arrow color-blue">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+      </div>
+    }
+
+
+    <!-- ==================================================================== -->
+    <!-- SECTION 2: PHYSICAL TRAFFTAG GUIDE (GREEN THEME)                     -->
+    <!-- ==================================================================== -->
+    @if (activeGuideMode() === 'physical' || activeGuideMode() === 'both') {
+      <div class="guide-poster-panel physical-panel animate-fade-in" [class.panel-spaced]="activeGuideMode() === 'both'">
+        
+        <!-- Guide Header Banner (Matching the bottom of the image) -->
+        <div class="poster-header-banner banner-physical">
+          <div class="poster-brand-col">
+            <div class="poster-logo-row">
+              <img src="assets/images/trafftag-logo.png" alt="TRAFFTAG Logo" class="poster-shield-logo" />
+              <div class="poster-brand-text">
+                <span class="brand-name">TRAFF<span class="text-gold">TAG</span><span class="trade-tm">&trade;</span></span>
+                <span class="brand-tagline">Bringing Smiles Back By Scan&trade;</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="poster-badge-col">
+            <div class="poster-title-card bg-green-card">
+              <div class="title-top-row">
+                <i class="fa-solid fa-tag title-icon"></i>
+                <div class="title-text-group">
+                  <h3 class="main-guide-title">PHYSICAL TRAFFTAG</h3>
+                  <p class="sub-guide-title">ACTIVATE YOUR PREPRINTED STICKER</p>
+                </div>
+                <span class="step-guide-chip chip-red">STEP-BY-STEP GUIDE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12-Step Grid Layout for Physical Activation -->
+        <div class="steps-flow-grid">
+          @for (step of physicalSteps; track step.id; let idx = $index) {
+            <div class="step-column-wrapper">
+              
+              <div class="step-phone-card">
+                <!-- Step Header Bar -->
+                <div class="card-step-header bg-navy-bar">
+                  <span class="step-num-circle circle-gold">{{ step.stepNum }}</span>
+                  <span class="step-title-text">{{ step.title }}</span>
+                </div>
+
+                <!-- Phone Mockup Screen -->
+                <div class="card-screen-body">
+                  @switch (step.type) {
+                    
+                    <!-- STEP 1: CREATE ACCOUNT -->
+                    @case ('register') {
+                      <div class="mini-screen screen-register">
+                        <div class="mini-brand-bar">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="mini-form-title">Create Account</div>
+                        <div class="mini-form-inputs">
+                          <div class="mini-field"><label>Nickname *</label><div class="mini-box">Alex M.</div></div>
+                          <div class="mini-field"><label>Mobile Number *</label><div class="mini-box">+1 555-0199</div></div>
+                          <div class="mini-field"><label>Email Address *</label><div class="mini-box">alex@email.com</div></div>
+                          <div class="mini-field"><label>Password *</label><div class="mini-box">&bull;&bull;&bull;&bull;&bull;&bull;</div></div>
+                        </div>
+                        <div class="mini-btn bg-gold">Yes, Sign Me Up!</div>
+                      </div>
+                    }
+
+                    <!-- STEP 2: VERIFY EMAIL OTP -->
+                    @case ('otp') {
+                      <div class="mini-screen screen-otp">
+                        <div class="otp-envelope-circle text-emerald">
+                          <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div class="mini-screen-heading">
+                          <strong>Verify Your Email</strong>
+                          <p>Enter 6-digit code</p>
+                        </div>
+                        <div class="mini-otp-boxes">
+                          <span>5</span><span>9</span><span>2</span><span>8</span><span>1</span><span>4</span>
+                        </div>
+                        <div class="mini-btn bg-emerald">Verify OTP</div>
+                      </div>
+                    }
+
+                    <!-- STEP 3: SIGN IN AGAIN -->
+                    @case ('login') {
+                      <div class="mini-screen screen-login">
+                        <div class="mini-brand-bar">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="mini-form-title">Welcome Back</div>
+                        <div class="mini-form-inputs">
+                          <div class="mini-field"><label>Email Address</label><div class="mini-box">alex@email.com</div></div>
+                          <div class="mini-field"><label>Password</label><div class="mini-box">&bull;&bull;&bull;&bull;&bull;&bull;</div></div>
+                        </div>
+                        <div class="mini-btn bg-gold" style="margin-top: 10px;">Sign In</div>
+                      </div>
+                    }
+
+                    <!-- STEP 4: DASHBOARD -->
+                    @case ('dashboard') {
+                      <div class="mini-screen screen-dashboard">
+                        <div class="mini-dash-top">
+                          <i class="fa-solid fa-bars"></i>
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span class="user-badge bg-emerald">AM</span>
+                        </div>
+                        <div class="dash-scope-pill">Tag &amp; Membership Dashboard</div>
+                        <div class="dash-overview-card" style="margin-top: 14px;">
+                          <div class="card-status-title">Dashboard Overview</div>
+                          <div class="status-box-empty">
+                            <i class="fa-solid fa-circle-check text-emerald"></i>
+                            <strong>Account Verified</strong>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 5: OPEN MENU -->
+                    @case ('menu-open') {
+                      <div class="mini-screen screen-menu">
+                        <div class="menu-header">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="menu-list">
+                          <div class="menu-item"><i class="fa-solid fa-house"></i> DASHBOARD</div>
+                          <div class="menu-item"><i class="fa-solid fa-compass"></i> BUY MORE &amp; EXPLORE</div>
+                          <div class="menu-item"><i class="fa-solid fa-car"></i> MY VEHICLES</div>
+                          <div class="menu-item"><i class="fa-solid fa-qrcode"></i> DOWNLOAD QR TAGS</div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 6: GO TO MY VEHICLES -->
+                    @case ('menu-vehicles') {
+                      <div class="mini-screen screen-menu">
+                        <div class="menu-header">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="menu-list">
+                          <div class="menu-item"><i class="fa-solid fa-house"></i> DASHBOARD</div>
+                          <div class="menu-item highlighted-red"><i class="fa-solid fa-car"></i> MY VEHICLES</div>
+                          <div class="menu-item"><i class="fa-solid fa-qrcode"></i> DOWNLOAD QR TAGS</div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 7: REGISTER VEHICLE -->
+                    @case ('register-vehicle') {
+                      <div class="mini-screen screen-vehicle-modal">
+                        <div class="modal-mini-title">Register Your Vehicle</div>
+                        <div class="mini-form-inputs">
+                          <div class="mini-field"><label>Vehicle Nickname</label><div class="mini-box">Honda City</div></div>
+                          <div class="mini-field"><label>Make *</label><div class="mini-box">Honda</div></div>
+                          <div class="mini-field"><label>Model *</label><div class="mini-box">City</div></div>
+                          <div class="mini-field"><label>License Plate</label><div class="mini-box">MH02CB1234</div></div>
+                        </div>
+                        <div class="mini-btn bg-gold" style="margin-top: 8px;">Save Vehicle</div>
+                      </div>
+                    }
+
+                    <!-- STEP 8: GO TO DOWNLOAD QR TAGS -->
+                    @case ('menu-download-tag') {
+                      <div class="mini-screen screen-menu">
+                        <div class="menu-header">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="menu-list">
+                          <div class="menu-item"><i class="fa-solid fa-house"></i> DASHBOARD</div>
+                          <div class="menu-item"><i class="fa-solid fa-car"></i> MY VEHICLES</div>
+                          <div class="menu-item highlighted-red"><i class="fa-solid fa-qrcode"></i> DOWNLOAD QR TAGS</div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 9: ACTIVATE PHYSICAL TAG CHOICE -->
+                    @case ('activate-physical-choice') {
+                      <div class="mini-screen screen-choice">
+                        <div class="choice-card selected-choice">
+                          <div class="choice-radio active"></div>
+                          <div class="choice-text">
+                            <strong>Link and Activate Physical TRAFFTAG</strong>
+                            <small>Preprinted sticker from store</small>
+                          </div>
+                          <i class="fa-solid fa-qrcode text-blue"></i>
+                        </div>
+                        <div class="choice-card">
+                          <div class="choice-radio"></div>
+                          <div class="choice-text">
+                            <strong>Download New QR Tag (Online)</strong>
+                            <small>Digital download</small>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 10: ENTER SERIAL NUMBER -->
+                    @case ('enter-serial') {
+                      <div class="mini-screen screen-serial">
+                        <div class="mini-form-title">Activate Your Physical Tag</div>
+                        <div class="mini-field" style="margin-top: 10px;">
+                          <label>Enter Serial Number *</label>
+                          <div class="mini-box box-serial">TT123456</div>
+                        </div>
+                        <div class="mini-btn bg-gold" style="margin-top: 14px;">Activate Tag</div>
+                      </div>
+                    }
+
+                    <!-- STEP 11: TAG ACTIVATED -->
+                    @case ('tag-activated') {
+                      <div class="mini-screen screen-activated">
+                        <div class="activated-check-circle">
+                          <i class="fa-solid fa-check"></i>
+                        </div>
+                        <strong>Tag Activated Successfully!</strong>
+                        <p>Your physical TRAFFTAG is now linked to your vehicle.</p>
+                      </div>
+                    }
+
+                    <!-- STEP 12: PLACE PHYSICAL ON VEHICLE -->
+                    @case ('place-physical-vehicle') {
+                      <div class="mini-screen screen-windshield">
+                        <div class="windshield-visual">
+                          <div class="car-cockpit-view">
+                            <div class="windshield-decal-sticker physical-sticker">
+                              <i class="fa-solid fa-qrcode"></i>
+                              <span>TT123456</span>
+                            </div>
+                            <span class="sticker-arrow-pointer text-green"><i class="fa-solid fa-arrow-turn-up"></i> Active on Windshield</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                  }
+                </div>
+
+                <!-- Step Caption / Subtext (Matching the Image) -->
+                <div class="card-step-caption">
+                  <p>{{ step.subtext }}</p>
+                </div>
+              </div>
+
+              <!-- Connecting Flow Arrow -->
+              @if (idx !== 5 && idx !== 11) {
+                <div class="flow-step-arrow color-blue">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+      </div>
+    }
+
+  </div>
+
+  <!-- Full Poster Lightbox Modal -->
+  @if (showPosterModal()) {
+    <div class="poster-modal-overlay" (click)="closePosterModal()">
+      <div class="poster-modal-dialog" (click)="$event.stopPropagation()">
+        <div class="poster-modal-header">
+          <h3>TRAFFTAG Step-by-Step Official User Guide</h3>
+          <button type="button" class="btn-close-modal" (click)="closePosterModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="poster-modal-body">
+          <img src="assets/images/trafftag-complete-user-guide.jpg" alt="TRAFFTAG Complete Step-by-Step User Guide" class="full-poster-img" />
+        </div>
+        <div class="poster-modal-footer">
+          <a href="assets/images/trafftag-complete-user-guide.jpg" download="trafftag-step-by-step-guide.jpg" class="btn-poster-download">
+            <i class="fa-solid fa-download"></i> Download Full Resolution (JPG)
+          </a>
+        </div>
+      </div>
+    </div>
+  }
+</section>

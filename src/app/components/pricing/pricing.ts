@@ -30,18 +30,6 @@ export class Pricing implements OnInit {
       isDynamic: true
     },
     {
-      id: 2,
-      name: 'BASIC ANNUAL PLAN',
-      lifetimePrice: '$439.00',
-      monthlyPrice: '$439.00',
-      price: 439.00,
-      credits: 25,
-      validityDays: 365,
-      membershipTypeName: 'Email',
-      featured: false,
-      isDynamic: true
-    },
-    {
       id: 3,
       name: 'PREMIUM MONTHLY PLAN',
       lifetimePrice: '$49.99',
@@ -51,6 +39,18 @@ export class Pricing implements OnInit {
       validityDays: 30,
       membershipTypeName: 'Email',
       featured: true,
+      isDynamic: true
+    },
+    {
+      id: 2,
+      name: 'BASIC ANNUAL PLAN',
+      lifetimePrice: '$439.00',
+      monthlyPrice: '$439.00',
+      price: 439.00,
+      credits: 25,
+      validityDays: 365,
+      membershipTypeName: 'Email',
+      featured: false,
       isDynamic: true
     },
     {
@@ -72,11 +72,12 @@ export class Pricing implements OnInit {
       .subscribe({
         next: (res) => {
           if(res.success && res.data && res.data.length > 0) {
-            const mappedPlans = res.data.map((p: any) => ({
+            const sortedPlans = [...res.data].sort((a: any, b: any) => (Number(a.price) || 0) - (Number(b.price) || 0));
+            const mappedPlans = sortedPlans.map((p: any) => ({
               id: p.planId,
               name: p.name.toUpperCase(),
               lifetimePrice: `${p.validityDays} Days`,
-              monthlyPrice: `$${p.price.toFixed(2)}`,
+              monthlyPrice: `$${Number(p.price || 0).toFixed(2)}`,
               credits: p.credits,
               validityDays: p.validityDays,
               membershipTypeName: p.membershipTypeName,

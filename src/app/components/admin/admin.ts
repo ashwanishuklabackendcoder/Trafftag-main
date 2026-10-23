@@ -497,8 +497,9 @@ export class Admin implements OnInit {
     const headers = { Authorization: `Bearer ${localStorage.getItem('accessToken')}` };
     this.http.get<{success: boolean, data: any[]}>(`${API_BASE_URL}/api/v1/memberships/plans/admin`, { headers }).subscribe({
       next: (res) => {
-        if (res.success) {
-          this.activePlans.set(res.data);
+        if (res.success && Array.isArray(res.data)) {
+          const sorted = [...res.data].sort((a: any, b: any) => (Number(a.price) || 0) - (Number(b.price) || 0));
+          this.activePlans.set(sorted);
         }
       },
       error: (err) => console.error('Failed to load plans', err)

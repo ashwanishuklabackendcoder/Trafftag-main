@@ -3,11 +3,12 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar';
+import { MobileWorkflowComponent } from '../mobile-workflow/mobile-workflow.component';
 
 @Component({
   selector: 'app-how-it-works',
   standalone: true,
-  imports: [FooterComponent, CommonModule, RouterLink, NavbarComponent],
+  imports: [FooterComponent, CommonModule, RouterLink, NavbarComponent, MobileWorkflowComponent],
   templateUrl: './how-it-works.html',
   styleUrls: ['./how-it-works.css']
 })
@@ -20,7 +21,7 @@ export class HowItWorks {
       stepNumber: '01',
       title: 'Place Your Tag',
       subtitle: 'Ready to Scan',
-      description: 'Place your TRAFFTAG QR tag or decal on your vehicle, pet collar, home entrance, or personal item.',
+      description: 'Place your TRAFFTAG QR tag or decal on your vehicle, pet collar, or home entrance.',
       icon: 'fa-solid fa-tag',
       badge: 'Step 1'
     },
@@ -63,7 +64,7 @@ export class HowItWorks {
     },
     {
       title: 'Multi-Tag Control Hub',
-      desc: 'Manage your Vehicle, Pet, Home, Life, and Item Tags, review alert history, and check tag status from one dashboard.',
+      desc: 'Manage your Vehicle, Pet, and Home Tags, review alert history, and check tag status from one dashboard.',
       icon: 'fa-solid fa-table-cells-large'
     }
   ];

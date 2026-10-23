@@ -5,6 +5,7 @@ import { API_BASE_URL } from '../../config/api.config';
 import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar';
+import { MobileWorkflowComponent } from '../mobile-workflow/mobile-workflow.component';
 
 export interface HeroSlide {
   id: number;
@@ -28,7 +29,7 @@ export interface HeroSlide {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FooterComponent, RouterLink, CommonModule, NavbarComponent],
+  imports: [FooterComponent, RouterLink, CommonModule, NavbarComponent, MobileWorkflowComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -113,26 +114,23 @@ export class Home implements OnInit, OnDestroy {
     this.http.get<any>(`${API_BASE_URL}/api/v1/memberships/plans`)
       .subscribe({
         next: (res) => {
+          let rawList: any[] = [];
           if (res?.success && Array.isArray(res.data)) {
-            // Map the data to include UI-specific properties
-            const plans = res.data.map((plan: any, index: number) => ({
-              ...plan,
-              isDynamic: true,
-              featured: plan.name.toLowerCase().includes('premium monthly') || plan.planId === 2 || plan.planId === 3,
-              lifetimePrice: `$${plan.price.toFixed(2)}`,
-              monthlyPrice: `$${plan.price.toFixed(2)}`
-            }));
-            this.membershipPlans.set(plans);
+            rawList = res.data;
           } else if (Array.isArray(res)) {
-            const plans = res.map((plan: any, index: number) => ({
-              ...plan,
-              isDynamic: true,
-              featured: plan.name.toLowerCase().includes('premium monthly') || plan.planId === 2 || plan.planId === 3,
-              lifetimePrice: `$${plan.price.toFixed(2)}`,
-              monthlyPrice: `$${plan.price.toFixed(2)}`
-            }));
-            this.membershipPlans.set(plans);
+            rawList = res;
           }
+          // Sort plans in ascending order based on price (lower amount first)
+          rawList.sort((a: any, b: any) => (Number(a.price) || 0) - (Number(b.price) || 0));
+
+          const plans = rawList.map((plan: any) => ({
+            ...plan,
+            isDynamic: true,
+            featured: plan.name.toLowerCase().includes('premium monthly') || plan.planId === 2 || plan.planId === 3,
+            lifetimePrice: `$${Number(plan.price || 0).toFixed(2)}`,
+            monthlyPrice: `$${Number(plan.price || 0).toFixed(2)}`
+          }));
+          this.membershipPlans.set(plans);
         },
         error: (err) => {
           console.error('Error loading membership plans:', err);
@@ -303,26 +301,6 @@ export class Home implements OnInit, OnDestroy {
       buttonText: 'FOR YOUR PROPERTY',
       link: '/tags/home',
       colorClass: 'color-home'
-    },
-    {
-      category: 'MY HAPPY LIFE TAG',
-      subtitle: 'Adults • College Students • Seniors',
-      subtitle2: '',
-      icon: 'fa-solid fa-users',
-      image: 'life-tag-custom.jpg',
-      buttonText: 'FOR EVERY PERSON',
-      link: '/tags/life',
-      colorClass: 'color-life'
-    },
-    {
-      category: 'MY HAPPY ITEMS TAG',
-      subtitle: 'Keys • Phone • Laptop',
-      subtitle2: 'Wallet & More',
-      icon: 'fa-solid fa-tag',
-      image: 'card_items_new.jpg',
-      buttonText: 'FOR YOUR BELONGINGS',
-      link: '/tags/items',
-      colorClass: 'color-items'
     }
   ]);
 

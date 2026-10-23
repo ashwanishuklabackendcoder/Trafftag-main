@@ -85,28 +85,6 @@ export class TagType implements OnInit {
         'QR Decal',
         'Quick Setup'
       ]
-    },
-    'life': {
-      title: 'Life Protection Tag',
-      subtitle: 'Safety for students and seniors.',
-      bannerImage: '/banner-life.jpg',
-      description: 'The Life Protection Tag gives your loved ones an easy way to carry contact info. Helpful strangers can instantly alert you.',
-      features: [
-        'Alert Messaging Service',
-        'Peace of Mind'
-      ]
-    },
-    'items': {
-      title: 'Items Protection Tag',
-      subtitle: 'Never lose your keys, laptop, or luggage.',
-      bannerImage: '/banner-items.jpg',
-      description: 'Attach this tag to your valuable belongings. If lost, the finder can scan it to coordinate a safe return, all while your personal identity remains protected.',
-      features: [
-        'Lost & Found Tracking',
-        'Privacy Assured',
-        'Adhesive & Keychain Options',
-        'Global Coverage'
-      ]
     }
   };
 
@@ -129,7 +107,7 @@ export class TagType implements OnInit {
         title: 'TRAFFTAG Universal Tag',
         subtitle: 'Protect what matters most.',
         bannerImage: '/banner-vehical.png',
-        description: 'Discover our complete range of smart QR tags designed to keep your belongings and loved ones safe.',
+        description: 'Discover our complete range of smart QR tags designed to keep your vehicles, pets, and homes safe.',
         features: ['Smart Tracking', 'Instant Alerts', 'Privacy Protection']
       };
     }

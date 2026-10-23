@@ -15,7 +15,7 @@ export class Features {
   isMenuOpen = signal(false);
 
   constructor(private meta: Meta) {
-    this.meta.updateTag({ name: 'description', content: 'Discover TRAFFTAG\'s privacy features — masked contact, multi-channel alerts, and privacy-focused communication with custom messages and high-quality QR tags for vehicles, pets, homes, and items.' });
+    this.meta.updateTag({ name: 'description', content: 'Discover TRAFFTAG\'s privacy features — masked contact, multi-channel alerts, and privacy-focused communication with custom messages and high-quality QR tags for vehicles, pets, and homes.' });
   }
 
   toggleMenu() {
@@ -36,7 +36,7 @@ export class Features {
     {
       icon: 'fa-solid fa-table-cells-large',
       title: 'Multi-Tag Dashboard',
-      desc: 'Manage all your Vehicle, Pet, Home, Life, and Item Tags under a single account. Download QR codes, view alert history, track status, and customize alert messages — all in one place.'
+      desc: 'Manage all your Vehicle, Pet, and Home Tags under a single account. Download QR codes, view alert history, track status, and customize alert messages — all in one place.'
     },
     {
       icon: 'fa-solid fa-chart-line',
@@ -81,9 +81,7 @@ export class Features {
   tagCategories = signal([
     { title: 'Vehicle Tags', icon: 'fa-solid fa-car', link: '/tags/vehicle' },
     { title: 'Pet Tags', icon: 'fa-solid fa-paw', link: '/tags/pet' },
-    { title: 'Home Tags', icon: 'fa-solid fa-house', link: '/tags/home' },
-    { title: 'Life Tags', icon: 'fa-solid fa-person', link: '/tags/life' },
-    { title: 'Item Tags', icon: 'fa-solid fa-box', link: '/tags/item' }
+    { title: 'Home Tags', icon: 'fa-solid fa-house', link: '/tags/home' }
   ]);
 
   additionalFeatures = signal([
@@ -99,7 +97,7 @@ export class Features {
     },
     {
       title: 'Multi-Tag Control Hub',
-      desc: 'Manage your Vehicle, Pet, Home, Life, and Item Tags, review alert history, download QR codes, and check tag status from one dashboard.',
+      desc: 'Manage your Vehicle, Pet, and Home Tags, review alert history, download QR codes, and check tag status from one dashboard.',
       icon: 'fa-solid fa-boxes-stacked'
     },
     {
@@ -117,7 +115,7 @@ export class Features {
     },
     {
       question: 'Can I manage more than one tag from a single account?',
-      answer: 'Yes. The multi-tag dashboard lets you manage vehicle, pet, home, life, and item tags together, download QR codes, and customize alert messages for each.',
+      answer: 'Yes. The multi-tag dashboard lets you manage vehicle, pet, and home tags together, download QR codes, and customize alert messages for each.',
       open: false
     },
     {
@@ -132,7 +130,7 @@ export class Features {
     },
     {
       question: 'Where can I use TRAFFTAG tags?',
-      answer: 'On vehicles, pet collars, home entrances, personal items, luggage, trade tools, and many other everyday items.',
+      answer: 'On vehicles, pet collars, and home entrances.',
       open: false
     },
     {

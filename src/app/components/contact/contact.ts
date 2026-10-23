@@ -29,7 +29,7 @@ export class Contact {
   faqs = signal([
     {
       question: 'Which email should I use to get help with my Tag?',
-      answer: 'Please use the specific email for your tag category: Myhappyvehicletag@gmail.com (Vehicles), Myhappyhometag@gmail.com (Home/Business), Myhappypettag@gmail.com (Pets), myhappylifetag@gmail.com (Life Tag), or Myhappyitemtag@gmail.com (Item Tag).',
+      answer: 'Please use the specific email for your tag category: Myhappyvehicletag@gmail.com (Vehicles), Myhappyhometag@gmail.com (Home/Business), or Myhappypettag@gmail.com (Pets).',
       open: false
     },
     {

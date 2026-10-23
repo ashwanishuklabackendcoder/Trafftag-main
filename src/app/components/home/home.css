@@ -2470,13 +2470,13 @@
   }
 }
 
-/* NEW ECOSYSTEM GRID (5 Columns) */
+/* NEW ECOSYSTEM GRID (3 Columns for Vehicle, Pet, Home) */
 .new-ecosystem-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   width: 100%;
-  max-width: 1300px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -2579,19 +2579,13 @@
 .color-life .new-tag-footer-btn { background: #4B166A; }
 .color-items .new-tag-footer-btn { background: #A5090F; }
 
-@media (max-width: 1200px) {
-  .new-ecosystem-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .new-ecosystem-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .new-ecosystem-grid {
     grid-template-columns: 1fr;
   }

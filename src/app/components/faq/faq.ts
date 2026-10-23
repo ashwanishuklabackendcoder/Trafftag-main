@@ -14,7 +14,7 @@ export class Faq {
   isMenuOpen = signal(false);
 
   constructor(private meta: Meta) {
-    this.meta.updateTag({ name: 'description', content: 'Answers to common TRAFFTAG questions — privacy, QR tag setup, shipping, billing, and how anonymous alerts work for vehicles, pets, homes, life tags & items.' });
+    this.meta.updateTag({ name: 'description', content: 'Answers to common TRAFFTAG questions — privacy, QR tag setup, shipping, billing, and how anonymous alerts work for vehicles, pets, and homes.' });
   }
 
   toggleMenu() {
@@ -38,7 +38,7 @@ export class Faq {
     },
     {
       question: 'How do I activate a new QR tag?',
-      answer: 'Create a TRAFFTAG account, then register your tag\'s unique code under "Add a Tag." Choose the category — vehicle, pet, home, life, or item — set your contact preferences, and your tag can be activated after registration is completed.',
+      answer: 'Create a TRAFFTAG account, then register your tag\'s unique code under "Add a Tag." Choose the category — vehicle, pet, or home — set your contact preferences, and your tag can be activated after registration is completed.',
       category: 'scans',
       open: false
     },
@@ -49,8 +49,8 @@ export class Faq {
       open: false
     },
     {
-      question: 'What types of vehicles, pets, homes, life tags, or items can I use TRAFFTAG for?',
-      answer: 'TRAFFTAG works on virtually anything you want to protect: cars, motorcycles, scooters, e-bikes, trucks, SUVs, RVs, boats and trailers, dogs, cats, birds and other pets, home entrances and gates, life tags for adults, seniors and students, and everyday items like keys, phones, laptops, luggage, and wallets.',
+      question: 'What types of vehicles, pets, or homes can I use TRAFFTAG for?',
+      answer: 'TRAFFTAG works on vehicles, pets, and homes you want to protect: cars, motorcycles, scooters, e-bikes, trucks, SUVs, RVs, boats and trailers, dogs, cats, birds and other pets, and home entrances and gates.',
       category: 'scans',
       open: false
     },
@@ -61,8 +61,8 @@ export class Faq {
       open: false
     },
     {
-      question: 'Can I use one TRAFFTAG account for multiple tags (car, pet, home, life, or item)?',
-      answer: 'Yes. One TRAFFTAG account manages all of your tags — vehicle, pet, home, life, and item — from a single dashboard, with separate alert settings for each.',
+      question: 'Can I use one TRAFFTAG account for multiple tags (car, pet, or home)?',
+      answer: 'Yes. One TRAFFTAG account manages all of your tags — vehicle, pet, and home — from a single dashboard, with separate alert settings for each.',
       category: 'account',
       open: false
     }
