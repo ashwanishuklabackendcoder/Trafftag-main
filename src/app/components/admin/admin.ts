@@ -200,6 +200,10 @@ export class Admin implements OnInit {
       error: (err) => console.error('Failed to load admin stats', err)
     });
 
+    this.loadTagsInventory();
+  }
+
+  loadTagsInventory() {
     this.http.get<any[]>(`${API_BASE_URL}/api/Admin/qr/inventory`).subscribe({
       next: (res) => {
         if (res) {
@@ -264,7 +268,17 @@ export class Admin implements OnInit {
     });
   }
 
+  apiBaseUrl = API_BASE_URL;
   downloadingTagId = signal<string | null>(null);
+  // Server Bulk Export (Option B) Signals
+  showExportModal = signal<boolean>(false);
+  availableBatches = signal<any[]>([]);
+  exportBatchSelection = signal<string>('all_pending');
+  exportTagType = signal<string>('all');
+  exportLimit = signal<number>(5000);
+  exportJob = signal<any | null>(null);
+  isExporting = signal<boolean>(false);
+  private exportPollTimer: any = null;
   selectedTags = signal<Set<string>>(new Set());
   isBulkDownloading = signal<boolean>(false);
 
@@ -332,23 +346,32 @@ export class Admin implements OnInit {
     this.isBulkDownloading.set(true);
     const downloadedBlobs: {tag: AdminTag, blob: Blob}[] = [];
 
-    // Fetch images sequentially to avoid overloading the server
-    for (const tag of tagsToDownload) {
-      try {
-        const blob = await new Promise<Blob>((resolve, reject) => {
+    // Fetch images in concurrent batches of 10 for high speed
+    const batchChunkSize = 10;
+    for (let i = 0; i < tagsToDownload.length; i += batchChunkSize) {
+      const slice = tagsToDownload.slice(i, i + batchChunkSize);
+      const chunkPromises = slice.map(tag => 
+        new Promise<{tag: AdminTag, blob: Blob} | null>((resolve) => {
           this.http.get(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(tag.serial)}/image`, {
             responseType: 'blob'
           }).subscribe({
-            next: (b: Blob) => resolve(b),
-            error: (err) => reject(err)
+            next: (blob: Blob) => {
+              if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
+                resolve({tag, blob});
+              } else {
+                resolve(null);
+              }
+            },
+            error: (err) => {
+              console.error(`Failed to fetch image for tag ${tag.serial}`, err);
+              resolve(null);
+            }
           });
-        });
-        
-        if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
-          downloadedBlobs.push({tag, blob});
-        }
-      } catch (err) {
-        console.error(`Failed to fetch image for tag ${tag.serial}`, err);
+        })
+      );
+      const results = await Promise.all(chunkPromises);
+      for (const res of results) {
+        if (res) downloadedBlobs.push(res);
       }
     }
 
@@ -369,6 +392,88 @@ export class Admin implements OnInit {
     }
 
     this.isBulkDownloading.set(false);
+  }
+
+
+  openExportModal() {
+    this.showExportModal.set(true);
+    this.exportJob.set(null);
+    this.isExporting.set(false);
+    this.loadAvailableBatches();
+  }
+
+  closeExportModal() {
+    if (this.exportPollTimer) {
+      clearInterval(this.exportPollTimer);
+      this.exportPollTimer = null;
+    }
+    this.showExportModal.set(false);
+  }
+
+  loadAvailableBatches() {
+    this.http.get<any[]>(`${API_BASE_URL}/api/Admin/qr/batches`).subscribe({
+      next: (batches) => this.availableBatches.set(batches || []),
+      error: (err) => console.error('Failed to load batches', err)
+    });
+  }
+
+  startServerExport() {
+    this.isExporting.set(true);
+    const selection = this.exportBatchSelection();
+
+    const payload: any = {
+      tagType: this.exportTagType(),
+      limit: this.exportLimit(),
+      chunkSize: 5000
+    };
+
+    if (selection === 'all_pending') {
+      payload.downloadStatus = 'not_downloaded';
+    } else if (selection === 'selected') {
+      payload.specificSerials = Array.from(this.selectedTags());
+    } else if (selection === 'all') {
+      payload.downloadStatus = 'all';
+    } else {
+      payload.batchNumber = selection;
+    }
+
+    this.http.post<any>(`${API_BASE_URL}/api/Admin/qr/export-batch`, payload).subscribe({
+      next: (job) => {
+        this.exportJob.set(job);
+        this.pollExportJob(job.jobId);
+      },
+      error: (err) => {
+        this.isExporting.set(false);
+        alert('Failed to start export job: ' + (err.error?.message || err.message));
+      }
+    });
+  }
+
+  private pollExportJob(jobId: string) {
+    if (this.exportPollTimer) clearInterval(this.exportPollTimer);
+
+    this.exportPollTimer = setInterval(() => {
+      this.http.get<any>(`${API_BASE_URL}/api/Admin/qr/export-job/${jobId}`).subscribe({
+        next: (job) => {
+          this.exportJob.set(job);
+          if (job.status === 'Completed' || job.status === 'Failed') {
+            clearInterval(this.exportPollTimer);
+            this.exportPollTimer = null;
+            this.isExporting.set(false);
+
+            if (job.status === 'Completed') {
+              this.loadTagsInventory();
+            }
+          }
+        },
+        error: (err) => {
+          clearInterval(this.exportPollTimer);
+          this.exportPollTimer = null;
+          this.isExporting.set(false);
+          console.error('Failed to poll export job status', err);
+        }
+      });
+    }, 1200);
   }
 
   downloadQrPdf(tag: AdminTag) {
