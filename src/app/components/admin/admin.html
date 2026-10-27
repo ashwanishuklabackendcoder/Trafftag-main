@@ -357,7 +357,7 @@
           </div>
 
           <div class="filter-controls">
-            <select [ngModel]="tagDownloadFilter()" (ngModelChange)="tagDownloadFilter.set($event)">
+            <select [ngModel]="tagDownloadFilter()" (ngModelChange)="onDownloadFilterChange($event)">
               <option value="not_downloaded">Download: Not Downloaded</option>
               <option value="downloaded">Download: Already Downloaded</option>
               <option value="all">Download: All</option>
@@ -391,6 +391,13 @@
             </button>
             <button class="btn btn-primary" style="font-size: 0.85rem; background: linear-gradient(135deg, #10b981, #059669); border: none; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);" (click)="openExportModal()">
               <i class="fa-solid fa-file-zipper"></i> Server Bulk Export (Up to 50k)
+            </button>
+            <button class="btn btn-secondary" style="font-size: 0.85rem;" (click)="resetDownloadStatus()" [disabled]="isResettingDownloads()" title="Reset all tags back to Not Downloaded">
+              @if (isResettingDownloads()) {
+                <i class="fa-solid fa-spinner fa-spin"></i> Resetting...
+              } @else {
+                <i class="fa-solid fa-rotate-left"></i> Reset Download Flags
+              }
             </button>
           </div>
         </div>

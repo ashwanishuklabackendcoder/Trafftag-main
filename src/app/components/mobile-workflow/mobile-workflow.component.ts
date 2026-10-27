@@ -19,14 +19,73 @@ export interface GuideStep {
   styleUrls: ['./mobile-workflow.component.css']
 })
 export class MobileWorkflowComponent {
-  // Tab toggle: 'online' | 'physical' | 'both'
-  activeGuideMode = signal<'online' | 'physical' | 'both'>('online');
+  // Tab toggle: 'online' | 'physical' | 'finder' | 'both'
+  activeGuideMode = signal<'online' | 'physical' | 'finder' | 'both'>('finder');
   
   // Mobile slider active index (for small screens)
   mobileStepIndex = signal<number>(0);
 
   // Poster lightbox modal
   showPosterModal = signal<boolean>(false);
+
+  finderSteps: GuideStep[] = [
+    {
+      id: 1,
+      stepNum: 1,
+      title: 'Scan QR with Phone',
+      subtext: 'Open smartphone camera, point at the TRAFFTAG QR code on the vehicle. No app required.',
+      type: 'finder-scan'
+    },
+    {
+      id: 2,
+      stepNum: 2,
+      title: 'Redirect to Scan Page',
+      subtext: 'Instantly redirects to the secure Report Issue page. Tag ID and nickname are verified.',
+      type: 'finder-redirect'
+    },
+    {
+      id: 3,
+      stepNum: 3,
+      title: 'Open Issue Dropdown',
+      subtext: 'Click "Please Tell Us What Happened?" to open the available alert categories.',
+      type: 'finder-dropdown'
+    },
+    {
+      id: 4,
+      stepNum: 4,
+      title: 'Select Appropriate Violation',
+      subtext: 'Choose the exact violation (e.g., Blocking Driveway, No Parking, Delivery, etc.).',
+      type: 'finder-select-issue'
+    },
+    {
+      id: 5,
+      stepNum: 5,
+      title: 'Enter Location & Details',
+      subtext: 'Type the location (e.g., New York Queen City) and optional extra details.',
+      type: 'finder-details'
+    },
+    {
+      id: 6,
+      stepNum: 6,
+      title: 'Fill Human Verification',
+      subtext: 'Solve the quick math challenge (e.g. 6 + 2 = 8) to verify human submission.',
+      type: 'finder-captcha'
+    },
+    {
+      id: 7,
+      stepNum: 7,
+      title: 'Click "Notify Account Holder"',
+      subtext: 'Tap the gold button. Your phone number & identity stay completely 100% private.',
+      type: 'finder-submit'
+    },
+    {
+      id: 8,
+      stepNum: 8,
+      title: 'Alert Sent Successfully!',
+      subtext: 'Success message displays! The owner receives instant SMS & Email to resolve the issue.',
+      type: 'finder-success'
+    }
+  ];
 
   onlineSteps: GuideStep[] = [
     {
@@ -202,7 +261,7 @@ export class MobileWorkflowComponent {
     }
   ];
 
-  setMode(mode: 'online' | 'physical' | 'both') {
+  setMode(mode: 'online' | 'physical' | 'finder' | 'both') {
     this.activeGuideMode.set(mode);
     this.mobileStepIndex.set(0);
   }

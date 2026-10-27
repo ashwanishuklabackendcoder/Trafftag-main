@@ -34,6 +34,20 @@
 
         <button 
           type="button" 
+          class="mode-tab-btn finder-mode-btn"
+          [class.active]="activeGuideMode() === 'finder'"
+          (click)="setMode('finder')"
+        >
+          <span class="tab-icon"><i class="fa-solid fa-qrcode"></i></span>
+          <span class="tab-text">
+            <strong>FINDER'S GUIDE</strong>
+            <small>Scan QR &bull; Select Issue &bull; Send Alert</small>
+          </span>
+          <span class="mode-badge badge-blue">8 STEPS</span>
+        </button>
+
+        <button 
+          type="button" 
           class="mode-tab-btn both-mode-btn"
           [class.active]="activeGuideMode() === 'both'"
           (click)="setMode('both')"
@@ -610,6 +624,280 @@
 
               <!-- Connecting Flow Arrow -->
               @if (idx !== 5 && idx !== 11) {
+                <div class="flow-step-arrow color-blue">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+      </div>
+    }
+
+
+    <!-- ==================================================================== -->
+    <!-- SECTION 3: FINDER'S GUIDE (SCAN QR & SEND ANONYMOUS ALERT)            -->
+    <!-- ==================================================================== -->
+    @if (activeGuideMode() === 'finder' || activeGuideMode() === 'both') {
+      <div class="guide-poster-panel finder-panel animate-fade-in" [class.panel-spaced]="activeGuideMode() === 'both'">
+        
+        <!-- Guide Header Banner (Finder Theme - Royal Blue & Gold) -->
+        <div class="poster-header-banner banner-finder">
+          <div class="poster-brand-col">
+            <div class="poster-logo-row">
+              <img src="assets/images/trafftag-logo.png" alt="TRAFFTAG Logo" class="poster-shield-logo" />
+              <div class="poster-brand-text">
+                <span class="brand-name">TRAFF<span class="text-gold">TAG</span><span class="trade-tm">&trade;</span></span>
+                <span class="brand-tagline">Bringing Smiles Back By Scan&trade;</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="poster-badge-col">
+            <div class="poster-title-card bg-finder-card">
+              <div class="title-top-row">
+                <i class="fa-solid fa-qrcode title-icon text-gold"></i>
+                <div class="title-text-group">
+                  <h3 class="main-guide-title">FINDER'S STEP-BY-STEP GUIDE</h3>
+                  <p class="sub-guide-title">HOW TO SCAN ANY QR TAG, SELECT VIOLATION &amp; SEND ANONYMOUS ALERT</p>
+                </div>
+                <span class="step-guide-chip chip-cyan">FINDER FLOW</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8-Step Grid Layout with Markings -->
+        <div class="steps-flow-grid finder-flow-grid">
+          @for (step of finderSteps; track step.id; let idx = $index) {
+            <div class="step-column-wrapper">
+              
+              <div class="step-phone-card">
+                <!-- Step Header Bar -->
+                <div class="card-step-header bg-navy-bar">
+                  <span class="step-num-circle circle-cyan">{{ step.stepNum }}</span>
+                  <span class="step-title-text">{{ step.title }}</span>
+                </div>
+
+                <!-- Phone Mockup Screen with PROPER VISUAL MARKINGS -->
+                <div class="card-screen-body finder-screen-body">
+                  @switch (step.type) {
+                    
+                    <!-- STEP 1: SCAN QR WITH CAMERA -->
+                    @case ('finder-scan') {
+                      <div class="mini-screen screen-finder-scan">
+                        <div class="finder-scan-viewfinder">
+                          <div class="scan-camera-badge"><i class="fa-solid fa-camera"></i> SMARTPHONE CAMERA</div>
+                          <div class="camera-reticle">
+                            <span class="corner top-left"></span>
+                            <span class="corner top-right"></span>
+                            <span class="corner bottom-left"></span>
+                            <span class="corner bottom-right"></span>
+                            <div class="scan-laser-animated"></div>
+                            <div class="camera-mini-decal">
+                              <i class="fa-solid fa-qrcode"></i>
+                              <span>TRAFFTAG</span>
+                            </div>
+                          </div>
+                          <div class="scan-tag-callout">
+                            <span class="pill-scan-live"><i class="fa-solid fa-bolt text-gold"></i> Point &amp; Scan (No App)</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 2: REDIRECT TO REPORT ISSUE PAGE -->
+                    @case ('finder-redirect') {
+                      <div class="mini-screen screen-finder-redirect">
+                        <div class="mini-brand-bar">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="finder-page-header">
+                          <span class="finder-badge-shield"><i class="fa-solid fa-shield-halved text-emerald"></i> Privacy Shield</span>
+                          <span class="finder-header-title">Report Issue</span>
+                        </div>
+                        <div class="mini-form-inputs">
+                          <div class="mini-field">
+                            <label>Tag Serial Number</label>
+                            <div class="mini-box serial-verified-box">
+                              <span class="serial-code">● TTHGXLYFKQ</span>
+                              <span class="verified-tag-pill"><i class="fa-solid fa-circle-check"></i> Verified</span>
+                            </div>
+                          </div>
+                          <div class="mini-field">
+                            <label>Vehicle / Tag Nickname</label>
+                            <div class="mini-box tag-nick-box">Registered NISSAN</div>
+                          </div>
+                        </div>
+                        <div class="finder-privacy-note">
+                          <i class="fa-solid fa-user-shield text-blue"></i>
+                          <span>Owner contact info remains 100% hidden</span>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 3: OPEN ISSUE DROPDOWN -->
+                    @case ('finder-dropdown') {
+                      <div class="mini-screen screen-finder-dropdown">
+                        <div class="finder-tag-summary">
+                          <span class="tag-pill-mini">Tag: TTHGXLYFKQ</span>
+                          <span class="status-live-dot"></span>
+                        </div>
+                        <div class="mini-field highlight-field-red">
+                          <label class="label-req">Please Tell Us What Happened? *</label>
+                          <div class="mini-box dropdown-box-active">
+                            <span class="text-placeholder">Select violation issue...</span>
+                            <i class="fa-solid fa-chevron-down text-red"></i>
+                          </div>
+                          <div class="dropdown-click-pointer">
+                            <span class="pulse-click-hand"><i class="fa-solid fa-hand-pointer"></i> Click Dropdown</span>
+                          </div>
+                        </div>
+                        <div class="mini-field field-muted">
+                          <label>Incident Location</label>
+                          <div class="mini-box box-muted">e.g. Street name, landmark...</div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 4: SELECT APPROPRIATE VIOLATION -->
+                    @case ('finder-select-issue') {
+                      <div class="mini-screen screen-finder-select">
+                        <div class="dropdown-opened-menu">
+                          <div class="menu-select-header">Select Violation:</div>
+                          <div class="option-item-row"><i class="fa-solid fa-box text-gray"></i> Food Delivery</div>
+                          <div class="option-item-row"><i class="fa-solid fa-envelope text-gray"></i> Mail / Courier</div>
+                          <div class="option-item-row item-selected-highlight">
+                            <div class="option-left">
+                              <i class="fa-solid fa-triangle-exclamation text-blue"></i>
+                              <strong>Blocking Driveway</strong>
+                            </div>
+                            <i class="fa-solid fa-check text-blue"></i>
+                          </div>
+                          <div class="option-item-row"><i class="fa-solid fa-ban text-gray"></i> No Parking Zone</div>
+                          <div class="option-item-row"><i class="fa-solid fa-lightbulb text-gray"></i> Lights Left On</div>
+                        </div>
+                        <div class="select-badge-pill">
+                          <span class="mark-dot">✔</span>
+                          <span>Violation Selected</span>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 5: ENTER LOCATION & DETAILS -->
+                    @case ('finder-details') {
+                      <div class="mini-screen screen-finder-details">
+                        <div class="mini-form-inputs">
+                          <div class="mini-field">
+                            <label>Selected Violation</label>
+                            <div class="mini-box box-selected-chip">
+                              <i class="fa-solid fa-triangle-exclamation text-red"></i>
+                              <span>Blocking Driveway</span>
+                            </div>
+                          </div>
+                          <div class="mini-field highlight-field-gold">
+                            <label class="label-req">Incident Location *</label>
+                            <div class="mini-box box-gold-border">
+                              <i class="fa-solid fa-location-dot text-gold"></i>
+                              <span>New York Queen City</span>
+                            </div>
+                          </div>
+                          <div class="mini-field">
+                            <label>Additional Details (Optional)</label>
+                            <div class="mini-box box-textarea">Left window open 2 inches, blocking driveway</div>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 6: FILL HUMAN VERIFICATION -->
+                    @case ('finder-captcha') {
+                      <div class="mini-screen screen-finder-captcha">
+                        <div class="captcha-mini-card">
+                          <div class="captcha-card-header">
+                            <i class="fa-solid fa-robot text-blue"></i>
+                            <span>Human Verification *</span>
+                          </div>
+                          <p class="captcha-hint">Please solve the quick math problem:</p>
+                          <div class="captcha-equation-row">
+                            <div class="math-problem-chip">
+                              <span class="math-text">6 + 2 =</span>
+                              <button type="button" class="btn-math-refresh"><i class="fa-solid fa-arrows-rotate"></i></button>
+                            </div>
+                            <div class="captcha-input-highlight">
+                              <span class="math-answer">8</span>
+                              <span class="verified-check-pill"><i class="fa-solid fa-circle-check"></i></span>
+                            </div>
+                          </div>
+                          <div class="captcha-status-banner">
+                            <i class="fa-solid fa-shield-check text-emerald"></i>
+                            <span>Human Verified Successfully</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 7: CLICK NOTIFY ACCOUNT HOLDER -->
+                    @case ('finder-submit') {
+                      <div class="mini-screen screen-finder-submit">
+                        <div class="mini-brand-bar">
+                          <img src="assets/images/trafftag-logo.png" alt="" />
+                          <span>TRAFFTAG</span>
+                        </div>
+                        <div class="submit-privacy-check">
+                          <i class="fa-solid fa-square-check text-emerald"></i>
+                          <span>Send 100% Anonymous Alert</span>
+                        </div>
+                        <div class="submit-action-wrapper">
+                          <div class="mini-btn-submit-glow">
+                            <i class="fa-solid fa-bell"></i>
+                            <span>Notify Account Holder</span>
+                          </div>
+                          <div class="submit-pointer-callout">
+                            <span class="pulse-hand-submit"><i class="fa-solid fa-hand-pointer"></i> Tap to Notify Owner</span>
+                          </div>
+                        </div>
+                        <div class="submit-footer-note">
+                          <i class="fa-solid fa-paper-plane text-gold"></i>
+                          <span>Instant SMS &amp; Email Dispatched</span>
+                        </div>
+                      </div>
+                    }
+
+                    <!-- STEP 8: ALERT SENT SUCCESSFULLY -->
+                    @case ('finder-success') {
+                      <div class="mini-screen screen-finder-success">
+                        <div class="success-icon-ring">
+                          <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div class="success-screen-title">Alert Sent Successfully!</div>
+                        <div class="success-screen-desc">
+                          Thank you for being an amazing citizen! We forwarded your alert anonymously to the owner.
+                        </div>
+                        <div class="success-tag-chip">
+                          <span>Tag: <strong>TTUOPIEZ52</strong></span>
+                          <span class="dispatched-badge">Dispatched</span>
+                        </div>
+                        <div class="success-mini-actions">
+                          <div class="mini-btn-outline">Send Another</div>
+                          <div class="mini-btn-navy">Home</div>
+                        </div>
+                      </div>
+                    }
+
+                  }
+                </div>
+
+                <!-- Step Caption / Subtext -->
+                <div class="card-step-caption">
+                  <p>{{ step.subtext }}</p>
+                </div>
+              </div>
+
+              <!-- Connecting Flow Arrow -->
+              @if (idx !== 3 && idx !== 7) {
                 <div class="flow-step-arrow color-blue">
                   <i class="fa-solid fa-arrow-right"></i>
                 </div>

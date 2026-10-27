@@ -204,13 +204,45 @@ export class Admin implements OnInit {
   }
 
   loadTagsInventory() {
-    this.http.get<any[]>(`${API_BASE_URL}/api/Admin/qr/inventory`).subscribe({
+    const filter = this.tagDownloadFilter();
+    const queryParam = filter ? `?downloadStatus=${filter}&limit=2000` : '?limit=2000';
+    this.http.get<any[]>(`${API_BASE_URL}/api/Admin/qr/inventory${queryParam}`).subscribe({
       next: (res) => {
         if (res) {
           this.tags.set(res);
         }
       },
       error: (err) => console.error('Failed to load tags inventory', err)
+    });
+  }
+
+  onDownloadFilterChange(filter: 'not_downloaded' | 'downloaded' | 'all') {
+    this.tagDownloadFilter.set(filter);
+    this.loadTagsInventory();
+  }
+
+  isResettingDownloads = signal<boolean>(false);
+
+  resetDownloadStatus(batchNumber?: string) {
+    if (!confirm('Are you sure you want to reset tags back to "Not Downloaded"?')) return;
+
+    this.isResettingDownloads.set(true);
+    const token = localStorage.getItem('accessToken');
+    const headers: any = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    const body: any = batchNumber ? { batchNumber } : {};
+
+    this.http.post<any>(`${API_BASE_URL}/api/Admin/qr/reset-downloads`, body, { headers }).subscribe({
+      next: (res) => {
+        this.isResettingDownloads.set(false);
+        alert(res.message || 'Status successfully reset!');
+        this.loadTagsInventory();
+      },
+      error: (err) => {
+        this.isResettingDownloads.set(false);
+        alert('Failed to reset status: ' + (err.error?.message || err.message));
+      }
     });
   }
 
