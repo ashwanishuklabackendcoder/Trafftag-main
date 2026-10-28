@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -18,7 +18,7 @@ export interface GuideStep {
   templateUrl: './mobile-workflow.component.html',
   styleUrls: ['./mobile-workflow.component.css']
 })
-export class MobileWorkflowComponent {
+export class MobileWorkflowComponent implements OnInit, OnDestroy {
   // Tab toggle: 'online' | 'physical' | 'finder' | 'both'
   activeGuideMode = signal<'online' | 'physical' | 'finder' | 'both'>('finder');
   
@@ -27,6 +27,12 @@ export class MobileWorkflowComponent {
 
   // Poster lightbox modal
   showPosterModal = signal<boolean>(false);
+
+  // Violation screens modal & active category
+  activeViolationTag = signal<'vehicle' | 'pet' | 'home'>('vehicle');
+  showViolationModal = signal<boolean>(false);
+  private rotationInterval?: any;
+  private userInteractedWithViolation = false;
 
   finderSteps: GuideStep[] = [
     {
@@ -53,8 +59,8 @@ export class MobileWorkflowComponent {
     {
       id: 4,
       stepNum: 4,
-      title: 'Select Appropriate Violation',
-      subtext: 'Choose the exact violation (e.g., Blocking Driveway, No Parking, Delivery, etc.).',
+      title: 'Select Violation Screen',
+      subtext: 'Choose your tag type (Vehicle, Pet, or Home) and pick the specific alert issue.',
       type: 'finder-select-issue'
     },
     {
@@ -288,5 +294,48 @@ export class MobileWorkflowComponent {
 
   closePosterModal() {
     this.showPosterModal.set(false);
+  }
+
+  ngOnInit() {
+    this.startViolationRotation();
+  }
+
+  ngOnDestroy() {
+    this.stopViolationRotation();
+  }
+
+  setViolationTag(tag: 'vehicle' | 'pet' | 'home') {
+    this.userInteractedWithViolation = true;
+    this.stopViolationRotation();
+    this.activeViolationTag.set(tag);
+  }
+
+  startViolationRotation() {
+    if (this.rotationInterval) return;
+    const sequence: ('vehicle' | 'pet' | 'home')[] = ['vehicle', 'pet', 'home'];
+    let idx = 0;
+    this.rotationInterval = setInterval(() => {
+      if (this.userInteractedWithViolation) {
+        this.stopViolationRotation();
+        return;
+      }
+      idx = (idx + 1) % sequence.length;
+      this.activeViolationTag.set(sequence[idx]);
+    }, 4000);
+  }
+
+  stopViolationRotation() {
+    if (this.rotationInterval) {
+      clearInterval(this.rotationInterval);
+      this.rotationInterval = undefined;
+    }
+  }
+
+  openViolationModal() {
+    this.showViolationModal.set(true);
+  }
+
+  closeViolationModal() {
+    this.showViolationModal.set(false);
   }
 }

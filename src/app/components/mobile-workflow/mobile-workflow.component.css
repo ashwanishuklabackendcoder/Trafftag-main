@@ -404,71 +404,256 @@
   font-size: 0.52rem;
 }
 
-/* Step 4: Select Appropriate Violation */
+/* Step 4: Select Appropriate Violation (3 Tag Types: Vehicle, Pet, Home) */
 .screen-finder-select {
-  padding: 0.4rem;
+  padding: 0.35rem 0.45rem !important;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
 }
-.dropdown-opened-menu {
-  background: #FFFFFF;
-  border: 1px solid #CBD5E1;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-.menu-select-header {
-  font-size: 0.5rem;
-  font-weight: 800;
-  color: #64748B;
-  background: #F8FAFC;
-  padding: 3px 6px;
-  border-bottom: 1px solid #E2E8F0;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.option-item-row {
+
+.violation-tag-tabs {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 3px 6px;
-  font-size: 0.54rem;
-  color: #334155;
-  border-bottom: 1px solid #F1F5F9;
+  gap: 3px;
+  margin-bottom: 3px;
 }
-.option-item-row:last-child {
-  border-bottom: none;
-}
-.option-item-row i {
-  width: 14px;
-}
-.item-selected-highlight {
-  background: #EFF6FF !important;
-  color: #1D4ED8 !important;
+
+.vtag-tab {
+  flex: 1;
+  padding: 3px 2px;
+  font-size: 0.52rem;
   font-weight: 800;
-  border-left: 3px solid #2563EB;
-}
-.option-left {
+  border-radius: 4px;
+  border: 1px solid #CBD5E1;
+  background: #FFFFFF;
+  color: #64748B;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 3px;
+  transition: all 0.2s ease;
 }
-.option-left strong {
-  font-size: 0.56rem;
+
+.vtag-tab:hover {
+  background: #F1F5F9;
+  color: #0F172A;
 }
-.select-badge-pill {
-  margin-top: 5px;
+
+.vtag-tab.active-vehicle {
+  background: #1D4ED8 !important;
+  color: #FFFFFF !important;
+  border-color: #1D4ED8 !important;
+  box-shadow: 0 2px 6px rgba(29, 78, 216, 0.35);
+}
+
+.vtag-tab.active-pet {
+  background: #15803D !important;
+  color: #FFFFFF !important;
+  border-color: #15803D !important;
+  box-shadow: 0 2px 6px rgba(21, 128, 61, 0.35);
+}
+
+.vtag-tab.active-home {
+  background: #C2410C !important;
+  color: #FFFFFF !important;
+  border-color: #C2410C !important;
+  box-shadow: 0 2px 6px rgba(194, 65, 12, 0.35);
+}
+
+.vtag-card-content {
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.vtag-card-header {
+  padding: 4px 6px 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #FAF5FF;
+  border-bottom: 1px solid #F1F5F9;
+}
+.theme-vehicle .vtag-card-header { background: #EFF6FF; }
+.theme-pet .vtag-card-header { background: #F0FDF4; }
+.theme-home .vtag-card-header { background: #FFF7ED; }
+
+.vtag-badge-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.bg-blue-circle { background: #1D4ED8; }
+.bg-green-circle { background: #15803D; }
+.bg-orange-circle { background: #C2410C; }
+
+.vtag-header-titles {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  line-height: 1.15;
+}
+
+.vtag-title {
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.text-navy { color: #0B2545; }
+.text-green { color: #166534; }
+.text-orange { color: #9A3412; }
+
+.vtag-subtitle {
+  font-size: 0.44rem;
+  color: #64748B;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.vtag-alert-ribbon {
+  padding: 2.5px 6px;
+  color: #FFFFFF;
+  font-size: 0.48rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.ribbon-blue { background: #2563EB; }
+.ribbon-green { background: #16A34A; }
+.ribbon-orange { background: #EA580C; }
+
+.vtag-issues-list {
+  padding: 2px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  max-height: 96px;
+  overflow-y: auto;
+}
+
+.vtag-issue-row {
+  display: flex;
+  align-items: center;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 0.52rem;
+  color: #334155;
+  font-weight: 600;
+  gap: 5px;
+  line-height: 1.2;
+}
+
+.vtag-issue-row.selected-issue {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #1D4ED8;
+  font-weight: 800;
+}
+
+.vtag-issue-row.issue-green.selected-issue {
+  background: #F0FDF4;
+  border-color: #BBF7D0;
+  color: #15803D;
+}
+
+.vtag-issue-row.issue-orange.selected-issue {
+  background: #FFF7ED;
+  border-color: #FED7AA;
+  color: #C2410C;
+}
+
+.issue-icon {
+  font-size: 0.52rem;
+  width: 14px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.issue-name {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.check-pill {
+  font-size: 0.48rem;
+  color: #2563EB;
+}
+.check-green { color: #16A34A; }
+.check-orange { color: #EA580C; }
+
+.vtag-card-btn {
+  margin: 3px 4px 4px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 0.5rem;
+  font-weight: 900;
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background: #2563EB;
-  color: #FFFFFF;
-  font-size: 0.52rem;
-  font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 12px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: transform 0.15s ease, filter 0.15s ease;
 }
-.mark-dot {
-  font-size: 0.55rem;
+.vtag-card-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+.btn-blue { background: #1D4ED8; }
+.btn-green { background: #15803D; }
+.btn-orange { background: #C2410C; }
+
+.vtag-preview-trigger {
+  margin-top: 3px;
+  font-size: 0.48rem;
+  font-weight: 800;
+  color: #2563EB;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: #F8FAFC;
+  padding: 2.5px 6px;
+  border-radius: 12px;
+  border: 1px dashed #93C5FD;
+  transition: all 0.2s ease;
+}
+.vtag-preview-trigger:hover {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border-color: #2563EB;
+}
+
+.violation-modal-dialog {
+  max-width: 1050px !important;
+}
+
+.modal-categories-body {
+  background: #08162A !important;
+  text-align: center;
+  padding: 1rem;
 }
 
 /* Step 5: Enter Location & Details */

@@ -765,23 +765,162 @@
                     <!-- STEP 4: SELECT APPROPRIATE VIOLATION -->
                     @case ('finder-select-issue') {
                       <div class="mini-screen screen-finder-select">
-                        <div class="dropdown-opened-menu">
-                          <div class="menu-select-header">Select Violation:</div>
-                          <div class="option-item-row"><i class="fa-solid fa-box text-gray"></i> Food Delivery</div>
-                          <div class="option-item-row"><i class="fa-solid fa-envelope text-gray"></i> Mail / Courier</div>
-                          <div class="option-item-row item-selected-highlight">
-                            <div class="option-left">
-                              <i class="fa-solid fa-triangle-exclamation text-blue"></i>
-                              <strong>Blocking Driveway</strong>
-                            </div>
-                            <i class="fa-solid fa-check text-blue"></i>
-                          </div>
-                          <div class="option-item-row"><i class="fa-solid fa-ban text-gray"></i> No Parking Zone</div>
-                          <div class="option-item-row"><i class="fa-solid fa-lightbulb text-gray"></i> Lights Left On</div>
+                        <!-- Category Switcher Tabs: Vehicle / Pet / Home -->
+                        <div class="violation-tag-tabs">
+                          <button type="button" 
+                            class="vtag-tab" 
+                            [class.active-vehicle]="activeViolationTag() === 'vehicle'"
+                            (click)="setViolationTag('vehicle')">
+                            <i class="fa-solid fa-car"></i> Vehicle
+                          </button>
+                          <button type="button" 
+                            class="vtag-tab" 
+                            [class.active-pet]="activeViolationTag() === 'pet'"
+                            (click)="setViolationTag('pet')">
+                            <i class="fa-solid fa-paw"></i> Pet
+                          </button>
+                          <button type="button" 
+                            class="vtag-tab" 
+                            [class.active-home]="activeViolationTag() === 'home'"
+                            (click)="setViolationTag('home')">
+                            <i class="fa-solid fa-house"></i> Home
+                          </button>
                         </div>
-                        <div class="select-badge-pill">
-                          <span class="mark-dot">✔</span>
-                          <span>Violation Selected</span>
+
+                        <!-- Card 1: VEHICLE TAG -->
+                        @if (activeViolationTag() === 'vehicle') {
+                          <div class="vtag-card-content theme-vehicle animate-fade-in">
+                            <div class="vtag-card-header">
+                              <div class="vtag-badge-icon bg-blue-circle"><i class="fa-solid fa-car"></i></div>
+                              <div class="vtag-header-titles">
+                                <strong class="vtag-title text-navy">MY HAPPY VEHICLE TAG</strong>
+                                <span class="vtag-subtitle">Cars &bull; SUVs &bull; Trucks &bull; Bikes</span>
+                              </div>
+                            </div>
+
+                            <div class="vtag-alert-ribbon ribbon-blue">
+                              <span>ISSUES WE HELP ALERT</span>
+                            </div>
+
+                            <div class="vtag-issues-list">
+                              <div class="vtag-issue-row selected-issue">
+                                <span class="issue-icon"><i class="fa-solid fa-ban text-red"></i></span>
+                                <span class="issue-name">Blocking Driveway</span>
+                                <span class="check-pill"><i class="fa-solid fa-check"></i></span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-car-side text-blue"></i></span>
+                                <span class="issue-name">Double Parking</span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-broom text-amber"></i></span>
+                                <span class="issue-name">Street Cleaning</span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-circle-exclamation text-red"></i></span>
+                                <span class="issue-name">No Parking</span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-fire-extinguisher text-red"></i></span>
+                                <span class="issue-name">Fire Hydrant</span>
+                              </div>
+                            </div>
+
+                            <div class="vtag-card-btn btn-blue" (click)="openViolationModal()">
+                              <span>PROTECT YOUR RIDE</span>
+                              <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+                          </div>
+                        }
+
+                        <!-- Card 2: PET TAG -->
+                        @if (activeViolationTag() === 'pet') {
+                          <div class="vtag-card-content theme-pet animate-fade-in">
+                            <div class="vtag-card-header">
+                              <div class="vtag-badge-icon bg-green-circle"><i class="fa-solid fa-paw"></i></div>
+                              <div class="vtag-header-titles">
+                                <strong class="vtag-title text-green">MY HAPPY PET TAG</strong>
+                                <span class="vtag-subtitle">Dogs &bull; Cats &bull; Birds &bull; All Pets</span>
+                              </div>
+                            </div>
+
+                            <div class="vtag-alert-ribbon ribbon-green">
+                              <span>ISSUES WE HELP ALERT</span>
+                            </div>
+
+                            <div class="vtag-issues-list">
+                              <div class="vtag-issue-row selected-issue issue-green">
+                                <span class="issue-icon"><i class="fa-solid fa-magnifying-glass text-emerald"></i></span>
+                                <span class="issue-name">Lost Pet</span>
+                                <span class="check-pill check-green"><i class="fa-solid fa-check"></i></span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-paw text-emerald"></i></span>
+                                <span class="issue-name">Found Pet</span>
+                              </div>
+                            </div>
+
+                            <div class="vtag-card-btn btn-green" (click)="openViolationModal()">
+                              <span>KEEP THEM SAFE</span>
+                              <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+                          </div>
+                        }
+
+                        <!-- Card 3: HOME TAG -->
+                        @if (activeViolationTag() === 'home') {
+                          <div class="vtag-card-content theme-home animate-fade-in">
+                            <div class="vtag-card-header">
+                              <div class="vtag-badge-icon bg-orange-circle"><i class="fa-solid fa-house"></i></div>
+                              <div class="vtag-header-titles">
+                                <strong class="vtag-title text-orange">MY HAPPY HOME TAG</strong>
+                                <span class="vtag-subtitle">House &bull; Apartment &bull; Office</span>
+                              </div>
+                            </div>
+
+                            <div class="vtag-alert-ribbon ribbon-orange">
+                              <span>ISSUES WE HELP ALERT</span>
+                            </div>
+
+                            <div class="vtag-issues-list">
+                              <div class="vtag-issue-row selected-issue issue-orange">
+                                <span class="issue-icon"><i class="fa-solid fa-pizza-slice text-orange"></i></span>
+                                <span class="issue-name">Food Delivery</span>
+                                <span class="check-pill check-orange"><i class="fa-solid fa-check"></i></span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-droplet text-blue"></i></span>
+                                <span class="issue-name">Water Leaking</span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-fire text-red"></i></span>
+                                <span class="issue-name">Fire on House</span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-truck-medical text-red"></i></span>
+                                <span class="issue-name">Emergency Unit at Door</span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-user-ninja text-gray"></i></span>
+                                <span class="issue-name">Suspicious Activity</span>
+                              </div>
+                              <div class="vtag-issue-row">
+                                <span class="issue-icon"><i class="fa-solid fa-door-open text-amber"></i></span>
+                                <span class="issue-name">Door Left Open</span>
+                              </div>
+                            </div>
+
+                            <div class="vtag-card-btn btn-orange" (click)="openViolationModal()">
+                              <span>FOR YOUR PROPERTY</span>
+                              <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+                          </div>
+                        }
+
+                        <!-- Tap to view all 3 tag screens modal -->
+                        <div class="vtag-preview-trigger" (click)="openViolationModal()">
+                          <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                          <span>Tap to View All 3 Screens</span>
                         </div>
                       </div>
                     }
@@ -927,6 +1066,28 @@
         <div class="poster-modal-footer">
           <a href="assets/images/trafftag-complete-user-guide.jpg" download="trafftag-step-by-step-guide.jpg" class="btn-poster-download">
             <i class="fa-solid fa-download"></i> Download Full Resolution (JPG)
+          </a>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- 3 Tag Types & Violation Categories Modal -->
+  @if (showViolationModal()) {
+    <div class="poster-modal-overlay" (click)="closeViolationModal()">
+      <div class="poster-modal-dialog violation-modal-dialog" (click)="$event.stopPropagation()">
+        <div class="poster-modal-header">
+          <h3>TRAFFTAG Alert Categories: Vehicle, Pet &amp; Home</h3>
+          <button type="button" class="btn-close-modal" (click)="closeViolationModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="poster-modal-body modal-categories-body">
+          <img src="assets/images/trafftag-tag-categories.png" alt="Vehicle, Pet, and Home Tag Violations" class="full-poster-img" />
+        </div>
+        <div class="poster-modal-footer">
+          <a href="assets/images/trafftag-tag-categories.png" download="trafftag-tag-categories.png" class="btn-poster-download">
+            <i class="fa-solid fa-download"></i> Download Full Resolution (PNG)
           </a>
         </div>
       </div>
