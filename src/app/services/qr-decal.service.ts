@@ -293,16 +293,19 @@ export class QrDecalService {
     const pageHeight = 297;
     
     let isFirstPage = true;
-    let itemsOnCurrentPage = 0;
+    let vehicleItemsOnPage = 0;
+    let petItemsOnPage = 0;
 
     for (let i = 0; i < imageBlobs.length; i++) {
       const tag = tags[i];
-      const isHome = tag?.tagType === 'Home';
+      const tagType = tag?.tagType || 'Vehicle';
+      const isHome = tagType === 'Home';
+      const isPet  = tagType === 'Pet';
       
       if (isHome) {
-        // Home tag logic: 1 per page in standard portrait
+        // Home tag: 1 per page in standard portrait
         const margin = 10;
-        const { data, width, height } = await this.blobToJpegDataUrl(imageBlobs[i], tag?.serial, tag?.tagType, false);
+        const { data, width, height } = await this.blobToJpegDataUrl(imageBlobs[i], tag?.serial, tagType, false);
         const maxWidth = pageWidth - (margin * 2);
         const maxHeight = pageHeight - (margin * 2);
         const imgRatio = width / height;
@@ -315,42 +318,71 @@ export class QrDecalService {
         const xPos = (pageWidth - targetWidth) / 2;
         const yPos = margin;
 
-        if (!isFirstPage) {
-          pdf.addPage();
-        }
+        if (!isFirstPage) pdf.addPage();
         pdf.addImage(data, 'PNG', xPos, yPos, targetWidth, targetHeight);
         isFirstPage = false;
-        itemsOnCurrentPage = 0;
-      } else {
-        // Vehicle stickers: 4 stickers per page (2 columns x 2 rows, rotated 90° clockwise)
-        const { data } = await this.blobToJpegDataUrl(imageBlobs[i], tag?.serial, tag?.tagType, true);
+        vehicleItemsOnPage = 0;
+        petItemsOnPage = 0;
 
-        // 2x2 grid layout on A4 (210mm x 297mm)
+      } else if (isPet) {
+        // Pet tag: fill A4 page dynamically — 2 cols, rows computed to fill height
+        // Frame is 1024×512 (2:1 ratio)
+        const marginX = 7;       // mm left/right margin
+        const marginY = 5;       // mm top/bottom margin
+        const tagW = (pageWidth - marginX * 2) / 2;     // 2 cols → ~98mm each
+        const tagH = tagW * 0.5; // maintain 2:1 ratio → ~49mm
+        const gapX = 0;
+        const gapY = 3;          // mm vertical gap between rows
+
+        // How many rows fit on one page?
+        const rowsPerPage = Math.floor((pageHeight - marginY * 2) / (tagH + gapY));
+        const itemsPerPage = 2 * rowsPerPage; // 2 cols × rows
+
+        const col = petItemsOnPage % 2;
+        const row = Math.floor(petItemsOnPage / 2);
+
+        if (petItemsOnPage === 0) {
+          if (!isFirstPage) pdf.addPage();
+          isFirstPage = false;
+        }
+
+        const xPos = marginX + col * (tagW + gapX);
+        const yPos = marginY + row * (tagH + gapY);
+
+        const { data } = await this.blobToJpegDataUrl(imageBlobs[i], tag?.serial, tagType, false);
+        pdf.addImage(data, 'PNG', xPos, yPos, tagW, tagH);
+
+        petItemsOnPage++;
+        vehicleItemsOnPage = 0;
+        if (petItemsOnPage >= itemsPerPage) petItemsOnPage = 0;
+
+      } else {
+        // Vehicle stickers: 4 per page (2 cols x 2 rows, rotated 90°)
+        const { data } = await this.blobToJpegDataUrl(imageBlobs[i], tag?.serial, tagType, true);
+
         const targetWidth = 98;
-        const targetHeight = 130.67; // 98 * (1024 / 768)
+        const targetHeight = 130.67;
         const marginX = 5;
         const gapX = 4;
         const marginY = 15;
         const gapY = 5.66;
 
-        const col = itemsOnCurrentPage % 2;
-        const row = Math.floor(itemsOnCurrentPage / 2);
+        const col = vehicleItemsOnPage % 2;
+        const row = Math.floor(vehicleItemsOnPage / 2);
 
         const xPos = marginX + col * (targetWidth + gapX);
         const yPos = marginY + row * (targetHeight + gapY);
 
-        if (!isFirstPage && itemsOnCurrentPage === 0) {
-          pdf.addPage();
+        if (vehicleItemsOnPage === 0) {
+          if (!isFirstPage) pdf.addPage();
+          isFirstPage = false;
         }
 
         pdf.addImage(data, 'PNG', xPos, yPos, targetWidth, targetHeight);
 
-        itemsOnCurrentPage++;
-        isFirstPage = false;
-
-        if (itemsOnCurrentPage >= 4) {
-          itemsOnCurrentPage = 0;
-        }
+        vehicleItemsOnPage++;
+        petItemsOnPage = 0;
+        if (vehicleItemsOnPage >= 4) vehicleItemsOnPage = 0;
       }
     }
 

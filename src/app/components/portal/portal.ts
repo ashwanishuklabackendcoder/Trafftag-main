@@ -16,12 +16,26 @@ import { LinkTagModalComponent } from './components/link-tag-modal/link-tag-moda
 import { HomesTabComponent } from './components/homes-tab/homes-tab.component';
 import { AddHomeModalComponent } from './components/add-home-modal/add-home-modal.component';
 import { LinkHomeTagModalComponent } from './components/link-home-tag-modal/link-home-tag-modal.component';
+import { PetsTabComponent } from './components/pets-tab/pets-tab.component';
+import { AddPetModalComponent } from './components/add-pet-modal/add-pet-modal.component';
+import { LinkPetTagModalComponent } from './components/link-pet-tag-modal/link-pet-tag-modal.component';
 import { BillingTabComponent } from './components/billing-tab/billing-tab.component';
 
 interface Home {
   id: string;
   name: string;
   address: string;
+  qrTagId: string | null;
+  serialNumber: string | null;
+  isActive: boolean;
+}
+
+interface Pet {
+  id: string;
+  name: string;
+  species: string;
+  breed: string;
+  notes: string;
   qrTagId: string | null;
   serialNumber: string | null;
   isActive: boolean;
@@ -79,6 +93,7 @@ export type PortalTab =
   | 'coming-soon'
   | 'vehicles' 
   | 'homes'
+  | 'pets'
   | 'vehicle-reminders'
   | 'tags' 
   | 'notifications' 
@@ -115,6 +130,9 @@ export type PortalTab =
       HomesTabComponent,
       AddHomeModalComponent,
       LinkHomeTagModalComponent,
+    PetsTabComponent,
+    AddPetModalComponent,
+    LinkPetTagModalComponent,
       BillingTabComponent
     ],
   templateUrl: './portal.html',
@@ -136,6 +154,7 @@ export class Portal implements OnInit {
     { menuKey: 'explore-more', displayName: 'BUY MORE & EXPLORE', icon: 'fa-compass' },
     { menuKey: 'vehicles', displayName: 'MY VEHICLES', icon: 'fa-car' },
     { menuKey: 'homes', displayName: 'MY HAPPY HOME', icon: 'fa-house-chimney' },
+    { menuKey: 'pets', displayName: 'MY HAPPY PET TAG', icon: 'fa-paw' },
     { menuKey: 'tags', displayName: 'DOWNLOAD QR TAGS', icon: 'fa-qrcode' },
     { menuKey: 'alerts', displayName: 'ALERTS', icon: 'fa-bell' },
     { menuKey: 'billing', displayName: 'BILLING', icon: 'fa-file-invoice-dollar' },
@@ -200,6 +219,16 @@ export class Portal implements OnInit {
 
   vehicles = signal<Vehicle[]>([]);
   homes = signal<Home[]>([]);
+  pets = signal<Pet[]>([]);
+  showAddPetModal = signal(false);
+  showLinkPetTagModal = signal(false);
+  isRegisteringPet = signal(false);
+  newPetName = signal('');
+  newPetSpecies = signal('Dog');
+  newPetBreed = signal('');
+  newPetNotes = signal('');
+  linkPetId = signal('');
+  linkPetSerial = signal('');
   rawUserMemberships = signal<any[]>([]);
   
   myQrs = signal<any[]>([]);
@@ -801,7 +830,7 @@ export class Portal implements OnInit {
     this.fetchMenus();
     this.route.paramMap.subscribe(params => {
       const sub = params.get('subpage');
-      const validTabs = ['dashboard', 'explore-more', 'coming-soon', 'vehicles', 'homes', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings', 'billing'];
+      const validTabs = ['dashboard', 'explore-more', 'coming-soon', 'vehicles', 'homes', 'pets', 'vehicle-reminders', 'tags', 'notifications', 'alerts', 'reports', 'pay-fine', 'rules', 'support', 'finders', 'rewards', 'messages', 'profile', 'profile-membership', 'profile-vehicle-reminders', 'profile-notifications', 'profile-password', 'profile-settings', 'billing'];
       
       if (sub && validTabs.includes(sub)) {
         this.activeTab.set(sub as any);
@@ -903,6 +932,7 @@ export class Portal implements OnInit {
       this.loadMakes();
       this.loadVehicles();
       this.loadHomes();
+      this.loadPets();
       this.loadProfile();
       this.loadUserMemberships();
       this.loadNotifications();
@@ -1919,6 +1949,188 @@ export class Portal implements OnInit {
     if (!m) return 'No Active Plan';
     
     return m?.planName || m?.membershipPlan?.name || m?.plan?.name || 'No Active Plan';
+  }
+
+  loadPets() {
+    this.http.get<any>(`${API_BASE_URL}/api/v1/pets`)
+      .subscribe({
+        next: (res) => {
+          if (res?.success && res?.data) {
+            const list = res.data.map((item: any) => ({
+              id: item.petId.toString(),
+              name: item.name,
+              species: item.species || 'Dog',
+              breed: item.breed || '',
+              notes: item.notes || '',
+              qrTagId: item.qrTagId ? item.qrTagId.toString() : null,
+              serialNumber: item.serialNumber,
+              isActive: item.isActive
+            }));
+            this.pets.set(list);
+          }
+        },
+        error: (err) => {
+          console.error('Error loading pets:', err);
+        }
+      });
+  }
+
+  openAddPet() {
+    this.newPetName.set('');
+    this.newPetSpecies.set('Dog');
+    this.newPetBreed.set('');
+    this.newPetNotes.set('');
+    this.showAddPetModal.set(true);
+  }
+
+  closeAddPet() {
+    this.showAddPetModal.set(false);
+  }
+
+  addPet() {
+    if (this.isRegisteringPet()) return;
+
+    if (!this.newPetName().trim()) {
+      this.modalService.showWarning('Required Field', 'Please enter a name for your pet.');
+      return;
+    }
+
+    this.isRegisteringPet.set(true);
+    this.http.post<any>(`${API_BASE_URL}/api/v1/pets`, {
+      name: this.newPetName().trim(),
+      species: this.newPetSpecies(),
+      breed: this.newPetBreed().trim(),
+      notes: this.newPetNotes().trim()
+    }).subscribe({
+      next: () => {
+        this.isRegisteringPet.set(false);
+        this.loadPets();
+        this.closeAddPet();
+        this.modalService.showSuccess('Pet Registered', 'Your pet has been successfully registered.');
+      },
+      error: (err) => {
+        this.isRegisteringPet.set(false);
+        this.modalService.showError('Registration Failed', err?.error?.message || 'Could not register pet.');
+      }
+    });
+  }
+
+  openLinkPetTag(petIdOrPrefixed: string) {
+    const rawId = petIdOrPrefixed.startsWith('pet-') ? petIdOrPrefixed.substring(4) : petIdOrPrefixed;
+    this.linkPetId.set(rawId);
+    this.linkPetSerial.set('');
+    this.showLinkPetTagModal.set(true);
+  }
+
+  closeLinkPetTag() {
+    this.showLinkPetTagModal.set(false);
+  }
+
+  linkPetTagSubmit() {
+    if (!this.linkPetSerial().trim() || !this.linkPetId()) {
+      this.modalService.showWarning('Required', 'Please choose a pet and select or enter a tag serial.');
+      return;
+    }
+
+    const serial = this.linkPetSerial().trim();
+    const petId = parseInt(this.linkPetId(), 10);
+    const existingTag = this.unassignedTags().find(t => t.tagId === serial) || this.myQrs().find((q: any) => q.serialNumber === serial);
+    const resolvedTagId = existingTag?.id || existingTag?.qrTagId;
+
+    if (!resolvedTagId) {
+      this.modalService.showError('Tag Not Found', 'Could not locate this QR tag in your account.');
+      return;
+    }
+
+    this.isLinkingTag.set(true);
+    this.http.post<any>(`${API_BASE_URL}/api/v1/pets/assign-tag`, {
+      petId: petId,
+      qrTagId: resolvedTagId
+    }).subscribe({
+      next: () => {
+        this.isLinkingTag.set(false);
+        this.loadPets();
+        this.loadMyQrs();
+        this.closeLinkPetTag();
+        this.modalService.showSuccess('Tag Linked', 'My Happy Pet Tag successfully linked to your pet.');
+      },
+      error: (err) => {
+        this.isLinkingTag.set(false);
+        this.modalService.showError('Linking Failed', err?.error?.message || 'Could not link QR tag to pet.');
+      }
+    });
+  }
+
+  async deletePet(id: string) {
+    const confirmed = await this.modalService.confirm({
+      title: 'Remove Pet',
+      message: 'Are you sure you want to remove this pet? Any linked QR tag will be unlinked.',
+      confirmText: 'Delete Pet',
+      cancelText: 'Cancel',
+      type: 'danger'
+    });
+
+    if (confirmed) {
+      this.http.delete<any>(`${API_BASE_URL}/api/v1/pets/${id}`)
+        .subscribe({
+          next: () => {
+            this.loadPets();
+            this.loadMyQrs();
+            this.modalService.showSuccess('Pet Removed', 'The pet has been successfully removed.');
+          },
+          error: () => this.modalService.showError('Deletion Failed', 'Failed to remove pet.')
+        });
+    }
+  }
+
+  togglePetActive(event: {id: string, active: boolean}) {
+    this.http.put<any>(`${API_BASE_URL}/api/v1/pets/${event.id}/toggle-active`, { active: event.active })
+      .subscribe({
+        next: () => {
+          this.loadPets();
+        },
+        error: () => this.modalService.showError('Update Failed', 'Failed to update pet active status.')
+      });
+  }
+
+  downloadPetQrCode(pet: any) {
+    if (!pet.serialNumber || pet.serialNumber === 'Not Assigned') {
+      this.modalService.showWarning(
+        'Tag Assignment Required',
+        `Pet "${pet.name}" does not have an assigned QR Tag yet. Please assign a QR Tag first before downloading.`
+      );
+      return;
+    }
+
+    const tagId = pet.serialNumber || pet.qrTagId;
+    const scanUrl = this.getScanUrl(tagId);
+    this.downloadingVehicleId.set('pet-' + pet.id);
+
+    const pseudoVeh: any = {
+      id: pet.id,
+      make: pet.name,
+      model: pet.species || 'Pet',
+      plate: 'N/A'
+    };
+
+    this.http.get(`${API_BASE_URL}/api/v1/qrtags/${encodeURIComponent(tagId)}/image`, {
+      responseType: 'blob'
+    }).subscribe({
+      next: (blob: Blob) => {
+        if (blob && blob.size > 0 && blob.type.startsWith('image/')) {
+          this.qrDecalService.generateAndDownloadPdfWithFrame(pseudoVeh, blob, tagId)
+            .then(() => this.downloadingVehicleId.set(null))
+            .catch(() => this.downloadingVehicleId.set(null));
+        } else {
+          this.qrDecalService.generateAndDownloadCanvasQr(pseudoVeh, tagId, scanUrl)
+            .then(() => this.downloadingVehicleId.set(null));
+        }
+      },
+      error: () => {
+        this.qrDecalService.generateAndDownloadCanvasQr(pseudoVeh, tagId, scanUrl)
+          .then(() => this.downloadingVehicleId.set(null));
+      }
+    });
   }
 
   downloadHomeQrCode(home: any) {

@@ -309,7 +309,7 @@
           </div>
           
           <!-- 3. Pet tag -->
-          <div class="dash-category-card bg-orange-soft" (click)="selectTab('coming-soon')">
+          <div class="dash-category-card bg-orange-soft" (click)="selectTab('pets')">
             <div class="dash-card-img-wrapper"><img src="/pet-tag.png" alt="My Happy Pet Tag" class="dash-card-img img-pet"></div>
             <div class="dash-card-content">
               <h3 class="text-orange-primary">My Happy Pet Tag</h3>
@@ -392,6 +392,20 @@
         [downloadingVehicleId]="downloadingVehicleId()"
         (downloadQr)="downloadHomeQrCode($event)">
       </app-homes-tab>
+    }
+
+    <!-- Tab 2.3: My Happy Pet Tag -->
+    @if (activeTab() === 'pets') {
+      <app-pets-tab
+        [pets]="pets()"
+        [unassignedTags]="unassignedTags()"
+        (addPetClick)="openAddPet()"
+        (openLinkTag)="openLinkPetTag($event)"
+        (deletePet)="deletePet($event)"
+        (toggleActive)="togglePetActive($event)"
+        [downloadingVehicleId]="downloadingVehicleId()"
+        (downloadQr)="downloadPetQrCode($event)">
+      </app-pets-tab>
     }
 
     <!-- Tab 2.1: Vehicle Reminders -->
@@ -920,6 +934,36 @@
     (close)="closeLinkHomeTag()"
     (submit)="linkHomeTagSubmit()">
   </app-link-home-tag-modal>
+
+    <!-- Add Pet Modal -->
+    <app-add-pet-modal
+      [show]="showAddPetModal()"
+      [isRegistering]="isRegisteringPet()"
+      [newName]="newPetName()"
+      (newNameChange)="newPetName.set($event)"
+      [newSpecies]="newPetSpecies()"
+      (newSpeciesChange)="newPetSpecies.set($event)"
+      [newBreed]="newPetBreed()"
+      (newBreedChange)="newPetBreed.set($event)"
+      [newNotes]="newPetNotes()"
+      (newNotesChange)="newPetNotes.set($event)"
+      (close)="closeAddPet()"
+      (submitPet)="addPet()">
+    </app-add-pet-modal>
+
+    <!-- Link Pet Tag Modal -->
+    <app-link-pet-tag-modal
+      [show]="showLinkPetTagModal()"
+      [pets]="pets()"
+      [linkSerial]="linkPetSerial()"
+      (linkSerialChange)="linkPetSerial.set($event)"
+      [linkPetId]="linkPetId()"
+      (linkPetIdChange)="linkPetId.set($event)"
+      [unassignedTags]="unassignedTags()"
+      [isLinkingTag]="isLinkingTag()"
+      (close)="closeLinkPetTag()"
+      (submit)="linkPetTagSubmit()">
+    </app-link-pet-tag-modal>
 
   <!-- Delete Account Modal -->
   @if (showDeleteAccountModal()) {

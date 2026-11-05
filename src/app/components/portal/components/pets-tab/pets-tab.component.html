@@ -1,0 +1,143 @@
+<div class="tab-panel">
+  <div class="panel-header glass-card">
+    <div class="panel-header-info">
+      <div class="panel-header-icon pet-header-icon">
+        <i class="fa-solid fa-paw"></i>
+      </div>
+      <div>
+        <h2>Register & Activate Your My Happy Pet Tag</h2>
+        <p>Register all your beloved pets to link them with protective My Happy Pet Tag QR decals.</p>
+      </div>
+    </div>
+    <button class="btn btn-primary register-btn pet-register-btn" (click)="addPetClick.emit()">
+      <i class="fa-solid fa-plus"></i> Register Pet
+    </button>
+  </div>
+
+  @if (pets.length === 0) {
+    <div class="empty-card-container">
+      <div class="empty-card glass-card">
+        <div class="empty-icon-wrapper pet-empty-icon-wrapper">
+          <i class="fa-solid fa-paw empty-icon"></i>
+        </div>
+        <h3>No Pets Registered</h3>
+        <p>Register your dogs, cats, birds, and other pets to link them with protective QR tags and get notified immediately if they go missing.</p>
+        <button class="btn btn-primary pet-register-btn" (click)="addPetClick.emit()">
+          <i class="fa-solid fa-plus"></i> Register Your First Pet
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="vehicles-grid">
+      @for (pet of pets; track pet.id) {
+        <div class="vehicle-card glass-card pet-card">
+          <!-- Card Header -->
+          <div class="veh-card-header">
+            <div class="veh-title-block">
+              <span class="car-brand-icon pet-brand-icon">
+                <i [class]="getSpeciesIcon(pet.species)"></i>
+              </span>
+              <div>
+                <h3>{{ pet.name }}</h3>
+                <span class="veh-subtitle">
+                  {{ pet.species || 'Pet' }}{{ pet.breed ? ' • ' + pet.breed : '' }}
+                </span>
+              </div>
+            </div>
+            <div class="status-badge-container">
+              @if (!pet.qrTagId) {
+                <span class="status-pill-badge tag-missing"><i class="fa-solid fa-triangle-exclamation"></i> Unassigned</span>
+              } @else if (pet.isActive) {
+                <span class="status-pill-badge tag-active"><i class="fa-solid fa-circle-check"></i> Active Tag</span>
+              } @else {
+                <span class="status-pill-badge tag-paused"><i class="fa-solid fa-circle-pause"></i> Tag Paused</span>
+              }
+            </div>
+          </div>
+          
+          <!-- Stylized Pet Collar Tag Badge -->
+          <div class="pet-tag-plate-wrapper">
+            <div class="pet-tag-plate">
+              <div class="pet-plate-top">
+                <i class="fa-solid fa-paw text-orange"></i>
+                <span class="pet-plate-brand">MY HAPPY PET TAG</span>
+                <i class="fa-solid fa-paw text-orange"></i>
+              </div>
+              <div class="pet-plate-number" [class.unassigned-plate]="!pet.serialNumber">
+                {{ pet.serialNumber || 'UNASSIGNED' }}
+              </div>
+              <div class="pet-plate-bottom">
+                <span>OFFICIAL TRAFFTAG RECOVERY</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="veh-card-body">
+            <div class="veh-info-section">
+              <h4><i class="fa-solid fa-paw text-orange"></i> Pet Tag Details</h4>
+              <div class="veh-info-grid">
+                <div class="info-item">
+                  <span class="label">Tag Serial:</span>
+                  <span class="value font-mono">{{ pet.serialNumber || 'Not Linked' }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Species:</span>
+                  <span class="value">{{ pet.species || 'Pet' }}</span>
+                </div>
+                @if (pet.breed) {
+                  <div class="info-item">
+                    <span class="label">Breed:</span>
+                    <span class="value">{{ pet.breed }}</span>
+                  </div>
+                }
+                @if (pet.notes) {
+                  <div class="info-item" [style.grid-column]="pet.breed ? 'span 2' : 'auto'">
+                    <span class="label">Notes / Identification:</span>
+                    <span class="value pet-notes-val">{{ pet.notes }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Footer Controls -->
+          <div class="veh-card-footer">
+            <div class="toggle-control-group">
+              <span class="toggle-desc-label">Protect State</span>
+              <label class="switch">
+                <input type="checkbox" [checked]="pet.isActive" (change)="toggleActive.emit({id: pet.id, active: $any($event.target).checked})">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            
+            <div class="footer-actions-group">
+              @if (pet.qrTagId) {
+                <button class="footer-btn btn-action-scan" (click)="downloadQr.emit(pet)" [disabled]="downloadingVehicleId === ('pet-' + pet.id)" title="Download Pet Tag">
+                  @if (downloadingVehicleId === ('pet-' + pet.id)) {
+                    <span class="spinner-sm"></span>
+                  } @else {
+                    <i class="fa-solid fa-download"></i>
+                  }
+                </button>
+                <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit('pet-' + pet.id)" title="Reassign Tag">
+                  <i class="fa-solid fa-arrows-rotate"></i> Reassign
+                </button>
+                <button class="footer-btn btn-action-delete" (click)="deletePet.emit(pet.id)" title="Delete Pet">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              } @else {
+                <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit('pet-' + pet.id)" title="Link QR Tag">
+                  <i class="fa-solid fa-link"></i> Link Tag
+                </button>
+                <button class="footer-btn btn-action-delete" (click)="deletePet.emit(pet.id)" title="Delete Pet">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
