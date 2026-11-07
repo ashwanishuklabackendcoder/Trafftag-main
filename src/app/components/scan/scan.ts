@@ -206,7 +206,8 @@ export class Scan implements OnInit {
           err?.error?.message?.includes('expired') || 
           err?.error?.message?.includes('unavailable')
         )) {
-          this.errorMessage.set('The owner of this vehicle is currently unavailable.');
+          const assetType = this.tagType() === 'Pet' ? 'pet' : (this.tagType() === 'Home' ? 'home' : 'vehicle');
+          this.errorMessage.set(`The owner of this ${assetType} is currently unavailable.`);
         } else {
           this.errorMessage.set(err?.error?.message || 'An error occurred while sending the alert. Please try again.');
         }
