@@ -28,7 +28,7 @@
                 @for (tag of filteredTags; track tag.tagId) {
                   <div class="px-4 py-2 hover:bg-slate-50 cursor-pointer text-slate-700 flex justify-between items-center" (mousedown)="$event.preventDefault(); selectTag(tag.tagId)">
                     <span class="font-mono font-bold">{{ tag.tagId }}</span>
-                    <span class="text-xs text-orange-600 font-semibold">Available Pet Tag</span>
+                    <span class="text-xs text-orange-600 font-semibold">{{ tag.tagType === 'Pet' ? 'Available Pet Tag' : (tag.tagType === 'Home' ? 'Available Home Tag' : 'Available Tag') }}</span>
                   </div>
                 }
               </div>

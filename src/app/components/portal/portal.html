@@ -127,7 +127,7 @@
                 <option value="ALL">🌐 All Tags Combined ({{ tagMembershipList().length }} Active Tags)</option>
                 @for (t of tagMembershipList(); track t.id) {
                   <option [value]="t.id">
-                    {{ t.entityType === 'vehicle' ? '🚗' : '🏷️' }} {{ t.entityName }} — {{ t.alertsRemaining }} Alerts Left
+                    {{ t.entityType === 'vehicle' ? '🚗' : (t.entityType === 'home' ? '🏠' : (t.entityType === 'pet' ? '🐾' : '🏷️')) }} {{ t.entityName }} — {{ t.alertsRemaining }} Alerts Left
                   </option>
                 }
               </select>
@@ -143,7 +143,7 @@
             </button>
             @for (t of tagMembershipList(); track t.id) {
               <button (click)="selectDashboardTag(t.id)" [class.active-pill]="selectedTagId() === t.id" style="display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; border: 1px solid #E2E8F0; background: #F8FAFC; color: #475569; cursor: pointer; white-space: nowrap; transition: all 0.2s;">
-                <i [class]="t.entityType === 'vehicle' ? 'fa-solid fa-car text-blue-500' : (t.entityType === 'home' ? 'fa-solid fa-house text-blue-500' : 'fa-solid fa-qrcode text-amber-500')"></i>
+                <i [class]="t.entityType === 'vehicle' ? 'fa-solid fa-car text-blue-500' : (t.entityType === 'home' ? 'fa-solid fa-house text-blue-500' : (t.entityType === 'pet' ? 'fa-solid fa-paw text-amber-500' : 'fa-solid fa-qrcode text-amber-500'))"></i>
                 {{ t.entityName }}
                 <span [style.background]="t.alertsRemaining < 5 ? '#ef4444' : (t.alertsRemaining < 15 ? '#f59e0b' : '#10b981')" style="color: white; border-radius: 12px; padding: 2px 7px; font-size: 0.72rem; font-weight: 700;">{{ t.alertsRemaining }} Left</span>
               </button>
@@ -419,16 +419,18 @@
     @if (activeTab() === 'tags') {
       <app-qr-fleet-tab
         
-        [homes]="homes()" [vehicles]="vehicles()"
+        [homes]="homes()" [vehicles]="vehicles()" [pets]="pets()"
         [unassignedTags]="unassignedTags()"
         [downloadingVehicleId]="downloadingVehicleId()"
         [membershipType]="membershipType()"
         [scanUrlFn]="getScanUrl.bind(this)"
-          [planNameFn]="getPlanNameForTag.bind(this)"
+        [planNameFn]="getPlanNameForTag.bind(this)"
         (generateNewQr)="generateNewQrTag()"
         (openLinkTag)="openLinkTag($event)"
+        (openLinkPetTag)="openLinkPetTag($event || '')"
         (downloadQr)="downloadQrCode($event)"
-          (downloadHomeQr)="downloadHomeQrCode($event)"
+        (downloadHomeQr)="downloadHomeQrCode($event)"
+        (downloadPetQr)="downloadPetQrCode($event)"
         (deleteQr)="deleteQrTag($event)">
       </app-qr-fleet-tab>
     }

@@ -14,6 +14,7 @@ export class QrFleetTabComponent {
   @Input() vehicles: any[] = [];
   @Input() unassignedTags: any[] = [];
   @Input() homes: any[] = [];
+  @Input() pets: any[] = [];
   @Input() downloadingVehicleId: string | null = null;
   @Input() membershipType = 'Free Plan';
   @Input() scanUrlFn!: (tagId: string) => string;
@@ -21,7 +22,9 @@ export class QrFleetTabComponent {
 
   @Output() generateNewQr = new EventEmitter<void>();
   @Output() openLinkTag = new EventEmitter<string | undefined>();
+  @Output() openLinkPetTag = new EventEmitter<string | undefined>();
   @Output() downloadHomeQr = new EventEmitter<any>();
+  @Output() downloadPetQr = new EventEmitter<any>();
   @Output() downloadQr = new EventEmitter<any>();
   @Output() deleteQr = new EventEmitter<string>();
 
@@ -34,9 +37,9 @@ export class QrFleetTabComponent {
   }
 
   get hasVehicles(): boolean {
-    return (this.vehicles && this.vehicles.length > 0) || (this.unassignedTags && this.unassignedTags.length > 0);
+    return (this.vehicles && this.vehicles.length > 0) || 
+           (this.homes && this.homes.length > 0) || 
+           (this.pets && this.pets.length > 0) || 
+           (this.unassignedTags && this.unassignedTags.length > 0);
   }
 }
-
-
-

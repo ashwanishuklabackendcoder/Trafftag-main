@@ -6,7 +6,7 @@
       </div>
       <div>
         <h2>Active QR Decal Fleet</h2>
-        <p>Manage physical premium QR code decals and security stickers attached to your registered vehicles.</p>
+        <p>Manage physical premium QR code decals and security stickers attached to your registered vehicles, homes, and pets.</p>
       </div>
     </div>
     <div class="panel-header-actions" style="display: flex; gap: 10px;">
@@ -25,8 +25,8 @@
         <div class="empty-icon-wrapper">
           <i class="fa-solid fa-qrcode empty-icon"></i>
         </div>
-        <h3>No Registered Vehicles</h3>
-        <p>You haven't added any vehicles or generated protective QR sticker tags yet.</p>
+        <h3>No Registered Tags</h3>
+        <p>You haven't added any vehicles, homes, or pets or generated protective QR sticker tags yet.</p>
         <div style="display: flex; gap: 12px; justify-content: center; margin-top: 8px;">
           <button class="btn btn-secondary" (click)="generateNewQr.emit()">
             <i class="fa-solid fa-wand-magic-sparkles"></i> Get Your Qr tag
@@ -36,12 +36,10 @@
           </button>
         </div>
       </div>
-
-
-
     </div>
   } @else {
     <div class="tags-grid-layout">
+      <!-- Vehicles -->
       @for (veh of vehicles; track veh.id) {
         <div class="decal-card">
           <!-- Physical Decal Preview Column -->
@@ -123,66 +121,7 @@
         </div>
       }
 
-      @for (tag of unassignedTags; track tag.id) {
-        <div class="decal-card">
-          <!-- Physical Decal Preview Column -->
-          <div class="decal-preview-wrapper">
-            <div class="decal-sticker-mock">
-              <div class="sticker-header">TRAFFTAG &bull; PROTECT</div>
-              <div class="sticker-qr-container">
-                <div class="qr-target-corner top-left"></div>
-                <div class="qr-target-corner top-right"></div>
-                <div class="qr-target-corner bottom-left"></div>
-                <div class="qr-target-corner bottom-right"></div>
-                <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' + getScanUrl(tag.tagId)" alt="QR Code" class="decal-qr-image" />
-              </div>
-              <div class="sticker-serial-footer">{{ tag.tagId }}</div>
-            </div>
-          </div>
-
-          <!-- Metadata & Actions Column -->
-          <div class="decal-details-wrapper">
-            <div class="decal-header-row">
-              <span class="decal-badge-id">Serial: <strong>{{ tag.tagId }}</strong></span>
-              <span class="status-pill-badge tag-missing">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                Unassigned Tag
-              </span>
-            </div>
-
-            <div class="decal-meta-grid">
-              <div class="decal-meta-item">
-                <span class="lbl"><i class="fa-solid fa-car text-indigo"></i> Linked Vehicle:</span>
-                <span class="val" style="color: #ef4444;">Not Linked to Any Vehicle</span>
-              </div>
-              <div class="decal-meta-item">
-                <span class="lbl"><i class="fa-solid fa-shield-halved text-primary"></i> Protection Plan:</span>
-                <span class="val">{{ tag.planName || membershipType }}</span>
-              </div>
-              <div class="decal-meta-item">
-                <span class="lbl"><i class="fa-solid fa-barcode text-muted"></i> Hardware Type:</span>
-                <span class="val">Premium Matte Vinyl Decal</span>
-              </div>
-            </div>
-
-            <div class="decal-actions-footer">
-              <a [routerLink]="['/scan', tag.tagId]" target="_blank" class="footer-btn btn-action-scan">
-                <i class="fa-solid fa-up-right-from-square"></i> Test Scan
-              </a>
-              <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit(undefined)">
-                <i class="fa-solid fa-link"></i> Link to Vehicle
-              </button>
-              <button class="footer-btn btn-action-delete" (click)="deleteQr.emit(tag.tagId || tag.id.toString())" title="Delete & Deactivate QR Tag">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      }
-
-
-
-
+      <!-- Homes -->
       @for (home of homes; track home.id) {
         <div class="decal-card">
           <!-- Physical Decal Preview Column -->
@@ -225,7 +164,7 @@
               </div>
               <div class="decal-meta-item">
                 <span class="lbl"><i class="fa-solid fa-barcode text-muted"></i> Hardware Type:</span>
-                <span class="val">Premium Matte Vinyl Decal</span>
+                <span class="val">Weatherproof Home Plaque Decal</span>
               </div>
             </div>
 
@@ -259,16 +198,198 @@
           </div>
         </div>
       }
+
+      <!-- Pets -->
+      @for (pet of pets; track pet.id) {
+        <div class="decal-card">
+          <!-- Physical Decal Preview Column -->
+          <div class="decal-preview-wrapper">
+            <div class="decal-sticker-mock" style="border-color: #f59e0b; border-radius: 50%; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; background: #000; padding: 12px; position: relative;">
+              <div style="font-size: 8px; font-weight: 800; color: #facc15; text-transform: uppercase; margin-bottom: 4px; text-align: center; line-height: 1.1;">My Happy Pet Tag</div>
+              <div class="sticker-qr-container" style="background: white; border-radius: 8px; padding: 4px; width: 75px; height: 75px; display: flex; align-items: center; justify-content: center;">
+                @if (pet.serialNumber && pet.serialNumber !== 'Not Assigned') {
+                  <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' + getScanUrl(pet.serialNumber)" alt="QR Code" class="decal-qr-image" style="width: 100%; height: 100%; object-fit: contain;" />
+                } @else {
+                  <i class="fa-solid fa-paw decal-qr-icon" style="color: #f59e0b; font-size: 28px;"></i>
+                }
+              </div>
+              <div style="font-size: 8px; font-weight: 800; color: #facc15; margin-top: 4px; font-family: monospace;">{{ pet.serialNumber && pet.serialNumber !== 'Not Assigned' ? pet.serialNumber : 'UNASSIGNED' }}</div>
+            </div>
+          </div>
+
+          <!-- Metadata & Actions Column -->
+          <div class="decal-details-wrapper">
+            <div class="decal-header-row">
+              <span class="decal-badge-id">Serial: <strong>{{ pet.serialNumber && pet.serialNumber !== 'Not Assigned' ? pet.serialNumber : 'Not Assigned' }}</strong></span>
+              <span class="status-pill-badge" [class.tag-active]="pet.isActive && pet.serialNumber && pet.serialNumber !== 'Not Assigned'" [class.tag-paused]="!pet.isActive && pet.serialNumber && pet.serialNumber !== 'Not Assigned'" [class.tag-missing]="!pet.serialNumber || pet.serialNumber === 'Not Assigned'">
+                <i class="fa-solid" [class.fa-circle-check]="pet.isActive && pet.serialNumber && pet.serialNumber !== 'Not Assigned'" [class.fa-circle-pause]="!pet.isActive && pet.serialNumber && pet.serialNumber !== 'Not Assigned'" [class.fa-triangle-exclamation]="!pet.serialNumber || pet.serialNumber === 'Not Assigned'"></i>
+                {{ (pet.serialNumber && pet.serialNumber !== 'Not Assigned') ? (pet.isActive ? 'Active Decal' : 'Paused') : 'Unassigned Tag' }}
+              </span>
+            </div>
+
+            <div class="decal-meta-grid">
+              <div class="decal-meta-item">
+                <span class="lbl"><i class="fa-solid fa-paw text-amber-500"></i> Linked Pet:</span>
+                <span class="val">{{ pet.name }} ({{ pet.species }})</span>
+              </div>
+              <div class="decal-meta-item">
+                <span class="lbl"><i class="fa-solid fa-shield-halved text-primary"></i> Protection Plan:</span>
+                <span class="val">{{ getPlanName(pet.serialNumber, undefined) }}</span>
+              </div>
+              <div class="decal-meta-item">
+                <span class="lbl"><i class="fa-solid fa-barcode text-muted"></i> Hardware Type:</span>
+                <span class="val">Round Collar Medal Decal</span>
+              </div>
+            </div>
+
+            <div class="decal-actions-footer">
+              @if (pet.serialNumber && pet.serialNumber !== 'Not Assigned') {
+                <a [routerLink]="['/scan', pet.serialNumber]" target="_blank" class="footer-btn btn-action-scan">
+                  <i class="fa-solid fa-up-right-from-square"></i> Test Scan
+                </a>
+                <button class="footer-btn btn-action-scan" (click)="openLinkPetTag.emit(pet.id)">
+                  <i class="fa-solid fa-arrows-rotate"></i> Reassign
+                </button>
+                <button class="footer-btn btn-action-pdf" (click)="downloadPetQr.emit(pet)" [disabled]="downloadingVehicleId === 'pet-' + pet.id" title="Download Printable QR Decal">
+                  @if (downloadingVehicleId === 'pet-' + pet.id) {
+                    <span class="spinner-sm"></span> Downloading...
+                  } @else {
+                    <i class="fa-solid fa-download"></i> Trafftag Qr Download
+                  }
+                </button>
+                <button class="footer-btn btn-action-delete" (click)="deleteQr.emit(pet.serialNumber)" title="Delete & Deactivate QR Tag">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              } @else {
+                <button class="footer-btn btn-action-scan" (click)="generateNewQr.emit()">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Get Your Qr tag
+                </button>
+                <button class="footer-btn btn-action-pdf" (click)="openLinkPetTag.emit(pet.id)">
+                  <i class="fa-solid fa-link"></i> Link and Activate Trafftag
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Unassigned Tags -->
+      @for (tag of unassignedTags; track tag.id) {
+        <div class="decal-card">
+          <!-- Physical Decal Preview Column -->
+          <div class="decal-preview-wrapper">
+            @if (tag.tagType === 'Pet') {
+              <div class="decal-sticker-mock" style="border-color: #f59e0b; border-radius: 50%; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; background: #000; padding: 12px; position: relative;">
+                <div style="font-size: 8px; font-weight: 800; color: #facc15; text-transform: uppercase; margin-bottom: 4px; text-align: center; line-height: 1.1;">My Happy Pet Tag</div>
+                <div class="sticker-qr-container" style="background: white; border-radius: 8px; padding: 4px; width: 75px; height: 75px; display: flex; align-items: center; justify-content: center;">
+                  <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' + getScanUrl(tag.tagId)" alt="QR Code" class="decal-qr-image" style="width: 100%; height: 100%; object-fit: contain;" />
+                </div>
+                <div style="font-size: 8px; font-weight: 800; color: #facc15; margin-top: 4px; font-family: monospace;">{{ tag.tagId }}</div>
+              </div>
+            } @else if (tag.tagType === 'Home') {
+              <div class="decal-sticker-mock" style="border-color: #3b82f6;">
+                <div class="sticker-header">TRAFFTAG &bull; HOME PROTECT</div>
+                <div class="sticker-qr-container">
+                  <div class="qr-target-corner top-left"></div>
+                  <div class="qr-target-corner top-right"></div>
+                  <div class="qr-target-corner bottom-left"></div>
+                  <div class="qr-target-corner bottom-right"></div>
+                  <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' + getScanUrl(tag.tagId)" alt="QR Code" class="decal-qr-image" />
+                </div>
+                <div class="sticker-serial-footer">{{ tag.tagId }}</div>
+              </div>
+            } @else {
+              <div class="decal-sticker-mock">
+                <div class="sticker-header">TRAFFTAG &bull; PROTECT</div>
+                <div class="sticker-qr-container">
+                  <div class="qr-target-corner top-left"></div>
+                  <div class="qr-target-corner top-right"></div>
+                  <div class="qr-target-corner bottom-left"></div>
+                  <div class="qr-target-corner bottom-right"></div>
+                  <img [src]="'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' + getScanUrl(tag.tagId)" alt="QR Code" class="decal-qr-image" />
+                </div>
+                <div class="sticker-serial-footer">{{ tag.tagId }}</div>
+              </div>
+            }
+          </div>
+
+          <!-- Metadata & Actions Column -->
+          <div class="decal-details-wrapper">
+            <div class="decal-header-row">
+              <span class="decal-badge-id">Serial: <strong>{{ tag.tagId }}</strong></span>
+              <span class="status-pill-badge tag-missing">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Unassigned Tag
+              </span>
+            </div>
+
+            <div class="decal-meta-grid">
+              @if (tag.tagType === 'Pet') {
+                <div class="decal-meta-item">
+                  <span class="lbl"><i class="fa-solid fa-paw text-amber-500"></i> Linked Pet:</span>
+                  <span class="val" style="color: #ef4444;">Not Linked to Any Pet</span>
+                </div>
+                <div class="decal-meta-item">
+                  <span class="lbl"><i class="fa-solid fa-shield-halved text-primary"></i> Protection Plan:</span>
+                  <span class="val">{{ tag.planName || membershipType }}</span>
+                </div>
+                <div class="decal-meta-item">
+                  <span class="lbl"><i class="fa-solid fa-barcode text-muted"></i> Hardware Type:</span>
+                  <span class="val">Round Collar Medal Decal</span>
+                </div>
+              } @else if (tag.tagType === 'Home') {
+                <div class="decal-meta-item">
+                  <span class="lbl"><i class="fa-solid fa-house text-indigo"></i> Linked Home:</span>
+                  <span class="val" style="color: #ef4444;">Not Linked to Any Home</span>
+                </div>
+                <div class="decal-meta-item">
+                  <span class="lbl"><i class="fa-solid fa-shield-halved text-primary"></i> Protection Plan:</span>
+                  <span class="val">{{ tag.planName || membershipType }}</span>
+                </div>
+                <div class="decal-meta-item">
+                  <span class="lbl"><i class="fa-solid fa-barcode text-muted"></i> Hardware Type:</span>
+                  <span class="val">Weatherproof Home Plaque Decal</span>
+                </div>
+              } @else {
+                <div class="decal-meta-item">
+                  <span class="lbl"><i class="fa-solid fa-car text-indigo"></i> Linked Vehicle:</span>
+                  <span class="val" style="color: #ef4444;">Not Linked to Any Vehicle</span>
+                </div>
+                <div class="decal-meta-item">
+                  <span class="lbl"><i class="fa-solid fa-shield-halved text-primary"></i> Protection Plan:</span>
+                  <span class="val">{{ tag.planName || membershipType }}</span>
+                </div>
+                <div class="decal-meta-item">
+                  <span class="lbl"><i class="fa-solid fa-barcode text-muted"></i> Hardware Type:</span>
+                  <span class="val">Premium Matte Vinyl Decal</span>
+                </div>
+              }
+            </div>
+
+            <div class="decal-actions-footer">
+              <a [routerLink]="['/scan', tag.tagId]" target="_blank" class="footer-btn btn-action-scan">
+                <i class="fa-solid fa-up-right-from-square"></i> Test Scan
+              </a>
+              @if (tag.tagType === 'Pet') {
+                <button class="footer-btn btn-action-scan" (click)="openLinkPetTag.emit(undefined)">
+                  <i class="fa-solid fa-paw"></i> Link to Pet
+                </button>
+              } @else if (tag.tagType === 'Home') {
+                <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit(undefined)">
+                  <i class="fa-solid fa-house"></i> Link to Home
+                </button>
+              } @else {
+                <button class="footer-btn btn-action-scan" (click)="openLinkTag.emit(undefined)">
+                  <i class="fa-solid fa-link"></i> Link to Vehicle
+                </button>
+              }
+              <button class="footer-btn btn-action-delete" (click)="deleteQr.emit(tag.tagId || tag.id.toString())" title="Delete & Deactivate QR Tag">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   }
-
-
-
-
-
-
-
-
-
-
-
+</div>

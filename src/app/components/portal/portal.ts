@@ -76,7 +76,7 @@ export interface TagMembershipSummary {
   id: string;
   tagId: string;
   entityName: string;
-  entityType: 'vehicle' | 'home' | 'unassigned' | 'all';
+  entityType: 'vehicle' | 'home' | 'pet' | 'unassigned' | 'all';
   planName: string;
   planStatus: string;
   totalAlerts: number;
@@ -236,12 +236,18 @@ export class Portal implements OnInit {
   unassignedTags = computed(() => {
     const vehiclesList = this.vehicles();
     const homesList = this.homes();
-    // QRs that belong to the user but are not yet assigned to any vehicle or home
+    const petsList = this.pets();
+    // QRs that belong to the user but are not yet assigned to any vehicle, home, or pet
     return this.myQrs()
-      .filter((q: any) => !vehiclesList.some(v => v.tagId === q.serialNumber) && !homesList.some(h => h.serialNumber === q.serialNumber))
+      .filter((q: any) => 
+        !vehiclesList.some(v => v.tagId === q.serialNumber) && 
+        !homesList.some(h => h.serialNumber === q.serialNumber) &&
+        !petsList.some(p => p.serialNumber === q.serialNumber || (p.qrTagId && String(p.qrTagId) === String(q.qrTagId)))
+      )
       .map((q: any) => ({
         id: q.qrTagId,
         tagId: q.serialNumber,
+        tagType: q.tagType || 'Vehicle',
         status: q.status || 'Active',
         planName: 'Purchased Tag'
       }));
@@ -372,18 +378,44 @@ export class Portal implements OnInit {
       });
     });
 
+    const pets = this.pets();
+    pets.forEach((p, index) => {
+      const isAssigned = p.serialNumber && p.serialNumber !== 'Not Assigned';
+      const m = isAssigned ? findBestMembership(String(p.serialNumber), undefined, index) : null;
+      const planName = m?.planName || m?.membershipPlan?.name || m?.plan?.name || (isAssigned ? 'No Active Plan' : 'No Tag Linked');
+      const total = m ? getAlertLimit(m) : 0;
+      const remaining = m ? getRemainingAlerts(m, true, total) : 0;
+      const endDate = m?.endDate ? new Date(String(m.endDate).replace(' ', 'T')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A';
+      const status = m ? (m.status || (m.isActive ? 'ACTIVE' : 'ACTIVE')) : (isAssigned ? 'INACTIVE' : 'UNLINKED');
+
+      list.push({
+        id: isAssigned ? String(p.serialNumber) : `pet-${p.id}`,
+        tagId: isAssigned ? String(p.serialNumber) : 'Not Assigned',
+        entityName: p.name ? `${p.name} (${p.species || 'Pet'})` : 'Pet',
+        entityType: 'pet',
+        planName: planName,
+        planStatus: status,
+        totalAlerts: total,
+        alertsRemaining: remaining,
+        planEndDate: endDate,
+        planDaysLeft: m ? defaultDaysLeft : 0,
+        rawMembership: m
+      });
+    });
+
     // Add unassigned tags
     unassigned.forEach((u, index) => {
       const m = findBestMembership(u.tagId, undefined, index);
       const planName = m?.planName || m?.membershipPlan?.name || u.planName || 'Purchased Tag (Yearly)';
       const total = getAlertLimit(m);
       const remaining = getRemainingAlerts(m, true, total);
+      const label = u.tagType === 'Pet' ? `Unassigned Pet Tag (${u.tagId})` : (u.tagType === 'Home' ? `Unassigned Home Tag (${u.tagId})` : `Unassigned Tag (${u.tagId})`);
 
       list.push({
         id: u.tagId,
         tagId: u.tagId,
-        entityName: `Unassigned Tag (${u.tagId})`,
-        entityType: 'unassigned',
+        entityName: label,
+        entityType: u.tagType === 'Pet' ? 'pet' : (u.tagType === 'Home' ? 'home' : 'unassigned'),
         planName: planName,
         planStatus: u.status?.toUpperCase() || 'ACTIVE',
         totalAlerts: total,
